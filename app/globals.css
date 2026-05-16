@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+.chat-bubble-user {
+  @apply bg-sky-600 text-white rounded-2xl rounded-tr-sm px-4 py-3 max-w-[80%] self-end text-sm leading-relaxed;
+}
+
+.chat-bubble-ai {
+  @apply bg-white border border-gray-100 shadow-sm rounded-2xl rounded-tl-sm px-4 py-3 max-w-[80%] self-start text-sm leading-relaxed text-gray-800;
+}
+
+.typing-dot {
+  @apply w-2 h-2 bg-gray-400 rounded-full animate-bounce;
+}
