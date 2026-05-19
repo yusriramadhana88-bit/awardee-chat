@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposal Pemda — PT Juris Auditama Indonesia</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f9fafb; color: #1f2937; font-size: 14px; }
+  .container { max-width: 860px; margin: 0 auto; padding: 40px 30px 80px; background: white; }
+  @media print { .no-print { display: none !important; } body { background: white; font-size: 12px; } }
+
+  .toolbar { background: #1e3a5f; color: white; padding: 12px 30px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .toolbar-brand { display: flex; align-items: center; gap: 12px; }
+  .logo { width: 36px; height: 36px; background: #facc15; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #1e3a5f; font-weight: 900; font-size: 11px; }
+  .btn-print { background: #facc15; color: #1e3a5f; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+  .btn-print:hover { background: #fde047; }
+
+  .letter-header { border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; margin-bottom: 32px; }
+  .letter-top { background: #1e3a5f; color: white; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .lh-brand { display: flex; align-items: center; gap: 12px; }
+  .lh-logo { width: 44px; height: 44px; background: #facc15; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #1e3a5f; font-weight: 900; font-size: 12px; }
+  .lh-name { font-weight: 700; font-size: 14px; }
+  .lh-addr { font-size: 11px; color: #93c5fd; }
+  .lh-contact { text-align: right; font-size: 11px; color: #93c5fd; line-height: 1.8; }
+  .letter-body { padding: 20px 24px; background: white; }
+  .letter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .meta-row { display: flex; gap: 8px; font-size: 13px; margin-bottom: 4px; }
+  .meta-key { color: #9ca3af; width: 100px; flex-shrink: 0; }
+
+  .section-title { font-size: 14px; font-weight: 800; color: #1e3a5f; border-left: 4px solid #1e3a5f; padding-left: 10px; margin: 24px 0 12px; text-transform: uppercase; letter-spacing: 0.3px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .card { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; }
+  .card-label { font-size: 11px; color: #9ca3af; }
+  .card-value { font-weight: 700; color: #1e3a5f; font-size: 13px; }
+
+  .paket { border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+  .paket-header { background: #1d4ed8; color: white; padding: 12px 18px; }
+  .paket-title { font-weight: 700; font-size: 14px; }
+  .paket-meta { font-size: 12px; color: #93c5fd; margin-top: 4px; }
+  .paket-price { color: #fde047; font-weight: 700; }
+  .paket-body { padding: 14px 18px; }
+  .check-item { display: flex; gap: 8px; font-size: 13px; color: #374151; margin-bottom: 8px; }
+  .check-icon { color: #16a34a; flex-shrink: 0; font-weight: 700; }
+
+  .adv-card { background: #eff6ff; border-radius: 10px; padding: 14px; }
+  .adv-title { font-weight: 700; font-size: 13px; color: #1e3a5f; margin-bottom: 4px; }
+  .adv-desc { font-size: 12px; color: #6b7280; }
+
+  .payment-box { background: #fefce8; border: 1px solid #fde68a; border-radius: 10px; padding: 14px; margin-top: 12px; font-size: 13px; }
+  .bullet-list li { display: flex; gap: 8px; margin-bottom: 6px; font-size: 13px; color: #374151; }
+  .bullet-num { color: #1d4ed8; flex-shrink: 0; font-weight: 700; }
+
+  p { line-height: 1.7; color: #374151; margin-bottom: 12px; }
+  .sig-block { margin-top: 32px; }
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print">
+  <div class="toolbar-brand">
+    <div class="logo">JAI</div>
+    <span style="font-weight:700;font-size:14px;">Proposal untuk Pemerintah Daerah</span>
+  </div>
+  <button class="btn-print" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+</div>
+
+<div class="container">
+
+  <!-- Letter Header -->
+  <div class="letter-header">
+    <div class="letter-top">
+      <div class="lh-brand">
+        <div class="lh-logo">JAI</div>
+        <div>
+          <div class="lh-name">PT Juris Auditama Indonesia</div>
+          <div class="lh-addr">Jl. Sudirman No. 123, Jakarta Selatan 12190</div>
+        </div>
+      </div>
+      <div class="lh-contact">
+        <div>(021) 1234-5678</div>
+        <div>info@jurisauditama.co.id</div>
+        <div>www.jurisauditama.co.id</div>
+      </div>
+    </div>
+    <div class="letter-body">
+      <div class="letter-grid">
+        <div>
+          <div class="meta-row"><span class="meta-key">Nomor</span><span>: 001/JAI-PROP/V/2026</span></div>
+          <div class="meta-row"><span class="meta-key">Lampiran</span><span>: 1 (satu) berkas</span></div>
+          <div class="meta-row"><span class="meta-key">Perihal</span><span>: <strong>Penawaran Jasa Konsultasi dan Pelatihan</strong></span></div>
+        </div>
+        <div>
+          <div class="meta-row"><span class="meta-key">Kepada Yth.</span><span style="font-weight:600;">Bupati/Walikota / Kepala BPPKAD / Sekretaris Daerah</span></div>
+          <div class="meta-row"><span class="meta-key">u.p.</span><span>Kepala Badan Pengelolaan Keuangan dan Aset Daerah</span></div>
+          <div class="meta-row"><span class="meta-key">Di-</span><span>Tempat</span></div>
+          <div class="meta-row"><span class="meta-key">Tanggal</span><span>19 Mei 2026</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pembukaan -->
+  <p>Dengan hormat,</p>
+  <p>Sehubungan dengan upaya peningkatan kualitas tata kelola keuangan daerah dan pencapaian opini <strong>Wajar Tanpa Pengecualian (WTP)</strong> dari Badan Pemeriksa Keuangan (BPK) RI, kami dari <strong>PT Juris Auditama Indonesia (JAI)</strong> dengan hormat menyampaikan penawaran layanan jasa konsultasi dan pelatihan profesional kepada Pemerintah Daerah Bapak/Ibu.</p>
+  <p>PT Juris Auditama Indonesia adalah perusahaan konsultasi yang secara eksklusif bergerak di bidang <strong>auditing, hukum, akuntansi, dan perpajakan</strong> untuk instansi sektor publik, dengan tenaga ahli berpengalaman yang berasal dari BPK RI, BPKP, dan Kementerian Keuangan.</p>
+
+  <!-- Profil Singkat -->
+  <div class="section-title">I. Profil Singkat Perusahaan</div>
+  <div class="grid-3">
+    <div class="card"><div class="card-label">Badan Hukum</div><div class="card-value">PT (Perseroan Terbatas)</div></div>
+    <div class="card"><div class="card-label">KBLI</div><div class="card-value">70209 – Konsultansi Manajemen</div></div>
+    <div class="card"><div class="card-label">Didirikan</div><div class="card-value">Jakarta, 2026</div></div>
+    <div class="card"><div class="card-label">Tenaga Ahli</div><div class="card-value">15+ orang bersertifikasi</div></div>
+    <div class="card"><div class="card-label">Cakupan</div><div class="card-value">Seluruh Indonesia</div></div>
+    <div class="card"><div class="card-label">Fokus Klien</div><div class="card-value">Sektor Publik &amp; BUMN/BUMD</div></div>
+  </div>
+
+  <!-- Paket Layanan -->
+  <div class="section-title">II. Paket Layanan untuk Pemerintah Daerah</div>
+
+  <div class="paket">
+    <div class="paket-header">
+      <div class="paket-title">PAKET A — Pendampingan Menuju WTP</div>
+      <div class="paket-meta">Investasi: <span class="paket-price">Rp 250.000.000 – Rp 500.000.000</span> &nbsp;|&nbsp; Durasi: 6–12 bulan</div>
+    </div>
+    <div class="paket-body">
+      <div class="check-item"><span class="check-icon">✓</span> Diagnosis awal kondisi LKPD dan identifikasi temuan berulang BPK</div>
+      <div class="check-item"><span class="check-icon">✓</span> Pendampingan penyusunan Laporan Keuangan Pemerintah Daerah (LKPD) berbasis SAP</div>
+      <div class="check-item"><span class="check-icon">✓</span> Reviu internal laporan keuangan sebelum audit BPK</div>
+      <div class="check-item"><span class="check-icon">✓</span> Penyusunan tindak lanjut atas temuan BPK tahun sebelumnya</div>
+      <div class="check-item"><span class="check-icon">✓</span> Pelatihan penyusun laporan keuangan di seluruh OPD</div>
+      <div class="check-item"><span class="check-icon">✓</span> Laporan kemajuan bulanan kepada pimpinan daerah</div>
+    </div>
+  </div>
+
+  <div class="paket">
+    <div class="paket-header">
+      <div class="paket-title">PAKET B — Pelatihan Aparatur Daerah</div>
+      <div class="paket-meta">Investasi: <span class="paket-price">Rp 15.000.000 – Rp 25.000.000 / angkatan</span> &nbsp;|&nbsp; Durasi: 2–5 hari per angkatan</div>
+    </div>
+    <div class="paket-body">
+      <div class="check-item"><span class="check-icon">✓</span> Pelatihan Akuntansi Pemerintahan &amp; SAP berbasis Permendagri 77/2020</div>
+      <div class="check-item"><span class="check-icon">✓</span> Pelatihan Audit Internal &amp; Penguatan APIP</div>
+      <div class="check-item"><span class="check-icon">✓</span> Pelatihan Perpajakan untuk Bendahara &amp; Pejabat Keuangan</div>
+      <div class="check-item"><span class="check-icon">✓</span> Pelatihan Hukum Pengadaan Barang/Jasa (Perpres 12/2021)</div>
+      <div class="check-item"><span class="check-icon">✓</span> Sertifikat pelatihan resmi &amp; modul tercetak untuk peserta</div>
+      <div class="check-item"><span class="check-icon">✓</span> Kapasitas: 25–40 peserta per angkatan, dapat dilaksanakan in-house</div>
+    </div>
+  </div>
+
+  <div class="paket">
+    <div class="paket-header">
+      <div class="paket-title">PAKET C — Konsultasi Hukum &amp; Regulasi Daerah</div>
+      <div class="paket-meta">Investasi: <span class="paket-price">Rp 75.000.000 – Rp 200.000.000</span> &nbsp;|&nbsp; Durasi: Per penugasan / per Perda</div>
+    </div>
+    <div class="paket-body">
+      <div class="check-item"><span class="check-icon">✓</span> Penyusunan dan review Peraturan Daerah (Perda) bidang keuangan &amp; pajak</div>
+      <div class="check-item"><span class="check-icon">✓</span> Konsultasi legal atas sengketa aset daerah dan pengelolaan BMD</div>
+      <div class="check-item"><span class="check-icon">✓</span> Review kontrak pengadaan barang/jasa bernilai besar</div>
+      <div class="check-item"><span class="check-icon">✓</span> Pendampingan hukum dalam pemeriksaan BPK &amp; BPKP</div>
+      <div class="check-item"><span class="check-icon">✓</span> Konsultasi Pajak Daerah &amp; Retribusi pasca UU HKPD No. 1/2022</div>
+    </div>
+  </div>
+
+  <!-- Keunggulan -->
+  <div class="section-title">III. Keunggulan Kompetitif</div>
+  <div class="grid-2">
+    <div class="adv-card"><div class="adv-title">🎯 Spesialis Sektor Publik</div><div class="adv-desc">Fokus 100% pada instansi pemerintah — bukan layanan sampingan seperti kantor akuntan publik umum.</div></div>
+    <div class="adv-card"><div class="adv-title">👨‍💼 Tim Ex-BPK &amp; BPKP</div><div class="adv-desc">Konsultan kami pernah menjabat sebagai auditor di BPK RI dan BPKP, sehingga paham betul apa yang diperiksa.</div></div>
+    <div class="adv-card"><div class="adv-title">📋 Berbasis Regulasi Terbaru</div><div class="adv-desc">Seluruh materi dan metodologi selalu diperbarui sesuai aturan terbaru (Permendagri, PP, UU).</div></div>
+    <div class="adv-card"><div class="adv-title">🌍 Layanan In-House</div><div class="adv-desc">Pelatihan dapat dilaksanakan di kantor Pemda, tidak perlu biaya akomodasi peserta ke luar kota.</div></div>
+  </div>
+
+  <!-- Mekanisme -->
+  <div class="section-title">IV. Mekanisme Pelaksanaan &amp; Pembayaran</div>
+  <p>Penugasan dapat dilakukan melalui mekanisme:</p>
+  <ul class="bullet-list" style="list-style:none;padding:0;margin-bottom:12px;">
+    <li><span class="bullet-num">1.</span> Pengadaan Langsung (untuk nilai di bawah Rp 200 juta sesuai Perpres 12/2021)</li>
+    <li><span class="bullet-num">2.</span> Pemilihan Langsung / Seleksi Sederhana (untuk nilai Rp 200 juta – Rp 1 miliar)</li>
+    <li><span class="bullet-num">3.</span> Seleksi Umum (untuk nilai di atas Rp 1 miliar)</li>
+  </ul>
+  <div class="payment-box"><strong>Skema Pembayaran:</strong> Uang muka 30% setelah penandatanganan kontrak → 40% setelah deliverable tahap pertama → 30% setelah laporan akhir diterima dan dinyatakan selesai.</div>
+
+  <!-- Penutup -->
+  <p style="margin-top:32px;">Demikian proposal penawaran ini kami sampaikan. Besar harapan kami untuk dapat berkolaborasi dengan Pemerintah Daerah Bapak/Ibu dalam mewujudkan tata kelola keuangan yang lebih akuntabel dan transparan.</p>
+  <p>Atas perhatian dan kepercayaan Bapak/Ibu, kami ucapkan terima kasih.</p>
+
+  <div class="sig-block">
+    <p style="color:#9ca3af;font-size:12px;margin-bottom:4px;">Hormat kami,</p>
+    <p style="font-weight:700;margin-bottom:4px;">PT Juris Auditama Indonesia</p>
+    <div style="height:64px;"></div>
+    <p style="font-weight:700;margin-bottom:2px;">Dr. Ahmad Fauzi, Ak., CA</p>
+    <p style="font-size:12px;color:#9ca3af;">Direktur Utama</p>
+  </div>
+
+</div>
+</body>
+</html>
