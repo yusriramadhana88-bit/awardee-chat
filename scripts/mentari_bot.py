@@ -203,17 +203,50 @@ def _template_forum(mk: str, pt: int, topic: str) -> list[str]:
 #  AUTOMATION STEPS
 # ============================================================
 
+async def wait_for_captcha(page: Page, context: str = ""):
+    """Deteksi CAPTCHA/human verification dan tunggu user selesaikan manual."""
+    captcha_selectors = [
+        "iframe[src*='recaptcha']",
+        "iframe[src*='hcaptcha']",
+        ".g-recaptcha",
+        ".h-captcha",
+        "#recaptcha",
+        "iframe[title*='captcha']",
+        "iframe[title*='reCAPTCHA']",
+    ]
+    for sel in captcha_selectors:
+        try:
+            el = page.locator(sel).first
+            if await el.count() > 0 and await el.is_visible(timeout=2000):
+                print(f"\n   ⚠️  CAPTCHA terdeteksi{' (' + context + ')' if context else ''}!")
+                print("   👆 Silakan centang/selesaikan CAPTCHA di browser secara manual.")
+                print("   ⏳ Bot akan lanjut otomatis setelah CAPTCHA selesai...\n")
+                # Tunggu sampai CAPTCHA hilang (max 2 menit)
+                await el.wait_for(state="hidden", timeout=120000)
+                print("   ✓ CAPTCHA selesai, melanjutkan...")
+                await asyncio.sleep(1)
+                return
+        except Exception:
+            continue
+
+
 async def login(page: Page):
     print("\n[1/6] Login ke Mentari UNPAM...")
     await page.goto(BASE_URL, wait_until="networkidle", timeout=30000)
 
     await page.fill('input[name="username"]', USERNAME)
     await page.fill('input[name="password"]', PASSWORD)
+
+    # Cek CAPTCHA sebelum klik login
+    await wait_for_captcha(page, "halaman login")
+
     await page.click('button[type="submit"], input[type="submit"]')
     await page.wait_for_load_state("networkidle", timeout=30000)
 
+    # Cek CAPTCHA setelah submit (kadang muncul setelah klik)
+    await wait_for_captcha(page, "setelah submit login")
+
     if "login" in page.url.lower() and "logout" not in page.url.lower():
-        # Coba cek apakah sudah masuk dengan melihat elemen dashboard
         dashboard = await page.query_selector('.usermenu, #user-menu, .navbar-nav')
         if not dashboard:
             raise RuntimeError("Login GAGAL! Periksa username/password.")
@@ -321,6 +354,9 @@ async def complete_quiz(page: Page, quiz_type: str = "pretest") -> bool:
     # Klik "Mulai Quiz"
     await safe_click(page, "text=Mulai Quiz") or await safe_click(page, "text=Start attempt")
     await page.wait_for_load_state("networkidle")
+
+    # Cek CAPTCHA setelah mulai quiz
+    await wait_for_captcha(page, quiz_type)
 
     answered = 0
     page_num = 0
