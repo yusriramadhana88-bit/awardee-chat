@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analisis Bisnis Strategis — Berbasis Keahlian BPK RI & UNBOA</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f4f8; color: #1a202c; font-size: 14px; line-height: 1.7; }
+@media print { .no-print { display: none !important; } body { background: white; font-size: 11px; } .page-break { page-break-before: always; } }
+
+.toolbar { background: linear-gradient(135deg, #1e3a5f 0%, #0f2540 100%); color: white; padding: 14px 30px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.3); }
+.toolbar-brand { display: flex; align-items: center; gap: 12px; }
+.logo { width: 38px; height: 38px; background: #facc15; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #1e3a5f; font-weight: 900; font-size: 10px; text-align: center; line-height: 1.2; }
+.toolbar h1 { font-size: 14px; font-weight: 700; }
+.toolbar p { font-size: 11px; color: #93c5fd; }
+.btn-print { background: #facc15; color: #1e3a5f; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 13px; }
+
+.hero { background: linear-gradient(135deg, #1e3a5f 0%, #1d4ed8 50%, #0891b2 100%); color: white; padding: 60px 40px; text-align: center; }
+.hero-badge { background: rgba(250,204,21,0.2); border: 1px solid #facc15; color: #fde047; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-block; margin-bottom: 20px; }
+.hero h1 { font-size: 32px; font-weight: 900; margin-bottom: 12px; line-height: 1.2; }
+.hero p { font-size: 16px; color: #bfdbfe; max-width: 700px; margin: 0 auto 30px; }
+.hero-stats { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 30px; }
+.hero-stat { text-align: center; }
+.hero-stat .num { font-size: 28px; font-weight: 900; color: #facc15; }
+.hero-stat .lbl { font-size: 11px; color: #93c5fd; }
+
+.container { max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; }
+
+.toc { background: white; border-radius: 16px; padding: 28px 32px; margin-bottom: 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border-left: 5px solid #1e3a5f; }
+.toc h2 { font-size: 16px; font-weight: 800; color: #1e3a5f; margin-bottom: 16px; }
+.toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.toc-item { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: #374151; padding: 4px 0; }
+.toc-num { background: #1e3a5f; color: white; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0; }
+
+.section { background: white; border-radius: 16px; padding: 32px; margin-bottom: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+.section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid #e5e7eb; }
+.section-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.icon-blue { background: #eff6ff; }
+.icon-green { background: #f0fdf4; }
+.icon-purple { background: #faf5ff; }
+.icon-orange { background: #fff7ed; }
+.icon-red { background: #fef2f2; }
+.icon-teal { background: #f0fdfa; }
+.section-title { font-size: 20px; font-weight: 800; color: #1e3a5f; }
+.section-subtitle { font-size: 13px; color: #6b7280; margin-top: 2px; }
+
+h3 { font-size: 15px; font-weight: 700; color: #1e3a5f; margin: 20px 0 10px; }
+h4 { font-size: 13px; font-weight: 700; color: #374151; margin: 14px 0 6px; }
+p { color: #374151; margin-bottom: 10px; font-size: 13px; }
+
+.highlight-box { background: linear-gradient(135deg, #eff6ff, #f0fdf4); border: 1px solid #bfdbfe; border-radius: 12px; padding: 18px 20px; margin: 16px 0; }
+.highlight-box.gold { background: linear-gradient(135deg, #fffbeb, #fef9c3); border-color: #fde047; }
+.highlight-box.red { background: #fef2f2; border-color: #fca5a5; }
+.highlight-box.purple { background: #faf5ff; border-color: #c4b5fd; }
+.highlight-box.green { background: #f0fdf4; border-color: #86efac; }
+
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 16px 0; }
+.card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; }
+.card.blue { border-color: #bfdbfe; background: #eff6ff; }
+.card.green { border-color: #86efac; background: #f0fdf4; }
+.card.purple { border-color: #c4b5fd; background: #faf5ff; }
+.card.orange { border-color: #fed7aa; background: #fff7ed; }
+.card.gold { border-color: #fde047; background: #fffbeb; }
+.card-title { font-weight: 700; font-size: 13px; color: #1e3a5f; margin-bottom: 6px; }
+.card-value { font-size: 20px; font-weight: 900; color: #1d4ed8; margin-bottom: 4px; }
+.card-desc { font-size: 11px; color: #6b7280; }
+
+.tag { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; margin: 3px; }
+.tag-blue { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.tag-green { background: #f0fdf4; color: #16a34a; border: 1px solid #86efac; }
+.tag-purple { background: #faf5ff; color: #7c3aed; border: 1px solid #c4b5fd; }
+.tag-orange { background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; }
+.tag-gold { background: #fffbeb; color: #d97706; border: 1px solid #fde047; }
+.tag-red { background: #fef2f2; color: #dc2626; border: 1px solid #fca5a5; }
+
+table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 12px; }
+th { background: #1e3a5f; color: white; padding: 10px 12px; text-align: left; font-weight: 700; }
+td { padding: 9px 12px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+tr:nth-child(even) { background: #f9fafb; }
+tr:hover { background: #eff6ff; }
+
+.check-list { list-style: none; }
+.check-list li { display: flex; gap: 8px; padding: 5px 0; font-size: 13px; color: #374151; }
+.check-list li::before { content: "✓"; color: #16a34a; font-weight: 700; flex-shrink: 0; }
+.x-list li::before { content: "✗"; color: #dc2626; }
+.arrow-list li::before { content: "→"; color: #1d4ed8; }
+
+.matrix-table th { font-size: 11px; }
+.matrix-table td { font-size: 12px; }
+.score-high { color: #16a34a; font-weight: 700; }
+.score-med { color: #d97706; font-weight: 700; }
+.score-low { color: #dc2626; font-weight: 700; }
+
+.roadmap { display: flex; gap: 0; margin: 20px 0; overflow-x: auto; }
+.road-step { flex: 1; min-width: 140px; position: relative; }
+.road-step::after { content: '→'; position: absolute; right: -12px; top: 18px; color: #9ca3af; font-size: 18px; z-index: 1; }
+.road-step:last-child::after { display: none; }
+.road-box { background: white; border: 2px solid #e5e7eb; border-radius: 10px; padding: 12px; margin-right: 24px; }
+.road-box.active { border-color: #1d4ed8; background: #eff6ff; }
+.road-phase { font-size: 10px; font-weight: 700; color: #9ca3af; text-transform: uppercase; margin-bottom: 4px; }
+.road-title { font-size: 12px; font-weight: 700; color: #1e3a5f; margin-bottom: 4px; }
+.road-time { font-size: 11px; color: #6b7280; }
+
+.winner-box { background: linear-gradient(135deg, #1e3a5f 0%, #1d4ed8 100%); color: white; border-radius: 16px; padding: 28px 32px; margin: 24px 0; }
+.winner-box h3 { color: #fde047; font-size: 18px; margin-bottom: 12px; }
+.winner-box p { color: #bfdbfe; font-size: 13px; }
+.winner-box .big-num { font-size: 40px; font-weight: 900; color: #fde047; }
+
+.competitor-card { border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px; margin-bottom: 12px; }
+.comp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.comp-name { font-weight: 700; font-size: 13px; color: #1e3a5f; }
+.comp-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
+.badge-intl { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.badge-id { background: #f0fdf4; color: #16a34a; border: 1px solid #86efac; }
+
+.financial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0; }
+.fin-card { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px; text-align: center; }
+.fin-card .year { font-size: 11px; color: #6b7280; font-weight: 700; text-transform: uppercase; }
+.fin-card .revenue { font-size: 18px; font-weight: 900; color: #1d4ed8; }
+.fin-card .profit { font-size: 12px; margin-top: 4px; }
+.fin-card.highlight { background: #eff6ff; border-color: #1d4ed8; }
+
+.disclaimer { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 10px; padding: 14px 18px; margin-top: 20px; font-size: 12px; color: #92400e; }
+
+.badge-star { background: linear-gradient(135deg, #fde047, #f59e0b); color: #1e3a5f; font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-left: 8px; }
+
+.insight-row { display: flex; gap: 12px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 10px; padding: 14px; margin: 12px 0; align-items: flex-start; }
+.insight-icon { font-size: 20px; flex-shrink: 0; }
+.insight-text { font-size: 13px; color: #166534; }
+.insight-text strong { color: #14532d; }
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print">
+  <div class="toolbar-brand">
+    <div class="logo">BPK<br>RI</div>
+    <div>
+      <div class="toolbar h1" style="font-weight:700;font-size:14px;">Analisis Bisnis Strategis</div>
+      <div style="font-size:11px;color:#93c5fd;">Berbasis Keahlian BPK RI & UNBOA | Pasar Domestik + Internasional</div>
+    </div>
+  </div>
+  <button class="btn-print" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+</div>
+
+<div class="hero">
+  <div class="hero-badge">🔬 Riset & Analisis Bisnis — Mei 2026</div>
+  <h1>Strategi Monetisasi Keahlian<br>Pemeriksa BPK RI & UNBOA</h1>
+  <p>Peta jalan menuju Rp 1 Miliar pertama melalui tiga lini bisnis: Konsultan Internasional, Produk GovTech, dan Platform Pembelajaran Berbasis AI</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">3</div><div class="lbl">Lini Bisnis Dianalisis</div></div>
+    <div class="hero-stat"><div class="num">12+</div><div class="lbl">Pasar Potensial (Negara)</div></div>
+    <div class="hero-stat"><div class="num">Rp 1 M</div><div class="lbl">Target Revenue Pertama</div></div>
+    <div class="hero-stat"><div class="num">12–24</div><div class="lbl">Bulan ke BEP</div></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc">
+    <h2>📋 Daftar Isi Analisis</h2>
+    <div class="toc-grid">
+      <div class="toc-item"><div class="toc-num">1</div><span>Profil Keunggulan Kompetitif</span></div>
+      <div class="toc-item"><div class="toc-num">2</div><span>Peluang Consulting Domestik (Indonesia)</span></div>
+      <div class="toc-item"><div class="toc-num">3</div><span>Peluang Consulting Internasional & ASEAN</span></div>
+      <div class="toc-item"><div class="toc-num">4</div><span>Produk GovTech & Audit Tech</span></div>
+      <div class="toc-item"><div class="toc-num">5</div><span>Analisis "Belajar Bareng" — Platform AI</span></div>
+      <div class="toc-item"><div class="toc-num">6</div><span>Kompetitor & Benchmark Pasar</span></div>
+      <div class="toc-item"><div class="toc-num">7</div><span>Business Plan: Consulting Internasional</span></div>
+      <div class="toc-item"><div class="toc-num">8</div><span>Business Plan: Platform Belajar Bareng</span></div>
+      <div class="toc-item"><div class="toc-num">9</div><span>Matriks Perbandingan & Rekomendasi</span></div>
+      <div class="toc-item"><div class="toc-num">10</div><span>Roadmap & Action Plan</span></div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 1: KEUNGGULAN KOMPETITIF ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-blue">🏆</div>
+      <div>
+        <div class="section-title">1. Profil Keunggulan Kompetitif Anda</div>
+        <div class="section-subtitle">Mengapa posisi ini sangat langka dan bernilai tinggi di pasar global</div>
+      </div>
+    </div>
+
+    <div class="highlight-box gold">
+      <strong>Fakta Kritis:</strong> Dari 270+ juta penduduk Indonesia, jumlah orang yang pernah memimpin audit UNPKO (United Nations Peacekeeping Operations) bisa dihitung dengan jari satu tangan. Ini adalah moat (parit pertahanan) kompetitif yang hampir tidak bisa direplikasi.
+    </div>
+
+    <h3>1.1 Asset Keahlian Unik Anda</h3>
+    <div class="card-grid">
+      <div class="card blue">
+        <div class="card-title">🇺🇳 Ketua Tim UNPKO</div>
+        <div class="card-desc">Audit misi perdamaian PBB. Pengalaman ini membuka akses ke jaringan UN agency, donor internasional, dan pemerintah negara berkembang yang sedang membangun sistem audit mereka.</div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">🌐 UNBOA Member</div>
+        <div class="card-desc">Board of Auditors PBB — salah satu dari hanya 6 SAI di seluruh dunia yang menjadi anggota. Credential tertinggi di dunia audit pemerintahan internasional.</div>
+      </div>
+      <div class="card green">
+        <div class="card-title">🏛️ Keuangan Pemda</div>
+        <div class="card-desc">Paham mendalam ekosistem Pemda Indonesia: SILPA, dana transfer, aset daerah, BLUD, BUMD — pasar >500 Pemda yang terus butuh pendampingan WTP.</div>
+      </div>
+      <div class="card green">
+        <div class="card-title">🏦 Keuangan Pemerintah Pusat</div>
+        <div class="card-desc">Memahami LKPP, DIPA, BUN — niche yang sangat sempit tapi bernilai tinggi untuk konsultasi kementerian dan lembaga.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">👥 Jaringan Mitra Expert</div>
+        <div class="card-desc">Kolega BPK dengan: CFRA, CertDA, CertIPSAS, CertIA, ahli konstruksi, veteran audit internasional. Ini adalah "human capital on demand".</div>
+      </div>
+    </div>
+
+    <h3>1.2 Peta Sertifikasi Tim (Network Anda)</h3>
+    <table>
+      <tr>
+        <th>Sertifikasi</th>
+        <th>Kepanjangan</th>
+        <th>Nilai Pasar</th>
+        <th>Segmen Target</th>
+        <th>Day Rate Internasional</th>
+      </tr>
+      <tr>
+        <td><strong>CertIPSAS</strong></td>
+        <td>Certified IPSAS (Intl Public Sector Accounting Standards)</td>
+        <td><span class="score-high">⭐⭐⭐⭐⭐ Sangat Tinggi</span></td>
+        <td>ASEAN, Afrika, Pasifik — implementasi akuntansi pemerintah</td>
+        <td><strong>$1,500–$3,000/hari</strong></td>
+      </tr>
+      <tr>
+        <td><strong>CFRA</strong></td>
+        <td>Certified Fraud Risk Analyst</td>
+        <td><span class="score-high">⭐⭐⭐⭐⭐ Sangat Tinggi</span></td>
+        <td>Donor-funded projects, BUMN, sektor perbankan</td>
+        <td><strong>$1,200–$2,500/hari</strong></td>
+      </tr>
+      <tr>
+        <td><strong>CertDA</strong></td>
+        <td>Certified Data Analytics (for Audit)</td>
+        <td><span class="score-high">⭐⭐⭐⭐⭐ Sangat Tinggi</span></td>
+        <td>AI-driven audit, data analytics for government</td>
+        <td><strong>$1,500–$2,800/hari</strong></td>
+      </tr>
+      <tr>
+        <td><strong>CertIA</strong></td>
+        <td>Certified Internal Auditor</td>
+        <td><span class="score-med">⭐⭐⭐⭐ Tinggi</span></td>
+        <td>BUMN, korporasi besar, GCG</td>
+        <td><strong>$800–$1,500/hari</strong></td>
+      </tr>
+      <tr>
+        <td><strong>Ahli Konstruksi</strong></td>
+        <td>Audit Konstruksi & Infrastruktur</td>
+        <td><span class="score-high">⭐⭐⭐⭐⭐ Sangat Tinggi</span></td>
+        <td>Proyek infrastruktur ADB/World Bank di ASEAN</td>
+        <td><strong>$1,800–$4,000/hari</strong></td>
+      </tr>
+      <tr>
+        <td><strong>UNPKO Veteran</strong></td>
+        <td>UN Peacekeeping Operations Audit Lead</td>
+        <td><span class="score-high">⭐⭐⭐⭐⭐ Monopolistik</span></td>
+        <td>UN agencies, peacebuilding states</td>
+        <td><strong>$2,000–$5,000/hari</strong></td>
+      </tr>
+    </table>
+
+    <div class="insight-row">
+      <div class="insight-icon">💡</div>
+      <div class="insight-text"><strong>Key Insight:</strong> Jika gabungan tim Anda bisa menawarkan "full spectrum" government audit expertise — IPSAS + CFRA + Data Analytics + Construction + UN experience — Anda memiliki kapasitas yang sama dengan Big 4 advisory untuk sektor publik, tapi dengan biaya overhead yang jauh lebih rendah. Ini adalah positioning ideal untuk memenangkan tender donor internasional.</div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 2: CONSULTING DOMESTIK ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-green">🇮🇩</div>
+      <div>
+        <div class="section-title">2. Peluang Consulting Domestik (Indonesia)</div>
+        <div class="section-subtitle">Pasar Rp 2–5 triliun/tahun yang masih terfragmentasi</div>
+      </div>
+    </div>
+
+    <h3>2.1 Segmen Pasar Domestik & Valuasi</h3>
+    <div class="card-grid">
+      <div class="card green">
+        <div class="card-title">🏙️ Pemda (514 Kab/Kota + 34 Prov)</div>
+        <div class="card-value">~Rp 180 T</div>
+        <div class="card-desc">Total APBD nasional. Pemda dengan opini non-WTP masih banyak — butuh pendampingan intense untuk perbaikan sistem. Fee: Rp 500 juta–3 miliar/pemda/tahun.</div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">🏛️ Kementerian & Lembaga</div>
+        <div class="card-value">~150 K/L</div>
+        <div class="card-desc">Butuh pendampingan SPI, SPIP, manajemen risiko, dan transformasi digital akuntansi pemerintah. Fee: Rp 1–5 miliar/proyek.</div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">🏢 BUMN & Anak Perusahaan</div>
+        <div class="card-value">~800+</div>
+        <div class="card-desc">BUMN + anak perusahaan + cucu perusahaan. GCG assessment, audit internal, RKAP review, transformasi keuangan. Fee: Rp 300 juta–2 miliar/tahun.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">🏘️ Pemerintah Desa (75,000+)</div>
+        <div class="card-value">75,000 Desa</div>
+        <div class="card-desc">Dana Desa Rp 70 T/tahun — akuntabilitas rendah, butuh pendampingan. Model: per-kecamatan atau per-kabupaten, bukan per-desa. Fee: Rp 50–200 juta/kabupaten.</div>
+      </div>
+    </div>
+
+    <h3>2.2 Service Lines Domestik — Prioritas</h3>
+    <table>
+      <tr>
+        <th>Service</th>
+        <th>Klien Target</th>
+        <th>Fee Range</th>
+        <th>Win Rate Est.</th>
+        <th>Kompetisi</th>
+      </tr>
+      <tr>
+        <td><strong>Pendampingan WTP</strong><br><span style="font-size:11px;color:#6b7280;">Perbaikan opini BPK ke WTP</span></td>
+        <td>Pemda non-WTP</td>
+        <td>Rp 500 juta–2 M/tahun</td>
+        <td><span class="score-high">75%</span> (kredensial BPK)</td>
+        <td><span class="score-med">Sedang</span></td>
+      </tr>
+      <tr>
+        <td><strong>Transformasi SPIP</strong><br><span style="font-size:11px;color:#6b7280;">Sistem Pengendalian Intern Pemerintah</span></td>
+        <td>K/L, Pemda</td>
+        <td>Rp 300 juta–1,5 M</td>
+        <td><span class="score-high">70%</span></td>
+        <td><span class="score-med">Sedang</span></td>
+      </tr>
+      <tr>
+        <td><strong>Audit Internal BUMN</strong><br><span style="font-size:11px;color:#6b7280;">Penguatan SKAI & GCG</span></td>
+        <td>BUMN, BUMD</td>
+        <td>Rp 200–800 juta/tahun</td>
+        <td><span class="score-med">50%</span></td>
+        <td><span class="score-high">Tinggi (Big 4)</span></td>
+      </tr>
+      <tr>
+        <td><strong>Investigasi Fraud</strong><br><span style="font-size:11px;color:#6b7280;">CFRA-based forensic audit</span></td>
+        <td>BUMN, Perbankan, APH</td>
+        <td>Rp 1–5 M/kasus</td>
+        <td><span class="score-med">40%</span></td>
+        <td><span class="score-med">Sedang</span></td>
+      </tr>
+      <tr>
+        <td><strong>Pelatihan & Capacity Building</strong><br><span style="font-size:11px;color:#6b7280;">In-house training, sertifikasi</span></td>
+        <td>Pemda, BUMN, K/L</td>
+        <td>Rp 20–100 juta/batch</td>
+        <td><span class="score-high">80%</span></td>
+        <td><span class="score-low">Rendah</span></td>
+      </tr>
+      <tr>
+        <td><strong>Review RKAP & Laporan Keuangan</strong><br><span style="font-size:11px;color:#6b7280;">Pre-audit preparation</span></td>
+        <td>BUMN, Pemda</td>
+        <td>Rp 150–500 juta/tahun</td>
+        <td><span class="score-high">65%</span></td>
+        <td><span class="score-med">Sedang</span></td>
+      </tr>
+    </table>
+
+    <div class="highlight-box green">
+      <strong>🎯 Strategi Khusus Domestik — "BPK Alumni Network":</strong><br>
+      Kredensial eks-BPK adalah aset psikologis luar biasa. Klien Pemda dan BUMN tahu bahwa konsultan yang pernah <em>memeriksa</em> mereka jauh lebih tahu celah dan kelemahan sistem dibanding konsultan biasa. Posisikan sebagai "insider expert" — bukan sekadar konsultan teori.
+    </div>
+
+    <h3>2.3 Target Klien Awal (12 Bulan Pertama)</h3>
+    <ul class="check-list">
+      <li>2–3 Pemda yang baru mendapat opini non-WTP (TW atau TMP) → prioritas untuk memperbaiki opini sebelum pilkada/pilbup</li>
+      <li>1–2 BUMD besar (Bank Pembangunan Daerah atau perusahaan daerah air minum) untuk retainer GCG</li>
+      <li>Pelatihan SPIP & manajemen risiko untuk 3–5 kabupaten (fee lebih kecil tapi cepat closing)</li>
+      <li>1 BUMN tier-2 untuk audit internal support</li>
+    </ul>
+  </div>
+
+  <!-- ===== SECTION 3: CONSULTING INTERNASIONAL ===== -->
+  <div class="section page-break">
+    <div class="section-header">
+      <div class="section-icon icon-teal">🌏</div>
+      <div>
+        <div class="section-title">3. Peluang Consulting Internasional & ASEAN</div>
+        <div class="section-subtitle">Pasar $50–200 miliar/tahun — donor-funded, rate 5–10x lebih tinggi dari domestik</div>
+      </div>
+    </div>
+
+    <div class="highlight-box gold">
+      <strong>⭐ Ini adalah area yang PALING UNDEREXPLOITED oleh konsultan Indonesia.</strong> Hampir tidak ada firma konsultan Indonesia yang mampu bermain di pasar ini. Anda memiliki credential yang jarang dimiliki bahkan oleh firma Big 4 lokal. Day rate internasional $1,500–$5,000/hari vs Rp 2–5 juta/hari domestik — selisih 5–10x.
+    </div>
+
+    <h3>3.1 Pasar ASEAN — Analisis Per Negara</h3>
+
+    <table>
+      <tr>
+        <th>Negara</th>
+        <th>SAI (Lembaga Audit)</th>
+        <th>Tingkat Perkembangan</th>
+        <th>Kebutuhan Utama</th>
+        <th>Potensi Revenue</th>
+        <th>Entry Point</th>
+      </tr>
+      <tr>
+        <td><strong>🇲🇾 Malaysia</strong></td>
+        <td>National Audit Dept (Jabatan Audit Negara)</td>
+        <td><span class="score-med">Menengah-Tinggi</span></td>
+        <td>Data analytics audit, GLC governance reform, IPSAS transition untuk GLCs</td>
+        <td><span class="score-high">$500K–$2M/tahun</span></td>
+        <td>JAN Malaysia + World Bank PFM program</td>
+      </tr>
+      <tr>
+        <td><strong>🇻🇳 Vietnam</strong></td>
+        <td>State Audit of Vietnam (SAV)</td>
+        <td><span class="score-med">Berkembang Pesat</span></td>
+        <td>Capacity building SAV, IPSAS implementation, SOE audit reform</td>
+        <td><span class="score-high">$300K–$1.5M/tahun</span></td>
+        <td>ADB capacity development project</td>
+      </tr>
+      <tr>
+        <td><strong>🇵🇭 Filipina</strong></td>
+        <td>Commission on Audit (COA)</td>
+        <td><span class="score-med">Menengah</span></td>
+        <td>Peer review SAI, forensic audit unit development, INTOSAI standards</td>
+        <td><span class="score-med">$200K–$800K/tahun</span></td>
+        <td>ASOSAI peer review program</td>
+      </tr>
+      <tr>
+        <td><strong>🇰🇭 Kamboja</strong></td>
+        <td>National Audit Authority (NAA)</td>
+        <td><span class="score-low">Berkembang</span></td>
+        <td>SAI capacity building dari nol, donor-funded (World Bank, USAID, ADB)</td>
+        <td><span class="score-med">$200K–$600K/proyek</span></td>
+        <td>World Bank PFMR project</td>
+      </tr>
+      <tr>
+        <td><strong>🇲🇲 Myanmar</strong></td>
+        <td>Office of Auditor General</td>
+        <td><span class="score-low">Sangat Berkembang</span></td>
+        <td>Rekonstruksi SAI (post-conflict), IPSAS dasar, capacity building</td>
+        <td><span class="score-med">$300K–$1M/proyek</span></td>
+        <td>UN agencies, UNDP</td>
+      </tr>
+      <tr>
+        <td><strong>🇱🇦 Laos</strong></td>
+        <td>State Audit Organization (SAO)</td>
+        <td><span class="score-low">Berkembang</span></td>
+        <td>Peningkatan kapasitas dasar, standar ISSAI</td>
+        <td><span class="score-med">$150K–$500K/proyek</span></td>
+        <td>ADB regional program</td>
+      </tr>
+      <tr>
+        <td><strong>🇹🇱 Timor-Leste</strong></td>
+        <td>Tribunal de Contas</td>
+        <td><span class="score-low">Sangat Berkembang</span></td>
+        <td>Pembangunan SAI dari awal, IPSAS implementation, petroleum fund audit</td>
+        <td><span class="score-high">$500K–$2M/proyek</span></td>
+        <td>UNDP, ADB, bilateral donors</td>
+      </tr>
+    </table>
+
+    <h3>3.2 Pasar Non-ASEAN — Peluang Besar Lainnya</h3>
+    <div class="card-grid">
+      <div class="card blue">
+        <div class="card-title">🌍 Afrika Sub-Sahara</div>
+        <div class="card-desc">20+ negara sedang membangun SAI. AFROSAI-E programs, World Bank PFM. Indonesia dikenal sebagai success story reformasi keuangan publik. Budget: $500K–$5M/proyek.</div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">🏝️ Pasifik (PNG, Fiji, dll)</div>
+        <div class="card-desc">SAI sangat kecil, butuh TA (technical assistance) intensif. AusAID, NZAid, World Bank fund these. Keunggulan: Indonesia sebagai "peer" lebih diterima daripada konsultan Barat.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">🇺🇳 UN Agencies Langsung</div>
+        <div class="card-desc">UNDP, UNICEF, WFP, WHO — semua butuh internal/external audit support. UNBOA connection Anda adalah "golden ticket" untuk masuk ke ekosistem ini. Rate: $2,000–$5,000/hari.</div>
+      </div>
+      <div class="card gold">
+        <div class="card-title">🏦 MDB Projects (World Bank, ADB)</div>
+        <div class="card-desc">Public Financial Management Reform projects — biasanya $5–50M per proyek. Firm Indonesia jarang menang karena kurang credential internasional. Anda memiliki edge ini.</div>
+      </div>
+    </div>
+
+    <h3>3.3 Cara Masuk Pasar Internasional</h3>
+
+    <h4>Jalur 1: ASOSAI Network (Asian Organization of Supreme Audit Institutions)</h4>
+    <ul class="check-list">
+      <li>BPK RI adalah anggota aktif dan sering menjadi chair/vice-chair ASOSAI</li>
+      <li>Program Peer Review ASOSAI membuka peluang langsung ke SAI negara ASEAN</li>
+      <li>Anda memiliki akses jaringan ini melalui hubungan BPK RI</li>
+    </ul>
+
+    <h4>Jalur 2: World Bank & ADB Roster of Consultants</h4>
+    <ul class="check-list">
+      <li>Daftarkan firma di World Bank Group Consultant Roster (wbgconsultant.worldbank.org)</li>
+      <li>ADB memiliki Consultant Management System (CMS) — daftar sebagai firma PFM specialist</li>
+      <li>Proyek PFM (Public Financial Management) di ASEAN rata-rata $2–20M, butuh tim kecil 3–5 konsultan</li>
+    </ul>
+
+    <h4>Jalur 3: UNDP, USAID, EU Delegation Procurement</h4>
+    <ul class="check-list">
+      <li>Daftar di UN Global Marketplace (ungm.org) — wajib untuk tender UN</li>
+      <li>USAID SAI strengthening programs aktif di 10+ negara ASEAN & Pasifik</li>
+      <li>EU delegation di ASEAN sering tender program governance & PFM</li>
+    </ul>
+
+    <h4>Jalur 4: Consortium dengan Firma Internasional</h4>
+    <ul class="check-list">
+      <li>Gabung sebagai local/regional partner dari firma internasional (Adam Smith International, DT Global, Tetra Tech, dll)</li>
+      <li>Mereka menang tender, Anda sebagai "South-East Asia PFM Specialist"</li>
+      <li>Rate sharing: 60–70% ke firma utama, 30–40% ke Anda — tapi volume besar</li>
+    </ul>
+
+    <div class="insight-row">
+      <div class="insight-icon">💡</div>
+      <div class="insight-text"><strong>Strategi Terbaik Tahun 1:</strong> Kombinasi Jalur 1 (ASOSAI) + Jalur 4 (Consortium). ASOSAI untuk membangun reputasi regional dengan cepat. Consortium untuk mendapat revenue besar sambil membangun track record internasional. Tahun 2–3, mulai tender mandiri.</div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 4: PRODUK GOVTECH ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-purple">💻</div>
+      <div>
+        <div class="section-title">4. Produk GovTech & Audit Tech</div>
+        <div class="section-subtitle">Dari consulting expertise menjadi scalable product — multiplier effect</div>
+      </div>
+    </div>
+
+    <p>Konsultan berpengalaman memiliki keunggulan unik dalam membangun produk GovTech: mereka tahu <em>persis</em> pain point klien dari dalam. Ini adalah "unfair advantage" yang tidak dimiliki startup teknologi biasa.</p>
+
+    <h3>4.1 Produk Tier-1: AuditAI Companion</h3>
+    <div class="highlight-box purple">
+      <strong>Konsep:</strong> Platform berbasis AI yang membantu auditor pemerintah menganalisis dokumen, mendeteksi anomali keuangan, dan menghasilkan draft temuan audit secara otomatis. Target: tim pemeriksa di BPKP, Inspektorat Daerah, Satuan Pengawas Intern BUMN.
+    </div>
+    <div class="card-grid">
+      <div class="card purple">
+        <div class="card-title">Fitur Utama</div>
+        <div class="card-desc">• Upload SIPD/SIMDA data → auto-flag anomali<br>• Template kertas kerja audit (KKA) otomatis<br>• AI draft rekomendasi berdasarkan temuan BPK historis<br>• Database regulasi ter-update (PMK, Perda, PP)</div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Target Pasar</div>
+        <div class="card-desc">• 514 Inspektorat Daerah<br>• 150+ SPI BUMN/BUMD<br>• BPKP regional offices<br>Potensi: 1,000+ lisensi × Rp 2–5 juta/bulan</div>
+      </div>
+      <div class="card green">
+        <div class="card-title">Revenue Potential</div>
+        <div class="card-desc">Year 1: Rp 1–2 miliar (100 klien)<br>Year 3: Rp 10–25 miliar (1,000+ klien)<br>Model: SaaS + implementasi + training</div>
+      </div>
+    </div>
+
+    <h3>4.2 Produk Tier-2: IPSAS Converter (untuk ASEAN)</h3>
+    <div class="card-grid">
+      <div class="card blue">
+        <div class="card-title">🔄 IPSAS Migration Tool</div>
+        <div class="card-desc">Software konversi laporan keuangan dari cash-basis ke IPSAS accrual. Target: negara ASEAN yang sedang transisi (Vietnam, Myanmar, Kamboja). Rare product — hampir tidak ada kompetitor lokal ASEAN.</div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">📊 Government Finance Dashboard</div>
+        <div class="card-desc">Dashboard visualisasi kesehatan keuangan pemda/pemerintah pusat. Dijual ke Pemda sebagai paket "fiscal health monitoring". Fee: Rp 200–500 juta/tahun per pemerintah daerah.</div>
+      </div>
+    </div>
+
+    <h3>4.3 Produk Tier-3: Certification & E-Learning Module</h3>
+    <ul class="check-list">
+      <li>Modul belajar CertIPSAS, CFRA, CertDA dalam bahasa Indonesia + Bahasa Inggris (untuk ASEAN)</li>
+      <li>Ujian online dengan sertifikat digital yang diakui oleh komunitas audit pemerintah</li>
+      <li>Bundling dengan consulting services: "beli consulting, dapat akses e-learning gratis"</li>
+    </ul>
+
+    <div class="highlight-box">
+      <strong>📌 Catatan Penting:</strong> Produk sebaiknya dikembangkan SETELAH consulting berjalan minimal 6–12 bulan. Alasannya: (1) produk butuh modal, (2) consulting memberikan cash flow untuk fund produk, (3) klien consulting adalah early adopter terbaik.
+    </div>
+  </div>
+
+  <!-- ===== SECTION 5: BELAJAR BARENG ===== -->
+  <div class="section page-break">
+    <div class="section-header">
+      <div class="section-icon icon-orange">🎓</div>
+      <div>
+        <div class="section-title">5. Analisis Platform "Belajar Bareng"</div>
+        <div class="section-subtitle">AI-powered learning marketplace yang menghubungkan expert dengan learner</div>
+      </div>
+    </div>
+
+    <h3>5.1 Konsep Platform (Apa yang Anda Bayangkan)</h3>
+    <div class="highlight-box">
+      <strong>Model Bisnis:</strong> Platform menghubungkan (A) <em>Orang-orang dengan minat belajar spesifik yang sama</em> dengan (B) <em>Expert/praktisi yang memiliki keahlian di bidang tersebut</em>. AI agent mengurus semua hal teknis: kurikulum, bahan ajar, jadwal, absensi, invoice, sertifikat — sehingga expert hanya perlu mengajar, dan learner hanya perlu belajar.
+    </div>
+
+    <h3>5.2 Riset Kompetitor — Apakah Sudah Ada?</h3>
+    <p><strong>Jawaban: Ada, tapi belum ada yang tepat sasaran untuk pasar Indonesia + AI automation level yang Anda bayangkan.</strong></p>
+
+    <h4>🌐 Kompetitor Internasional</h4>
+    <div class="competitor-card">
+      <div class="comp-header">
+        <div class="comp-name">Maven.com (USA) <span class="badge-star">⭐ Paling Mirip</span></div>
+        <span class="comp-badge badge-intl">Internasional</span>
+      </div>
+      <p><strong>Model:</strong> Cohort-based learning platform. Expert membuat course, Maven mengurus landing page, pembayaran, dan basic admin. Revenue $20M+ (2024). Fokus ke knowledge workers & professionals.</p>
+      <p><strong>Gap vs Belajar Bareng:</strong> (1) Tidak ada AI untuk buat kurikulum otomatis, (2) Expert tetap harus setup sendiri, (3) Tidak ada mekanisme "learners minta topik → sistem cari expert", (4) Tidak ada bahasa Indonesia/ASEAN focus.</p>
+    </div>
+
+    <div class="competitor-card">
+      <div class="comp-header">
+        <div class="comp-name">Outschool (USA)</div>
+        <span class="comp-badge badge-intl">Internasional</span>
+      </div>
+      <p><strong>Model:</strong> Live classes marketplace. Teacher post kelas, murid daftar. Revenue $130M+. Fokus K-12 anak-anak.</p>
+      <p><strong>Gap:</strong> Untuk anak-anak, bukan professional learning. Tidak ada AI curriculum builder.</p>
+    </div>
+
+    <div class="competitor-card">
+      <div class="comp-header">
+        <div class="comp-name">Mighty Networks (USA)</div>
+        <span class="comp-badge badge-intl">Internasional</span>
+      </div>
+      <p><strong>Model:</strong> Community + course platform. Revenue >$50M. Lebih ke komunitas daripada pembelajaran terstruktur.</p>
+      <p><strong>Gap:</strong> AI features baru tahap awal, tidak ada intelligent curriculum generator, admin masih manual.</p>
+    </div>
+
+    <div class="competitor-card">
+      <div class="comp-header">
+        <div class="comp-name">Kelas.com / Skill Academy / Ruangguru (Indonesia)</div>
+        <span class="comp-badge badge-id">Indonesia</span>
+      </div>
+      <p><strong>Model:</strong> Recorded course marketplace (Netflix-style). Expert buat video, platform jual.</p>
+      <p><strong>Gap BESAR:</strong> (1) Model recorded — tidak ada live cohort, (2) Platform yang memilih expert, bukan expert yang mendaftar bebas, (3) Zero AI automation untuk curriculum, (4) Tidak ada "demand-driven" (learner request topik → cari expert).</p>
+    </div>
+
+    <div class="competitor-card">
+      <div class="comp-header">
+        <div class="comp-name">Gredu / Teachmint / Kelola (Asia)</div>
+        <span class="comp-badge badge-intl">Asia</span>
+      </div>
+      <p><strong>Model:</strong> School/institution management — bukan untuk individual expert atau non-formal learning.</p>
+    </div>
+
+    <h4>✅ Kesimpulan Riset Kompetitor:</h4>
+    <div class="highlight-box green">
+      <strong>Tidak ada platform di Indonesia (dan sangat sedikit di dunia) yang memiliki kombinasi:</strong>
+      <ol style="margin:8px 0 0 20px;font-size:13px;">
+        <li>Demand-side driven (learner submit request → sistem matching expert)</li>
+        <li>AI auto-generate kurikulum berdasarkan kebutuhan learner + expertise teacher</li>
+        <li>Full AI back-office: jadwal, absensi, invoice, sertifikat, follow-up</li>
+        <li>Fokus professional/vocational learning — bukan K-12 atau university</li>
+        <li>Model live cohort (bukan recorded) + community</li>
+      </ol>
+      <strong>Ini adalah "white space" yang nyata di pasar edtech Indonesia + ASEAN.</strong>
+    </div>
+
+    <h3>5.3 Problem Validation — Kenapa Ini Penting</h3>
+    <table>
+      <tr>
+        <th>Persona</th>
+        <th>Problem Nyata</th>
+        <th>Current Solution (Buruk)</th>
+        <th>Solusi Belajar Bareng</th>
+      </tr>
+      <tr>
+        <td><strong>Expert (mis: auditor BPK senior)</strong></td>
+        <td>Ingin berbagi ilmu dan monetisasi, tapi tidak tahu cara: buat silabus, atur jadwal, kirim tagihan, terbitkan sertifikat</td>
+        <td>Tidak mengajar sama sekali / ngajar informal tanpa struktur / bayar asisten manual</td>
+        <td>AI buatkan silabus dari profil expertise, sistem urus semua admin, expert tinggal hadir dan mengajar</td>
+      </tr>
+      <tr>
+        <td><strong>Learner (mis: staf keuangan Pemda)</strong></td>
+        <td>Ingin belajar "akuntansi pemerintah berbasis IPSAS" tapi tidak tahu caranya, tidak ada kursus yang tepat, tidak mampu buat kurikulum sendiri</td>
+        <td>Cari workshop random, belajar sendiri dari YouTube, ikut seminar yang tidak terstruktur</td>
+        <td>Submit request + bayar, sistem cari expert cocok, AI rancang kurikulum sesuai kebutuhan, belajar terstruktur</td>
+      </tr>
+      <tr>
+        <td><strong>Organisasi (Pemda, BUMN)</strong></td>
+        <td>Butuh pelatihan spesifik untuk tim tapi proses pengadaan pelatihan sangat ribet, biaya tinggi, tidak bisa ukur outcome</td>
+        <td>Tender pelatihan manual ke vendor, sering tidak sesuai kebutuhan</td>
+        <td>Order corporate training package, AI customize kurikulum, platform provide laporan outcome</td>
+      </tr>
+    </table>
+
+    <h3>5.4 Sinergi Kuat dengan Bisnis Consulting JAI</h3>
+    <div class="insight-row">
+      <div class="insight-icon">🔗</div>
+      <div class="insight-text"><strong>Synergy yang sangat powerful:</strong> PT JAI bisa menjadi "Expert Supply" utama di platform Belajar Bareng. Semua konsultan JAI (CFRA, CertIPSAS, CertDA, dll) mengajar di platform. Klien consulting JAI menjadi "Learner" pertama. Ini menciptakan flywheel: consulting membangun reputasi → expert mengajar → learner jadi klien consulting → siklus berulang.</div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 6: KOMPETITOR BENCHMARKING ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-red">📊</div>
+      <div>
+        <div class="section-title">6. Benchmarking Kompetitor Consulting</div>
+        <div class="section-subtitle">Siapa saingan Anda dan di mana celahnya</div>
+      </div>
+    </div>
+
+    <h3>6.1 Peta Kompetitor Consulting Pemerintah Indonesia</h3>
+    <table>
+      <tr>
+        <th>Firma</th>
+        <th>Kekuatan</th>
+        <th>Kelemahan</th>
+        <th>Fee Range</th>
+        <th>Celah untuk Anda</th>
+      </tr>
+      <tr>
+        <td><strong>Big 4 (Deloitte, EY, PwC, KPMG)</strong></td>
+        <td>Brand global, jaringan luas, tim besar</td>
+        <td>Mahal, birokrasi internal tinggi, sering kirim junior, kurang paham regulasi lokal dalam</td>
+        <td>Premium</td>
+        <td>Anda lebih responsif, lebih paham regulasi lokal, dan lebih terjangkau</td>
+      </tr>
+      <tr>
+        <td><strong>BPKP (untuk klien tertentu)</strong></td>
+        <td>Punya akses, dipercaya pemerintah</td>
+        <td>Bukan firma komersial, tidak bisa dikontrak langsung oleh semua entitas</td>
+        <td>N/A</td>
+        <td>Mengisi gap yang BPKP tidak bisa layani secara komersial</td>
+      </tr>
+      <tr>
+        <td><strong>MUC Consulting, DDTC (Pajak)</strong></td>
+        <td>Spesialis pajak, brand kuat</td>
+        <td>Fokus pajak, kurang kuat di audit pemerintah dan IPSAS</td>
+        <td>Rp 100–500 juta</td>
+        <td>Bundle: pajak + audit + hukum + IPSAS = one-stop shop</td>
+      </tr>
+      <tr>
+        <td><strong>Konsultan Lokal Daerah</strong></td>
+        <td>Dekat dengan pemda, relasi politik</td>
+        <td>Kualitas rendah, tidak punya metodologi, rawan KKN</td>
+        <td>Rp 50–200 juta</td>
+        <td>Kualitas lebih tinggi, metodologi BPK = deliverable credible</td>
+      </tr>
+      <tr>
+        <td><strong>GIZ, IDI INTOSAI (untuk SAI)</strong></td>
+        <td>Donor-funded, strong methodology</td>
+        <td>Program terbatas, tidak selalu tersedia, bukan commercial</td>
+        <td>Free (donor-funded)</td>
+        <td>Jadi implementing partner mereka, atau tawarkan complementary services</td>
+      </tr>
+    </table>
+
+    <h3>6.2 Positioning Map</h3>
+    <div class="highlight-box">
+      <strong>Sweet Spot Anda:</strong> Posisi di antara "Boutique Expert Firm" dan "International Specialist" — lebih terjangkau dari Big 4, lebih berkualitas dari konsultan lokal, dan memiliki credential internasional yang tidak dimiliki firma lokal manapun.<br><br>
+      <strong>Tagline posisi:</strong> <em>"The only Southeast Asian advisory firm combining BPK RI expertise with UN-level audit standards"</em>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 7: BUSINESS PLAN CONSULTING ===== -->
+  <div class="section page-break">
+    <div class="section-header">
+      <div class="section-icon icon-blue">📈</div>
+      <div>
+        <div class="section-title">7. Business Plan — PT JAI Consulting (3 Tahun)</div>
+        <div class="section-subtitle">Fokus: Domestic + International Consulting sebagai mesin revenue utama</div>
+      </div>
+    </div>
+
+    <h3>7.1 Model Bisnis</h3>
+    <table>
+      <tr>
+        <th>Stream Revenue</th>
+        <th>Tahun 1</th>
+        <th>Tahun 2</th>
+        <th>Tahun 3</th>
+        <th>Margin</th>
+      </tr>
+      <tr>
+        <td><strong>Retainer Domestik (Pemda, BUMN)</strong></td>
+        <td>Rp 600 juta</td>
+        <td>Rp 1,5 miliar</td>
+        <td>Rp 3,0 miliar</td>
+        <td>65–75%</td>
+      </tr>
+      <tr>
+        <td><strong>Project-based Domestik</strong></td>
+        <td>Rp 400 juta</td>
+        <td>Rp 800 juta</td>
+        <td>Rp 1,5 miliar</td>
+        <td>60–70%</td>
+      </tr>
+      <tr>
+        <td><strong>International / Donor-funded</strong></td>
+        <td>Rp 500 juta</td>
+        <td>Rp 2,0 miliar</td>
+        <td>Rp 5,0 miliar</td>
+        <td>70–80%</td>
+      </tr>
+      <tr>
+        <td><strong>Pelatihan & Capacity Building</strong></td>
+        <td>Rp 300 juta</td>
+        <td>Rp 600 juta</td>
+        <td>Rp 1,0 miliar</td>
+        <td>75–85%</td>
+      </tr>
+      <tr>
+        <td><strong>Produk (SaaS, Tools)</strong></td>
+        <td>Rp 0</td>
+        <td>Rp 200 juta</td>
+        <td>Rp 800 juta</td>
+        <td>85–90%</td>
+      </tr>
+      <tr style="background: #eff6ff; font-weight: 700;">
+        <td><strong>TOTAL REVENUE</strong></td>
+        <td><strong>Rp 1,8 miliar</strong></td>
+        <td><strong>Rp 5,1 miliar</strong></td>
+        <td><strong>Rp 11,3 miliar</strong></td>
+        <td>68–78%</td>
+      </tr>
+    </table>
+
+    <div class="financial-grid">
+      <div class="fin-card">
+        <div class="year">Tahun 1</div>
+        <div class="revenue">Rp 1,8 M</div>
+        <div class="profit" style="color:#16a34a;">Net Profit: Rp 400 juta (22%)</div>
+      </div>
+      <div class="fin-card highlight">
+        <div class="year">Tahun 2 — TARGET Rp 1 Miliar 🎯</div>
+        <div class="revenue">Rp 5,1 M</div>
+        <div class="profit" style="color:#16a34a;">Net Profit: Rp 1,8 miliar (35%)</div>
+      </div>
+      <div class="fin-card">
+        <div class="year">Tahun 3</div>
+        <div class="revenue">Rp 11,3 M</div>
+        <div class="profit" style="color:#16a34a;">Net Profit: Rp 4,5 miliar (40%)</div>
+      </div>
+    </div>
+
+    <h3>7.2 Struktur Biaya (OPEX)</h3>
+    <table>
+      <tr>
+        <th>Komponen Biaya</th>
+        <th>Tahun 1/bulan</th>
+        <th>Keterangan</th>
+      </tr>
+      <tr>
+        <td>Gaji Tim Inti (3 orang)</td>
+        <td>Rp 60 juta</td>
+        <td>2 konsultan senior + 1 admin/PM</td>
+      </tr>
+      <tr>
+        <td>Fee Mitra (per proyek)</td>
+        <td>Rp 30–80 juta</td>
+        <td>Dibayar per engagement, bukan gaji tetap</td>
+      </tr>
+      <tr>
+        <td>Kantor (co-working + domisili)</td>
+        <td>Rp 8 juta</td>
+        <td>Co-working Jakarta/Bandung + virtual office</td>
+      </tr>
+      <tr>
+        <td>Perjalanan Dinas</td>
+        <td>Rp 15–30 juta</td>
+        <td>Kunjungan klien, konferensi internasional</td>
+      </tr>
+      <tr>
+        <td>Marketing & Branding</td>
+        <td>Rp 5 juta</td>
+        <td>Website, LinkedIn, conference sponsorship</td>
+      </tr>
+      <tr>
+        <td>Legal, Akuntan, IT</td>
+        <td>Rp 5 juta</td>
+        <td>Compliance, cloud tools</td>
+      </tr>
+      <tr style="font-weight:700;">
+        <td><strong>Total OPEX Fixed/bulan</strong></td>
+        <td><strong>Rp 118–178 juta</strong></td>
+        <td>Break-even: 1 klien retainer Rp 200 juta/proyek</td>
+      </tr>
+    </table>
+
+    <h3>7.3 Capital Requirement (Modal Awal)</h3>
+    <div class="card-grid">
+      <div class="card green">
+        <div class="card-title">💰 Modal Awal Minimum</div>
+        <div class="card-value">Rp 150 juta</div>
+        <div class="card-desc">Pendirian PT + operasional 3 bulan pertama. Bisnis consulting = low capital intensity.</div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">💰 Modal Ideal</div>
+        <div class="card-value">Rp 300 juta</div>
+        <div class="card-desc">Termasuk biaya sertifikasi tim, perjalanan untuk konferensi internasional pertama, dan marketing.</div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">📅 Break-Even</div>
+        <div class="card-value">Bulan 3–5</div>
+        <div class="card-desc">Dengan 1 retainer Pemda (Rp 300–500 juta/tahun), sudah cover OPEX. Consulting = cash flow positif sangat cepat.</div>
+      </div>
+    </div>
+
+    <h3>7.4 Milestone 12 Bulan Pertama</h3>
+    <div class="roadmap">
+      <div class="road-step">
+        <div class="road-box active">
+          <div class="road-phase">Bulan 1–2</div>
+          <div class="road-title">Foundation</div>
+          <div class="road-time">Dirikan PT, website, daftar UNGM & ADB CMS, finalisasi tim mitra</div>
+        </div>
+      </div>
+      <div class="road-step">
+        <div class="road-box">
+          <div class="road-phase">Bulan 2–4</div>
+          <div class="road-title">First Clients</div>
+          <div class="road-time">1–2 klien domestik (Pemda/BUMN), mulai presentasi ke ASOSAI network</div>
+        </div>
+      </div>
+      <div class="road-step">
+        <div class="road-box">
+          <div class="road-phase">Bulan 4–7</div>
+          <div class="road-title">Intl Penetration</div>
+          <div class="road-time">Submit proposal ke 1 donor project (ADB/World Bank), ikut konferensi ASOSAI</div>
+        </div>
+      </div>
+      <div class="road-step">
+        <div class="road-box">
+          <div class="road-phase">Bulan 7–10</div>
+          <div class="road-title">Scale Domestic</div>
+          <div class="road-time">3–5 klien aktif, pelatihan batch pertama, mulai develop produk</div>
+        </div>
+      </div>
+      <div class="road-step">
+        <div class="road-box">
+          <div class="road-phase">Bulan 10–12</div>
+          <div class="road-title">Rp 1 Miliar!</div>
+          <div class="road-time">Cumulative revenue Rp 1 miliar. Launch Belajar Bareng beta.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 8: BUSINESS PLAN BELAJAR BARENG ===== -->
+  <div class="section page-break">
+    <div class="section-header">
+      <div class="section-icon icon-orange">🎓</div>
+      <div>
+        <div class="section-title">8. Business Plan — Platform "Belajar Bareng"</div>
+        <div class="section-subtitle">AI-powered expert marketplace untuk professional learning</div>
+      </div>
+    </div>
+
+    <h3>8.1 Product Vision</h3>
+    <div class="highlight-box purple">
+      <strong>"Belajar Bareng"</strong> — Platform yang membalik cara belajar: bukan platform yang <em>sediakan konten</em>, tapi platform yang <em>fasilitasi permintaan belajar</em>. Learner bilang "saya ingin belajar X", platform temukan expert yang bisa mengajar X, AI bangun kurikulum terstruktur untuk X, sistem urus semua administrasinya.
+    </div>
+
+    <h3>8.2 Fitur Utama (MVP → Full Product)</h3>
+    <table>
+      <tr>
+        <th>Fitur</th>
+        <th>Fase</th>
+        <th>Untuk Siapa</th>
+        <th>AI Component</th>
+      </tr>
+      <tr>
+        <td><strong>Learning Request Board</strong></td>
+        <td>MVP (Bln 1)</td>
+        <td>Learner</td>
+        <td>AI kategorisasi request, matching ke expert</td>
+      </tr>
+      <tr>
+        <td><strong>Expert Profile + Matching</strong></td>
+        <td>MVP (Bln 1)</td>
+        <td>Expert</td>
+        <td>AI score expertise dari profil + interview singkat</td>
+      </tr>
+      <tr>
+        <td><strong>AI Curriculum Builder</strong></td>
+        <td>MVP (Bln 2)</td>
+        <td>Expert + Learner</td>
+        <td>GPT-4/Claude generate silabus dari topik + level + durasi</td>
+      </tr>
+      <tr>
+        <td><strong>Virtual Classroom</strong></td>
+        <td>MVP (Bln 2)</td>
+        <td>Expert + Learner</td>
+        <td>Zoom/Google Meet integration + auto-recording + AI transcription</td>
+      </tr>
+      <tr>
+        <td><strong>AI Admin Agent</strong></td>
+        <td>Phase 2 (Bln 3–4)</td>
+        <td>Expert</td>
+        <td>Auto-jadwal, reminder, absensi, tagihan, follow-up</td>
+      </tr>
+      <tr>
+        <td><strong>Certificate Generator</strong></td>
+        <td>Phase 2 (Bln 3)</td>
+        <td>Learner</td>
+        <td>Auto-generate sertifikat + digital verification link</td>
+      </tr>
+      <tr>
+        <td><strong>Learning Analytics</strong></td>
+        <td>Phase 3 (Bln 5–6)</td>
+        <td>Learner + B2B</td>
+        <td>Progress tracking, competency mapping, ROI learning</td>
+      </tr>
+      <tr>
+        <td><strong>B2B Corporate Portal</strong></td>
+        <td>Phase 3 (Bln 6+)</td>
+        <td>Pemda/BUMN HR</td>
+        <td>Bulk order training, departmental tracking, compliance reporting</td>
+      </tr>
+    </table>
+
+    <h3>8.3 Model Monetisasi</h3>
+    <div class="card-grid">
+      <div class="card green">
+        <div class="card-title">Platform Fee (B2C)</div>
+        <div class="card-desc">20–25% dari fee kursus yang dibayar learner ke expert. Expert dapat 75–80%. Ini adalah primary revenue stream.</div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">AI Premium Subscription</div>
+        <div class="card-desc">Rp 99K/bulan untuk expert — akses full AI curriculum builder, unlimited admin bot, analytics dashboard. Freemium → Premium.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">B2B Corporate License</div>
+        <div class="card-desc">Rp 500K–2 juta/seat/tahun untuk organisasi (Pemda, BUMN). Minimum 20 seat. Custom training packages.</div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">Certified Program Badge</div>
+        <div class="card-desc">Biaya sertifikasi Rp 200–500K/learner untuk program tertentu (mis: CertIPSAS prep course, CFRA prep). Platform + JAI Consulting co-brand.</div>
+      </div>
+    </div>
+
+    <h3>8.4 Unit Economics Belajar Bareng</h3>
+    <table>
+      <tr>
+        <th>Metrik</th>
+        <th>Asumsi Konservatif</th>
+        <th>Asumsi Moderat</th>
+        <th>Keterangan</th>
+      </tr>
+      <tr>
+        <td>Average Course Fee</td>
+        <td>Rp 1,5 juta</td>
+        <td>Rp 2,5 juta</td>
+        <td>Per learner, per cohort (10–20 sesi)</td>
+      </tr>
+      <tr>
+        <td>Platform Take Rate</td>
+        <td>20%</td>
+        <td>25%</td>
+        <td>Expert dapat sisanya</td>
+      </tr>
+      <tr>
+        <td>Revenue per Learner</td>
+        <td>Rp 300K</td>
+        <td>Rp 625K</td>
+        <td>Per cohort enrollment</td>
+      </tr>
+      <tr>
+        <td>Avg Cohort Size</td>
+        <td>8 learner</td>
+        <td>15 learner</td>
+        <td>Small cohort = lebih personal</td>
+      </tr>
+      <tr>
+        <td>Revenue per Cohort</td>
+        <td>Rp 2,4 juta</td>
+        <td>Rp 9,4 juta</td>
+        <td>Platform revenue only</td>
+      </tr>
+      <tr>
+        <td>Cohort/bulan (Year 1)</td>
+        <td>5 cohort</td>
+        <td>15 cohort</td>
+        <td>Grow seiring expert join</td>
+      </tr>
+      <tr style="font-weight:700;background:#f0fdf4;">
+        <td><strong>Monthly Platform Revenue</strong></td>
+        <td><strong>Rp 12 juta</strong></td>
+        <td><strong>Rp 141 juta</strong></td>
+        <td></td>
+      </tr>
+    </table>
+
+    <h3>8.5 Proyeksi Finansial Belajar Bareng</h3>
+    <div class="financial-grid">
+      <div class="fin-card">
+        <div class="year">Tahun 1</div>
+        <div class="revenue">Rp 300–600 juta</div>
+        <div class="profit" style="color:#d97706;">Rugi: Rp 100–200 juta (investasi platform)</div>
+      </div>
+      <div class="fin-card">
+        <div class="year">Tahun 2</div>
+        <div class="revenue">Rp 1,2–2,0 miliar</div>
+        <div class="profit" style="color:#16a34a;">Net Profit: Rp 200–600 juta (20–30%)</div>
+      </div>
+      <div class="fin-card highlight">
+        <div class="year">Tahun 3</div>
+        <div class="revenue">Rp 3–6 miliar</div>
+        <div class="profit" style="color:#16a34a;">Net Profit: Rp 1–2,5 miliar (35–40%)</div>
+      </div>
+    </div>
+
+    <h3>8.6 Capital Requirement</h3>
+    <div class="card-grid">
+      <div class="card blue">
+        <div class="card-title">💻 Tech Development</div>
+        <div class="card-value">Rp 250–400 juta</div>
+        <div class="card-desc">MVP platform (Next.js + AI) + design. Bisa dimulai dari Rp 150 juta dengan no-code tools (Bubble + Zapier + Claude API) untuk validasi awal.</div>
+      </div>
+      <div class="card green">
+        <div class="card-title">📣 Marketing & Expert Acquisition</div>
+        <div class="card-value">Rp 50–100 juta</div>
+        <div class="card-desc">Onboarding 20–50 expert pertama (banyak dari jaringan JAI sendiri = low cost), LinkedIn campaign, webinar.</div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">💰 Total Modal Awal</div>
+        <div class="card-value">Rp 300–500 juta</div>
+        <div class="card-desc">Vs Consulting: 2–3x lebih besar modal awal, 12–18 bulan lebih lama ke profitabilitas. Tapi lebih scalable jangka panjang.</div>
+      </div>
+    </div>
+
+    <div class="highlight-box gold">
+      <strong>💡 Rekomendasi:</strong> Luncurkan Belajar Bareng sebagai "white label" atau pilot internal terlebih dahulu — gunakan jaringan konsultan JAI sebagai expert, dan klien Pemda/BUMN JAI sebagai learner pertama. Ini validasi tanpa modal besar, dan bisa diluncurkan dalam 2–3 bulan dengan biaya minimal.
+    </div>
+  </div>
+
+  <!-- ===== SECTION 9: MATRIKS PERBANDINGAN ===== -->
+  <div class="section page-break">
+    <div class="section-header">
+      <div class="section-icon icon-red">⚖️</div>
+      <div>
+        <div class="section-title">9. Matriks Perbandingan & Rekomendasi Final</div>
+        <div class="section-subtitle">Mana yang paling feasible untuk Rp 1 Miliar pertama yang halal?</div>
+      </div>
+    </div>
+
+    <h3>9.1 Matriks Skoring Komprehensif</h3>
+    <table class="matrix-table">
+      <tr>
+        <th>Kriteria (Bobot)</th>
+        <th>Consulting Domestik</th>
+        <th>Consulting Internasional</th>
+        <th>Produk GovTech</th>
+        <th>Belajar Bareng</th>
+      </tr>
+      <tr>
+        <td><strong>Kecepatan ke Rp 1M (20%)</strong></td>
+        <td><span class="score-high">9/10 — 8–12 bln</span></td>
+        <td><span class="score-high">8/10 — 10–15 bln</span></td>
+        <td><span class="score-low">4/10 — 24–36 bln</span></td>
+        <td><span class="score-med">6/10 — 18–24 bln</span></td>
+      </tr>
+      <tr>
+        <td><strong>Modal Awal Dibutuhkan (15%)</strong></td>
+        <td><span class="score-high">9/10 — Rp 150 juta</span></td>
+        <td><span class="score-high">8/10 — Rp 200 juta</span></td>
+        <td><span class="score-low">4/10 — Rp 500 juta+</span></td>
+        <td><span class="score-med">6/10 — Rp 300 juta</span></td>
+      </tr>
+      <tr>
+        <td><strong>Skalabilitas Jangka Panjang (15%)</strong></td>
+        <td><span class="score-med">6/10 — terikat tenaga manusia</span></td>
+        <td><span class="score-high">8/10 — pasar lebih besar</span></td>
+        <td><span class="score-high">10/10 — SaaS fully scalable</span></td>
+        <td><span class="score-high">9/10 — network effect</span></td>
+      </tr>
+      <tr>
+        <td><strong>Kesesuaian Keahlian (20%)</strong></td>
+        <td><span class="score-high">10/10 — exact fit</span></td>
+        <td><span class="score-high">10/10 — exact fit + rare</span></td>
+        <td><span class="score-high">8/10 — domain expert advantage</span></td>
+        <td><span class="score-high">9/10 — expert supply ready</span></td>
+      </tr>
+      <tr>
+        <td><strong>Risiko Bisnis (15%)</strong></td>
+        <td><span class="score-high">9/10 — sangat rendah</span></td>
+        <td><span class="score-med">7/10 — dependen tender</span></td>
+        <td><span class="score-med">5/10 — produk butuh adopsi</span></td>
+        <td><span class="score-med">6/10 — edtech kompetitif</span></td>
+      </tr>
+      <tr>
+        <td><strong>Potensi Revenue Tahun 3 (10%)</strong></td>
+        <td><span class="score-med">7/10 — Rp 5–8 M</span></td>
+        <td><span class="score-high">9/10 — Rp 8–15 M</span></td>
+        <td><span class="score-high">9/10 — Rp 10–25 M</span></td>
+        <td><span class="score-high">8/10 — Rp 5–15 M</span></td>
+      </tr>
+      <tr>
+        <td><strong>Keamanan dari Praktik Korupsi (5%)</strong></td>
+        <td><span class="score-high">9/10 — fee-for-service jelas</span></td>
+        <td><span class="score-high">10/10 — donor standards ketat</span></td>
+        <td><span class="score-high">10/10 — digital, auditable</span></td>
+        <td><span class="score-high">10/10 — digital, transparent</span></td>
+      </tr>
+      <tr style="background: #eff6ff; font-weight: 700; font-size: 14px;">
+        <td><strong>TOTAL SCORE (100%)</strong></td>
+        <td><strong><span class="score-high">8.4/10</span></strong></td>
+        <td><strong><span class="score-high">8.7/10</span> ⭐</strong></td>
+        <td><strong><span class="score-med">6.7/10</span></strong></td>
+        <td><strong><span class="score-med">7.5/10</span></strong></td>
+      </tr>
+    </table>
+
+    <h3>9.2 Analisis Keamanan dari Korupsi / Uang Tidak Halal</h3>
+    <div class="highlight-box green">
+      <strong>Pertanyaan yang Sangat Penting dan Bijak:</strong> Semua lini bisnis yang dianalisis ini tergolong <strong>BERSIH</strong> jika dijalankan dengan benar. Berikut penjelasannya:
+    </div>
+    <table>
+      <tr>
+        <th>Lini Bisnis</th>
+        <th>Mekanisme Pendapatan</th>
+        <th>Risiko Konflik Kepentingan</th>
+        <th>Mitigasi</th>
+      </tr>
+      <tr>
+        <td><strong>Consulting Pemda/BUMN</strong></td>
+        <td>Fee jasa profesional (kontrak)</td>
+        <td>Perlu waspada jika klien adalah instansi yang pernah/sedang diperiksa BPK</td>
+        <td>Pastikan sudah purna tugas BPK, cooling-off period, hindari klien aktif BPK. Kontrak transparan.</td>
+      </tr>
+      <tr>
+        <td><strong>Consulting Internasional</strong></td>
+        <td>Donor-funded projects — sangat ketat anti-korupsi</td>
+        <td>Sangat rendah — World Bank, UN, ADB punya audit trail ketat</td>
+        <td>Ikuti procurement rules donor. Ini justru yang PALING BERSIH karena semua ter-audit.</td>
+      </tr>
+      <tr>
+        <td><strong>Produk GovTech</strong></td>
+        <td>Lisensi software (invoice digital)</td>
+        <td>Rendah — produk digital mudah diaudit</td>
+        <td>Pricing transparan, tidak ada customisasi "khusus" untuk pemenang tender tertentu.</td>
+      </tr>
+      <tr>
+        <td><strong>Belajar Bareng</strong></td>
+        <td>Platform fee + subscription</td>
+        <td>Sangat rendah — B2C/B2B biasa</td>
+        <td>Pricing published, tidak ada "negosiasi tertutup".</td>
+      </tr>
+    </table>
+    <div class="highlight-box">
+      <strong>⚠️ Warning untuk Consulting Domestik:</strong> Ada risiko klien meminta "jaminan" hasil tertentu (misal: jaminan WTP) yang bisa mengarah ke praktik tidak etis. Mitigasi: <em>never guarantee specific audit outcome</em> — tawarkan "process improvement" bukan "guaranteed result". Ini juga melindungi reputasi profesional Anda.
+    </div>
+
+    <h3>9.3 Rekomendasi Strategi "Tercepat ke Rp 1 Miliar Pertama"</h3>
+    <div class="winner-box">
+      <h3>🏆 Rekomendasi: HYBRID STRATEGY — Consulting Dulu, Platform Belakangan</h3>
+      <div class="big-num">Rp 1 M</div>
+      <p style="font-size:16px;color:#fde047;font-weight:700;">Target: 12–18 bulan</p>
+      <br>
+      <p><strong>Fase 1 (Bulan 1–12): Consulting sebagai cash engine</strong><br>
+      Mulai dari PT JAI — kombinasi 2–3 retainer Pemda/BUMN (Rp 600 juta) + 1–2 proyek internasional via consortium (Rp 500 juta–1 miliar) + pelatihan (Rp 300 juta) = Rp 1,4–1,9 miliar Year 1. Target Rp 1 miliar pertama dari consulting sebelum akhir tahun pertama sangat realistis.</p>
+      <br>
+      <p><strong>Fase 2 (Bulan 6–18): Belajar Bareng soft launch</strong><br>
+      Gunakan cashflow dari consulting untuk fund MVP Belajar Bareng. Tidak perlu investor. Expert supply = tim JAI sendiri. Learner awal = klien JAI. Modal Rp 150–200 juta cukup untuk MVP.</p>
+      <br>
+      <p><strong>Fase 3 (Bulan 12–36): Produk GovTech</strong><br>
+      Setelah Belajar Bareng berjalan, develop AuditAI / IPSAS tools dari cashflow bisnis. Tidak perlu raise external capital di fase ini.</p>
+    </div>
+
+    <h3>9.4 Kenapa Consulting Internasional adalah Prioritas Utama</h3>
+    <div class="card-grid">
+      <div class="card gold">
+        <div class="card-title">💵 Rate 5–10x Lebih Tinggi</div>
+        <div class="card-desc">$1,500–$5,000/hari vs Rp 2–5 juta/hari domestik. Satu proyek internasional 3 bulan = setara 1 tahun klien domestik.</div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">🔒 Credential Monopolistik</div>
+        <div class="card-desc">UNPKO + UNBOA = tidak ada konsultan Indonesia lain yang bisa matching ini. Zero competition di niche ini.</div>
+      </div>
+      <div class="card green">
+        <div class="card-title">🌱 Bersih & Transparan</div>
+        <div class="card-desc">Donor-funded = anti-corruption by design. World Bank, ADB, UN punya audit trail dan whistleblower protection. Tidak ada grey area.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">🔄 Network Effect</div>
+        <div class="card-desc">Setiap proyek internasional memperluas jaringan dan reputasi. 1 proyek Vietnam → referral ke Kamboja → referral ke Pacific Islands.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 10: ACTION PLAN ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-green">🚀</div>
+      <div>
+        <div class="section-title">10. Action Plan — 90 Hari Pertama</div>
+        <div class="section-subtitle">Langkah konkret yang bisa dimulai minggu depan</div>
+      </div>
+    </div>
+
+    <h3>10.1 Quick Wins (30 Hari Pertama)</h3>
+    <table>
+      <tr>
+        <th>Aksi</th>
+        <th>Target</th>
+        <th>Biaya</th>
+        <th>Output</th>
+      </tr>
+      <tr>
+        <td>Dirikan PT (atau aktifkan PT JAI yang sudah ada)</td>
+        <td>Notaris</td>
+        <td>Rp 5–8 juta</td>
+        <td>Badan hukum resmi</td>
+      </tr>
+      <tr>
+        <td>Bangun website profesional (bilingual ID/EN)</td>
+        <td>Web developer / template</td>
+        <td>Rp 5–15 juta</td>
+        <td>Credibility online</td>
+      </tr>
+      <tr>
+        <td>Daftar di UNGM (UN Global Marketplace)</td>
+        <td>ungm.org</td>
+        <td>Gratis</td>
+        <td>Akses tender UN</td>
+      </tr>
+      <tr>
+        <td>Daftar di World Bank Consultant Roster</td>
+        <td>World Bank CMS</td>
+        <td>Gratis</td>
+        <td>Akses World Bank tenders</td>
+      </tr>
+      <tr>
+        <td>Daftar di ADB Consultant Management System</td>
+        <td>ADB CMS</td>
+        <td>Gratis</td>
+        <td>Akses ADB tenders</td>
+      </tr>
+      <tr>
+        <td>Update LinkedIn semua mitra dengan firm affiliation</td>
+        <td>Tim mitra</td>
+        <td>Gratis</td>
+        <td>Social proof & network</td>
+      </tr>
+      <tr>
+        <td>Petakan 5 Pemda target (non-WTP) + hubungi lewat relasi BPK</td>
+        <td>BPKP/BPK network</td>
+        <td>Gratis</td>
+        <td>Pipeline klien domestik</td>
+      </tr>
+      <tr>
+        <td>Identifikasi 1–2 proyek ADB/World Bank yang akan tender di 6 bulan ke depan</td>
+        <td>ADB/WB project pipeline</td>
+        <td>Gratis</td>
+        <td>Proposal pipeline</td>
+      </tr>
+    </table>
+
+    <h3>10.2 Bulan 2–3: Proposal & Pipeline</h3>
+    <ul class="check-list">
+      <li>Kirim 3–5 proposal ke Pemda yang memiliki potensi non-WTP perbaikan — gunakan template proposal yang sudah dibuat</li>
+      <li>Submit Expression of Interest (EOI) ke 1–2 donor project yang akan tender</li>
+      <li>Hadiri 1 konferensi/webinar ASOSAI atau INTOSAI (banyak yang virtual — gratis)</li>
+      <li>Presentasi capacity building ke 2–3 asosiasi pemda (Apkasi, Appsi)</li>
+      <li>Mulai draft Belajar Bareng concept deck + landing page untuk gathering interest</li>
+    </ul>
+
+    <h3>10.3 Aset yang Paling Perlu Dibangun Segera</h3>
+    <div class="card-grid">
+      <div class="card green">
+        <div class="card-title">📄 Company Profile Bilingual</div>
+        <div class="card-desc">1 halaman ID + 1 halaman EN. Highlight UNPKO/UNBOA credential di paragraf pertama. Ini adalah senjata utama untuk klien internasional.</div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">🌐 Website Profesional</div>
+        <div class="card-desc">Simple tapi credible. Domain .com (bukan .co.id untuk target internasional). Section: About, Services, Team, Projects, Contact. Wajib ada LinkedIn link mitra.</div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">📊 Track Record Document</div>
+        <div class="card-desc">Daftar proyek yang pernah dikerjakan (termasuk masa BPK yang bisa di-disclose). Donor internasional WAJIB lihat ini sebelum mengontrak.</div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">🤝 Mitra MOU</div>
+        <div class="card-desc">Formalisasi MOU dengan mitra CFRA, CertIPSAS, CertDA, Construction Expert. Bukan employment contract — cukup collaboration agreement. Ini membuat firm terlihat jauh lebih besar.</div>
+      </div>
+    </div>
+
+    <h3>10.4 Proyeksi Cash Flow 12 Bulan (Skenario Konservatif)</h3>
+    <table>
+      <tr>
+        <th>Bulan</th>
+        <th>Klien/Aktivitas</th>
+        <th>Revenue</th>
+        <th>Kumulatif</th>
+      </tr>
+      <tr>
+        <td>1–2</td>
+        <td>Setup, proposal, pelatihan batch 1</td>
+        <td>Rp 50–80 juta</td>
+        <td>Rp 80 juta</td>
+      </tr>
+      <tr>
+        <td>3–4</td>
+        <td>1 retainer Pemda mulai, pelatihan batch 2</td>
+        <td>Rp 100–150 juta</td>
+        <td>Rp 230 juta</td>
+      </tr>
+      <tr>
+        <td>5–6</td>
+        <td>Retainer berjalan + 1 proyek lagi</td>
+        <td>Rp 150–200 juta</td>
+        <td>Rp 430 juta</td>
+      </tr>
+      <tr>
+        <td>7–8</td>
+        <td>1 proyek internasional mulai (jika tender bulan 3 menang)</td>
+        <td>Rp 200–300 juta</td>
+        <td>Rp 730 juta</td>
+      </tr>
+      <tr>
+        <td>9–10</td>
+        <td>Proyek intl berjalan + domestic ekspansi</td>
+        <td>Rp 150–200 juta</td>
+        <td>Rp 930 juta</td>
+      </tr>
+      <tr style="background: #f0fdf4; font-weight: 700;">
+        <td>11–12</td>
+        <td>Multi-client + Belajar Bareng soft launch</td>
+        <td>Rp 100–150 juta</td>
+        <td><strong style="color:#16a34a;">Rp 1,08–1,1 miliar ✅</strong></td>
+      </tr>
+    </table>
+
+    <h3>10.5 Faktor Risiko & Mitigasinya</h3>
+    <table>
+      <tr>
+        <th>Risiko</th>
+        <th>Probabilitas</th>
+        <th>Dampak</th>
+        <th>Mitigasi</th>
+      </tr>
+      <tr>
+        <td>Klien internasional lama prosesnya (6–12 bln)</td>
+        <td><span class="score-high">Tinggi</span></td>
+        <td>Revenue delay</td>
+        <td>Mulai dari klien domestik untuk cash flow, kejar intl paralel</td>
+      </tr>
+      <tr>
+        <td>Conflict of interest dengan posisi BPK sebelumnya</td>
+        <td><span class="score-med">Sedang</span></td>
+        <td>Reputasi, legal</td>
+        <td>Cooling-off period, hindari klien aktif BPK, konsultasi pengacara</td>
+      </tr>
+      <tr>
+        <td>Mitra tidak komit (side project)</td>
+        <td><span class="score-med">Sedang</span></td>
+        <td>Capacity gap</td>
+        <td>MOU dengan term jelas, maintain lebih dari cukup mitra cadangan</td>
+      </tr>
+      <tr>
+        <td>Belajar Bareng lambat adopsi</td>
+        <td><span class="score-med">Sedang</span></td>
+        <td>ROI produk rendah</td>
+        <td>Mulai dari user base JAI sendiri, tidak perlu akuisisi baru</td>
+      </tr>
+      <tr>
+        <td>Peraturan ASN — larangan berbisnis</td>
+        <td><span class="score-low">Rendah (jika sudah purna)</span></td>
+        <td>Sangat tinggi</td>
+        <td>Pastikan status purna tugas jelas sebelum mendirikan. Konsultasi hukum ASN.</td>
+      </tr>
+    </table>
+
+    <div class="highlight-box red">
+      <strong>⚠️ Catatan Penting — Status ASN:</strong> Jika Anda atau mitra masih aktif sebagai pegawai BPK RI, pastikan peraturan tentang conflict of interest, bisnis sampingan ASN, dan cooling-off period dipahami dengan baik. Peraturan ini berbeda tergantung posisi dan unit. Konsultasikan dengan Biro Hukum BPK atau pengacara spesialis hukum ASN sebelum melangkah. Ini paling penting untuk menjaga integritas.
+    </div>
+  </div>
+
+  <!-- FINAL SUMMARY -->
+  <div class="winner-box">
+    <h3>🏁 Kesimpulan Akhir</h3>
+    <p style="font-size:15px;margin-bottom:16px;color:white;font-weight:700;">
+      Anda memiliki trifecta yang sangat langka: (1) Credential internasional monopolistik, (2) Jaringan expert multi-sertifikasi, (3) Akses pasar yang sudah warm (Pemda, BUMN, jaringan ASOSAI). Ini adalah fondasi bisnis yang luar biasa kuat.
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;">
+      <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:16px;">
+        <div style="color:#fde047;font-weight:700;margin-bottom:8px;">🥇 Prioritas 1 — Jalankan Segera</div>
+        <div style="color:#bfdbfe;font-size:13px;">PT JAI Consulting — gabungkan domestic retainer (cash flow cepat) + kejar international donor project (revenue besar). Target Rp 1 miliar dalam 12–18 bulan.</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:16px;">
+        <div style="color:#fde047;font-weight:700;margin-bottom:8px;">🥈 Prioritas 2 — Bulan 6–12</div>
+        <div style="color:#bfdbfe;font-size:13px;">Belajar Bareng beta — soft launch dengan klien dan expert dari ekosistem JAI. Low cost, high synergy. Tidak perlu funding eksternal jika consulting sudah menghasilkan.</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:16px;">
+        <div style="color:#fde047;font-weight:700;margin-bottom:8px;">🥉 Prioritas 3 — Tahun 2–3</div>
+        <div style="color:#bfdbfe;font-size:13px;">Produk GovTech (AuditAI, IPSAS tools) — dibangun dari cashflow bisnis consulting, bukan dari investasi eksternal. Ini adalah multiplier jangka panjang.</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:16px;">
+        <div style="color:#fde047;font-weight:700;margin-bottom:8px;">✅ Keamanan & Integritas</div>
+        <div style="color:#bfdbfe;font-size:13px;">Consulting internasional (donor-funded) adalah yang paling bersih secara finansial dan integritas. Anti-corruption by design. Cocok untuk memulai karir post-BPK dengan reputasi bersih.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    <strong>📌 Disclaimer:</strong> Dokumen ini adalah analisis bisnis berbasis riset pasar, bukan jaminan finansial. Proyeksi revenue bersifat estimasi berdasarkan benchmark industri. Selalu konsultasikan dengan konsultan hukum mengenai aturan ASN, conflict of interest, dan perizinan sebelum mendirikan usaha.
+  </div>
+
+</div>
+</body>
+</html>
