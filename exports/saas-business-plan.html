@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PatuhDesa SaaS — Business Plan & Cost Calculation</title>
+<style>
+  * { margin:0;padding:0;box-sizing:border-box; }
+  body { font-family:'Segoe UI',Arial,sans-serif; background:#f9fafb; color:#1f2937; font-size:14px; }
+  .container { max-width:960px; margin:0 auto; padding:40px 30px 80px; background:white; }
+  @media print { .no-print{display:none!important} body{background:white;font-size:12px} .break{page-break-before:always} }
+  .toolbar { background:#166534; color:white; padding:12px 30px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+  .btn-print { background:#facc15; color:#166534; border:none; padding:8px 20px; border-radius:8px; font-weight:700; cursor:pointer; }
+  h1.main { font-size:32px; font-weight:900; color:#166534; margin-bottom:6px; }
+  h2.sub { font-size:20px; font-weight:700; color:#374151; margin-bottom:20px; }
+  .section { margin-bottom:44px; }
+  .sec-title { font-size:16px; font-weight:800; color:#166534; border-bottom:2px solid #bbf7d0; padding-bottom:8px; margin-bottom:18px; text-transform:uppercase; letter-spacing:.5px; }
+  .sub-title { font-size:14px; font-weight:700; color:#374151; margin:16px 0 10px; }
+  p { line-height:1.7; color:#374151; margin-bottom:10px; font-size:13px; }
+
+  /* Highlight boxes */
+  .box-green { background:#f0fdf4; border:1px solid #86efac; border-radius:12px; padding:16px; margin-bottom:12px; }
+  .box-blue { background:#eff6ff; border:1px solid #93c5fd; border-radius:12px; padding:16px; margin-bottom:12px; }
+  .box-yellow { background:#fefce8; border:1px solid #fde68a; border-radius:12px; padding:16px; margin-bottom:12px; }
+  .box-red { background:#fef2f2; border:1px solid #fca5a5; border-radius:12px; padding:16px; margin-bottom:12px; }
+
+  /* Grid */
+  .g2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .g3 { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  .g4 { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  @media(max-width:640px){.g2,.g3,.g4{grid-template-columns:1fr 1fr}}
+
+  /* Stat card */
+  .stat { border:2px solid #bbf7d0; border-radius:12px; padding:16px; text-align:center; }
+  .stat-num { font-size:28px; font-weight:900; color:#166534; }
+  .stat-label { font-size:12px; color:#6b7280; margin-top:4px; }
+
+  /* Feature card */
+  .feat { background:#f9fafb; border:1px solid #e5e7eb; border-radius:10px; padding:14px; }
+  .feat-icon { font-size:20px; margin-bottom:6px; }
+  .feat-title { font-weight:700; font-size:13px; color:#1f2937; margin-bottom:4px; }
+  .feat-desc { font-size:11px; color:#6b7280; line-height:1.5; }
+
+  /* Table */
+  table { width:100%; border-collapse:collapse; font-size:13px; margin-bottom:8px; }
+  thead tr { background:#166534; color:white; }
+  thead th { padding:10px 14px; text-align:left; }
+  thead th.r { text-align:right; }
+  tbody tr:nth-child(even) { background:#f9fafb; }
+  tbody tr.hl { background:#f0fdf4; font-weight:700; border-top:2px solid #86efac; }
+  tbody tr.total { background:#166534; color:white; font-weight:900; }
+  tbody td { padding:10px 14px; border-bottom:1px solid #e5e7eb; }
+  tbody td.r { text-align:right; }
+  tbody td.green { color:#16a34a; font-weight:700; }
+  tbody td.red { color:#dc2626; font-weight:700; }
+  tbody td.blue { color:#1d4ed8; font-weight:700; }
+  tbody td.gray { color:#6b7280; font-size:11px; }
+
+  /* Tier card */
+  .tier { border:2px solid #e5e7eb; border-radius:16px; padding:20px; }
+  .tier.pop { border-color:#16a34a; }
+  .tier-name { font-weight:800; text-transform:uppercase; font-size:12px; color:#6b7280; margin-bottom:4px; }
+  .tier-price { font-size:28px; font-weight:900; color:#1f2937; }
+  .tier-sub { font-size:12px; color:#9ca3af; margin-bottom:12px; }
+  .tier-feat { font-size:12px; color:#374151; margin-bottom:6px; display:flex; gap:6px; }
+
+  /* Stack item */
+  .stack { display:flex; gap:12px; align-items:start; background:#f9fafb; border:1px solid #e5e7eb; border-radius:10px; padding:12px; }
+  .stack-icon { font-size:20px; flex-shrink:0; }
+  .stack-name { font-weight:700; font-size:13px; color:#1f2937; }
+  .stack-cost { font-size:12px; color:#166534; font-weight:600; }
+  .stack-why { font-size:11px; color:#6b7280; margin-top:2px; }
+
+  /* Timeline */
+  .timeline { border-left:3px solid #86efac; padding-left:20px; space-y:16px; }
+  .tl-item { margin-bottom:20px; }
+  .tl-dot { width:12px; height:12px; background:#16a34a; border-radius:50%; margin-left:-26px; float:left; margin-top:4px; }
+  .tl-phase { font-weight:700; color:#166534; font-size:14px; }
+  .tl-date { font-size:11px; color:#9ca3af; }
+  .tl-tasks { margin-top:6px; }
+  .tl-task { font-size:12px; color:#374151; display:flex; gap:6px; margin-bottom:3px; }
+
+  /* Cover */
+  .cover { text-align:center; padding:50px 0 40px; border-bottom:3px solid #166534; margin-bottom:40px; }
+  .cover-logo { width:72px; height:72px; background:#166534; border-radius:16px; display:flex; align-items:center; justify-content:center; color:white; font-weight:900; font-size:18px; margin:0 auto 16px; }
+  .cover-badge { display:inline-block; background:#f0fdf4; border:1px solid #86efac; border-radius:20px; padding:4px 16px; font-size:12px; color:#166534; font-weight:600; margin-bottom:16px; }
+
+  /* Profit viz */
+  .profit-bar { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+  .profit-label { width:60px; font-size:11px; color:#6b7280; text-align:right; flex-shrink:0; }
+  .profit-track { flex:1; background:#f3f4f6; border-radius:20px; height:20px; overflow:hidden; }
+  .profit-fill { height:100%; border-radius:20px; background:linear-gradient(to right,#16a34a,#4ade80); display:flex; align-items:center; padding:0 8px; }
+  .profit-val { font-size:10px; font-weight:700; color:white; white-space:nowrap; }
+
+  .footer-doc { text-align:center; padding:32px 0 0; border-top:2px solid #bbf7d0; margin-top:40px; }
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div style="width:34px;height:34px;background:#facc15;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#166534;font-weight:900;font-size:11px;">PD</div>
+    <span style="font-weight:700;">PatuhDesa SaaS — Business Plan & Cost Analysis</span>
+  </div>
+  <button class="btn-print" onclick="window.print()">🖨️ Cetak / PDF</button>
+</div>
+
+<div class="container">
+
+  <!-- Cover -->
+  <div class="cover">
+    <div class="cover-logo">PD</div>
+    <div class="cover-badge">CONFIDENTIAL — Internal Document</div>
+    <h1 style="font-size:36px;font-weight:900;color:#166534;margin-bottom:8px;">PatuhDesa</h1>
+    <p style="font-size:18px;color:#374151;font-weight:600;margin-bottom:6px;">Platform Akuntansi, Pajak & Kepatuhan BUMDes</p>
+    <p style="font-size:13px;color:#9ca3af;font-style:italic;margin-bottom:20px;">"Laporan Keuangan, Pajak & Hukum BUMDes — Selesai dalam Menit"</p>
+    <div style="display:inline-block;background:#f0fdf4;border:1px solid #86efac;border-radius:12px;padding:14px 36px;">
+      <p style="font-size:13px;color:#374151;margin:0;">SaaS Arm dari <strong>PT Juris Auditama Indonesia (JAI)</strong></p>
+      <p style="font-size:13px;color:#374151;margin:4px 0 0;">Jakarta, 2026 | patuhdesa.id</p>
+    </div>
+  </div>
+
+  <!-- Ringkasan Eksekutif -->
+  <div class="section">
+    <div class="sec-title">I. Ringkasan Eksekutif</div>
+    <div class="box-green">
+      <p>PatuhDesa adalah produk SaaS (Software as a Service) yang dibangun di atas expertise PT Juris Auditama Indonesia untuk menjawab gap terbesar di pasar teknologi desa Indonesia: <strong>tidak ada satupun aplikasi yang mengintegrasikan akuntansi BUMDes dengan perpajakan</strong>.</p>
+      <p style="margin-top:8px;">Dengan 73.000+ BUMDes dan 75.000+ desa sebagai target pasar, dan kompetitor terdekat (AKUBUMDes) hanya punya ~500 pengguna tanpa fitur pajak, PatuhDesa masuk ke pasar yang besar, underserved, dan memiliki kewajiban hukum sebagai demand driver.</p>
+    </div>
+    <div class="g4">
+      <div class="stat"><div class="stat-num">73K+</div><div class="stat-label">BUMDes — TAM</div></div>
+      <div class="stat"><div class="stat-num">Rp 199K</div><div class="stat-label">ARPU Pro/bulan</div></div>
+      <div class="stat"><div class="stat-num">97%</div><div class="stat-label">Gross Margin</div></div>
+      <div class="stat"><div class="stat-num">Bulan 8</div><div class="stat-label">Target BEP</div></div>
+    </div>
+  </div>
+
+  <!-- Kenapa PatuhDesa Menang -->
+  <div class="section">
+    <div class="sec-title">II. Posisi Kompetitif & Diferensiasi</div>
+    <div class="sub-title">Analisis Kompetitor</div>
+    <table>
+      <thead><tr><th>Produk</th><th>Pengguna</th><th>Harga</th><th>Akuntansi</th><th>Pajak</th><th>AI</th><th>Hukum</th></tr></thead>
+      <tbody>
+        <tr><td><strong>AKUBUMDes</strong></td><td>~500</td><td>Rp 150K/bln</td><td style="color:#16a34a;">✓</td><td style="color:#dc2626;">✗</td><td style="color:#dc2626;">✗</td><td style="color:#dc2626;">✗</td></tr>
+        <tr><td><strong>Auliasoft 8in1</strong></td><td>~2.500</td><td>Rp 375K sekali</td><td style="color:#16a34a;">✓ (offline)</td><td style="color:#dc2626;">✗</td><td style="color:#dc2626;">✗</td><td style="color:#dc2626;">✗</td></tr>
+        <tr><td><strong>Bumdes.com</strong></td><td>~200</td><td>Tidak jelas</td><td style="color:#16a34a;">✓</td><td style="color:#dc2626;">✗</td><td style="color:#dc2626;">✗</td><td style="color:#dc2626;">✗</td></tr>
+        <tr><td><strong>Siskeudes (BPKP)</strong></td><td>75.000 (wajib)</td><td>Gratis</td><td style="color:#ca8a04;">Desa saja</td><td style="color:#dc2626;">✗</td><td style="color:#dc2626;">✗</td><td style="color:#dc2626;">✗</td></tr>
+        <tr class="hl"><td><strong>PatuhDesa ⭐</strong></td><td><em>Target: 2.000 Thn 1</em></td><td>Rp 99K–199K</td><td style="color:#16a34a;"><strong>✓ Cloud</strong></td><td style="color:#16a34a;"><strong>✓ Eksklusif</strong></td><td style="color:#16a34a;"><strong>✓ RAG</strong></td><td style="color:#16a34a;"><strong>✓</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="box-yellow" style="margin-top:16px;">
+      <strong>🎯 Kesimpulan:</strong> Tidak ada kompetitor yang punya modul pajak. PatuhDesa masuk dengan diferensiasi yang tidak bisa ditiru dalam 6 bulan — membangun RAG berbasis regulasi membutuhkan tim hukum + tech sekaligus. PT JAI sudah punya keduanya.
+    </div>
+  </div>
+
+  <!-- Tech Stack -->
+  <div class="section break">
+    <div class="sec-title">III. Arsitektur Teknologi & Stack</div>
+
+    <div class="sub-title">Keputusan Arsitektur Utama</div>
+    <div class="box-blue">
+      <p><strong>Multi-tenant SaaS dengan Row-Level Security (RLS).</strong> Setiap BUMDes adalah "organization" yang terisolasi di database level. Pengguna dalam satu BUMDes tidak bisa mengakses data BUMDes lain — ini critical untuk data keuangan.</p>
+      <p style="margin-top:6px;"><strong>Offline-first PWA.</strong> Desa banyak yang koneksinya tidak stabil. App harus bisa dipakai offline, lalu sync otomatis. Teknologi: IndexedDB + Service Worker + Supabase Realtime Sync.</p>
+    </div>
+
+    <div class="sub-title">Tech Stack Lengkap</div>
+    <div class="g2">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#6b7280;margin-bottom:8px;text-transform:uppercase;">FRONTEND</div>
+        <div class="stack" style="margin-bottom:8px;">
+          <div class="stack-icon">⚛️</div>
+          <div><div class="stack-name">Next.js 14 (App Router)</div><div class="stack-cost">Gratis (open source)</div><div class="stack-why">SSR untuk SEO, App Router untuk performance, sudah di repo ini</div></div>
+        </div>
+        <div class="stack" style="margin-bottom:8px;">
+          <div class="stack-icon">🎨</div>
+          <div><div class="stack-name">Tailwind CSS + shadcn/ui</div><div class="stack-cost">Gratis</div><div class="stack-why">UI komponen siap pakai, konsisten, cepat develop</div></div>
+        </div>
+        <div class="stack" style="margin-bottom:8px;">
+          <div class="stack-icon">📱</div>
+          <div><div class="stack-name">PWA (Service Worker)</div><div class="stack-cost">Gratis</div><div class="stack-why">Offline support, bisa install di HP seperti native app</div></div>
+        </div>
+        <div class="stack">
+          <div class="stack-icon">📊</div>
+          <div><div class="stack-name">Recharts / Tremor</div><div class="stack-cost">Gratis</div><div class="stack-why">Chart untuk laporan keuangan & dashboard</div></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#6b7280;margin-bottom:8px;text-transform:uppercase;">BACKEND</div>
+        <div class="stack" style="margin-bottom:8px;">
+          <div class="stack-icon">🗄️</div>
+          <div><div class="stack-name">Supabase (PostgreSQL + pgvector)</div><div class="stack-cost">$25/bulan (Pro)</div><div class="stack-why">Auth, database, storage, realtime, RLS multi-tenant, vector search untuk AI RAG</div></div>
+        </div>
+        <div class="stack" style="margin-bottom:8px;">
+          <div class="stack-icon">🔗</div>
+          <div><div class="stack-name">Next.js API Routes</div><div class="stack-cost">Gratis (serverless)</div><div class="stack-why">Business logic, integrasi pajak, kalkulasi akuntansi</div></div>
+        </div>
+        <div class="stack" style="margin-bottom:8px;">
+          <div class="stack-icon">☁️</div>
+          <div><div class="stack-name">Vercel (Hosting)</div><div class="stack-cost">$20/bulan (Pro)</div><div class="stack-why">Auto-deploy, edge network, serverless functions, CDN global</div></div>
+        </div>
+        <div class="stack">
+          <div class="stack-icon">💳</div>
+          <div><div class="stack-name">Xendit (Payment Gateway)</div><div class="stack-cost">1,5% per transaksi</div><div class="stack-why">QRIS, GoPay, OVO, VA Bank — semua metode bayar Indonesia</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;" class="g2">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#6b7280;margin-bottom:8px;text-transform:uppercase;">AI / RAG</div>
+        <div class="stack" style="margin-bottom:8px;">
+          <div class="stack-icon">🤖</div>
+          <div><div class="stack-name">Claude claude-haiku-4-5 (Anthropic)</div><div class="stack-cost">~$0.25/1M input tokens</div><div class="stack-why">Paling murah & cepat untuk chat. 100 chat/user/bulan ≈ $0.10/user/bulan</div></div>
+        </div>
+        <div class="stack">
+          <div class="stack-icon">🧠</div>
+          <div><div class="stack-name">pgvector + text-embedding-3-small</div><div class="stack-cost">~$0.02/1M tokens</div><div class="stack-why">Vector similarity search untuk RAG dari dokumen regulasi (Permendesa, PMK, PP)</div></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#6b7280;margin-bottom:8px;text-transform:uppercase;">PENDUKUNG</div>
+        <div class="stack" style="margin-bottom:8px;">
+          <div class="stack-icon">📧</div>
+          <div><div class="stack-name">Resend (Email)</div><div class="stack-cost">$20/bulan</div><div class="stack-why">Notifikasi deadline pajak, invoice, onboarding email</div></div>
+        </div>
+        <div class="stack">
+          <div class="stack-icon">📈</div>
+          <div><div class="stack-name">PostHog (Analytics)</div><div class="stack-cost">Gratis s/d 1M events</div><div class="stack-why">User behavior, funnel analysis, feature flags untuk A/B test</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box-green" style="margin-top:16px;">
+      <strong>Kenapa stack ini optimal:</strong> Seluruhnya serverless/managed — tidak perlu DevOps engineer. Total biaya infra bulan 1 hanya ~$65/bulan (Rp 1 juta). Bisa scale ke 10.000+ user tanpa ganti stack. Supabase sudah include database + auth + storage + realtime dalam satu paket.
+    </div>
+  </div>
+
+  <!-- Biaya Pengembangan -->
+  <div class="section">
+    <div class="sec-title">IV. Biaya Pengembangan (CAPEX)</div>
+
+    <div class="sub-title">Opsi A — Tim Internal (Paling Hemat untuk Startup)</div>
+    <table>
+      <thead><tr><th>Posisi</th><th>Jumlah</th><th>Durasi</th><th>Rate/Bulan</th><th class="r">Total</th></tr></thead>
+      <tbody>
+        <tr><td>Full-Stack Developer (Next.js + Supabase)</td><td>1 orang</td><td>4 bulan</td><td>Rp 12.000.000</td><td class="r">Rp 48.000.000</td></tr>
+        <tr><td>Backend Developer (API + AI/RAG)</td><td>1 orang</td><td>4 bulan</td><td>Rp 12.000.000</td><td class="r">Rp 48.000.000</td></tr>
+        <tr><td>UI/UX Designer</td><td>1 orang</td><td>2 bulan</td><td>Rp 10.000.000</td><td class="r">Rp 20.000.000</td></tr>
+        <tr><td>Product Manager / Domain Expert (dari JAI)</td><td>1 orang</td><td>4 bulan</td><td>Rp 8.000.000 (part-time)</td><td class="r">Rp 32.000.000</td></tr>
+        <tr><td>QA Tester</td><td>1 orang</td><td>2 bulan</td><td>Rp 6.000.000</td><td class="r">Rp 12.000.000</td></tr>
+        <tr><td colspan="4">Legal & Konten Regulasi (kurator dokumen + embedding)</td><td class="r">Rp 20.000.000</td></tr>
+        <tr><td colspan="4">Alat & Lisensi Software (tools dev, Figma, dll)</td><td class="r">Rp 5.000.000</td></tr>
+        <tr class="hl"><td colspan="4"><strong>TOTAL CAPEX — Opsi A (Tim Internal)</strong></td><td class="r"><strong>Rp 185.000.000</strong></td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-title" style="margin-top:20px;">Opsi B — Outsource ke Vendor IT (Lebih Cepat, Lebih Mahal)</div>
+    <table>
+      <thead><tr><th>Komponen</th><th>Estimasi</th><th>Keterangan</th></tr></thead>
+      <tbody>
+        <tr><td>Pengembangan MVP (vendor lokal)</td><td class="r">Rp 200.000.000</td><td class="gray">4–6 bulan, tim vendor 3–4 orang</td></tr>
+        <tr><td>Desain UI/UX profesional</td><td class="r">Rp 30.000.000</td><td class="gray">Termasuk design system & prototype</td></tr>
+        <tr><td>Integrasi AI & RAG pipeline</td><td class="r">Rp 50.000.000</td><td class="gray">Setup embedding, vector DB, prompt engineering</td></tr>
+        <tr><td>Testing & QA</td><td class="r">Rp 20.000.000</td><td class="gray">Functional, load, security testing</td></tr>
+        <tr class="hl"><td><strong>TOTAL CAPEX — Opsi B (Outsource)</strong></td><td class="r"><strong>Rp 300.000.000</strong></td><td></td></tr>
+      </tbody>
+    </table>
+
+    <div class="box-yellow" style="margin-top:12px;">
+      <strong>Rekomendasi:</strong> Opsi A (tim internal) lebih hemat Rp 115 juta dan lebih terkontrol. Dengan menggunakan Claude Code dan AI-assisted development, 1–2 developer senior bisa membangun MVP dalam 3 bulan. Estimate lebih realistis: <strong>Rp 185 juta untuk MVP siap launch.</strong>
+    </div>
+  </div>
+
+  <!-- OPEX -->
+  <div class="section break">
+    <div class="sec-title">V. Biaya Operasional Bulanan (OPEX)</div>
+    <div class="sub-title">Infrastruktur & Tools (Fixed Cost)</div>
+    <table>
+      <thead><tr><th>Item</th><th>Provider</th><th class="r">USD/bulan</th><th class="r">IDR/bulan</th><th>Keterangan</th></tr></thead>
+      <tbody>
+        <tr><td>Database + Auth + Storage</td><td>Supabase Pro</td><td class="r">$25</td><td class="r">Rp 400.000</td><td class="gray">Unlimited DB rows, 8GB storage, 5GB bandwidth</td></tr>
+        <tr><td>Hosting + Serverless</td><td>Vercel Pro</td><td class="r">$20</td><td class="r">Rp 320.000</td><td class="gray">Unlimited serverless, 1TB bandwidth, custom domains</td></tr>
+        <tr><td>Transactional Email</td><td>Resend</td><td class="r">$20</td><td class="r">Rp 320.000</td><td class="gray">50.000 emails/bulan (deadline reminder, invoice)</td></tr>
+        <tr><td>Error Monitoring</td><td>Sentry (Free)</td><td class="r">$0</td><td class="r">Rp 0</td><td class="gray">5K errors/bulan cukup untuk <1.000 user</td></tr>
+        <tr><td>Analytics</td><td>PostHog (Free)</td><td class="r">$0</td><td class="r">Rp 0</td><td class="gray">1M events/bulan gratis</td></tr>
+        <tr><td>Domain + SSL</td><td>Cloudflare</td><td class="r">$1</td><td class="r">Rp 16.000</td><td class="gray">patuhdesa.id ~Rp 200K/tahun</td></tr>
+        <tr class="hl"><td colspan="2"><strong>Total Fixed Infra</strong></td><td class="r"><strong>$66</strong></td><td class="r"><strong>Rp 1.056.000</strong></td><td></td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-title" style="margin-top:20px;">Biaya AI (Variable — Tergantung Jumlah User)</div>
+    <table>
+      <thead><tr><th>Asumsi Usage</th><th>100 User</th><th>500 User</th><th>1.000 User</th><th>5.000 User</th></tr></thead>
+      <tbody>
+        <tr><td>Chat AI (Claude Haiku) — 100 pesan/user</td><td class="r">Rp 160K</td><td class="r">Rp 800K</td><td class="r">Rp 1,6 juta</td><td class="r">Rp 8 juta</td></tr>
+        <tr><td>Embedding (update regulasi, 1x/bulan)</td><td class="r">Rp 16K</td><td class="r">Rp 16K</td><td class="r">Rp 16K</td><td class="r">Rp 80K</td></tr>
+        <tr class="hl"><td><strong>Total AI Cost</strong></td><td class="r"><strong>Rp 176K</strong></td><td class="r"><strong>Rp 816K</strong></td><td class="r"><strong>Rp 1,6 juta</strong></td><td class="r"><strong>Rp 8,1 juta</strong></td></tr>
+        <tr><td>AI Cost per User</td><td class="r">Rp 1.760</td><td class="r">Rp 1.632</td><td class="r">Rp 1.616</td><td class="r">Rp 1.620</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-title" style="margin-top:20px;">Total OPEX per Skenario Pengguna</div>
+    <table>
+      <thead><tr><th>Komponen</th><th class="r">100 User</th><th class="r">500 User</th><th class="r">1.000 User</th><th class="r">5.000 User</th></tr></thead>
+      <tbody>
+        <tr><td>Infra (fixed)</td><td class="r">Rp 1,1 juta</td><td class="r">Rp 1,1 juta</td><td class="r">Rp 1,1 juta</td><td class="r">Rp 2,5 juta*</td></tr>
+        <tr><td>AI (variable)</td><td class="r">Rp 176K</td><td class="r">Rp 816K</td><td class="r">Rp 1,6 juta</td><td class="r">Rp 8,1 juta</td></tr>
+        <tr><td>Payment gateway (1,5% GMV)</td><td class="r">Rp 300K</td><td class="r">Rp 1,5 juta</td><td class="r">Rp 3 juta</td><td class="r">Rp 15 juta</td></tr>
+        <tr><td>Customer Support (part-time)</td><td class="r">Rp 2 juta</td><td class="r">Rp 3 juta</td><td class="r">Rp 5 juta</td><td class="r">Rp 12 juta</td></tr>
+        <tr><td>Maintenance dev (part-time)</td><td class="r">Rp 5 juta</td><td class="r">Rp 5 juta</td><td class="r">Rp 8 juta</td><td class="r">Rp 20 juta</td></tr>
+        <tr class="hl"><td><strong>Total OPEX</strong></td><td class="r"><strong>Rp 8,6 juta</strong></td><td class="r"><strong>Rp 11,4 juta</strong></td><td class="r"><strong>Rp 18,7 juta</strong></td><td class="r"><strong>Rp 57,6 juta</strong></td></tr>
+        <tr><td>OPEX per User</td><td class="r">Rp 86.000</td><td class="r">Rp 22.800</td><td class="r">Rp 18.700</td><td class="r">Rp 11.500</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:11px;color:#9ca3af;margin-top:4px;">*Supabase perlu upgrade ke plan lebih besar di 5.000+ user.</p>
+
+    <div class="box-green" style="margin-top:12px;">
+      <strong>🚀 Economies of Scale sangat kuat.</strong> OPEX per user turun dari Rp 86.000 (100 user) ke Rp 11.500 (5.000 user). Ini karena fixed cost (infra, dev) terbagi ke lebih banyak user. Dengan ARPU Pro Rp 199.000, gross margin di 1.000 user = <strong>(199K - 18,7K) / 199K = 90,6%</strong>. Luar biasa untuk SaaS.
+    </div>
+  </div>
+
+  <!-- Revenue Model -->
+  <div class="section">
+    <div class="sec-title">VI. Model Pendapatan & Pricing Strategy</div>
+
+    <div class="sub-title">Tier Pricing</div>
+    <div class="g3" style="margin-bottom:20px;">
+      <div class="tier">
+        <div class="tier-name">STARTER</div>
+        <div class="tier-price">Rp 99K</div>
+        <div class="tier-sub">/bulan · Rp 990K/tahun</div>
+        <div class="tier-feat"><span>✓</span> Laporan keuangan otomatis</div>
+        <div class="tier-feat"><span>✓</span> PPh 21 calculator</div>
+        <div class="tier-feat"><span>✓</span> Kalender pajak & reminder</div>
+        <div class="tier-feat"><span>✓</span> AI (50 pertanyaan/bln)</div>
+        <div class="tier-feat"><span>✓</span> 1 pengguna</div>
+      </div>
+      <div class="tier pop">
+        <div style="background:#16a34a;color:white;font-size:10px;font-weight:700;text-align:center;padding:3px;border-radius:4px;margin-bottom:8px;">PALING POPULER</div>
+        <div class="tier-name" style="color:#166534;">PRO</div>
+        <div class="tier-price" style="color:#166534;">Rp 199K</div>
+        <div class="tier-sub">/bulan · Rp 1,99 juta/tahun</div>
+        <div class="tier-feat"><span>✓</span> Semua Starter</div>
+        <div class="tier-feat"><span>✓</span> PPh 23, PPN, semua pajak</div>
+        <div class="tier-feat"><span>✓</span> Checklist kepatuhan hukum</div>
+        <div class="tier-feat"><span>✓</span> AI unlimited</div>
+        <div class="tier-feat"><span>✓</span> 3 pengguna</div>
+        <div class="tier-feat"><span>✓</span> Integrasi Siskeudes</div>
+      </div>
+      <div class="tier">
+        <div class="tier-name">KECAMATAN</div>
+        <div class="tier-price">Rp 1,5 juta</div>
+        <div class="tier-sub">/bulan · bundel 10 BUMDes</div>
+        <div class="tier-feat"><span>✓</span> Pro untuk 10 BUMDes</div>
+        <div class="tier-feat"><span>✓</span> Dashboard monitoring kecamatan</div>
+        <div class="tier-feat"><span>✓</span> Laporan agregat</div>
+        <div class="tier-feat"><span>✓</span> WhatsApp support dedicated</div>
+        <div class="tier-feat"><span>✓</span> Onboarding Zoom 1x</div>
+      </div>
+    </div>
+
+    <div class="sub-title">Mix Asumsi (Blended ARPU)</div>
+    <table>
+      <thead><tr><th>Paket</th><th>% User Mix</th><th>Harga</th><th>Kontribusi ARPU</th></tr></thead>
+      <tbody>
+        <tr><td>Starter</td><td>40%</td><td>Rp 99.000</td><td>Rp 39.600</td></tr>
+        <tr><td>Pro</td><td>50%</td><td>Rp 199.000</td><td>Rp 99.500</td></tr>
+        <tr><td>Kecamatan (÷10)</td><td>10%</td><td>Rp 150.000 per unit</td><td>Rp 15.000</td></tr>
+        <tr class="hl"><td colspan="3"><strong>Blended ARPU per BUMDes/bulan</strong></td><td><strong>Rp 154.100</strong></td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:11px;color:#9ca3af;">Blended ARPU Rp 154K digunakan untuk proyeksi konservatif.</p>
+  </div>
+
+  <!-- Proyeksi 5 Tahun -->
+  <div class="section break">
+    <div class="sec-title">VII. Proyeksi Keuangan 5 Tahun (Skenario Base)</div>
+
+    <div class="sub-title">Asumsi Pertumbuhan</div>
+    <div class="g2" style="margin-bottom:20px;">
+      <div class="box-blue">
+        <strong>Akuisisi User:</strong>
+        <ul style="margin-top:8px;padding-left:16px;font-size:12px;color:#374151;">
+          <li>Thn 1: 50 user (pilot) → 500 user akhir tahun (via Dinas PMD)</li>
+          <li>Thn 2: 500 → 2.000 user (+300%)</li>
+          <li>Thn 3: 2.000 → 5.000 user (+150%)</li>
+          <li>Thn 4: 5.000 → 10.000 user (+100%)</li>
+          <li>Thn 5: 10.000 → 18.000 user (+80%)</li>
+        </ul>
+      </div>
+      <div class="box-blue">
+        <strong>Asumsi Lain:</strong>
+        <ul style="margin-top:8px;padding-left:16px;font-size:12px;color:#374151;">
+          <li>Churn rate: 5%/bulan (agresif), turun ke 2% di Thn 3</li>
+          <li>Blended ARPU: Rp 154.000/bulan stabil</li>
+          <li>CAC (Customer Acquisition Cost): Rp 200K/user</li>
+          <li>Trial-to-paid conversion: 30%</li>
+          <li>Channel utama: Dinas PMD + WA Group + Demo langsung</li>
+        </ul>
+      </div>
+    </div>
+
+    <table>
+      <thead><tr><th>Keterangan</th><th class="r">Thn 1</th><th class="r">Thn 2</th><th class="r">Thn 3</th><th class="r">Thn 4</th><th class="r">Thn 5</th></tr></thead>
+      <tbody>
+        <tr><td>Rata-rata User Aktif</td><td class="r">250</td><td class="r">1.250</td><td class="r">3.500</td><td class="r">7.500</td><td class="r">14.000</td></tr>
+        <tr><td>MRR (Akhir Tahun)</td><td class="r">Rp 77 juta</td><td class="r">Rp 385 juta</td><td class="r">Rp 1,08 miliar</td><td class="r">Rp 2,31 miliar</td><td class="r">Rp 4,3 miliar</td></tr>
+        <tr class="hl"><td><strong>ARR (Annual Recurring Revenue)</strong></td><td class="r"><strong>Rp 462 juta</strong></td><td class="r"><strong>Rp 2,31 miliar</strong></td><td class="r"><strong>Rp 6,47 miliar</strong></td><td class="r"><strong>Rp 13,86 miliar</strong></td><td class="r"><strong>Rp 25,85 miliar</strong></td></tr>
+        <tr><td>Total OPEX Setahun</td><td class="r">Rp 206 juta</td><td class="r">Rp 480 juta</td><td class="r">Rp 960 juta</td><td class="r">Rp 1,85 miliar</td><td class="r">Rp 3,2 miliar</td></tr>
+        <tr><td>Biaya Marketing & Sales</td><td class="r">Rp 150 juta</td><td class="r">Rp 300 juta</td><td class="r">Rp 500 juta</td><td class="r">Rp 800 juta</td><td class="r">Rp 1,2 miliar</td></tr>
+        <tr><td>CAPEX (investasi awal)</td><td class="r">Rp 185 juta</td><td class="r">Rp 50 juta</td><td class="r">Rp 100 juta</td><td class="r">Rp 150 juta</td><td class="r">Rp 200 juta</td></tr>
+        <tr><td>Total Pengeluaran</td><td class="r">Rp 541 juta</td><td class="r">Rp 830 juta</td><td class="r">Rp 1,56 miliar</td><td class="r">Rp 2,8 miliar</td><td class="r">Rp 4,6 miliar</td></tr>
+        <tr class="hl"><td><strong>Laba / (Rugi) Bersih</strong></td><td class="r red"><strong>(Rp 79 juta)</strong></td><td class="r green"><strong>Rp 1,48 miliar</strong></td><td class="r green"><strong>Rp 4,91 miliar</strong></td><td class="r green"><strong>Rp 11,06 miliar</strong></td><td class="r green"><strong>Rp 21,25 miliar</strong></td></tr>
+        <tr><td>EBITDA Margin</td><td class="r red">-17%</td><td class="r green">64%</td><td class="r green">76%</td><td class="r green">80%</td><td class="r green">82%</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-title" style="margin-top:20px;">Visualisasi Pertumbuhan ARR</div>
+    <div style="margin-bottom:8px;font-size:11px;color:#9ca3af;">Dalam miliaran Rupiah</div>
+    <div class="profit-bar"><div class="profit-label">Thn 1</div><div class="profit-track"><div class="profit-fill" style="width:1.8%"><div class="profit-val">Rp 462 juta</div></div></div></div>
+    <div class="profit-bar"><div class="profit-label">Thn 2</div><div class="profit-track"><div class="profit-fill" style="width:8.9%"><div class="profit-val">Rp 2,31 miliar</div></div></div></div>
+    <div class="profit-bar"><div class="profit-label">Thn 3</div><div class="profit-track"><div class="profit-fill" style="width:25%"><div class="profit-val">Rp 6,47 miliar</div></div></div></div>
+    <div class="profit-bar"><div class="profit-label">Thn 4</div><div class="profit-track"><div class="profit-fill" style="width:53.6%"><div class="profit-val">Rp 13,86 miliar</div></div></div></div>
+    <div class="profit-bar"><div class="profit-label">Thn 5</div><div class="profit-track"><div class="profit-fill" style="width:100%"><div class="profit-val">Rp 25,85 miliar</div></div></div></div>
+  </div>
+
+  <!-- Unit Economics -->
+  <div class="section">
+    <div class="sec-title">VIII. Unit Economics</div>
+    <div class="g2">
+      <table>
+        <thead><tr><th colspan="2">Metrik per User (Paket Pro)</th></tr></thead>
+        <tbody>
+          <tr><td>ARPU / bulan</td><td class="r green">Rp 199.000</td></tr>
+          <tr><td>COGS / bulan (infra + AI + support)</td><td class="r red">Rp 18.700</td></tr>
+          <tr><td><strong>Gross Profit / bulan</strong></td><td class="r green"><strong>Rp 180.300</strong></td></tr>
+          <tr><td>Gross Margin</td><td class="r green"><strong>90,6%</strong></td></tr>
+          <tr><td>Customer Acquisition Cost (CAC)</td><td class="r red">Rp 200.000</td></tr>
+          <tr><td>Average Lifetime (asumsi 20 bulan)</td><td class="r">20 bulan</td></tr>
+          <tr><td>LTV (Lifetime Value)</td><td class="r green">Rp 3.606.000</td></tr>
+          <tr class="hl"><td><strong>LTV : CAC Ratio</strong></td><td class="r"><strong>18 : 1 ✅ Sangat Sehat</strong></td></tr>
+          <tr><td>Payback Period (CAC recovery)</td><td class="r green">1,1 bulan</td></tr>
+        </tbody>
+      </table>
+      <div>
+        <div class="box-green">
+          <strong>📊 Benchmark SaaS Sehat:</strong>
+          <ul style="margin-top:8px;padding-left:16px;font-size:12px;color:#374151;">
+            <li>LTV:CAC > 3 = Good | > 5 = Great | > 10 = Excellent</li>
+            <li>PatuhDesa: <strong>18:1 → Sangat Excellent</strong></li>
+            <li>Alasan: CAC sangat rendah karena channel distribusi via Dinas PMD (B2G2B model)</li>
+            <li>Payback 1,1 bulan = sangat cepat recovery biaya akuisisi</li>
+          </ul>
+        </div>
+        <div class="box-blue" style="margin-top:12px;">
+          <strong>🔄 Flywheel JAI:</strong>
+          <p style="font-size:12px;margin-top:6px;">User SaaS PatuhDesa → menemukan masalah kompleks → upgrade ke JAI Consulting (Rp 100–500 juta/penugasan) → JAI Consulting dapat data insight dari PatuhDesa → update produk lebih baik → user makin loyal. <strong>SaaS = lead gen machine untuk consulting.</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Strategi Go-to-Market -->
+  <div class="section break">
+    <div class="sec-title">IX. Go-to-Market Strategy</div>
+
+    <div class="sub-title">Channel Akuisisi (Diurutkan dari ROI Tertinggi)</div>
+    <table>
+      <thead><tr><th>#</th><th>Channel</th><th>CAC Est.</th><th>Volume</th><th>Penjelasan</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><strong>B2G2B — Dinas PMD / BPMD Kabupaten</strong></td><td class="green">Rp 50K</td><td>Tinggi</td><td class="gray">Satu kontrak dengan Dinas PMD Kabupaten = akses ke 200-500 BUMDes sekaligus. Model reseller/distribusi</td></tr>
+        <tr><td>2</td><td><strong>BPKP Regional</strong></td><td class="green">Rp 75K</td><td>Tinggi</td><td class="gray">BPKP sering adakan workshop BUMDes — jadikan mitra distribusi & co-branding</td></tr>
+        <tr><td>3</td><td><strong>Komunitas WA Group Kepala Desa</strong></td><td class="r">Rp 100K</td><td>Sedang</td><td class="gray">Indonesia punya ratusan grup WA aktif kepala desa per kabupaten. Demo 10 menit via WA video</td></tr>
+        <tr><td>4</td><td><strong>YouTube / TikTok Edukasi</strong></td><td class="r">Rp 150K</td><td>Sedang</td><td class="gray">Konten: "Cara lapor pajak BUMDes", "Cara buat laporan keuangan desa" → inbound leads organik</td></tr>
+        <tr><td>5</td><td><strong>Referral Program</strong></td><td class="r">Rp 200K</td><td>Sedang</td><td class="gray">Setiap pengguna yang ajak BUMDes lain dapat 1 bulan gratis. Viral coefficient tinggi di komunitas desa</td></tr>
+        <tr><td>6</td><td><strong>JAI Consulting Upsell/Crosssell</strong></td><td class="green">Rp 0</td><td>Sedang</td><td class="gray">Klien JAI Consulting langsung ditawari PatuhDesa. Zero CAC karena sudah jadi client</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-title" style="margin-top:20px;">Strategi Pilot (Bulan 1–3)</div>
+    <div class="box-green">
+      Target: <strong>50 BUMDes pilot gratis</strong> via 2–3 Dinas PMD di Jawa Tengah atau Jawa Timur. Cara: presentasi ke Kepala Dinas PMD → mereka sosialisasikan ke seluruh BUMDes di kabupaten → gratis 3 bulan → collect feedback → iterate → launch berbayar.
+    </div>
+  </div>
+
+  <!-- Roadmap -->
+  <div class="section">
+    <div class="sec-title">X. Roadmap Pengembangan</div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Bulan 1–3: Build MVP</div>
+        <div class="tl-date">Jan–Mar 2026</div>
+        <div class="tl-tasks">
+          <div class="tl-task"><span>▸</span> Setup Supabase multi-tenant, auth, RLS</div>
+          <div class="tl-task"><span>▸</span> Modul akuntansi: jurnal → Laba Rugi, Neraca, Arus Kas (Kepmendesa 136/2022)</div>
+          <div class="tl-task"><span>▸</span> Modul PPh 21 & kalender pajak</div>
+          <div class="tl-task"><span>▸</span> RAG pipeline: embed 100+ dokumen regulasi, setup Claude Haiku</div>
+          <div class="tl-task"><span>▸</span> Landing page + onboarding flow</div>
+          <div class="tl-task"><span>▸</span> Integrasi Xendit untuk pembayaran</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Bulan 4–5: Pilot & Validasi</div>
+        <div class="tl-date">Apr–Mei 2026</div>
+        <div class="tl-tasks">
+          <div class="tl-task"><span>▸</span> Onboard 50 BUMDes gratis via 2 Dinas PMD</div>
+          <div class="tl-task"><span>▸</span> Weekly user interview & feedback loop</div>
+          <div class="tl-task"><span>▸</span> Fix bugs kritis, iterate UI/UX</div>
+          <div class="tl-task"><span>▸</span> Validasi product-market fit (target: NPS >40)</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Bulan 6: Launch Berbayar</div>
+        <div class="tl-date">Jun 2026</div>
+        <div class="tl-tasks">
+          <div class="tl-task"><span>▸</span> Launch pricing resmi: Starter Rp 99K, Pro Rp 199K</div>
+          <div class="tl-task"><span>▸</span> Target 100 paying users bulan pertama</div>
+          <div class="tl-task"><span>▸</span> Modul PPh 23 & laporan pajak lengkap</div>
+          <div class="tl-task"><span>▸</span> Checklist kepatuhan hukum (badan hukum, NPWP, dll)</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Bulan 7–12: Traksi & Ekspansi</div>
+        <div class="tl-date">Jul–Des 2026</div>
+        <div class="tl-tasks">
+          <div class="tl-task"><span>▸</span> Target 500 paying users (ARR Rp 1 miliar)</div>
+          <div class="tl-task"><span>▸</span> Paket Kecamatan — jual ke Dinas PMD 5 kabupaten</div>
+          <div class="tl-task"><span>▸</span> Modul Coretax DJP integration guide</div>
+          <div class="tl-task"><span>▸</span> PWA offline mode (bisa dipakai tanpa internet)</div>
+          <div class="tl-task"><span>▸</span> Ekspansi ke Sumatera & Sulawesi</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Tahun 2: Scale Up</div>
+        <div class="tl-date">2027</div>
+        <div class="tl-tasks">
+          <div class="tl-task"><span>▸</span> Target 2.000 paying users (ARR Rp 4,7 miliar)</div>
+          <div class="tl-task"><span>▸</span> Modul khusus Pemerintah Desa (integrasi Siskeudes)</div>
+          <div class="tl-task"><span>▸</span> API terbuka untuk integrasi SIPD, SID, dll</div>
+          <div class="tl-task"><span>▸</span> Pertimbangkan seed funding Rp 3–5 miliar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kebutuhan Modal -->
+  <div class="section">
+    <div class="sec-title">XI. Kebutuhan Modal & Return on Investment</div>
+
+    <div class="sub-title">Modal Awal yang Dibutuhkan</div>
+    <table>
+      <thead><tr><th>Pos</th><th class="r">Jumlah</th><th>Keterangan</th></tr></thead>
+      <tbody>
+        <tr><td>Biaya Pengembangan MVP</td><td class="r">Rp 185.000.000</td><td class="gray">Tim internal, 3–4 bulan</td></tr>
+        <tr><td>Infrastruktur 12 bulan pertama</td><td class="r">Rp 13.000.000</td><td class="gray">~Rp 1 juta/bulan × 12</td></tr>
+        <tr><td>Marketing & Pilot Program</td><td class="r">Rp 100.000.000</td><td class="gray">Roadshow, demo, WhatsApp marketing</td></tr>
+        <tr><td>Konten & Kurator Regulasi</td><td class="r">Rp 20.000.000</td><td class="gray">RAG database regulasi awal</td></tr>
+        <tr><td>Legal & Administrasi SaaS</td><td class="r">Rp 15.000.000</td><td class="gray">ToS, privacy policy, domain, trademark</td></tr>
+        <tr><td>Buffer Operasional 6 Bulan</td><td class="r">Rp 67.000.000</td><td class="gray">Gaji tim + unexpected cost</td></tr>
+        <tr class="hl"><td><strong>Total Kebutuhan Modal Awal</strong></td><td class="r"><strong>Rp 400.000.000</strong></td><td></td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-title" style="margin-top:20px;">Sumber Modal & ROI</div>
+    <div class="g2">
+      <div>
+        <table>
+          <thead><tr><th>Sumber</th><th>Porsi</th><th class="r">Jumlah</th></tr></thead>
+          <tbody>
+            <tr><td>PT JAI (Modal Internal)</td><td>50%</td><td class="r">Rp 200 juta</td></tr>
+            <tr><td>Co-founder / Angel Investor</td><td>35%</td><td class="r">Rp 140 juta</td></tr>
+            <tr><td>Grant / Hibah Startup (Kemkominfo, dll)</td><td>15%</td><td class="r">Rp 60 juta</td></tr>
+            <tr class="hl"><td colspan="2"><strong>Total</strong></td><td class="r"><strong>Rp 400 juta</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="box-green">
+        <strong>📈 Proyeksi ROI Investor (Rp 400 juta)</strong>
+        <table style="margin-top:10px;font-size:12px;">
+          <tr><td>Thn 1 cashflow</td><td class="r" style="color:#dc2626;">-Rp 79 juta</td></tr>
+          <tr><td>Thn 2 cashflow</td><td class="r" style="color:#16a34a;">+Rp 1,48 miliar</td></tr>
+          <tr><td>Thn 3 cashflow</td><td class="r" style="color:#16a34a;">+Rp 4,91 miliar</td></tr>
+          <tr style="border-top:1px solid #ccc;font-weight:700;"><td>Kumulatif 3 Thn</td><td class="r" style="color:#16a34a;font-weight:900;">+Rp 5,81 miliar</td></tr>
+          <tr><td><strong>ROI dalam 3 Tahun</strong></td><td class="r" style="color:#166534;font-weight:900;font-size:14px;">14,5x 🚀</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="box-yellow" style="margin-top:12px;">
+      <strong>🎯 Break Even Point:</strong> Berdasarkan proyeksi, PatuhDesa mencapai BEP di sekitar <strong>bulan ke-8</strong> operasional (~300–350 paying users). Setelah BEP, setiap user tambahan langsung kontribusi ke profit dengan gross margin 90%+.
+    </div>
+  </div>
+
+  <!-- Risiko -->
+  <div class="section">
+    <div class="sec-title">XII. Risiko & Mitigasi</div>
+    <table>
+      <thead><tr><th>Risiko</th><th>Level</th><th>Mitigasi</th></tr></thead>
+      <tbody>
+        <tr><td>AKUBUMDes menambahkan fitur pajak</td><td style="color:#dc2626;font-weight:700;">Tinggi</td><td>Bergerak cepat — launch dalam 3 bulan sebelum mereka bisa meniru. AI RAG jauh lebih sulit dibangun.</td></tr>
+        <tr><td>Regulasi pajak berubah drastis</td><td style="color:#ca8a04;font-weight:700;">Sedang</td><td>Tim legal JAI selalu update — ini justru competitive advantage. Update regulasi = reason to stay subscribed.</td></tr>
+        <tr><td>Adopsi lambat (BUMDes tidak mau bayar)</td><td style="color:#ca8a04;font-weight:700;">Sedang</td><td>Model B2G2B (via Dinas PMD) — instansi yang bayar, bukan BUMDes langsung. Paket Kecamatan mengatasi ini.</td></tr>
+        <tr><td>Koneksi internet tidak stabil di desa</td><td style="color:#ca8a04;font-weight:700;">Sedang</td><td>PWA offline-first di roadmap bulan 7–12. Sementara: mobile-first design yang ringan (<500KB per halaman).</td></tr>
+        <tr><td>Keamanan data keuangan</td><td style="color:#ca8a04;font-weight:700;">Sedang</td><td>Supabase RLS, enkripsi at-rest, hosting di region Asia (Singapura). Sertifikasi ISO 27001 di tahun 2.</td></tr>
+        <tr><td>Tim developer resign saat build</td><td style="color:#16a34a;font-weight:700;">Rendah</td><td>Equity sharing untuk developer inti. Dokumentasi teknis lengkap dari hari pertama.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Kesimpulan -->
+  <div class="section">
+    <div class="sec-title">XIII. Kesimpulan & Next Steps</div>
+    <div class="box-green">
+      <p>PatuhDesa adalah produk SaaS dengan <strong>peluang luar biasa</strong>: pasar 73.000+ BUMDes yang underserved, zero kompetitor di ruang pajak BUMDes, gross margin 90%+, LTV:CAC 18:1, dan dukungan penuh ekosistem PT Juris Auditama Indonesia (domain expert, jaringan, konten regulasi).</p>
+      <p style="margin-top:8px;">Dengan investasi awal <strong>Rp 400 juta</strong>, perusahaan dapat mencapai BEP di bulan ke-8, ARR Rp 2,3 miliar di tahun ke-2, dan menjadi pemimpin pasar SaaS keuangan desa di Indonesia.</p>
+    </div>
+    <div class="sub-title">Aksi Segera (Next 30 Hari)</div>
+    <div class="g2">
+      <div>
+        <div style="font-weight:700;color:#166534;margin-bottom:8px;">Teknis</div>
+        <div class="tl-task" style="margin-bottom:6px;font-size:13px;"><span>□</span> Setup Supabase project + schema multi-tenant</div>
+        <div class="tl-task" style="margin-bottom:6px;font-size:13px;"><span>□</span> Rekrut 1 Full-Stack & 1 Backend developer</div>
+        <div class="tl-task" style="margin-bottom:6px;font-size:13px;"><span>□</span> Daftarkan domain patuhdesa.id</div>
+        <div class="tl-task" style="margin-bottom:6px;font-size:13px;"><span>□</span> Setup Xendit sandbox account</div>
+        <div class="tl-task" style="font-size:13px;"><span>□</span> Kumpulkan 100+ dokumen regulasi untuk RAG</div>
+      </div>
+      <div>
+        <div style="font-weight:700;color:#166534;margin-bottom:8px;">Bisnis</div>
+        <div class="tl-task" style="margin-bottom:6px;font-size:13px;"><span>□</span> Identifikasi 2–3 Dinas PMD target untuk pilot</div>
+        <div class="tl-task" style="margin-bottom:6px;font-size:13px;"><span>□</span> Buat deck presentasi untuk Dinas PMD</div>
+        <div class="tl-task" style="margin-bottom:6px;font-size:13px;"><span>□</span> Daftarkan merek PatuhDesa di DJKI</div>
+        <div class="tl-task" style="margin-bottom:6px;font-size:13px;"><span>□</span> Setup akun Anthropic API + Supabase</div>
+        <div class="tl-task" style="font-size:13px;"><span>□</span> Interview 10 pengelola BUMDes untuk validasi</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-doc">
+    <div style="width:60px;height:60px;background:#166534;border-radius:12px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:16px;margin:0 auto 12px;">PD</div>
+    <p style="font-weight:700;color:#166534;font-size:16px;margin-bottom:4px;">PatuhDesa by PT Juris Auditama Indonesia</p>
+    <p style="color:#9ca3af;font-style:italic;font-size:12px;">Jakarta, 2026 · info@patuhdesa.id · patuhdesa.id</p>
+    <p style="color:#9ca3af;font-size:11px;margin-top:4px;">Dokumen ini bersifat rahasia. Hanya untuk internal dan presentasi investor.</p>
+  </div>
+
+</div>
+</body>
+</html>

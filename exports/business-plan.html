@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Plan — PT Juris Auditama Indonesia</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f9fafb; color: #1f2937; font-size: 14px; }
+  .container { max-width: 900px; margin: 0 auto; padding: 40px 30px 80px; background: white; }
+  .no-print { }
+  @media print {
+    .no-print { display: none !important; }
+    body { background: white; font-size: 12px; }
+    .page-break { page-break-before: always; }
+  }
+
+  /* Toolbar */
+  .toolbar { background: #1e3a5f; color: white; padding: 12px 30px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .toolbar-brand { display: flex; align-items: center; gap: 12px; }
+  .logo { width: 36px; height: 36px; background: #facc15; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #1e3a5f; font-weight: 900; font-size: 11px; }
+  .toolbar-title { font-weight: 700; font-size: 14px; }
+  .btn-print { background: #facc15; color: #1e3a5f; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 13px; }
+  .btn-print:hover { background: #fde047; }
+
+  /* Cover */
+  .cover { text-align: center; padding: 60px 0 40px; border-bottom: 3px solid #1e3a5f; margin-bottom: 40px; }
+  .cover-logo { width: 80px; height: 80px; background: #1e3a5f; border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 22px; margin: 0 auto 24px; }
+  .cover h1 { font-size: 36px; font-weight: 900; color: #1e3a5f; margin-bottom: 8px; }
+  .cover h2 { font-size: 22px; font-weight: 700; color: #374151; margin-bottom: 8px; }
+  .cover-tagline { color: #6b7280; font-style: italic; font-size: 15px; margin-bottom: 24px; }
+  .cover-box { display: inline-block; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 16px 40px; }
+  .cover-box p { font-size: 13px; color: #374151; margin: 2px 0; }
+  .cover-box p strong { color: #1e3a5f; }
+
+  /* Section */
+  .section { margin-bottom: 48px; }
+  .section-title { font-size: 17px; font-weight: 800; color: #1e3a5f; border-bottom: 2px solid #bfdbfe; padding-bottom: 8px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .section-sub { font-size: 14px; font-weight: 700; color: #374151; margin: 16px 0 10px; }
+
+  /* TOC */
+  .toc-item { display: flex; gap: 16px; padding: 8px 0; border-bottom: 1px dashed #e5e7eb; font-size: 13px; }
+  .toc-no { font-weight: 700; color: #4b5563; width: 30px; flex-shrink: 0; }
+  .toc-title { color: #374151; }
+
+  /* Grid cards */
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  @media (max-width: 640px) { .grid-4, .grid-3, .grid-2 { grid-template-columns: repeat(2, 1fr); } }
+  .card { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px; }
+  .card-label { font-size: 11px; color: #9ca3af; margin-bottom: 4px; }
+  .card-value { font-weight: 700; color: #1e3a5f; font-size: 13px; }
+  .card-blue { background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 12px; padding: 18px; }
+  .card-blue .big { font-size: 26px; font-weight: 900; color: #1e3a5f; margin-bottom: 4px; }
+  .card-blue .sub { font-size: 11px; color: #9ca3af; margin-bottom: 6px; }
+  .card-blue .val { font-size: 15px; font-weight: 700; color: #374151; margin-bottom: 6px; }
+  .card-blue .desc { font-size: 11px; color: #6b7280; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 8px; }
+  thead tr { background: #1e3a5f; color: white; }
+  thead th { padding: 10px 14px; text-align: left; }
+  thead th.right { text-align: right; }
+  tbody tr:nth-child(even) { background: #f9fafb; }
+  tbody tr.highlight { background: #eff6ff; font-weight: 700; border-top: 2px solid #93c5fd; }
+  tbody tr.margin { background: #fefce8; font-weight: 600; }
+  tbody td { padding: 10px 14px; border-bottom: 1px solid #e5e7eb; }
+  tbody td.right { text-align: right; }
+  tbody td.red { color: #dc2626; font-weight: 700; }
+  tbody td.yellow { color: #ca8a04; font-weight: 700; }
+  tbody td.green { color: #16a34a; font-weight: 700; }
+  tbody td.blue { color: #1d4ed8; font-weight: 600; }
+
+  /* Info box */
+  .info-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+  .info-box p { line-height: 1.7; color: #374151; }
+  .warn-box { background: #fefce8; border: 1px solid #fde68a; border-radius: 12px; padding: 16px; font-size: 13px; color: #374151; }
+  .green-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 16px; }
+
+  /* SWOT */
+  .swot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .swot-card { border-radius: 12px; padding: 16px; }
+  .swot-s { background: #f0fdf4; border: 2px solid #86efac; }
+  .swot-w { background: #fef2f2; border: 2px solid #fca5a5; }
+  .swot-o { background: #eff6ff; border: 2px solid #93c5fd; }
+  .swot-t { background: #fefce8; border: 2px solid #fde68a; }
+  .swot-label { font-weight: 800; font-size: 13px; margin-bottom: 10px; }
+  .swot-item { display: flex; gap: 8px; font-size: 12px; color: #374151; margin-bottom: 6px; }
+
+  /* Service block */
+  .service-block { border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+  .service-header { background: #1e3a5f; color: white; padding: 12px 18px; font-weight: 700; font-size: 14px; }
+  .service-body { padding: 16px 18px; }
+  .service-row { display: flex; justify-content: space-between; align-items: start; padding: 8px 0; border-bottom: 1px solid #f3f4f6; font-size: 13px; }
+  .service-row:last-child { border-bottom: none; }
+  .service-price { color: #1d4ed8; font-weight: 700; text-align: right; min-width: 200px; }
+
+  /* Ops */
+  .ops-block { border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; margin-bottom: 12px; }
+  .ops-header { background: #3b5fa0; color: white; padding: 10px 18px; font-weight: 700; font-size: 13px; }
+  .ops-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 14px 18px; }
+  .ops-item { display: flex; gap: 6px; font-size: 12px; color: #374151; }
+
+  /* Bullet */
+  .bullet-list { list-style: none; padding: 0; }
+  .bullet-list li { display: flex; gap: 8px; margin-bottom: 8px; font-size: 13px; color: #374151; }
+  .bullet-list li::before { content: "✦"; color: #1d4ed8; flex-shrink: 0; }
+
+  /* Funding */
+  .fund-card { border: 2px solid #bfdbfe; border-radius: 12px; padding: 20px; text-align: center; }
+  .fund-pct { font-size: 32px; font-weight: 900; color: #1e3a5f; }
+  .fund-name { font-weight: 700; color: #374151; margin: 4px 0; }
+  .fund-val { font-weight: 700; color: #1d4ed8; font-size: 15px; margin-bottom: 6px; }
+  .fund-desc { font-size: 11px; color: #6b7280; }
+
+  /* Cover footer */
+  .doc-footer { text-align: center; padding: 40px 0 0; border-top: 2px solid #bfdbfe; margin-top: 40px; }
+  .footer-logo { width: 60px; height: 60px; background: #1e3a5f; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 16px; margin: 0 auto 12px; }
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print">
+  <div class="toolbar-brand">
+    <div class="logo">JAI</div>
+    <span class="toolbar-title">PT Juris Auditama Indonesia — Business Plan 2026</span>
+  </div>
+  <button class="btn-print" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+</div>
+
+<div class="container">
+
+  <!-- Cover -->
+  <div class="cover">
+    <div class="cover-logo">JAI</div>
+    <h1>BUSINESS PLAN</h1>
+    <h2>PT Juris Auditama Indonesia</h2>
+    <p class="cover-tagline">"Juris Auditoris — Hukum &amp; Audit sebagai Fondasi Tata Kelola"</p>
+    <div class="cover-box">
+      <p>Perusahaan Konsultasi &amp; Pelatihan Profesional</p>
+      <p><strong>Bidang: Auditing · Hukum · Akuntansi · Perpajakan</strong></p>
+      <p style="color:#9ca3af;margin-top:8px;">Jakarta, 2026 — Dokumen Rahasia</p>
+    </div>
+  </div>
+
+  <!-- Daftar Isi -->
+  <div class="section">
+    <div class="section-title">Daftar Isi</div>
+    <div class="toc-item"><span class="toc-no">I.</span><span class="toc-title">Ringkasan Eksekutif</span></div>
+    <div class="toc-item"><span class="toc-no">II.</span><span class="toc-title">Profil Perusahaan</span></div>
+    <div class="toc-item"><span class="toc-no">III.</span><span class="toc-title">Analisis Pasar (TAM – SAM – SOM)</span></div>
+    <div class="toc-item"><span class="toc-no">IV.</span><span class="toc-title">Layanan &amp; Produk</span></div>
+    <div class="toc-item"><span class="toc-no">V.</span><span class="toc-title">Strategi Pemasaran &amp; Penjualan</span></div>
+    <div class="toc-item"><span class="toc-no">VI.</span><span class="toc-title">Struktur Organisasi &amp; SDM</span></div>
+    <div class="toc-item"><span class="toc-no">VII.</span><span class="toc-title">Rencana Operasional</span></div>
+    <div class="toc-item"><span class="toc-no">VIII.</span><span class="toc-title">Proyeksi Keuangan 5 Tahun</span></div>
+    <div class="toc-item"><span class="toc-no">IX.</span><span class="toc-title">Analisis SWOT</span></div>
+    <div class="toc-item"><span class="toc-no">X.</span><span class="toc-title">Analisis Risiko &amp; Mitigasi</span></div>
+    <div class="toc-item"><span class="toc-no">XI.</span><span class="toc-title">Rencana Pendanaan &amp; Modal Awal</span></div>
+  </div>
+
+  <!-- I. Ringkasan Eksekutif -->
+  <div class="section">
+    <div class="section-title">I. Ringkasan Eksekutif</div>
+    <div class="info-box">
+      <p>PT Juris Auditama Indonesia (JAI) adalah perusahaan konsultasi dan pelatihan profesional yang fokus melayani instansi sektor publik Indonesia, meliputi Pemerintah Daerah, Pemerintah Desa, BUMN, BUMD, serta lembaga pemerintah lainnya.</p>
+      <p style="margin-top:10px;">Perusahaan hadir untuk mengisi kekosongan kebutuhan kapasitas SDM aparatur di bidang <strong>auditing, hukum, akuntansi, dan perpajakan</strong> yang terus meningkat seiring penguatan tata kelola keuangan negara dan daerah.</p>
+    </div>
+    <div class="grid-4">
+      <div class="card"><div class="card-label">Target Pasar</div><div class="card-value">Sektor Publik Indonesia</div></div>
+      <div class="card"><div class="card-label">Bidang Usaha</div><div class="card-value">Konsultasi &amp; Pelatihan</div></div>
+      <div class="card"><div class="card-label">Modal Awal</div><div class="card-value">Rp 2,5 Miliar</div></div>
+      <div class="card"><div class="card-label">Target Pendapatan Thn 1</div><div class="card-value">Rp 3,6 Miliar</div></div>
+    </div>
+  </div>
+
+  <!-- II. Profil Perusahaan -->
+  <div class="section page-break">
+    <div class="section-title">II. Profil Perusahaan</div>
+    <div class="grid-2">
+      <div>
+        <div class="section-sub">Identitas Perusahaan</div>
+        <table>
+          <tbody>
+            <tr><td style="color:#9ca3af;padding:6px 8px;width:160px;">Nama Perusahaan</td><td style="padding:6px 8px;font-weight:600;">PT Juris Auditama Indonesia</td></tr>
+            <tr><td style="color:#9ca3af;padding:6px 8px;">Singkatan</td><td style="padding:6px 8px;font-weight:600;">JAI</td></tr>
+            <tr><td style="color:#9ca3af;padding:6px 8px;">Bentuk Badan</td><td style="padding:6px 8px;font-weight:600;">Perseroan Terbatas (PT)</td></tr>
+            <tr><td style="color:#9ca3af;padding:6px 8px;">KBLI</td><td style="padding:6px 8px;font-weight:600;">70209 – Konsultansi Manajemen</td></tr>
+            <tr><td style="color:#9ca3af;padding:6px 8px;">Domisili</td><td style="padding:6px 8px;font-weight:600;">Jakarta Selatan, DKI Jakarta</td></tr>
+            <tr><td style="color:#9ca3af;padding:6px 8px;">Cakupan</td><td style="padding:6px 8px;font-weight:600;">Seluruh Indonesia</td></tr>
+            <tr><td style="color:#9ca3af;padding:6px 8px;">Email</td><td style="padding:6px 8px;font-weight:600;">info@jurisauditama.co.id</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="section-sub">Visi</div>
+        <div class="info-box" style="margin-bottom:12px;">
+          <p style="font-size:13px;">Menjadi perusahaan konsultasi dan pelatihan terkemuka di Indonesia yang dipercaya oleh instansi pemerintah dan BUMN/BUMD dalam mewujudkan tata kelola yang akuntabel, transparan, dan berintegritas.</p>
+        </div>
+        <div class="section-sub">Misi</div>
+        <ul class="bullet-list">
+          <li>Menyelenggarakan pelatihan berkualitas berbasis regulasi terkini</li>
+          <li>Memberikan konsultasi profesional dari praktisi berpengalaman</li>
+          <li>Mendampingi instansi menuju opini WTP BPK</li>
+          <li>Meningkatkan kapasitas SDM aparatur sektor publik</li>
+          <li>Berkontribusi pada penguatan good governance Indonesia</li>
+        </ul>
+      </div>
+    </div>
+    <div class="section-sub" style="margin-top:20px;">Nilai-Nilai Perusahaan</div>
+    <div class="grid-4">
+      <div class="card" style="text-align:center;"><div style="font-size:24px;margin-bottom:8px;">⚖️</div><div style="font-weight:700;margin-bottom:4px;">Integritas</div><div style="font-size:11px;color:#6b7280;">Independen, jujur, tidak berpihak</div></div>
+      <div class="card" style="text-align:center;"><div style="font-size:24px;margin-bottom:8px;">🎯</div><div style="font-weight:700;margin-bottom:4px;">Profesionalisme</div><div style="font-size:11px;color:#6b7280;">Terlatih, tersertifikasi, berpengalaman</div></div>
+      <div class="card" style="text-align:center;"><div style="font-size:24px;margin-bottom:8px;">📚</div><div style="font-weight:700;margin-bottom:4px;">Akuntabilitas</div><div style="font-size:11px;color:#6b7280;">Bertanggung jawab atas rekomendasi</div></div>
+      <div class="card" style="text-align:center;"><div style="font-size:24px;margin-bottom:8px;">🌱</div><div style="font-weight:700;margin-bottom:4px;">Keberlanjutan</div><div style="font-size:11px;color:#6b7280;">Berorientasi dampak jangka panjang</div></div>
+    </div>
+  </div>
+
+  <!-- III. Analisis Pasar -->
+  <div class="section">
+    <div class="section-title">III. Analisis Pasar</div>
+    <div class="section-sub">Ukuran Pasar (TAM – SAM – SOM)</div>
+    <div class="grid-3" style="margin-bottom:24px;">
+      <div class="card-blue"><div class="big">TAM</div><div class="sub">Total Addressable Market</div><div class="val">Rp 15 Triliun/tahun</div><div class="desc">Seluruh pengeluaran diklat &amp; konsultasi sektor publik Indonesia</div></div>
+      <div class="card-blue"><div class="big">SAM</div><div class="sub">Serviceable Addressable Market</div><div class="val">Rp 3,2 Triliun/tahun</div><div class="desc">Pemda, BUMN/BUMD, dan Pemerintah Desa yang butuh layanan audit, hukum, akuntansi, perpajakan</div></div>
+      <div class="card-blue"><div class="big">SOM</div><div class="sub">Serviceable Obtainable Market</div><div class="val">Rp 240 Miliar/tahun</div><div class="desc">Target realistis JAI dalam 3 tahun pertama (7,5% dari SAM)</div></div>
+    </div>
+    <div class="section-sub">Segmen Klien &amp; Potensi</div>
+    <table>
+      <thead><tr><th>Segmen</th><th>Jumlah Entitas</th><th>Kebutuhan Utama</th><th>Potensi/Entitas</th></tr></thead>
+      <tbody>
+        <tr><td>Pemerintah Daerah (Provinsi)</td><td>38 Provinsi</td><td>Audit kinerja, WTP, pajak daerah</td><td class="blue">Rp 500 juta–2 miliar/tahun</td></tr>
+        <tr><td>Pemerintah Daerah (Kab/Kota)</td><td>514 Kab/Kota</td><td>Pelatihan aparatur, WTP, akuntansi</td><td class="blue">Rp 200–500 juta/tahun</td></tr>
+        <tr><td>Pemerintah Desa</td><td>75.000+ Desa</td><td>Dana Desa, BUMDes, lap. keuangan</td><td class="blue">Rp 10–50 juta/tahun</td></tr>
+        <tr><td>BUMN &amp; Anak Perusahaan</td><td>800+ entitas</td><td>Audit internal, pajak, hukum korporasi</td><td class="blue">Rp 300 juta–1 miliar/tahun</td></tr>
+        <tr><td>BUMD (PDAM, BPD, dll)</td><td>1.000+ entitas</td><td>Audit, perpajakan BUMD, tata kelola</td><td class="blue">Rp 150–400 juta/tahun</td></tr>
+      </tbody>
+    </table>
+    <div class="section-sub" style="margin-top:20px;">Faktor Pendorong Pasar</div>
+    <div class="grid-2">
+      <div class="card"><strong>📜 Regulasi Ketat</strong><br><span style="font-size:12px;color:#6b7280;">PP 12/2019, Permendagri 77/2020, UU Desa 3/2024 mendorong peningkatan kapasitas aparatur secara berkelanjutan.</span></div>
+      <div class="card"><strong>🎯 Target WTP Nasional</strong><br><span style="font-size:12px;color:#6b7280;">Pemerintah mendorong seluruh Pemda meraih opini WTP. Masih banyak daerah dengan opini WDP yang butuh pendampingan.</span></div>
+      <div class="card"><strong>💰 Dana Desa Meningkat</strong><br><span style="font-size:12px;color:#6b7280;">Alokasi Dana Desa Rp 70 triliun+/tahun membutuhkan kapasitas pengelolaan keuangan desa yang kuat.</span></div>
+      <div class="card"><strong>🏛️ Reformasi BUMN/BUMD</strong><br><span style="font-size:12px;color:#6b7280;">Program transformasi BUMN/BUMD menciptakan permintaan tinggi untuk audit, hukum korporasi, dan perpajakan.</span></div>
+    </div>
+  </div>
+
+  <!-- IV. Layanan & Produk -->
+  <div class="section page-break">
+    <div class="section-title">IV. Layanan &amp; Produk</div>
+
+    <div class="service-block">
+      <div class="service-header">🔍 4.1 Layanan Auditing</div>
+      <div class="service-body">
+        <div class="service-row"><span>Pelatihan Audit Internal &amp; APIP</span><span class="service-price">Rp 15–25 juta/angkatan (30 peserta)</span></div>
+        <div class="service-row"><span>Konsultasi Audit Kinerja Pemda</span><span class="service-price">Rp 150–300 juta/penugasan</span></div>
+        <div class="service-row"><span>Reviu Laporan Keuangan BLUD</span><span class="service-price">Rp 50–100 juta/penugasan</span></div>
+        <div class="service-row"><span>Pendampingan SPIP &amp; Penguatan APIP</span><span class="service-price">Rp 200–400 juta/Pemda</span></div>
+      </div>
+    </div>
+
+    <div class="service-block">
+      <div class="service-header">⚖️ 4.2 Layanan Hukum</div>
+      <div class="service-body">
+        <div class="service-row"><span>Pelatihan Hukum Pemerintahan &amp; PBJ</span><span class="service-price">Rp 15–25 juta/angkatan</span></div>
+        <div class="service-row"><span>Konsultasi Penyusunan Perda/Perkades</span><span class="service-price">Rp 50–150 juta/regulasi</span></div>
+        <div class="service-row"><span>Pendampingan Hukum Kontrak BUMN</span><span class="service-price">Rp 100–250 juta/kontrak</span></div>
+        <div class="service-row"><span>Legal Audit Aset Daerah</span><span class="service-price">Rp 75–200 juta/penugasan</span></div>
+      </div>
+    </div>
+
+    <div class="service-block">
+      <div class="service-header">📊 4.3 Layanan Akuntansi</div>
+      <div class="service-body">
+        <div class="service-row"><span>Pelatihan SAP &amp; Akuntansi Pemerintahan</span><span class="service-price">Rp 12–20 juta/angkatan</span></div>
+        <div class="service-row"><span>Pendampingan Penyusunan LKPD</span><span class="service-price">Rp 100–300 juta/Pemda</span></div>
+        <div class="service-row"><span>Pelatihan Akuntansi Keuangan Desa</span><span class="service-price">Rp 8–15 juta/angkatan</span></div>
+        <div class="service-row"><span>Konsultasi SAK ETAP untuk BUMD</span><span class="service-price">Rp 80–200 juta/entitas</span></div>
+      </div>
+    </div>
+
+    <div class="service-block">
+      <div class="service-header">🧾 4.4 Layanan Perpajakan</div>
+      <div class="service-body">
+        <div class="service-row"><span>Pelatihan Pajak Daerah &amp; Retribusi</span><span class="service-price">Rp 12–20 juta/angkatan</span></div>
+        <div class="service-row"><span>Tax Review &amp; Due Diligence BUMD</span><span class="service-price">Rp 100–250 juta/entitas</span></div>
+        <div class="service-row"><span>Konsultasi PPh &amp; PPN Instansi Pemerintah</span><span class="service-price">Rp 50–150 juta/tahun</span></div>
+        <div class="service-row"><span>Pendampingan Keberatan &amp; Banding Pajak</span><span class="service-price">Rp 75–200 juta/kasus</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V. Strategi Pemasaran -->
+  <div class="section">
+    <div class="section-title">V. Strategi Pemasaran &amp; Penjualan</div>
+    <div class="grid-2">
+      <div class="card"><strong>🎯 Pendekatan Langsung</strong><br><ul class="bullet-list" style="margin-top:8px;"><li>Tim Business Development khusus sektor publik</li><li>Kunjungan ke kepala daerah, sekda, BPPKAD</li><li>Mengikuti forum APKASI, APEKSI, APKESI</li><li>Proposal penawaran disesuaikan per segmen</li></ul></div>
+      <div class="card"><strong>🤝 Kemitraan Strategis</strong><br><ul class="bullet-list" style="margin-top:8px;"><li>MOU dengan Asosiasi Pemerintah Daerah</li><li>Kerjasama dengan BPSDM provinsi &amp; kab/kota</li><li>Kolaborasi dengan BPKP, KPK, Kemendagri</li><li>Partnership Kementerian Desa untuk desa</li></ul></div>
+      <div class="card"><strong>📢 Pemasaran Digital</strong><br><ul class="bullet-list" style="margin-top:8px;"><li>Website profesional dengan SEO sektor publik</li><li>LinkedIn &amp; media sosial untuk thought leadership</li><li>Webinar gratis bulanan sebagai lead generation</li><li>Newsletter regulasi perpajakan &amp; akuntansi</li></ul></div>
+      <div class="card"><strong>📚 Konten &amp; Reputasi</strong><br><ul class="bullet-list" style="margin-top:8px;"><li>Publikasi artikel di jurnal &amp; media pemerintahan</li><li>Modul pelatihan sebagai marketing tool</li><li>Studi kasus keberhasilan klien</li><li>Referral program dari klien yang puas</li></ul></div>
+    </div>
+  </div>
+
+  <!-- VI. Struktur Organisasi -->
+  <div class="section page-break">
+    <div class="section-title">VI. Struktur Organisasi &amp; SDM</div>
+    <table>
+      <thead><tr><th>Jabatan</th><th>Kualifikasi</th><th>Jml</th><th>Gaji/Bulan</th></tr></thead>
+      <tbody>
+        <tr><td>Direktur Utama</td><td>S2, CA/CPA, min. 15 thn pengalaman sektor publik</td><td>1</td><td class="blue">Rp 30–50 juta</td></tr>
+        <tr><td>Direktur Hukum</td><td>S2 Hukum, Advokat/konsultan hukum pemerintahan</td><td>1</td><td class="blue">Rp 25–40 juta</td></tr>
+        <tr><td>Direktur Keuangan &amp; Audit</td><td>S2, Ak., CA, CIA atau CGAP</td><td>1</td><td class="blue">Rp 25–40 juta</td></tr>
+        <tr><td>Manajer Pelatihan</td><td>S1/S2, pengalaman training &amp; curriculum design</td><td>2</td><td class="blue">Rp 12–18 juta</td></tr>
+        <tr><td>Konsultan Senior</td><td>S2, berpengalaman di BPK/BPKP/Kemenkeu</td><td>4</td><td class="blue">Rp 15–25 juta</td></tr>
+        <tr><td>Konsultan Junior</td><td>S1, fresh graduate atau 1–3 thn pengalaman</td><td>6</td><td class="blue">Rp 6–10 juta</td></tr>
+        <tr><td>Business Development</td><td>S1, pengalaman marketing B2G/B2B</td><td>2</td><td class="blue">Rp 8–12 juta</td></tr>
+        <tr><td>Admin &amp; Keuangan</td><td>D3/S1, pengalaman administrasi</td><td>3</td><td class="blue">Rp 4–6 juta</td></tr>
+      </tbody>
+    </table>
+    <div class="warn-box" style="margin-top:12px;"><strong>Total SDM Awal:</strong> 20 orang (10 tenaga ahli + 10 staf pendukung). Rencana ekspansi ke 35 orang pada tahun ke-3 seiring pertumbuhan klien.</div>
+  </div>
+
+  <!-- VII. Rencana Operasional -->
+  <div class="section">
+    <div class="section-title">VII. Rencana Operasional</div>
+    <div class="ops-block">
+      <div class="ops-header">Fase 1 (Bulan 1–3): Fondasi</div>
+      <div class="ops-grid">
+        <div class="ops-item"><span style="color:#16a34a;flex-shrink:0;">✓</span> Pendirian PT &amp; pengurusan izin usaha (NIB, KBLI)</div>
+        <div class="ops-item"><span style="color:#16a34a;flex-shrink:0;">✓</span> Sewa kantor representatif di Jakarta Selatan</div>
+        <div class="ops-item"><span style="color:#16a34a;flex-shrink:0;">✓</span> Rekrutmen tim inti (direktur, konsultan senior, admin)</div>
+        <div class="ops-item"><span style="color:#16a34a;flex-shrink:0;">✓</span> Pengembangan kurikulum pelatihan 4 bidang</div>
+        <div class="ops-item"><span style="color:#16a34a;flex-shrink:0;">✓</span> Pembuatan website, brosur, dan materi pemasaran</div>
+        <div class="ops-item"><span style="color:#16a34a;flex-shrink:0;">✓</span> Pendaftaran sebagai vendor di LPSE &amp; SIKAP</div>
+      </div>
+    </div>
+    <div class="ops-block">
+      <div class="ops-header">Fase 2 (Bulan 4–6): Akuisisi Klien Pertama</div>
+      <div class="ops-grid">
+        <div class="ops-item"><span style="color:#16a34a;flex-shrink:0;">✓</span> Roadshow ke 10 Pemda potensial di Jawa &amp; Sulawesi</div>
+        <div class="ops-item"><span style="color:#16a34a;flex-shrink:0;">✓</span> Webinar gratis perdana untuk lead generation</div>
+        <div class="ops-item"><span style="color:#16a34a;flex-shrink:0;">✓</span> Penyerahan proposal ke 5 BUMD target</div>
+        <div class="ops-item"><span style="color:#16a34a;flex-shrink:0;">✓</span> Penandatanganan kontrak perdana (target min. 3 klien)</div>
+        <div class="ops-item"><span style="color:#16a34a;flex-shrink:0;">✓</span> Pelaksanaan pelatihan batch pertama</div>
+        <div class="ops-item"><span style="color:#16a34a;flex-shrink:0;">✓</span> Evaluasi dan refinement layanan</div>
+      </div>
+    </div>
+    <div class="ops-block">
+      <div class="ops-header">Fase 3 (Bulan 7–12): Ekspansi</div>
+      <div class="ops-grid">
+        <div class="ops-item"><span style="color:#16a34a;flex-shrink:0;">✓</span> Ekspansi ke Kalimantan, Sumatera, dan Sulawesi</div>
+        <div class="ops-item"><span style="color:#16a34a;flex-shrink:0;">✓</span> Rekrutmen konsultan daerah (associate)</div>
+        <div class="ops-item"><span style="color:#16a34a;flex-shrink:0;">✓</span> Pengembangan modul online/e-learning</div>
+        <div class="ops-item"><span style="color:#16a34a;flex-shrink:0;">✓</span> MOU dengan minimal 2 asosiasi Pemda</div>
+        <div class="ops-item"><span style="color:#16a34a;flex-shrink:0;">✓</span> Target 15–20 klien aktif di akhir tahun pertama</div>
+        <div class="ops-item"><span style="color:#16a34a;flex-shrink:0;">✓</span> Review dan penyesuaian strategi berdasarkan data</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIII. Proyeksi Keuangan -->
+  <div class="section page-break">
+    <div class="section-title">VIII. Proyeksi Keuangan 5 Tahun</div>
+    <div class="section-sub">A. Modal Awal &amp; Kebutuhan Investasi</div>
+    <table style="margin-bottom:24px;">
+      <thead><tr><th>Komponen</th><th class="right">Nilai</th><th>Keterangan</th></tr></thead>
+      <tbody>
+        <tr><td>Modal dasar PT &amp; notaris</td><td class="right blue">Rp 150.000.000</td><td style="color:#9ca3af;font-size:12px;">Akta, NIB, NPWP, izin usaha</td></tr>
+        <tr><td>Sewa kantor (1 tahun)</td><td class="right blue">Rp 300.000.000</td><td style="color:#9ca3af;font-size:12px;">Kantor representatif ~150 m², Jakarta Selatan</td></tr>
+        <tr><td>Peralatan &amp; IT</td><td class="right blue">Rp 200.000.000</td><td style="color:#9ca3af;font-size:12px;">Laptop, server, software audit, proyektor</td></tr>
+        <tr><td>Gaji SDM (6 bulan pertama)</td><td class="right blue">Rp 900.000.000</td><td style="color:#9ca3af;font-size:12px;">Sebelum revenue stabil</td></tr>
+        <tr><td>Pengembangan kurikulum &amp; modul</td><td class="right blue">Rp 150.000.000</td><td style="color:#9ca3af;font-size:12px;">Desain, print, dan digital content</td></tr>
+        <tr><td>Pemasaran &amp; branding</td><td class="right blue">Rp 200.000.000</td><td style="color:#9ca3af;font-size:12px;">Website, iklan, roadshow, brosur</td></tr>
+        <tr><td>Cadangan operasional</td><td class="right blue">Rp 600.000.000</td><td style="color:#9ca3af;font-size:12px;">Dana darurat 6 bulan</td></tr>
+        <tr class="highlight"><td><strong>Total Kebutuhan Modal</strong></td><td class="right"><strong>Rp 2.500.000.000</strong></td><td></td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-sub">B. Proyeksi Pendapatan &amp; Laba 5 Tahun (dalam jutaan Rupiah)</div>
+    <table>
+      <thead><tr><th>Keterangan</th><th class="right">Tahun 1</th><th class="right">Tahun 2</th><th class="right">Tahun 3</th><th class="right">Tahun 4</th><th class="right">Tahun 5</th></tr></thead>
+      <tbody>
+        <tr><td>Pendapatan Pelatihan</td><td class="right">1.200</td><td class="right">2.100</td><td class="right">3.600</td><td class="right">5.400</td><td class="right">7.200</td></tr>
+        <tr><td>Pendapatan Konsultasi</td><td class="right">2.400</td><td class="right">4.200</td><td class="right">7.200</td><td class="right">10.800</td><td class="right">14.400</td></tr>
+        <tr class="highlight"><td><strong>Total Pendapatan</strong></td><td class="right"><strong>3.600</strong></td><td class="right"><strong>6.300</strong></td><td class="right"><strong>10.800</strong></td><td class="right"><strong>16.200</strong></td><td class="right"><strong>21.600</strong></td></tr>
+        <tr><td>Biaya Operasional</td><td class="right">3.000</td><td class="right">4.500</td><td class="right">7.000</td><td class="right">10.000</td><td class="right">13.500</td></tr>
+        <tr><td>Laba Sebelum Pajak</td><td class="right">600</td><td class="right">1.800</td><td class="right">3.800</td><td class="right">6.200</td><td class="right">8.100</td></tr>
+        <tr><td>Pajak PPh Badan (22%)</td><td class="right">132</td><td class="right">396</td><td class="right">836</td><td class="right">1.364</td><td class="right">1.782</td></tr>
+        <tr class="highlight"><td><strong>Laba Bersih</strong></td><td class="right"><strong>468</strong></td><td class="right"><strong>1.404</strong></td><td class="right"><strong>2.964</strong></td><td class="right"><strong>4.836</strong></td><td class="right"><strong>6.318</strong></td></tr>
+        <tr class="margin"><td>Margin Bersih</td><td class="right">13%</td><td class="right">22%</td><td class="right">27%</td><td class="right">30%</td><td class="right">29%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:11px;color:#9ca3af;margin-top:8px;font-style:italic;">*Proyeksi dalam jutaan Rupiah. Asumsi: pertumbuhan klien 40%/tahun, rata-rata 2 kontrak besar &amp; 12 pelatihan/bulan di tahun ke-3.</p>
+  </div>
+
+  <!-- IX. SWOT -->
+  <div class="section">
+    <div class="section-title">IX. Analisis SWOT</div>
+    <div class="swot-grid">
+      <div class="swot-card swot-s">
+        <div class="swot-label" style="color:#15803d;">✅ KEKUATAN (Strengths)</div>
+        <div class="swot-item"><span>→</span> Tim ahli berlatar belakang BPK, BPKP, Kemenkeu</div>
+        <div class="swot-item"><span>→</span> Fokus eksklusif sektor publik = deep expertise</div>
+        <div class="swot-item"><span>→</span> Kurikulum berbasis regulasi terbaru &amp; praktis</div>
+        <div class="swot-item"><span>→</span> Jaringan alumni aparatur negara yang luas</div>
+      </div>
+      <div class="swot-card swot-w">
+        <div class="swot-label" style="color:#dc2626;">⚠️ KELEMAHAN (Weaknesses)</div>
+        <div class="swot-item"><span>→</span> Perusahaan baru, belum memiliki track record</div>
+        <div class="swot-item"><span>→</span> Modal terbatas untuk ekspansi cepat</div>
+        <div class="swot-item"><span>→</span> Ketergantungan pada beberapa tenaga ahli kunci</div>
+        <div class="swot-item"><span>→</span> Siklus pembayaran pemerintah panjang (60–120 hari)</div>
+      </div>
+      <div class="swot-card swot-o">
+        <div class="swot-label" style="color:#1d4ed8;">🚀 PELUANG (Opportunities)</div>
+        <div class="swot-item"><span>→</span> 75.000+ desa butuh pendampingan Dana Desa</div>
+        <div class="swot-item"><span>→</span> Target WTP nasional mendorong permintaan konsultasi</div>
+        <div class="swot-item"><span>→</span> Transformasi digital BUMN/BUMD membuka pasar baru</div>
+        <div class="swot-item"><span>→</span> Reformasi perpajakan daerah pasca UU HKPD</div>
+      </div>
+      <div class="swot-card swot-t">
+        <div class="swot-label" style="color:#ca8a04;">⚡ ANCAMAN (Threats)</div>
+        <div class="swot-item"><span>→</span> Persaingan dari firma big4 dan konsultan besar</div>
+        <div class="swot-item"><span>→</span> Perubahan regulasi pengadaan jasa konsultansi</div>
+        <div class="swot-item"><span>→</span> Rotasi pejabat daerah mempengaruhi relasi bisnis</div>
+        <div class="swot-item"><span>→</span> Anggaran diklat sering terpotong saat efisiensi</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- X. Risiko -->
+  <div class="section">
+    <div class="section-title">X. Analisis Risiko &amp; Mitigasi</div>
+    <table>
+      <thead><tr><th>Risiko</th><th>Tingkat</th><th>Mitigasi</th></tr></thead>
+      <tbody>
+        <tr><td>Keterlambatan pembayaran klien pemerintah</td><td class="red">Tinggi</td><td>Cadangan kas 6 bulan; kontrak dengan klausul DP 30%</td></tr>
+        <tr><td>Rotasi pejabat daerah (pergantian kepala daerah)</td><td class="yellow">Sedang</td><td>Kontrak jangka panjang; hubungan kelembagaan, bukan personal</td></tr>
+        <tr><td>Tenaga ahli utama keluar (resign)</td><td class="yellow">Sedang</td><td>Retensi via equity sharing; dokumentasi knowledge base</td></tr>
+        <tr><td>Perubahan regulasi pengadaan jasa</td><td class="yellow">Sedang</td><td>Tim legal internal; update regulasi rutin</td></tr>
+        <tr><td>Persaingan dari firma besar</td><td class="red">Tinggi</td><td>Fokus pada niche (desa, BUMD kecil); harga kompetitif</td></tr>
+        <tr><td>Pemalsuan sertifikat/modul pelatihan</td><td class="green">Rendah</td><td>Sistem sertifikasi digital; watermark &amp; QR code</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- XI. Pendanaan -->
+  <div class="section">
+    <div class="section-title">XI. Rencana Pendanaan &amp; Modal Awal</div>
+    <div class="grid-3" style="margin-bottom:16px;">
+      <div class="fund-card"><div class="fund-pct">60%</div><div class="fund-name">Modal Pendiri</div><div class="fund-val">Rp 1,5 Miliar</div><div class="fund-desc">Setoran modal dari para pendiri perusahaan</div></div>
+      <div class="fund-card"><div class="fund-pct">30%</div><div class="fund-name">Investor Strategis</div><div class="fund-val">Rp 750 Juta</div><div class="fund-desc">Angel investor atau mitra bisnis dari sektor konsultansi</div></div>
+      <div class="fund-card"><div class="fund-pct">10%</div><div class="fund-name">KUR / Kredit Bank</div><div class="fund-val">Rp 250 Juta</div><div class="fund-desc">KUR Mikro atau pinjaman bank dengan agunan aset</div></div>
+    </div>
+    <div class="green-box">
+      <strong style="color:#15803d;">🎯 Target Break Even Point (BEP)</strong>
+      <p style="font-size:13px;margin-top:6px;color:#374151;">Berdasarkan proyeksi keuangan, PT Juris Auditama Indonesia diestimasi mencapai <strong>Break Even Point pada bulan ke-8 hingga ke-10</strong> operasional, dengan asumsi berhasil mengakuisisi minimal 5 klien konsultasi aktif dan menyelenggarakan 3–4 pelatihan per bulan.</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="doc-footer">
+    <div class="footer-logo">JAI</div>
+    <h3 style="font-size:18px;font-weight:800;color:#1e3a5f;margin-bottom:6px;">PT Juris Auditama Indonesia</h3>
+    <p style="color:#9ca3af;font-style:italic;font-size:13px;margin-bottom:8px;">"Juris Auditoris — Hukum &amp; Audit sebagai Fondasi Tata Kelola"</p>
+    <p style="color:#9ca3af;font-size:12px;">Dokumen ini bersifat rahasia dan hanya untuk keperluan internal serta presentasi kepada investor/mitra strategis.</p>
+    <p style="color:#9ca3af;font-size:12px;margin-top:4px;">Jakarta, 2026 · info@jurisauditama.co.id · www.jurisauditama.co.id</p>
+  </div>
+
+</div>
+</body>
+</html>
