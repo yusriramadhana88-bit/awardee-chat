@@ -40,7 +40,7 @@ function getSupabaseAdmin() {
   )
 }
 
-const DAILY_LIMITS: Record<string, number> = { free: 10, starter: 50, pro: 999 }
+const DAILY_LIMITS: Record<string, number> = { free: 3, starter: 50, pro: 999 }
 
 // Knowledge base dari video YouTube (akan diisi setelah extract-youtube dijalankan)
 let YOUTUBE_KNOWLEDGE = ''
@@ -183,15 +183,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Ambil tier user
+    // Ambil tier user + phone untuk cek uniqueness
     const { data: profile } = await supabase
       .from('profiles')
-      .select('subscription_tier, subscription_expires_at')
+      .select('subscription_tier, subscription_expires_at, phone')
       .eq('id', user.id)
       .single()
 
     const tier = profile?.subscription_tier || 'free'
-    const limit = DAILY_LIMITS[tier] ?? 10
+    const limit = DAILY_LIMITS[tier] ?? 3
+
+    // Cek phone uniqueness untuk tier free — wajib ada phone terverifikasi
+    if (tier === 'free' && !profile?.phone) {
+      return NextResponse.json({ error: 'PHONE_REQUIRED' }, { status: 403 })
+    }
     const today = new Date().toISOString().split('T')[0]
 
     // Cek dan update usage harian

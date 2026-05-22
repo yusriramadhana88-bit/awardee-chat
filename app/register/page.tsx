@@ -8,6 +8,7 @@ import { createClient } from '@/lib/supabase'
 function RegisterForm() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -16,6 +17,15 @@ function RegisterForm() {
   const searchParams = useSearchParams()
   const plan = searchParams.get('plan') || 'free'
   const supabase = createClient()
+
+  // Format phone: pastikan dimulai dengan +62
+  function normalizePhone(raw: string) {
+    let p = raw.replace(/\s+/g, '').replace(/-/g, '')
+    if (p.startsWith('08')) p = '+62' + p.slice(1)
+    if (p.startsWith('8')) p = '+62' + p
+    if (!p.startsWith('+')) p = '+62' + p
+    return p
+  }
 
   async function handleRegister(e: React.FormEvent) {
     e.preventDefault()
@@ -28,18 +38,49 @@ function RegisterForm() {
       return
     }
 
-    const { error } = await supabase.auth.signUp({
+    const normalizedPhone = normalizePhone(phone)
+    if (normalizedPhone.length < 10) {
+      setError('Nomor WhatsApp tidak valid.')
+      setLoading(false)
+      return
+    }
+
+    // Cek apakah nomor WA sudah dipakai akun lain (via API endpoint)
+    const checkRes = await fetch('/api/check-phone', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone: normalizedPhone }),
+    })
+    const checkData = await checkRes.json()
+    if (checkData.exists) {
+      setError('Nomor WhatsApp ini sudah terdaftar. Gunakan nomor lain atau login ke akun yang sudah ada.')
+      setLoading(false)
+      return
+    }
+
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
       options: { data: { name } },
     })
 
-    if (error) {
-      setError(error.message)
+    if (signUpError) {
+      setError(signUpError.message)
       setLoading(false)
-    } else {
-      setDone(true)
+      return
     }
+
+    // Simpan phone ke profiles
+    if (signUpData.user) {
+      await fetch('/api/save-phone', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: signUpData.user.id, phone: normalizedPhone }),
+      })
+    }
+
+    setDone(true)
+    setLoading(false)
   }
 
   if (done) {
@@ -47,14 +88,14 @@ function RegisterForm() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
         <div className="max-w-sm w-full text-center">
           <div className="text-4xl mb-4">📧</div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Cek email lo!</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">Cek email kamu!</h2>
           <p className="text-gray-500 text-sm mb-6">
-            Gw udah kirim link konfirmasi ke <strong>{email}</strong>. Klik link-nya dulu baru bisa login.
+            Kami sudah kirim link konfirmasi ke <strong>{email}</strong>. Klik link-nya dulu baru bisa login.
           </p>
           {plan !== 'free' && (
             <div className="bg-sky-50 border border-sky-200 rounded-xl p-4 text-sm text-sky-700 mb-4">
-              Lo pilih paket <strong>{plan === 'pro' ? 'Pro (Rp299K)' : 'Starter (Rp99K)'}</strong>.<br />
-              Setelah konfirmasi email, lo bisa upgrade dari dashboard.
+              Kamu pilih paket <strong>{plan === 'pro' ? 'Pro (Rp299K)' : 'Starter (Rp99K)'}</strong>.<br />
+              Setelah konfirmasi email, kamu bisa upgrade dari dashboard.
             </div>
           )}
           <Link href="/login" className="text-sky-600 hover:underline text-sm">Sudah konfirmasi? Masuk sekarang</Link>
@@ -75,6 +116,10 @@ function RegisterForm() {
           <p className="text-sm text-gray-500 mt-1">Sudah punya akun? <Link href="/login" className="text-sky-600 hover:underline">Masuk</Link></p>
         </div>
 
+        <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-4 text-sm text-amber-700">
+          <strong>Akun gratis:</strong> 3 chat/hari. Nomor WhatsApp dipakai untuk verifikasi identitas — 1 nomor untuk 1 akun.
+        </div>
+
         {plan !== 'free' && (
           <div className="bg-sky-50 border border-sky-200 rounded-xl px-4 py-3 mb-4 text-sm text-sky-700 text-center">
             Daftar untuk paket <strong>{plan === 'pro' ? 'Pro' : 'Starter'}</strong>
@@ -90,7 +135,7 @@ function RegisterForm() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                placeholder="Nama lo"
+                placeholder="Nama kamu"
                 className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
               />
             </div>
@@ -104,6 +149,20 @@ function RegisterForm() {
                 placeholder="email@gmail.com"
                 className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
               />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Nomor WhatsApp <span className="text-amber-600 font-normal">(wajib, untuk verifikasi)</span>
+              </label>
+              <input
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+                placeholder="08xxxxxxxxxx"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+              />
+              <p className="text-xs text-gray-400 mt-1">1 nomor WA hanya bisa untuk 1 akun</p>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
@@ -130,7 +189,7 @@ function RegisterForm() {
             </button>
           </form>
           <p className="text-xs text-gray-400 text-center mt-4">
-            Dengan daftar, lo setuju dengan syarat penggunaan Awardee.id.
+            Dengan daftar, kamu setuju dengan syarat penggunaan Awardee.id.
           </p>
         </div>
       </div>
