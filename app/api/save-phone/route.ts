@@ -24,6 +24,8 @@ export async function POST(req: NextRequest) {
       .maybeSingle()
 
     if (existing) {
+      // Hapus auth user yang baru dibuat agar tidak jadi ghost account
+      await supabase.auth.admin.deleteUser(userId)
       return NextResponse.json({ ok: false, error: 'phone_taken' }, { status: 409 })
     }
 

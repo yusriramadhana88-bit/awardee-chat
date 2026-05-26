@@ -70,16 +70,43 @@ function RegisterForm() {
       return
     }
 
-    // Simpan phone ke profiles
-    if (signUpData.user) {
-      await fetch('/api/save-phone', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: signUpData.user.id, phone: normalizedPhone }),
-      })
+    // Supabase tidak return error untuk email duplikat — deteksi via identities kosong
+    if (!signUpData.user || signUpData.user.identities?.length === 0) {
+      setError('Email ini sudah terdaftar. Silakan login atau gunakan email lain.')
+      setLoading(false)
+      return
     }
 
-    setDone(true)
+    // Simpan phone ke profiles (jika sudah dipakai, akan hapus user baru & return error)
+    const saveRes = await fetch('/api/save-phone', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: signUpData.user.id, phone: normalizedPhone }),
+    })
+    const saveData = await saveRes.json()
+    if (!saveData.ok) {
+      setError('Nomor WhatsApp ini sudah terdaftar. Gunakan nomor lain atau login ke akun yang sudah ada.')
+      setLoading(false)
+      return
+    }
+
+    // Auto-confirm email (bypass Supabase SMTP limit)
+    await fetch('/api/confirm-user', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: signUpData.user.id }),
+    })
+
+    // Auto-login langsung setelah konfirmasi
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
+    if (signInError) {
+      // Fallback: arahkan ke login manual jika auto-login gagal
+      setDone(true)
+      setLoading(false)
+      return
+    }
+
+    router.push('/chat')
     setLoading(false)
   }
 
@@ -87,18 +114,18 @@ function RegisterForm() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
         <div className="max-w-sm w-full text-center">
-          <div className="text-4xl mb-4">📧</div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Cek email kamu!</h2>
+          <div className="text-4xl mb-4">✅</div>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">Akun berhasil dibuat!</h2>
           <p className="text-gray-500 text-sm mb-6">
-            Kami sudah kirim link konfirmasi ke <strong>{email}</strong>. Klik link-nya dulu baru bisa login.
+            Akun kamu sudah aktif. Silakan login untuk mulai chat dengan Den Dhana.
           </p>
           {plan !== 'free' && (
             <div className="bg-sky-50 border border-sky-200 rounded-xl p-4 text-sm text-sky-700 mb-4">
               Kamu pilih paket <strong>{plan === 'pro' ? 'Pro (Rp299K)' : 'Starter (Rp99K)'}</strong>.<br />
-              Setelah konfirmasi email, kamu bisa upgrade dari dashboard.
+              Setelah login, kamu bisa upgrade dari dashboard.
             </div>
           )}
-          <Link href="/login" className="text-sky-600 hover:underline text-sm">Sudah konfirmasi? Masuk sekarang</Link>
+          <Link href="/login" className="text-sky-600 hover:underline text-sm">Masuk sekarang</Link>
         </div>
       </div>
     )
@@ -117,7 +144,7 @@ function RegisterForm() {
         </div>
 
         <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-4 text-sm text-amber-700">
-          <strong>Akun gratis:</strong> 3 chat/hari. Nomor WhatsApp dipakai untuk verifikasi identitas — 1 nomor untuk 1 akun.
+          <strong>Akun gratis:</strong> 3 chat/minggu. Nomor WhatsApp dipakai untuk verifikasi identitas — 1 nomor untuk 1 akun.
         </div>
 
         {plan !== 'free' && (
