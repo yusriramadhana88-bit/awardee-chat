@@ -21,3 +21,6 @@ npm-debug.log*
 next-env.d.ts
 
 .vercel
+
+# Session context files
+SESSION_CONTEXT.md
