@@ -46,3 +46,114 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE OR REPLACE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+
+-- ============================================================
+-- SCHOLARSHIP TRACKER TABLES
+-- Jalankan bagian ini setelah tabel di atas sudah dibuat
+-- ============================================================
+
+-- Aplikasi beasiswa per user (custom, user isi sendiri)
+CREATE TABLE IF NOT EXISTS public.scholarship_applications (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT,
+  deadline DATE,
+  status TEXT DEFAULT 'active' CHECK (status IN ('active', 'completed', 'cancelled')),
+  overall_progress INTEGER DEFAULT 0 CHECK (overall_progress >= 0 AND overall_progress <= 100),
+  share_token TEXT UNIQUE,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE public.scholarship_applications ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can manage own applications" ON public.scholarship_applications
+  FOR ALL USING (auth.uid() = user_id);
+
+-- Tahapan per aplikasi (custom, user atur sendiri)
+CREATE TABLE IF NOT EXISTS public.application_stages (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  application_id UUID REFERENCES public.scholarship_applications(id) ON DELETE CASCADE NOT NULL,
+  name TEXT NOT NULL,
+  stage_order INTEGER NOT NULL DEFAULT 0,
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'in_progress', 'done')),
+  due_date DATE,
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE public.application_stages ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can manage own stages" ON public.application_stages
+  FOR ALL USING (
+    EXISTS (
+      SELECT 1 FROM public.scholarship_applications a
+      WHERE a.id = application_stages.application_id
+        AND a.user_id = auth.uid()
+    )
+  );
+
+-- Checklist item per stage
+CREATE TABLE IF NOT EXISTS public.stage_checklist_items (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  stage_id UUID REFERENCES public.application_stages(id) ON DELETE CASCADE NOT NULL,
+  text TEXT NOT NULL,
+  is_completed BOOLEAN DEFAULT FALSE,
+  completed_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE public.stage_checklist_items ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can manage own checklist items" ON public.stage_checklist_items
+  FOR ALL USING (
+    EXISTS (
+      SELECT 1 FROM public.application_stages s
+      JOIN public.scholarship_applications a ON a.id = s.application_id
+      WHERE s.id = stage_checklist_items.stage_id
+        AND a.user_id = auth.uid()
+    )
+  );
+
+-- Fungsi SECURITY DEFINER untuk public share link (bypass RLS, verifikasi via share_token)
+CREATE OR REPLACE FUNCTION public.get_shared_application(p_token TEXT)
+RETURNS JSON SECURITY DEFINER AS $$
+DECLARE
+  result JSON;
+BEGIN
+  SELECT json_build_object(
+    'id', a.id,
+    'name', a.name,
+    'description', a.description,
+    'deadline', a.deadline,
+    'overall_progress', a.overall_progress,
+    'status', a.status,
+    'stages', COALESCE((
+      SELECT json_agg(
+        json_build_object(
+          'id', s.id,
+          'name', s.name,
+          'stage_order', s.stage_order,
+          'status', s.status,
+          'due_date', s.due_date,
+          'notes', s.notes,
+          'checklist_items', COALESCE((
+            SELECT json_agg(
+              json_build_object(
+                'id', c.id,
+                'text', c.text,
+                'is_completed', c.is_completed
+              ) ORDER BY c.created_at
+            ) FROM public.stage_checklist_items c WHERE c.stage_id = s.id
+          ), '[]'::json)
+        ) ORDER BY s.stage_order
+      ) FROM public.application_stages s WHERE s.application_id = a.id
+    ), '[]'::json)
+  ) INTO result
+  FROM public.scholarship_applications a
+  WHERE a.share_token = p_token
+    AND a.status != 'cancelled';
+
+  RETURN result;
+END;
+$$ LANGUAGE plpgsql;

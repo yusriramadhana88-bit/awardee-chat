@@ -1,0 +1,23 @@
+'use client'
+
+import Link from 'next/link'
+
+export default function FeatureLock({ requiredTier, featureName }: { requiredTier: 'starter' | 'pro'; featureName: string }) {
+  return (
+    <div className="min-h-[70vh] flex items-center justify-center px-4">
+      <div className="bg-white rounded-2xl border border-gray-200 p-8 max-w-sm w-full text-center">
+        <div className="text-3xl mb-3">🔒</div>
+        <h2 className="font-bold text-gray-900 mb-2">
+          {featureName} — Fitur {requiredTier === 'pro' ? 'Pro' : 'Starter'}
+        </h2>
+        <p className="text-sm text-gray-500 mb-5">
+          Upgrade paket kamu untuk membuka {featureName.toLowerCase()} dan fitur lainnya di AwardeeOS.
+        </p>
+        <Link href="/dashboard#upgrade" className="block bg-sky-600 text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-sky-700 transition-colors mb-3">
+          Lihat Paket Upgrade
+        </Link>
+        <Link href="/dashboard" className="text-sm text-gray-400 hover:text-gray-600">Kembali ke Dashboard</Link>
+      </div>
+    </div>
+  )
+}

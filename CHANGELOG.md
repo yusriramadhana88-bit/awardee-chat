@@ -1,0 +1,77 @@
+# Changelog — AWARDEE APP
+
+Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
+Versi: [Semantic Versioning](https://semver.org/) — Major.Minor.Patch
+
+---
+
+## [2.1.0] — 2026-06-17
+
+### Added
+- **Gamification system**: lib/gamification.ts dengan 10 level lucu (Baru Niat → Dewa Beasiswa) untuk CV/essay, 5 level IELTS (Baru Bangun → Beneran Gila Sih), dan 5 level agregat "Pejuang Beasiswa" untuk dashboard overview
+- **LevelProgressBar component**: `app/dashboard/_components/LevelProgressBar.tsx` — reusable gamified progress bar dengan nama level, emoji, warna, dan pesan motivasi
+- **CV Analyzer**: Score 1-10 kini ditampilkan sebagai LevelProgressBar di atas hasil analisis dan di riwayat analisis (badge level mini)
+- **Essay Workshop**: Score 1-10 kini ditampilkan sebagai LevelProgressBar di bawah kritik AI, label diupdate menjadi "Kritik AI — GALI DIRI"
+- **IELTS Tracker**: Overall score kini ditampilkan dengan LevelProgressBar + nama level IELTS di header "Progres Menuju Target"
+- **Dashboard Overview**: Kartu "Level Pejuang Beasiswa" baru — menghitung XP dari semua aktivitas (CV, essay review, tes, tracker) dan menampilkan level + progress bar ke level berikutnya
+- **Admin Dashboard** (`/admin/`): layout gelap terpisah, halaman overview stats (total user per tier, chat hari ini, top affiliates), halaman kelola user (tabel semua user + upgrade/downgrade tier manual), halaman kelola affiliates (tabel afiliasi + toggle suspend/aktif)
+- **Sistem Affiliasi**: Tabel `affiliates` dan `referrals` di Supabase. Dashboard member `/dashboard/affiliate` (daftar jadi afiliasi, salin link referral, lihat stats klik/konversi/komisi). API `/api/affiliate` (GET status + POST daftar)
+- **Admin API routes**: `/api/admin/users` (GET semua user, PATCH tier), `/api/admin/affiliates` (GET semua afiliasi + stats, PATCH payout/status)
+- **Middleware**: `/admin/*` kini dilindungi — hanya user dengan `is_admin = true` yang bisa akses, non-admin di-redirect ke `/dashboard`
+- **Support pages**: `/about`, `/disclaimer`, `/privacy`, `/terms`, `/copyright`, `/faq`, `/contact` — semua dengan SEO metadata, format profesional bahasa Indonesia
+- **Footer global**: Link ke semua halaman legal di setiap halaman
+- **lib/anthropic.ts**: Centralized Anthropic client dengan model constants (`HAIKU_MODEL`, `SONNET_MODEL`)
+- **lib/env.ts**: Shared `loadEnvKey()` untuk membaca `.env.local` langsung (workaround Next.js local dev env)
+- **DB Migration 003** (`supabase/migrations/003_gamification_admin_affiliate.sql`): kolom `score` di cv_analyses & essay_drafts, kolom `is_admin` di profiles, tabel affiliates + referrals dengan RLS
+- **CHANGELOG.md** ini — sistem tracking versi per sesi
+
+### Changed
+- **Branding**: Semua referensi "AwardeeOS" di UI diganti menjadi "AWARDEE APP" (layout, dashboard, metadata, footer)
+- **Model AI**: CV Analyzer dan Essay Workshop diupgrade dari `claude-haiku-4-5-20251001` ke `claude-sonnet-4-6` untuk kualitas analisis lebih akurat dan mendalam
+- **Chat AI Den Dhana**: Tetap menggunakan `claude-haiku-4-5-20251001` untuk efisiensi biaya (volume tinggi, termasuk free tier)
+- **CV Analyzer API**: POST kini mengekstrak skor 1-10 dari output AI dan menyimpannya ke kolom `score` di cv_analyses
+- **Essay Workshop API**: POST kini mengekstrak skor 1-10 dari output AI dan menyimpannya ke kolom `score` di essay_drafts; GET history sudah include kolom score
+- **Dashboard sidebar**: Tambah nav item "Afiliasi & Komisi" 🤝 untuk semua tier
+- **app/layout.tsx**: Metadata diupdate ke AWARDEE APP, tambah Footer component dengan link legal, body kini flex column min-h-screen
+- **middleware.ts**: Proteksi `/admin/*` dengan cek `is_admin`, matcher diperbarui ke `/dashboard/:path*` dan `/admin/:path*`
+- **Duplikasi kode dihilangkan**: `loadEnvKey` dan `getAnthropic` yang duplikat di 3 route files → digantikan import dari `lib/env.ts` dan `lib/anthropic.ts`
+
+### Konvensi versi ke depan
+- **Major** (3.0.0): Breaking change atau rilis publik besar
+- **Minor** (2.x.0): Fitur baru per fase implementation pass
+- **Patch** (2.0.x): Bug fix saja
+
+---
+
+## [2.0.1] — 2026-06-11
+
+### Fixed
+- Limit chat free tier diseragamkan jadi 10/hari (sebelumnya inconsistent 3 vs 10 di beberapa tempat)
+- `.env.local.example` ditambah dokumentasi `SUPABASE_SERVICE_ROLE_KEY`
+- Modal verifikasi WhatsApp untuk error `PHONE_REQUIRED` di halaman chat
+- 4 bug "stuck loading state" (setSaving/setReviewing tidak direset saat session expired) di calendar, ielts, essay, chat
+
+---
+
+## [2.0.0] — 2026-05-26
+
+### Added
+- Dashboard "AWARDEE APP" lengkap: tracker, kalender, checklist dokumen, IELTS tracker, CV analyzer, essay workshop
+- Sistem subscription tier: Free / Starter Rp99K / Pro Rp299K
+- Gating fitur via `canAccess()` dan `<FeatureLock>` component
+- AI Den Dhana chat dengan rate limit per tier
+- Modal verifikasi WhatsApp untuk anti-abuse free tier
+- 21 routes, TypeScript strict, Supabase Auth + RLS
+
+---
+
+## Roadmap
+| Versi | Fitur | Target |
+|-------|-------|--------|
+| v2.2.0 | GALI DIRI chatbot (onboarding AI, upload CV/essay/skor, dashboard personal, rekomendasi beasiswa/kampus/jurusan/negara, CTA mentoring 7.5jt) | Fase 2 |
+| v2.3.0 | Simulasi Interview Beasiswa gamified (readiness 0-100%, level names interview) | Fase 2 |
+| v2.4.0 | Simulasi IELTS/TOEFL full chat-based dengan skor per seksi di akhir | Fase 3 |
+| v3.0.0 | Telegram Bot (broadcast harian ke grup gratis + update 2 hari ke member berbayar) + deploy Vercel | Fase 3 |
+| v3.1.0 | i18n multi-bahasa (ID / EN / ZH) + AI-friendly website (llms.txt, JSON-LD, sitemap) | Fase 4 |
+| v3.2.0 | MCP Server AWARDEE APP (akses konten beasiswa publik via Claude, aman dari data finansial/private) | Fase 5 |
+| v4.0.0 | Job Dashboard (tracker lowongan dalam/luar negeri + bimbingan karir) | Project baru |

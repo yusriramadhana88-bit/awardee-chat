@@ -1,29 +1,6 @@
-import Anthropic from '@anthropic-ai/sdk'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
-import { readFileSync, existsSync } from 'fs'
-import { resolve } from 'path'
-
-function loadEnvKey(key: string): string {
-  // Baca langsung dari .env.local — bypass system env yang kosong
-  try {
-    const envPath = resolve(process.cwd(), '.env.local')
-    if (existsSync(envPath)) {
-      const lines = readFileSync(envPath, 'utf8').split('\n')
-      for (const line of lines) {
-        const trimmed = line.trim().replace(/\r$/, '')
-        if (trimmed.startsWith(key + '=')) {
-          return trimmed.substring(key.length + 1).trim()
-        }
-      }
-    }
-  } catch {}
-  return process.env[key] ?? ''
-}
-
-function getAnthropic() {
-  return new Anthropic({ apiKey: loadEnvKey('ANTHROPIC_API_KEY') })
-}
+import { getAnthropic, HAIKU_MODEL } from '@/lib/anthropic'
 
 function getSupabaseWithToken(token: string) {
   return createSupabaseClient(
@@ -40,7 +17,7 @@ function getSupabaseAdmin() {
   )
 }
 
-const DAILY_LIMITS: Record<string, number> = { free: 3, starter: 50, pro: 999 }
+const DAILY_LIMITS: Record<string, number> = { free: 10, starter: 50, pro: 999 }
 
 // Knowledge base dari video YouTube (akan diisi setelah extract-youtube dijalankan)
 let YOUTUBE_KNOWLEDGE = ''
@@ -191,7 +168,7 @@ export async function POST(req: NextRequest) {
       .single()
 
     const tier = profile?.subscription_tier || 'free'
-    const limit = DAILY_LIMITS[tier] ?? 3
+    const limit = DAILY_LIMITS[tier] ?? 10
 
     // Cek phone uniqueness untuk tier free — wajib ada phone terverifikasi
     if (tier === 'free' && !profile?.phone) {
@@ -225,7 +202,7 @@ export async function POST(req: NextRequest) {
     }
 
     const response = await getAnthropic().messages.create({
-      model: 'claude-haiku-4-5-20251001',
+      model: HAIKU_MODEL,
       max_tokens: 1024,
       system: SYSTEM_PROMPT,
       messages: messages.slice(-10).map((m: { role: string; content: string }) => ({

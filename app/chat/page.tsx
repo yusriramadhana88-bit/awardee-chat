@@ -20,10 +20,69 @@ export default function ChatPage() {
   const [loading, setLoading] = useState(false)
   const [user, setUser] = useState<{ name: string; tier: string; used: number; limit: number } | null>(null)
   const [checkingAuth, setCheckingAuth] = useState(true)
+  const [showPhoneModal, setShowPhoneModal] = useState(false)
+  const [phoneInput, setPhoneInput] = useState('')
+  const [phoneError, setPhoneError] = useState('')
+  const [savingPhone, setSavingPhone] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const router = useRouter()
   const supabase = createClient()
+
+  function normalizePhone(raw: string) {
+    let p = raw.replace(/\s+/g, '').replace(/-/g, '')
+    if (p.startsWith('08')) p = '+62' + p.slice(1)
+    if (p.startsWith('8')) p = '+62' + p
+    if (!p.startsWith('+')) p = '+62' + p
+    return p
+  }
+
+  async function handleSavePhone(e: React.FormEvent) {
+    e.preventDefault()
+    setSavingPhone(true)
+    setPhoneError('')
+
+    const normalized = normalizePhone(phoneInput)
+    if (normalized.length < 10) {
+      setPhoneError('Nomor WhatsApp tidak valid.')
+      setSavingPhone(false)
+      return
+    }
+
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) {
+      setSavingPhone(false)
+      return
+    }
+
+    const checkRes = await fetch('/api/check-phone', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone: normalized }),
+    })
+    const checkData = await checkRes.json()
+    if (checkData.exists) {
+      setPhoneError('Nomor WhatsApp ini sudah terdaftar di akun lain.')
+      setSavingPhone(false)
+      return
+    }
+
+    const saveRes = await fetch('/api/save-phone', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: session.user.id, phone: normalized }),
+    })
+    const saveData = await saveRes.json()
+    if (!saveData.ok) {
+      setPhoneError('Gagal menyimpan nomor. Coba lagi.')
+      setSavingPhone(false)
+      return
+    }
+
+    setSavingPhone(false)
+    setShowPhoneModal(false)
+    sendMessage()
+  }
 
   useEffect(() => {
     async function loadUser() {
@@ -76,6 +135,13 @@ export default function ChatPage() {
           role: 'assistant',
           content: 'Batas pertanyaan harian kamu sudah habis. Upgrade ke Starter atau Pro untuk lanjut konsultasi hari ini ya.',
         }])
+      } else if (data.error === 'PHONE_REQUIRED') {
+        // Kembalikan pesan ke input supaya bisa dikirim ulang setelah verifikasi nomor
+        setMessages((prev) => prev.slice(0, -1))
+        setInput(text)
+        setShowPhoneModal(true)
+      } else {
+        setMessages((prev) => [...prev, { role: 'assistant', content: 'Koneksi bermasalah. Coba lagi.' }])
       }
     } catch {
       setMessages((prev) => [...prev, { role: 'assistant', content: 'Koneksi bermasalah. Coba lagi.' }])
@@ -201,6 +267,38 @@ export default function ChatPage() {
         )}
         <p className="text-center text-xs text-gray-400 mt-2">AI berbasis pengalaman Den Dhana · Awardee.id</p>
       </div>
+
+      {/* Modal verifikasi nomor WhatsApp */}
+      {showPhoneModal && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center px-4 z-50">
+          <div className="bg-white rounded-2xl p-6 max-w-sm w-full">
+            <h2 className="font-bold text-gray-900 mb-1">Verifikasi nomor WhatsApp</h2>
+            <p className="text-sm text-gray-500 mb-4">
+              Sebelum lanjut chat, kami perlu nomor WhatsApp aktif kamu (1 nomor = 1 akun).
+            </p>
+            <form onSubmit={handleSavePhone} className="space-y-3">
+              <input
+                type="tel"
+                value={phoneInput}
+                onChange={(e) => setPhoneInput(e.target.value)}
+                required
+                placeholder="08xxxxxxxxxx"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+              />
+              {phoneError && (
+                <div className="bg-red-50 text-red-600 text-sm px-4 py-3 rounded-xl">{phoneError}</div>
+              )}
+              <button
+                type="submit"
+                disabled={savingPhone || !phoneInput.trim()}
+                className="w-full bg-sky-600 hover:bg-sky-700 disabled:bg-gray-300 text-white rounded-xl py-3 text-sm font-semibold transition-colors"
+              >
+                {savingPhone ? 'Menyimpan...' : 'Simpan & Lanjut Chat'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -1,13 +1,15 @@
 {
-  "name": "awardee-chat",
-  "version": "0.1.0",
+  "name": "awardeeos",
+  "version": "2.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "extract-youtube": "node scripts/extract-youtube.mjs",
-    "transcribe": "node scripts/transcribe-local.mjs"
+    "transcribe": "node scripts/transcribe-local.mjs",
+    "migrate": "node scripts/run-migration.mjs",
+    "set-admin": "node scripts/run-migration.mjs --set-admin"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.27.0",

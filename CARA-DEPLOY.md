@@ -29,14 +29,16 @@ Lo akan punya:
 8. Copy dan simpan:
    - `Project URL` (bentuknya: https://xxxxx.supabase.co)
    - `anon public` key (string panjang dimulai dari eyJ...)
+   - `service_role` key (secret, jangan disebar — dipakai server saja)
 
 ### Langkah 3: Setup database di Supabase
 1. Di Supabase, klik **SQL Editor** (ikon di sidebar kiri)
 2. Klik "New query"
-3. Buka file `supabase/schema.sql` di folder project lo
-4. Copy semua isinya, paste ke SQL Editor
-5. Klik **RUN** (tombol hijau)
-6. Harus muncul "Success" tanpa error
+3. Jalankan SQL berikut SECARA BERURUTAN (copy-paste isi file, klik RUN, tunggu "Success", baru lanjut ke file berikutnya):
+   - `supabase/schema.sql` — tabel dasar (profil, usage, scholarship tracker)
+   - `supabase/migrations/add_phone_to_profiles.sql` — kolom nomor WhatsApp (anti-abuse)
+   - `supabase/migrations/002_awardeeos_v2.sql` — tabel AwardeeOS v2.0 (IELTS tracker, essay workshop, kalender, CV analyzer, checklist dokumen)
+4. Setiap file harus muncul "Success" tanpa error sebelum lanjut ke file berikutnya
 
 ### Langkah 4: Buat akun Claude API
 1. Buka **console.anthropic.com**
