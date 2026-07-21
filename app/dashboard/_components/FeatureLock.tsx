@@ -13,7 +13,7 @@ export default function FeatureLock({ requiredTier, featureName }: { requiredTie
         <p className="text-sm text-gray-500 mb-5">
           Upgrade paket kamu untuk membuka {featureName.toLowerCase()} dan fitur lainnya di AwardeeOS.
         </p>
-        <Link href="/dashboard#upgrade" className="block bg-sky-600 text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-sky-700 transition-colors mb-3">
+        <Link href="/dashboard#upgrade" className="block bg-navy text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-navy-2 transition-colors mb-3">
           Lihat Paket Upgrade
         </Link>
         <Link href="/dashboard" className="text-sm text-gray-400 hover:text-gray-600">Kembali ke Dashboard</Link>

@@ -20,6 +20,7 @@ type Contribution = {
   hours: number | null
   contributed_at: string
 }
+type CollectiveStats = { alumniCount: number; totalContributions: number; totalHours: number }
 
 const TYPE_LABEL: Record<string, string> = {
   mentoring_session: 'Sesi Mentoring',
@@ -32,6 +33,7 @@ export default function AlumniPage() {
   const { loading } = useUser()
   const [alumni, setAlumni] = useState<Alumni | null>(null)
   const [contributions, setContributions] = useState<Contribution[]>([])
+  const [collectiveStats, setCollectiveStats] = useState<CollectiveStats | null>(null)
   const [pageLoading, setPageLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [logging, setLogging] = useState(false)
@@ -57,6 +59,7 @@ export default function AlumniPage() {
       const data = await res.json()
       setAlumni(data.alumni)
       setContributions(data.contributions || [])
+      setCollectiveStats(data.collectiveStats || null)
     }
     setPageLoading(false)
   }
@@ -123,6 +126,23 @@ export default function AlumniPage() {
         <p className="text-sm text-gray-500 mt-0.5">Sudah lolos beasiswa lewat Awardee.id? Gabung dan bantu mewujudkan #IndonesiaGoesGlobal.</p>
       </div>
 
+      {collectiveStats && (
+        <div className="bg-navy rounded-xl p-5 mb-6 grid grid-cols-3 gap-4 text-center">
+          <div>
+            <div className="text-xl sm:text-2xl font-bold text-gold">{collectiveStats.alumniCount}</div>
+            <div className="text-[11px] sm:text-xs text-white/60 mt-1">Alumni Aktif</div>
+          </div>
+          <div>
+            <div className="text-xl sm:text-2xl font-bold text-gold">{collectiveStats.totalContributions}</div>
+            <div className="text-[11px] sm:text-xs text-white/60 mt-1">Kontribusi Tercatat</div>
+          </div>
+          <div>
+            <div className="text-xl sm:text-2xl font-bold text-gold">{collectiveStats.totalHours}</div>
+            <div className="text-[11px] sm:text-xs text-white/60 mt-1">Total Jam untuk Yayasan</div>
+          </div>
+        </div>
+      )}
+
       {!alumni && (
         <form onSubmit={handleApply} className="bg-white rounded-xl border border-gray-200 p-6 space-y-4 max-w-lg">
           <div className="text-3xl mb-1">🎓</div>
@@ -151,7 +171,7 @@ export default function AlumniPage() {
               className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" />
           </div>
           <button type="submit" disabled={submitting}
-            className="bg-sky-600 hover:bg-sky-700 disabled:bg-gray-300 text-white px-6 py-3 rounded-xl font-semibold text-sm transition-colors">
+            className="bg-navy hover:bg-navy-2 disabled:bg-gray-300 text-white px-6 py-3 rounded-xl font-semibold text-sm transition-colors">
             {submitting ? 'Mengirim...' : 'Kirim Pengajuan'}
           </button>
         </form>
@@ -180,7 +200,7 @@ export default function AlumniPage() {
               <div className="text-xs text-gray-400 mt-1">Total kontribusi tercatat</div>
             </div>
             <div className="bg-white rounded-xl border border-gray-200 p-4">
-              <div className="text-2xl font-bold text-sky-600">{totalHours}</div>
+              <div className="text-2xl font-bold text-gold-2">{totalHours}</div>
               <div className="text-xs text-gray-400 mt-1">Total jam kontribusi</div>
             </div>
           </div>
@@ -202,7 +222,7 @@ export default function AlumniPage() {
               <input type="number" step="0.5" placeholder="Jam" value={contribHours} onChange={e => setContribHours(e.target.value)}
                 className="w-24 border border-gray-200 rounded-lg px-3 py-2 text-sm" />
               <button type="submit" disabled={logging}
-                className="bg-sky-600 hover:bg-sky-700 disabled:bg-gray-300 text-white px-5 py-2 rounded-lg font-medium text-sm transition-colors">
+                className="bg-navy hover:bg-navy-2 disabled:bg-gray-300 text-white px-5 py-2 rounded-lg font-medium text-sm transition-colors">
                 {logging ? 'Menyimpan...' : 'Simpan'}
               </button>
             </div>

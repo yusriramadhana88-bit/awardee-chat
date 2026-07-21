@@ -1,16 +1,18 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 
-export default function LoginPage() {
+function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const next = searchParams.get('next') || '/dashboard'
   const supabase = createClient()
 
   async function handleLogin(e: React.FormEvent) {
@@ -24,7 +26,7 @@ export default function LoginPage() {
       setError('Email atau password salah. Coba lagi ya.')
       setLoading(false)
     } else {
-      router.push('/chat')
+      router.push(next)
     }
   }
 
@@ -33,11 +35,11 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="w-9 h-9 rounded-xl bg-sky-600 flex items-center justify-center text-white font-bold">A</div>
+            <div className="w-9 h-9 rounded-xl bg-navy flex items-center justify-center text-white font-bold">A</div>
             <span className="font-bold text-gray-900">Awardee.id</span>
           </Link>
-          <h1 className="text-xl font-bold text-gray-900">Masuk ke akun lo</h1>
-          <p className="text-sm text-gray-500 mt-1">Belum punya akun? <Link href="/register" className="text-sky-600 hover:underline">Daftar gratis</Link></p>
+          <h1 className="text-xl font-bold text-gray-900">Masuk ke akun kamu</h1>
+          <p className="text-sm text-gray-500 mt-1">Belum punya akun? <Link href={`/register?next=${encodeURIComponent(next)}`} className="text-gold-2 hover:underline">Daftar gratis</Link></p>
         </div>
 
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
@@ -50,7 +52,7 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="email@gmail.com"
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="w-full border border-hairline rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
               />
             </div>
             <div>
@@ -61,7 +63,7 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="••••••••"
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="w-full border border-hairline rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
               />
             </div>
 
@@ -72,7 +74,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-sky-600 hover:bg-sky-700 disabled:bg-gray-300 text-white rounded-xl py-3 text-sm font-semibold transition-colors"
+              className="w-full bg-navy hover:bg-navy-2 disabled:bg-gray-300 text-white rounded-xl py-3 text-sm font-semibold transition-colors"
             >
               {loading ? 'Memproses...' : 'Masuk'}
             </button>
@@ -80,5 +82,13 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-50" />}>
+      <LoginForm />
+    </Suspense>
   )
 }

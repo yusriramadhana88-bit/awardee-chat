@@ -10,7 +10,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-4 py-12 lg:px-8">
-        <Link href="/" className="text-sm text-sky-600 hover:underline">← Kembali ke Beranda</Link>
+        <Link href="/" className="text-sm text-gold-2 hover:underline">← Kembali ke Beranda</Link>
 
         <h1 className="text-3xl font-bold text-gray-900 mt-6 mb-2">Tentang AWARDEE APP</h1>
         <p className="text-sm text-gray-400 mb-8">Terakhir diperbarui: Juni 2026</p>
@@ -65,7 +65,7 @@ export default function AboutPage() {
             <h2 className="text-xl font-bold text-gray-900 mb-3">Kontak</h2>
             <p>
               Untuk pertanyaan umum, kemitraan, atau pendaftaran mentoring, silakan kunjungi{' '}
-              <Link href="/contact" className="text-sky-600 hover:underline">halaman kontak</Link> kami.
+              <Link href="/contact" className="text-gold-2 hover:underline">halaman kontak</Link> kami.
             </p>
           </section>
         </div>

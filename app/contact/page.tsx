@@ -10,7 +10,7 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-4 py-12 lg:px-8">
-        <Link href="/" className="text-sm text-sky-600 hover:underline">← Kembali ke Beranda</Link>
+        <Link href="/" className="text-sm text-gold-2 hover:underline">← Kembali ke Beranda</Link>
 
         <h1 className="text-3xl font-bold text-gray-900 mt-6 mb-2">Kontak Kami</h1>
         <p className="text-sm text-gray-400 mb-8">Terakhir diperbarui: Juni 2026</p>
@@ -30,12 +30,12 @@ export default function ContactPage() {
 
           <a
             href="mailto:yusri.ramadhana88@gmail.com"
-            className="bg-sky-50 border border-sky-200 rounded-xl p-5 hover:border-sky-400 transition-colors group"
+            className="bg-off border border-gold rounded-xl p-5 hover:border-gold transition-colors group"
           >
             <div className="text-3xl mb-2">✉️</div>
-            <h2 className="font-semibold text-gray-900 group-hover:text-sky-700">Email</h2>
+            <h2 className="font-semibold text-gray-900 group-hover:text-navy">Email</h2>
             <p className="text-sm text-gray-500 mt-1">Untuk laporan teknis, DMCA, kemitraan, atau pertanyaan formal. Respons dalam 1–2 hari kerja.</p>
-            <span className="text-xs text-sky-600 font-medium mt-2 block">yusri.ramadhana88@gmail.com →</span>
+            <span className="text-xs text-gold-2 font-medium mt-2 block">yusri.ramadhana88@gmail.com →</span>
           </a>
 
           <a

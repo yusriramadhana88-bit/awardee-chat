@@ -140,7 +140,7 @@ export default function EssayWorkshopPage() {
           <h1 className="text-xl font-bold text-gray-900">Essay Workshop</h1>
           <p className="text-sm text-gray-500 mt-0.5">Tulis, simpan, dan dapatkan kritik AI mendalam untuk essay beasiswamu.</p>
         </div>
-        <button onClick={handleNewDraft} className="bg-sky-600 text-white text-sm px-4 py-2 rounded-xl font-medium hover:bg-sky-700 transition-colors whitespace-nowrap">
+        <button onClick={handleNewDraft} className="bg-navy text-white text-sm px-4 py-2 rounded-xl font-medium hover:bg-navy-2 transition-colors whitespace-nowrap">
           + Draft Baru
         </button>
       </div>
@@ -157,7 +157,7 @@ export default function EssayWorkshopPage() {
               <button
                 key={d.id}
                 onClick={() => selectDraft(d)}
-                className={`w-full text-left bg-white rounded-xl border p-3.5 transition-colors ${selectedId === d.id ? 'border-sky-400 ring-1 ring-sky-200' : 'border-gray-200 hover:border-sky-200'}`}
+                className={`w-full text-left bg-white rounded-xl border p-3.5 transition-colors ${selectedId === d.id ? 'border-gold ring-1 ring-gold/30' : 'border-gray-200 hover:border-gold'}`}
               >
                 <div className="font-medium text-sm text-gray-900 truncate">{d.title}</div>
                 <div className="text-xs text-gray-400 mt-0.5">{ESSAY_TYPES[d.essay_type] || 'Lainnya'}</div>
@@ -186,7 +186,7 @@ export default function EssayWorkshopPage() {
                       type="text"
                       value={title}
                       onChange={e => setTitle(e.target.value)}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
                     />
                   </div>
                   <div>
@@ -194,7 +194,7 @@ export default function EssayWorkshopPage() {
                     <select
                       value={essayType}
                       onChange={e => setEssayType(e.target.value)}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
                     >
                       {Object.entries(ESSAY_TYPES).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
                     </select>
@@ -207,7 +207,7 @@ export default function EssayWorkshopPage() {
                   onChange={e => setContent(e.target.value)}
                   rows={14}
                   placeholder="Tulis atau tempel essay kamu di sini..."
-                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 resize-none"
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold resize-none"
                 />
                 <div className="flex items-center justify-between mt-1">
                   <span className="text-xs text-gray-400">{content.trim().split(/\s+/).filter(Boolean).length} kata</span>
@@ -221,7 +221,7 @@ export default function EssayWorkshopPage() {
                   <button onClick={handleSave} disabled={saving} className="border border-gray-300 text-gray-700 text-sm px-4 py-2 rounded-lg font-medium hover:bg-gray-50 transition-colors disabled:opacity-50">
                     {saving ? 'Menyimpan...' : 'Simpan Draft'}
                   </button>
-                  <button onClick={handleReview} disabled={reviewing} className="bg-sky-600 text-white text-sm px-4 py-2 rounded-lg font-medium hover:bg-sky-700 transition-colors disabled:bg-gray-300">
+                  <button onClick={handleReview} disabled={reviewing} className="bg-navy text-white text-sm px-4 py-2 rounded-lg font-medium hover:bg-navy-2 transition-colors disabled:bg-gray-300">
                     {reviewing ? 'Menganalisis...' : 'Minta Kritik AI'}
                   </button>
                   <button onClick={() => handleDelete(selected.id)} className="ml-auto text-sm text-gray-400 hover:text-red-500 transition-colors px-3">
@@ -231,7 +231,7 @@ export default function EssayWorkshopPage() {
               </div>
 
               {selected.ai_feedback && (
-                <div className="bg-white rounded-xl border border-sky-200 p-5">
+                <div className="bg-white rounded-xl border border-gold p-5">
                   <h2 className="font-semibold text-gray-900 mb-1 text-sm">Kritik AI — GALI DIRI</h2>
                   {selected.reviewed_at && (
                     <p className="text-xs text-gray-400 mb-3">Direview pada {new Date(selected.reviewed_at).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' })}</p>
@@ -251,7 +251,7 @@ export default function EssayWorkshopPage() {
                           bgColor={lvl.bgColor}
                           borderColor={lvl.borderColor}
                           message={lvl.message}
-                          barColor={selected.score >= 7 ? 'bg-purple-500' : selected.score >= 5 ? 'bg-sky-500' : 'bg-yellow-400'}
+                          barColor={selected.score >= 7 ? 'bg-purple-500' : selected.score >= 5 ? 'bg-blue-500' : 'bg-yellow-400'}
                         />
                       </div>
                     )

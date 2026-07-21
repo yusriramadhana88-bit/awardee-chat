@@ -46,7 +46,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Mobile top bar */}
       <div className="lg:hidden flex items-center justify-between bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-40">
         <Link href="/dashboard" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-sky-600 flex items-center justify-center text-white font-bold text-sm">A</div>
+          <div className="w-8 h-8 rounded-lg bg-navy flex items-center justify-center text-white font-bold text-sm">A</div>
           <span className="font-bold text-gray-900 text-sm">AWARDEE APP</span>
         </Link>
         <button onClick={() => setMenuOpen(!menuOpen)} className="text-gray-500 p-1">
@@ -64,7 +64,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <aside className={`${menuOpen ? 'block' : 'hidden'} lg:block w-full lg:w-64 bg-white border-r border-gray-200 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto`}>
         <div className="p-4">
           <Link href="/dashboard" className="hidden lg:flex items-center gap-2 mb-6 px-2">
-            <div className="w-9 h-9 rounded-xl bg-sky-600 flex items-center justify-center text-white font-bold">A</div>
+            <div className="w-9 h-9 rounded-xl bg-navy flex items-center justify-center text-white font-bold">A</div>
             <div>
               <div className="font-bold text-gray-900 text-sm leading-tight">AWARDEE APP</div>
               <div className="text-[10px] text-gray-400 leading-tight">v2.0 · by Awardee.id</div>
@@ -82,7 +82,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   onClick={() => setMenuOpen(false)}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                     active
-                      ? 'bg-sky-50 text-sky-700'
+                      ? 'bg-off text-navy'
                       : locked
                       ? 'text-gray-400 hover:bg-gray-50'
                       : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'

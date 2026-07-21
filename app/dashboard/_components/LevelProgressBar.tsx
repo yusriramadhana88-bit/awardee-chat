@@ -11,7 +11,7 @@ type Props = {
   bgColor: string        // Tailwind bg color class
   borderColor: string    // Tailwind border color class
   message?: string
-  barColor?: string      // Tailwind bg class for the fill bar (default: bg-sky-500)
+  barColor?: string      // Tailwind bg class for the fill bar (default: bg-blue-500)
 }
 
 export default function LevelProgressBar({
@@ -25,7 +25,7 @@ export default function LevelProgressBar({
   bgColor,
   borderColor,
   message,
-  barColor = 'bg-sky-500',
+  barColor = 'bg-blue-500',
 }: Props) {
   return (
     <div className={`rounded-xl border ${borderColor} ${bgColor} p-3`}>

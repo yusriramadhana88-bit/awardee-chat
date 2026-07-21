@@ -10,7 +10,7 @@ export default function CopyrightPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-4 py-12 lg:px-8">
-        <Link href="/" className="text-sm text-sky-600 hover:underline">← Kembali ke Beranda</Link>
+        <Link href="/" className="text-sm text-gold-2 hover:underline">← Kembali ke Beranda</Link>
 
         <h1 className="text-3xl font-bold text-gray-900 mt-6 mb-2">Hak Cipta & Pelanggaran Konten</h1>
         <p className="text-sm text-gray-400 mb-8">Terakhir diperbarui: Juni 2026</p>

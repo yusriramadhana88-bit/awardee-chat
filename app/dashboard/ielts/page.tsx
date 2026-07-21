@@ -123,7 +123,7 @@ export default function IeltsTrackerPage() {
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-sky-600 text-white text-sm px-4 py-2 rounded-xl font-medium hover:bg-sky-700 transition-colors whitespace-nowrap"
+          className="bg-navy text-white text-sm px-4 py-2 rounded-xl font-medium hover:bg-navy-2 transition-colors whitespace-nowrap"
         >
           + Tambah Skor
         </button>
@@ -137,7 +137,7 @@ export default function IeltsTrackerPage() {
               <select
                 value={form.test_type}
                 onChange={e => setForm({ ...form, test_type: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
               >
                 {Object.entries(TEST_TYPE_LABEL).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
               </select>
@@ -148,7 +148,7 @@ export default function IeltsTrackerPage() {
                 type="date"
                 value={form.test_date}
                 onChange={e => setForm({ ...form, test_date: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
               />
             </div>
             <div className="flex items-center gap-2 pt-5">
@@ -175,7 +175,7 @@ export default function IeltsTrackerPage() {
                   value={(form as any)[s.key]}
                   onChange={e => setForm({ ...form, [s.key]: e.target.value })}
                   placeholder="0.0"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
                 />
               </div>
             ))}
@@ -188,12 +188,12 @@ export default function IeltsTrackerPage() {
               value={form.notes}
               onChange={e => setForm({ ...form, notes: e.target.value })}
               placeholder="Contoh: Percobaan ke-2, fokus latihan writing task 2"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
             />
           </div>
 
           <div className="flex gap-2">
-            <button type="submit" disabled={saving} className="bg-sky-600 text-white text-sm px-4 py-2 rounded-lg font-medium hover:bg-sky-700 transition-colors disabled:bg-gray-300">
+            <button type="submit" disabled={saving} className="bg-navy text-white text-sm px-4 py-2 rounded-lg font-medium hover:bg-navy-2 transition-colors disabled:bg-gray-300">
               {saving ? 'Menyimpan...' : 'Simpan'}
             </button>
             <button type="button" onClick={() => setShowForm(false)} className="text-sm text-gray-500 px-4 py-2">Batal</button>
@@ -240,7 +240,7 @@ export default function IeltsTrackerPage() {
                     bgColor={ieltsLvl.bgColor}
                     borderColor={ieltsLvl.borderColor}
                     message={ieltsLvl.message}
-                    barColor={reached ? 'bg-green-500' : 'bg-sky-500'}
+                    barColor={reached ? 'bg-green-500' : 'bg-blue-500'}
                   />
                 ) : null
               }
@@ -254,7 +254,7 @@ export default function IeltsTrackerPage() {
                     </span>
                   </div>
                   <div className="w-full bg-gray-100 rounded-full h-2">
-                    <div className={`h-2 rounded-full transition-all ${reached ? 'bg-green-500' : 'bg-sky-500'}`} style={{ width: `${pct}%` }} />
+                    <div className={`h-2 rounded-full transition-all ${reached ? 'bg-green-500' : 'bg-blue-500'}`} style={{ width: `${pct}%` }} />
                   </div>
                 </div>
               )
@@ -288,7 +288,7 @@ export default function IeltsTrackerPage() {
                   <tr key={s.id} className="border-b border-gray-50">
                     <td className="py-2 pr-4 text-gray-700">{s.test_date ? new Date(s.test_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'}</td>
                     <td className="py-2 pr-4 text-gray-700">{TEST_TYPE_LABEL[s.test_type]}</td>
-                    <td className="py-2 pr-4 text-center font-semibold text-sky-600">{s.overall_score ?? '—'}</td>
+                    <td className="py-2 pr-4 text-center font-semibold text-gold-2">{s.overall_score ?? '—'}</td>
                     <td className="py-2 pr-4 text-center text-gray-600">{s.listening ?? '—'}</td>
                     <td className="py-2 pr-4 text-center text-gray-600">{s.reading ?? '—'}</td>
                     <td className="py-2 pr-4 text-center text-gray-600">{s.writing ?? '—'}</td>

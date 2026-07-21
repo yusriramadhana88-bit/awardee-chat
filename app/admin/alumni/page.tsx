@@ -111,7 +111,7 @@ export default function AdminAlumniPage() {
                     <tr key={a.id} className="border-b border-gray-50">
                       <td className="px-4 py-3 font-medium text-gray-900">{a.profiles?.name ?? 'Unknown'}</td>
                       <td className="px-4 py-3 text-gray-600">{a.scholarship_name}</td>
-                      <td className="px-4 py-3 text-center font-semibold text-sky-600">{a.contribution_count}</td>
+                      <td className="px-4 py-3 text-center font-semibold text-gold-2">{a.contribution_count}</td>
                       <td className="px-4 py-3 text-center text-gray-600">{a.contribution_hours}</td>
                     </tr>
                   ))}

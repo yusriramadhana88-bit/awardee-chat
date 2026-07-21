@@ -88,7 +88,7 @@ export default function NewTrackerPage() {
           <p className="text-sm text-gray-500 mb-5">
             Upgrade akun untuk membuat lebih banyak aplikasi beasiswa.
           </p>
-          <Link href="/dashboard" className="block bg-sky-600 text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-sky-700 transition-colors mb-3">
+          <Link href="/dashboard" className="block bg-navy text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-navy-2 transition-colors mb-3">
             Upgrade Sekarang
           </Link>
           <Link href="/tracker" className="text-sm text-gray-400 hover:text-gray-600">Kembali ke Tracker</Link>
@@ -123,7 +123,7 @@ export default function NewTrackerPage() {
                 onChange={e => setName(e.target.value)}
                 required
                 placeholder="Contoh: AAS 2026, LPDP Reguler 2025"
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
               />
             </div>
 
@@ -137,7 +137,7 @@ export default function NewTrackerPage() {
                 onChange={e => setDescription(e.target.value)}
                 placeholder="Contoh: Beasiswa pemerintah Australia untuk S2 di bidang governance"
                 rows={2}
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 resize-none"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold resize-none"
               />
             </div>
 
@@ -151,7 +151,7 @@ export default function NewTrackerPage() {
                 value={deadline}
                 onChange={e => setDeadline(e.target.value)}
                 min={new Date().toISOString().split('T')[0]}
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
               />
             </div>
 
@@ -169,7 +169,7 @@ export default function NewTrackerPage() {
               <button
                 type="submit"
                 disabled={loading || !name.trim()}
-                className="flex-1 bg-sky-600 hover:bg-sky-700 disabled:bg-gray-300 text-white py-3 rounded-xl text-sm font-semibold transition-colors"
+                className="flex-1 bg-navy hover:bg-navy-2 disabled:bg-gray-300 text-white py-3 rounded-xl text-sm font-semibold transition-colors"
               >
                 {loading ? 'Membuat...' : 'Buat & Atur Tahapan →'}
               </button>

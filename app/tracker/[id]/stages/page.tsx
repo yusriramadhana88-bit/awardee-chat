@@ -158,7 +158,7 @@ export default function StagesPage() {
           </div>
           <Link
             href={`/tracker/${id}`}
-            className="text-sm bg-sky-600 text-white px-4 py-1.5 rounded-lg hover:bg-sky-700 transition-colors"
+            className="text-sm bg-navy text-white px-4 py-1.5 rounded-lg hover:bg-navy-2 transition-colors"
           >
             Lihat Progress →
           </Link>
@@ -167,7 +167,7 @@ export default function StagesPage() {
 
       <main className="max-w-2xl mx-auto px-4 py-6">
         {isNew && (
-          <div className="bg-sky-50 border border-sky-200 rounded-xl p-4 mb-5 text-sm text-sky-700">
+          <div className="bg-off border border-gold rounded-xl p-4 mb-5 text-sm text-navy">
             Aplikasi berhasil dibuat! Sekarang tambahkan tahapan-tahapan beasiswamu di bawah ini.
           </div>
         )}
@@ -182,12 +182,12 @@ export default function StagesPage() {
               onChange={e => setNewStageName(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && addStage()}
               placeholder="Contoh: Personal Statement, IELTS, Interview"
-              className="flex-1 border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+              className="flex-1 border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
             />
             <button
               onClick={addStage}
               disabled={saving || !newStageName.trim()}
-              className="bg-sky-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-sky-700 disabled:bg-gray-300 transition-colors"
+              className="bg-navy text-white px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-navy-2 disabled:bg-gray-300 transition-colors"
             >
               Tambah
             </button>
@@ -295,11 +295,11 @@ function StageEditor({
             onChange={e => setEditName(e.target.value)}
             onBlur={saveEdit}
             onKeyDown={e => { if (e.key === 'Enter') saveEdit(); if (e.key === 'Escape') setEditing(false) }}
-            className="flex-1 border border-sky-300 rounded-lg px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+            className="flex-1 border border-gold rounded-lg px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
           />
         ) : (
           <span
-            className="flex-1 text-sm font-medium text-gray-800 cursor-pointer hover:text-sky-600 transition-colors"
+            className="flex-1 text-sm font-medium text-gray-800 cursor-pointer hover:text-gold-2 transition-colors"
             onClick={() => setEditing(true)}
           >
             {stage.name}
@@ -310,7 +310,7 @@ function StageEditor({
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={() => setShowChecklist(!showChecklist)}
-            className="text-xs text-gray-400 hover:text-sky-600 transition-colors"
+            className="text-xs text-gray-400 hover:text-gold-2 transition-colors"
           >
             ☑ {stage.checklist_items.length}
           </button>
@@ -351,7 +351,7 @@ function StageEditor({
               onChange={e => onChecklistInputChange(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && onAddChecklist()}
               placeholder="Tambah item checklist..."
-              className="flex-1 border border-gray-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
+              className="flex-1 border border-gray-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-gold"
             />
             <button
               onClick={onAddChecklist}

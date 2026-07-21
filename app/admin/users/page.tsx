@@ -17,7 +17,7 @@ type User = {
 
 const TIER_COLORS = {
   free: 'text-gray-600 bg-gray-100',
-  starter: 'text-sky-700 bg-sky-100',
+  starter: 'text-navy bg-off',
   pro: 'text-purple-700 bg-purple-100',
 }
 
@@ -73,7 +73,7 @@ export default function AdminUsersPage() {
           placeholder="Cari nama, email, atau HP..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="border border-gray-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 w-64"
+          className="border border-gray-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold w-64"
         />
       </div>
 
@@ -101,7 +101,7 @@ export default function AdminUsersPage() {
                   <td className="px-4 py-3 text-gray-500 text-xs">{u.email ?? '—'}</td>
                   <td className="px-4 py-3 text-gray-500 text-xs">{u.phone ?? '—'}</td>
                   <td className="px-4 py-3 text-center">
-                    <span className="font-semibold text-sky-600">{u.chat_today}</span>
+                    <span className="font-semibold text-gold-2">{u.chat_today}</span>
                   </td>
                   <td className="px-4 py-3">
                     <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${TIER_COLORS[u.subscription_tier]}`}>
@@ -117,7 +117,7 @@ export default function AdminUsersPage() {
                         value={u.subscription_tier}
                         onChange={e => handleTierChange(u.id, e.target.value as 'free' | 'starter' | 'pro')}
                         disabled={updating === u.id}
-                        className="border border-gray-200 rounded-lg px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-sky-500 disabled:opacity-50"
+                        className="border border-gray-200 rounded-lg px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-gold disabled:opacity-50"
                       >
                         <option value="free">Free</option>
                         <option value="starter">Starter</option>

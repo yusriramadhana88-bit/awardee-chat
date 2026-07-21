@@ -174,7 +174,7 @@ export default function TrackerDetailPage() {
           <span className="font-semibold text-gray-900 text-sm flex-1 truncate">{app.name}</span>
           <Link
             href={`/tracker/${id}/stages`}
-            className="text-xs text-sky-600 hover:underline"
+            className="text-xs text-gold-2 hover:underline"
           >
             Edit Tahapan
           </Link>
@@ -191,12 +191,12 @@ export default function TrackerDetailPage() {
                 <p className="text-sm text-gray-500 mt-0.5">{app.description}</p>
               )}
             </div>
-            <span className="text-3xl font-bold text-sky-600 shrink-0 ml-3">{app.overall_progress}%</span>
+            <span className="text-3xl font-bold text-gold-2 shrink-0 ml-3">{app.overall_progress}%</span>
           </div>
 
           <div className="w-full bg-gray-100 rounded-full h-3 mb-3">
             <div
-              className="bg-sky-500 h-3 rounded-full transition-all duration-500"
+              className="bg-blue-500 h-3 rounded-full transition-all duration-500"
               style={{ width: `${app.overall_progress}%` }}
             />
           </div>
@@ -252,7 +252,7 @@ export default function TrackerDetailPage() {
             <p className="text-gray-500 text-sm mb-3">Belum ada tahapan. Tambahkan dulu!</p>
             <Link
               href={`/tracker/${id}/stages`}
-              className="inline-block bg-sky-600 text-white text-sm px-5 py-2.5 rounded-xl hover:bg-sky-700 transition-colors"
+              className="inline-block bg-navy text-white text-sm px-5 py-2.5 rounded-xl hover:bg-navy-2 transition-colors"
             >
               + Tambah Tahapan
             </Link>
@@ -313,7 +313,7 @@ function StageCard({
           className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
             isDone
               ? 'bg-green-500 border-green-500 text-white'
-              : 'border-gray-300 hover:border-sky-400'
+              : 'border-gray-300 hover:border-gold'
           }`}
         >
           {isDone && (
@@ -363,7 +363,7 @@ function StageCard({
                     type="checkbox"
                     checked={item.is_completed}
                     onChange={() => onToggleChecklist(stage.id, item.id, item.is_completed)}
-                    className="w-4 h-4 rounded border-gray-300 text-sky-600 focus:ring-sky-500 cursor-pointer"
+                    className="w-4 h-4 rounded border-gray-300 text-gold-2 focus:ring-gold cursor-pointer"
                   />
                   <span className={`text-sm ${item.is_completed ? 'line-through text-gray-400' : 'text-gray-700'}`}>
                     {item.text}
@@ -381,12 +381,12 @@ function StageCard({
               onChange={e => setNotes(e.target.value)}
               placeholder="Tulis catatan untuk tahapan ini..."
               rows={2}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 resize-none bg-gray-50"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold resize-none bg-gray-50"
             />
             <button
               onClick={() => onSaveNote(stage.id, notes)}
               disabled={savingNote}
-              className="mt-1 text-xs text-sky-600 hover:underline disabled:text-gray-400"
+              className="mt-1 text-xs text-gold-2 hover:underline disabled:text-gray-400"
             >
               {savingNote ? 'Menyimpan...' : 'Simpan catatan'}
             </button>

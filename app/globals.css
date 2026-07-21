@@ -15,7 +15,7 @@ html, body {
 }
 
 .chat-bubble-user {
-  @apply bg-sky-600 text-white rounded-2xl rounded-tr-sm px-4 py-3 max-w-[80%] self-end text-sm leading-relaxed;
+  @apply bg-navy text-white rounded-2xl rounded-tr-sm px-4 py-3 max-w-[80%] self-end text-sm leading-relaxed;
 }
 
 .chat-bubble-ai {

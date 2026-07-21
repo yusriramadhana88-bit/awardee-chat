@@ -26,7 +26,7 @@ const CATEGORY_COLOR: Record<string, string> = {
   deadline: 'bg-red-100 text-red-700',
   test: 'bg-purple-100 text-purple-700',
   interview: 'bg-amber-100 text-amber-700',
-  document: 'bg-sky-100 text-sky-700',
+  document: 'bg-off text-navy',
   other: 'bg-gray-100 text-gray-700',
   application: 'bg-green-100 text-green-700',
 }
@@ -163,7 +163,7 @@ export default function CalendarPage() {
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-sky-600 text-white text-sm px-4 py-2 rounded-xl font-medium hover:bg-sky-700 transition-colors"
+          className="bg-navy text-white text-sm px-4 py-2 rounded-xl font-medium hover:bg-navy-2 transition-colors"
         >
           + Tambah Event
         </button>
@@ -179,7 +179,7 @@ export default function CalendarPage() {
               onChange={e => setForm({ ...form, title: e.target.value })}
               placeholder="Contoh: Tes IELTS, Submit LoA"
               required
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
             />
           </div>
           <div>
@@ -189,7 +189,7 @@ export default function CalendarPage() {
               value={form.date}
               onChange={e => setForm({ ...form, date: e.target.value })}
               required
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
             />
           </div>
           <div>
@@ -197,7 +197,7 @@ export default function CalendarPage() {
             <select
               value={form.category}
               onChange={e => setForm({ ...form, category: e.target.value as CalEvent['category'] })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
             >
               <option value="deadline">Deadline</option>
               <option value="test">Tes Bahasa</option>
@@ -207,7 +207,7 @@ export default function CalendarPage() {
             </select>
           </div>
           <div className="sm:col-span-4 flex gap-2">
-            <button type="submit" disabled={saving} className="bg-sky-600 text-white text-sm px-4 py-2 rounded-lg font-medium hover:bg-sky-700 transition-colors disabled:bg-gray-300">
+            <button type="submit" disabled={saving} className="bg-navy text-white text-sm px-4 py-2 rounded-lg font-medium hover:bg-navy-2 transition-colors disabled:bg-gray-300">
               {saving ? 'Menyimpan...' : 'Simpan'}
             </button>
             <button type="button" onClick={() => setShowForm(false)} className="text-sm text-gray-500 px-4 py-2">Batal</button>
@@ -245,10 +245,10 @@ export default function CalendarPage() {
                   key={i}
                   onClick={() => setSelectedDate(key)}
                   className={`aspect-square rounded-lg p-1 text-left flex flex-col gap-0.5 border transition-colors ${
-                    isSelected ? 'border-sky-500 bg-sky-50' : isToday ? 'border-sky-200 bg-sky-50/50' : 'border-transparent hover:bg-gray-50'
+                    isSelected ? 'border-gold bg-off' : isToday ? 'border-gold bg-off/50' : 'border-transparent hover:bg-gray-50'
                   }`}
                 >
-                  <span className={`text-xs ${isToday ? 'font-bold text-sky-600' : 'text-gray-700'}`}>{day.getDate()}</span>
+                  <span className={`text-xs ${isToday ? 'font-bold text-gold-2' : 'text-gray-700'}`}>{day.getDate()}</span>
                   <div className="flex flex-wrap gap-0.5">
                     {dayEvents.slice(0, 3).map(ev => (
                       <span key={ev.id} className={`w-1.5 h-1.5 rounded-full ${CATEGORY_COLOR[ev.category].split(' ')[0]}`} />

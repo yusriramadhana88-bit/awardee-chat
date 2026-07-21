@@ -62,7 +62,7 @@ export default function TrackerPage() {
       <header className="bg-white border-b border-gray-200 px-4 py-3">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <Link href="/dashboard" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-sky-600 flex items-center justify-center text-white font-bold text-sm">A</div>
+            <div className="w-8 h-8 rounded-lg bg-navy flex items-center justify-center text-white font-bold text-sm">A</div>
             <span className="font-bold text-gray-900 text-sm">Awardee.id</span>
           </Link>
           <div className="flex items-center gap-3">
@@ -79,7 +79,7 @@ export default function TrackerPage() {
             <p className="text-sm text-gray-500 mt-0.5">
               {applications.length}/{limit === 999 ? '∞' : limit} aplikasi aktif
               {tier !== 'pro' && (
-                <Link href="/dashboard" className="ml-2 text-sky-600 hover:underline text-xs">
+                <Link href="/dashboard" className="ml-2 text-gold-2 hover:underline text-xs">
                   Upgrade untuk lebih
                 </Link>
               )}
@@ -95,7 +95,7 @@ export default function TrackerPage() {
           ) : (
             <Link
               href="/tracker/new"
-              className="bg-sky-600 text-white text-sm px-4 py-2 rounded-xl font-medium hover:bg-sky-700 transition-colors"
+              className="bg-navy text-white text-sm px-4 py-2 rounded-xl font-medium hover:bg-navy-2 transition-colors"
             >
               + Buat Baru
             </Link>
@@ -111,7 +111,7 @@ export default function TrackerPage() {
             </p>
             <Link
               href="/tracker/new"
-              className="inline-block bg-sky-600 text-white text-sm px-6 py-2.5 rounded-xl font-medium hover:bg-sky-700 transition-colors"
+              className="inline-block bg-navy text-white text-sm px-6 py-2.5 rounded-xl font-medium hover:bg-navy-2 transition-colors"
             >
               Buat Aplikasi Pertama
             </Link>
@@ -141,7 +141,7 @@ function ApplicationCard({ app }: { app: ScholarshipApplication }) {
   return (
     <Link
       href={`/tracker/${app.id}`}
-      className="block bg-white rounded-2xl border border-gray-200 p-5 hover:border-sky-300 hover:shadow-sm transition-all"
+      className="block bg-white rounded-2xl border border-gray-200 p-5 hover:border-gold hover:shadow-sm transition-all"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
@@ -151,14 +151,14 @@ function ApplicationCard({ app }: { app: ScholarshipApplication }) {
           )}
         </div>
         <div className="text-right shrink-0">
-          <span className="text-2xl font-bold text-sky-600">{app.overall_progress}%</span>
+          <span className="text-2xl font-bold text-gold-2">{app.overall_progress}%</span>
         </div>
       </div>
 
       <div className="mt-3">
         <div className="w-full bg-gray-100 rounded-full h-2">
           <div
-            className="bg-sky-500 h-2 rounded-full transition-all"
+            className="bg-blue-500 h-2 rounded-full transition-all"
             style={{ width: `${app.overall_progress}%` }}
           />
         </div>

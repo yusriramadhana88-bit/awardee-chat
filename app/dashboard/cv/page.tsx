@@ -110,7 +110,7 @@ export default function CvAnalyzerPage() {
           value={target}
           onChange={e => setTarget(e.target.value)}
           placeholder="Contoh: AAS, LPDP Reguler, Chevening"
-          className="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 mb-4"
+          className="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gold mb-4"
         />
 
         <label className="block text-sm font-medium text-gray-700 mb-1.5">Isi CV</label>
@@ -119,7 +119,7 @@ export default function CvAnalyzerPage() {
           onChange={e => setCvContent(e.target.value)}
           placeholder="Tempel seluruh isi CV kamu di sini (pengalaman kerja, pendidikan, organisasi, prestasi, dll)..."
           rows={12}
-          className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 resize-none font-mono"
+          className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold resize-none font-mono"
         />
         <div className="flex items-center justify-between mt-1 mb-4">
           <span className="text-xs text-gray-400">{cvContent.length} karakter</span>
@@ -132,14 +132,14 @@ export default function CvAnalyzerPage() {
         <button
           onClick={handleAnalyze}
           disabled={analyzing || atLimit || cvContent.trim().length < 50}
-          className="w-full bg-sky-600 hover:bg-sky-700 disabled:bg-gray-300 text-white rounded-xl py-3 text-sm font-semibold transition-colors"
+          className="w-full bg-navy hover:bg-navy-2 disabled:bg-gray-300 text-white rounded-xl py-3 text-sm font-semibold transition-colors"
         >
           {analyzing ? 'Menganalisis...' : atLimit ? 'Batas bulanan tercapai' : 'Analisis CV'}
         </button>
       </div>
 
       {analysis && (
-        <div className="bg-white rounded-xl border border-sky-200 p-5 mb-6">
+        <div className="bg-white rounded-xl border border-gold p-5 mb-6">
           <h2 className="font-semibold text-gray-900 mb-3 text-sm">Hasil Analisis</h2>
           {currentScore !== null && (() => {
             const lvl = getScoreLevel(currentScore)
@@ -156,7 +156,7 @@ export default function CvAnalyzerPage() {
                   bgColor={lvl.bgColor}
                   borderColor={lvl.borderColor}
                   message={lvl.message}
-                  barColor={currentScore >= 7 ? 'bg-purple-500' : currentScore >= 5 ? 'bg-sky-500' : 'bg-yellow-400'}
+                  barColor={currentScore >= 7 ? 'bg-purple-500' : currentScore >= 5 ? 'bg-blue-500' : 'bg-yellow-400'}
                 />
               </div>
             )

@@ -66,7 +66,7 @@ export default function SharePage() {
           <div className="text-4xl mb-3">🔍</div>
           <h2 className="font-bold text-gray-800 mb-2">Link tidak valid</h2>
           <p className="text-sm text-gray-500 mb-5">Progress tracker ini tidak ditemukan atau sudah kadaluarsa.</p>
-          <Link href="/" className="text-sky-600 text-sm hover:underline">Kembali ke Awardee.id</Link>
+          <Link href="/" className="text-gold-2 text-sm hover:underline">Kembali ke Awardee.id</Link>
         </div>
       </div>
     )
@@ -80,7 +80,7 @@ export default function SharePage() {
       <header className="bg-white border-b border-gray-200 px-4 py-3">
         <div className="max-w-2xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-sky-600 flex items-center justify-center text-white font-bold text-sm">A</div>
+            <div className="w-8 h-8 rounded-lg bg-navy flex items-center justify-center text-white font-bold text-sm">A</div>
             <span className="font-bold text-gray-900 text-sm">Awardee.id</span>
           </Link>
           <span className="text-xs text-gray-400 bg-gray-100 px-2.5 py-1 rounded-full">Read Only</span>
@@ -98,14 +98,14 @@ export default function SharePage() {
               )}
             </div>
             <div className="text-right shrink-0">
-              <span className="text-4xl font-bold text-sky-600">{data.overall_progress}%</span>
+              <span className="text-4xl font-bold text-gold-2">{data.overall_progress}%</span>
               <p className="text-xs text-gray-400 mt-0.5">progress</p>
             </div>
           </div>
 
           <div className="w-full bg-gray-100 rounded-full h-3 mb-4">
             <div
-              className="bg-sky-500 h-3 rounded-full transition-all"
+              className="bg-blue-500 h-3 rounded-full transition-all"
               style={{ width: `${data.overall_progress}%` }}
             />
           </div>
@@ -161,7 +161,7 @@ export default function SharePage() {
                     {stage.checklist_items.map(item => (
                       <div key={item.id} className="flex items-center gap-2">
                         <div className={`w-3.5 h-3.5 rounded border flex items-center justify-center ${
-                          item.is_completed ? 'bg-sky-500 border-sky-500' : 'border-gray-300'
+                          item.is_completed ? 'bg-blue-500 border-gold' : 'border-gray-300'
                         }`}>
                           {item.is_completed && (
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-2.5 h-2.5">
@@ -193,10 +193,10 @@ export default function SharePage() {
         <div className="mt-8 text-center">
           <p className="text-xs text-gray-400">
             Progress tracker ini dibuat dengan{' '}
-            <Link href="/" className="text-sky-500 hover:underline">Awardee.id</Link>
+            <Link href="/" className="text-gold-2 hover:underline">Awardee.id</Link>
             {' '}— Platform persiapan beasiswa AAS.
           </p>
-          <Link href="/register" className="inline-block mt-3 text-sm bg-sky-600 text-white px-5 py-2 rounded-xl hover:bg-sky-700 transition-colors">
+          <Link href="/register" className="inline-block mt-3 text-sm bg-navy text-white px-5 py-2 rounded-xl hover:bg-navy-2 transition-colors">
             Buat Tracker Beasiswamu Sendiri →
           </Link>
         </div>

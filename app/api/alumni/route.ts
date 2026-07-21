@@ -17,6 +17,23 @@ function getAdminSupabase() {
   )
 }
 
+// Statistik agregat lintas semua alumni approved — dampak kolektif, bukan data personal siapa pun
+async function getCollectiveStats(admin: ReturnType<typeof getAdminSupabase>) {
+  const { count: alumniCount } = await admin
+    .from('alumni')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'approved')
+
+  const { data: allContributions } = await admin
+    .from('alumni_contributions')
+    .select('hours')
+
+  const totalContributions = allContributions?.length || 0
+  const totalHours = (allContributions || []).reduce((sum: number, c: { hours: number | null }) => sum + (Number(c.hours) || 0), 0)
+
+  return { alumniCount: alumniCount || 0, totalContributions, totalHours }
+}
+
 // GET: status alumni user saat ini + log kontribusi
 export async function GET(req: NextRequest) {
   const token = req.headers.get('Authorization')?.replace('Bearer ', '') ?? ''
@@ -33,7 +50,7 @@ export async function GET(req: NextRequest) {
     .eq('user_id', user.id)
     .single()
 
-  if (!alumni) return NextResponse.json({ alumni: null, contributions: [] })
+  if (!alumni) return NextResponse.json({ alumni: null, contributions: [], collectiveStats: await getCollectiveStats(admin) })
 
   const { data: contributions } = await admin
     .from('alumni_contributions')
@@ -42,7 +59,9 @@ export async function GET(req: NextRequest) {
     .order('contributed_at', { ascending: false })
     .limit(100)
 
-  return NextResponse.json({ alumni, contributions: contributions || [] })
+  const collectiveStats = await getCollectiveStats(admin)
+
+  return NextResponse.json({ alumni, contributions: contributions || [], collectiveStats })
 }
 
 // POST: ajukan jadi Awardee Alumni

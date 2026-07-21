@@ -45,7 +45,7 @@ export default function FaqPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-4 py-12 lg:px-8">
-        <Link href="/" className="text-sm text-sky-600 hover:underline">← Kembali ke Beranda</Link>
+        <Link href="/" className="text-sm text-gold-2 hover:underline">← Kembali ke Beranda</Link>
 
         <h1 className="text-3xl font-bold text-gray-900 mt-6 mb-2">Pertanyaan Umum (FAQ)</h1>
         <p className="text-sm text-gray-400 mb-8">Terakhir diperbarui: Juni 2026</p>
@@ -62,9 +62,9 @@ export default function FaqPage() {
           ))}
         </div>
 
-        <div className="mt-8 bg-sky-50 border border-sky-200 rounded-xl p-5">
+        <div className="mt-8 bg-off border border-gold rounded-xl p-5">
           <p className="text-sm text-gray-700">
-            Masih ada pertanyaan? Kunjungi <Link href="/contact" className="text-sky-600 font-medium hover:underline">halaman kontak</Link> kami atau chat langsung dengan AI Den Dhana di platform.
+            Masih ada pertanyaan? Kunjungi <Link href="/contact" className="text-gold-2 font-medium hover:underline">halaman kontak</Link> kami atau chat langsung dengan AI Den Dhana di platform.
           </p>
         </div>
       </div>

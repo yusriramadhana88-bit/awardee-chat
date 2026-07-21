@@ -59,7 +59,7 @@ export default function AdminOverviewPage() {
         {[
           { label: 'Total User', value: stats.total, color: 'text-gray-800' },
           { label: 'Free', value: stats.free, color: 'text-gray-600' },
-          { label: 'Starter', value: stats.starter, color: 'text-sky-600' },
+          { label: 'Starter', value: stats.starter, color: 'text-gold-2' },
           { label: 'Pro', value: stats.pro, color: 'text-purple-600' },
         ].map(s => (
           <div key={s.label} className="bg-white rounded-xl border border-gray-200 p-4">
@@ -72,7 +72,7 @@ export default function AdminOverviewPage() {
       <div className="grid lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-xl border border-gray-200 p-5">
           <h2 className="font-semibold text-gray-900 text-sm mb-3">Chat hari ini (semua user)</h2>
-          <div className="text-4xl font-bold text-sky-600">{stats.chatToday}</div>
+          <div className="text-4xl font-bold text-gold-2">{stats.chatToday}</div>
           <div className="text-xs text-gray-400 mt-1">total pesan terkirim ke AI hari ini</div>
         </div>
 

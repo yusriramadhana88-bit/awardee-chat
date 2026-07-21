@@ -11,7 +11,7 @@ const LIMITS: Record<string, number> = { free: 10, starter: 50, pro: 999 }
 
 const WELCOME: Message = {
   role: 'assistant',
-  content: 'Hei! Aku Den Dhana 👋\n\nAku awardee AAS dan founder Awardee.id. Sudah 7+ tahun aku bantu orang-orang seperti kamu lolos beasiswa ke Australia, alhamdulillah 100% mentee berbayar berhasil.\n\nKamu lagi di tahap mana dalam proses aplikasi AAS? Atau masih baru mau mulai riset?',
+  content: 'Hei! Aku Den Dhana 👋\n\nAku awardee beasiswa dan founder Awardee.id. Sudah 7+ tahun aku bantu orang-orang seperti kamu lolos beasiswa — AAS, LPDP, Chevening, GKS, dan beasiswa lainnya — alhamdulillah 100% mentee berbayar berhasil.\n\nKamu lagi incar beasiswa yang mana, dan lagi di tahap apa? Atau masih baru mau mulai riset?',
 }
 
 export default function ChatPage() {
@@ -176,11 +176,11 @@ export default function ChatPage() {
   return (
     <div className="flex flex-col h-screen max-w-2xl mx-auto">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center gap-3 shadow-sm">
-        <Link href="/" className="w-9 h-9 rounded-lg bg-sky-600 flex items-center justify-center text-white font-bold text-sm shrink-0">A</Link>
+      <header className="bg-white border-b border-hairline px-4 py-3 flex items-center gap-3 shadow-sm">
+        <Link href="/" className="w-9 h-9 rounded-lg bg-navy flex items-center justify-center text-white font-bold text-sm shrink-0">A</Link>
         <div className="flex-1 min-w-0">
-          <p className="font-semibold text-gray-900 text-sm">Den Dhana AI</p>
-          <p className="text-xs text-green-500">Online • AAS Mentor</p>
+          <p className="font-semibold text-ink text-sm">Den Dhana AI</p>
+          <p className="text-xs text-green-500">Online • Mentor Beasiswa</p>
         </div>
         {user && (
           <div className="flex items-center gap-3">
@@ -201,7 +201,7 @@ export default function ChatPage() {
           <p className="text-xs text-amber-700">
             {atLimit ? 'Batas harian habis.' : `${user.limit - user.used} pertanyaan tersisa hari ini.`} Upgrade untuk lanjut konsultasi.
           </p>
-          <Link href="/#harga" className="text-xs bg-amber-500 text-white px-3 py-1 rounded-full font-medium hover:bg-amber-600 transition-colors whitespace-nowrap ml-2">
+          <Link href="/#harga" className="text-xs bg-gold text-navy px-3 py-1 rounded-full font-semibold hover:bg-gold-2 transition-colors whitespace-nowrap ml-2">
             Upgrade
           </Link>
         </div>
@@ -212,7 +212,7 @@ export default function ChatPage() {
         {messages.map((msg, i) => (
           <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             {msg.role === 'assistant' && (
-              <div className="w-7 h-7 rounded-full bg-sky-600 flex items-center justify-center text-white text-xs font-bold mr-2 mt-1 shrink-0">D</div>
+              <div className="w-7 h-7 rounded-full bg-navy flex items-center justify-center text-white text-xs font-bold mr-2 mt-1 shrink-0">D</div>
             )}
             <div className={msg.role === 'user' ? 'chat-bubble-user' : 'chat-bubble-ai'}>
               {msg.content.split('\n').map((line, j) => (
@@ -223,7 +223,7 @@ export default function ChatPage() {
         ))}
         {loading && (
           <div className="flex justify-start items-end gap-2">
-            <div className="w-7 h-7 rounded-full bg-sky-600 flex items-center justify-center text-white text-xs font-bold mr-2 shrink-0">D</div>
+            <div className="w-7 h-7 rounded-full bg-navy flex items-center justify-center text-white text-xs font-bold mr-2 shrink-0">D</div>
             <div className="chat-bubble-ai flex gap-1 py-4 px-5">
               <span className="typing-dot" style={{ animationDelay: '0ms' }}></span>
               <span className="typing-dot" style={{ animationDelay: '150ms' }}></span>
@@ -235,11 +235,11 @@ export default function ChatPage() {
       </div>
 
       {/* Input */}
-      <div className="bg-white border-t border-gray-200 px-4 py-3">
+      <div className="bg-white border-t border-hairline px-4 py-3">
         {atLimit ? (
           <div className="text-center py-2">
             <p className="text-sm text-gray-500 mb-3">Batas harian kamu sudah habis. Upgrade untuk lanjut.</p>
-            <Link href="/#harga" className="bg-sky-600 text-white text-sm px-6 py-2 rounded-xl hover:bg-sky-700 transition-colors">
+            <Link href="/#harga" className="bg-navy text-white text-sm px-6 py-2 rounded-xl hover:bg-navy-2 transition-colors">
               Lihat Paket Upgrade
             </Link>
           </div>
@@ -250,14 +250,14 @@ export default function ChatPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Tanya soal AAS..."
+              placeholder="Tanya soal beasiswamu..."
               rows={1}
-              className="flex-1 resize-none border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 max-h-32 overflow-y-auto"
+              className="flex-1 resize-none border border-hairline rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold max-h-32 overflow-y-auto"
             />
             <button
               onClick={sendMessage}
               disabled={!input.trim() || loading}
-              className="bg-sky-600 hover:bg-sky-700 disabled:bg-gray-300 text-white rounded-xl px-4 py-3 transition-colors shrink-0"
+              className="bg-navy hover:bg-navy-2 disabled:bg-gray-300 text-white rounded-xl px-4 py-3 transition-colors shrink-0"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
                 <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
@@ -283,7 +283,7 @@ export default function ChatPage() {
                 onChange={(e) => setPhoneInput(e.target.value)}
                 required
                 placeholder="08xxxxxxxxxx"
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="w-full border border-hairline rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
               />
               {phoneError && (
                 <div className="bg-red-50 text-red-600 text-sm px-4 py-3 rounded-xl">{phoneError}</div>
@@ -291,7 +291,7 @@ export default function ChatPage() {
               <button
                 type="submit"
                 disabled={savingPhone || !phoneInput.trim()}
-                className="w-full bg-sky-600 hover:bg-sky-700 disabled:bg-gray-300 text-white rounded-xl py-3 text-sm font-semibold transition-colors"
+                className="w-full bg-navy hover:bg-navy-2 disabled:bg-gray-300 text-white rounded-xl py-3 text-sm font-semibold transition-colors"
               >
                 {savingPhone ? 'Menyimpan...' : 'Simpan & Lanjut Chat'}
               </button>

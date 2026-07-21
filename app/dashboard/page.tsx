@@ -13,7 +13,7 @@ const XENDIT_LINKS: Record<string, string> = {
 }
 
 const FEATURES: { href: string; icon: string; title: string; desc: string; tier: 'starter' | 'pro' | null }[] = [
-  { href: '/chat', icon: '💬', title: 'Chat AI Den Dhana', desc: 'Konsultasi strategi & pertanyaan seputar AAS', tier: null },
+  { href: '/chat', icon: '💬', title: 'Chat AI Den Dhana', desc: 'Konsultasi strategi & pertanyaan seputar beasiswamu', tier: null },
   { href: '/tracker', icon: '📋', title: 'Scholarship Tracker', desc: 'Pantau progres tahapan aplikasi beasiswamu', tier: null },
   { href: '/dashboard/calendar', icon: '📅', title: 'Kalender Beasiswa', desc: 'Semua deadline penting dalam satu tampilan', tier: 'starter' },
   { href: '/dashboard/documents', icon: '✅', title: 'Checklist Dokumen', desc: 'Daftar dokumen wajib per jenis beasiswa', tier: null },
@@ -73,14 +73,14 @@ export default function DashboardPage() {
     <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-5xl mx-auto">
       {/* Welcome */}
       <div className="mb-6">
-        <h1 className="text-xl lg:text-2xl font-bold text-gray-900">Hei, {user?.name || 'Sobat AAS'} 👋</h1>
+        <h1 className="text-xl lg:text-2xl font-bold text-gray-900">Hei, {user?.name || 'Sobat Beasiswa'} 👋</h1>
         <p className="text-sm text-gray-500 mt-1">Selamat datang di AWARDEE APP — pusat kendali perjalanan beasiswamu.</p>
       </div>
 
       {/* Stats row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-6">
         <div className="bg-white rounded-xl border border-gray-200 p-4">
-          <div className="text-2xl font-bold text-sky-600">{user?.used ?? 0}/{user?.limit ?? 10}</div>
+          <div className="text-2xl font-bold text-gold-2">{user?.used ?? 0}/{user?.limit ?? 10}</div>
           <div className="text-xs text-gray-400 mt-1">Pertanyaan AI hari ini</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-200 p-4">
@@ -118,7 +118,7 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="h-2 bg-white/60 rounded-full overflow-hidden">
-              <div className={`h-2 rounded-full transition-all duration-700 ${lvl.level >= 5 ? 'bg-purple-500' : lvl.level >= 3 ? 'bg-sky-500' : 'bg-yellow-400'}`} style={{ width: `${pct}%` }} />
+              <div className={`h-2 rounded-full transition-all duration-700 ${lvl.level >= 5 ? 'bg-purple-500' : lvl.level >= 3 ? 'bg-blue-500' : 'bg-yellow-400'}`} style={{ width: `${pct}%` }} />
             </div>
             <p className="text-[11px] text-gray-500 mt-1.5">
               {lvl.level < 5 ? `${lvl.nextLevelXp - lvl.xp} XP lagi ke level berikutnya · ` : ''}
@@ -138,7 +138,7 @@ export default function DashboardPage() {
               <p className={`text-sm font-semibold ${info.color}`}>{info.label} — {upcoming.name}</p>
               <p className="text-xs text-gray-500 mt-0.5">Deadline: {formatDeadline(upcoming.deadline)}</p>
             </div>
-            <Link href={`/tracker/${upcoming.id}`} className="text-xs font-semibold bg-white border border-gray-200 px-3 py-1.5 rounded-lg hover:border-sky-300 transition-colors whitespace-nowrap">
+            <Link href={`/tracker/${upcoming.id}`} className="text-xs font-semibold bg-white border border-gray-200 px-3 py-1.5 rounded-lg hover:border-gold transition-colors whitespace-nowrap">
               Lihat Detail
             </Link>
           </div>
@@ -155,7 +155,7 @@ export default function DashboardPage() {
               key={f.href}
               href={locked ? '#upgrade' : f.href}
               className={`relative bg-white rounded-xl border p-4 transition-colors ${
-                locked ? 'border-gray-200 opacity-70' : 'border-gray-200 hover:border-sky-300'
+                locked ? 'border-gray-200 opacity-70' : 'border-gray-200 hover:border-gold'
               }`}
             >
               {locked && (
@@ -194,26 +194,26 @@ export default function DashboardPage() {
 
       {/* Upgrade section */}
       {tier !== 'pro' && (
-        <div id="upgrade" className="bg-gradient-to-br from-sky-600 to-sky-700 rounded-xl p-5 text-white scroll-mt-6">
+        <div id="upgrade" className="bg-gradient-to-br from-navy to-navy-2 rounded-xl p-5 text-white scroll-mt-6">
           <h2 className="font-semibold mb-1">
             {tier === 'free' ? 'Upgrade ke Starter atau Pro' : 'Upgrade ke Pro'}
           </h2>
-          <p className="text-sky-100 text-sm mb-4">
+          <p className="text-white/70 text-sm mb-4">
             {tier === 'free'
               ? 'Buka Kalender Beasiswa, IELTS Tracker, CV Analyzer, dan hapus batas harian chat.'
               : 'Akses unlimited + Essay Workshop dengan kritik AI mendalam + konsultasi langsung bulanan.'}
           </p>
           <div className="flex flex-wrap gap-3">
             {tier === 'free' && (
-              <a href={XENDIT_LINKS.starter} target="_blank" rel="noopener noreferrer" className="bg-white text-sky-600 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-sky-50 transition-colors">
+              <a href={XENDIT_LINKS.starter} target="_blank" rel="noopener noreferrer" className="bg-white text-gold-2 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-off transition-colors">
                 Starter — Rp99K/bulan
               </a>
             )}
-            <a href={XENDIT_LINKS.pro} target="_blank" rel="noopener noreferrer" className="bg-sky-500 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-sky-400 transition-colors border border-sky-400">
+            <a href={XENDIT_LINKS.pro} target="_blank" rel="noopener noreferrer" className="bg-gold text-navy text-sm font-semibold px-4 py-2 rounded-lg hover:bg-gold-2 transition-colors border border-gold">
               Pro — Rp299K/bulan
             </a>
           </div>
-          <p className="text-sky-200 text-xs mt-3">
+          <p className="text-white/50 text-xs mt-3">
             Setelah bayar, WhatsApp ke Kak Dhana dengan bukti pembayaran untuk aktivasi akun.
           </p>
         </div>

@@ -16,6 +16,7 @@ function RegisterForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const plan = searchParams.get('plan') || 'free'
+  const next = searchParams.get('next') || '/dashboard'
   const supabase = createClient()
 
   // Format phone: pastikan dimulai dengan +62
@@ -106,7 +107,7 @@ function RegisterForm() {
       return
     }
 
-    router.push('/chat')
+    router.push(next)
     setLoading(false)
   }
 
@@ -120,12 +121,12 @@ function RegisterForm() {
             Akun kamu sudah aktif. Silakan login untuk mulai chat dengan Den Dhana.
           </p>
           {plan !== 'free' && (
-            <div className="bg-sky-50 border border-sky-200 rounded-xl p-4 text-sm text-sky-700 mb-4">
+            <div className="bg-off border border-gold rounded-xl p-4 text-sm text-navy mb-4">
               Kamu pilih paket <strong>{plan === 'pro' ? 'Pro (Rp299K)' : 'Starter (Rp99K)'}</strong>.<br />
               Setelah login, kamu bisa upgrade dari dashboard.
             </div>
           )}
-          <Link href="/login" className="text-sky-600 hover:underline text-sm">Masuk sekarang</Link>
+          <Link href={`/login?next=${encodeURIComponent(next)}`} className="text-gold-2 hover:underline text-sm">Masuk sekarang</Link>
         </div>
       </div>
     )
@@ -136,11 +137,11 @@ function RegisterForm() {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="w-9 h-9 rounded-xl bg-sky-600 flex items-center justify-center text-white font-bold">A</div>
+            <div className="w-9 h-9 rounded-xl bg-navy flex items-center justify-center text-white font-bold">A</div>
             <span className="font-bold text-gray-900">Awardee.id</span>
           </Link>
           <h1 className="text-xl font-bold text-gray-900">Buat akun gratis</h1>
-          <p className="text-sm text-gray-500 mt-1">Sudah punya akun? <Link href="/login" className="text-sky-600 hover:underline">Masuk</Link></p>
+          <p className="text-sm text-gray-500 mt-1">Sudah punya akun? <Link href={`/login?next=${encodeURIComponent(next)}`} className="text-gold-2 hover:underline">Masuk</Link></p>
         </div>
 
         <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-4 text-sm text-amber-700">
@@ -148,7 +149,7 @@ function RegisterForm() {
         </div>
 
         {plan !== 'free' && (
-          <div className="bg-sky-50 border border-sky-200 rounded-xl px-4 py-3 mb-4 text-sm text-sky-700 text-center">
+          <div className="bg-off border border-gold rounded-xl px-4 py-3 mb-4 text-sm text-navy text-center">
             Daftar untuk paket <strong>{plan === 'pro' ? 'Pro' : 'Starter'}</strong>
           </div>
         )}
@@ -163,7 +164,7 @@ function RegisterForm() {
                 onChange={(e) => setName(e.target.value)}
                 required
                 placeholder="Nama kamu"
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="w-full border border-hairline rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
               />
             </div>
             <div>
@@ -174,7 +175,7 @@ function RegisterForm() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="email@gmail.com"
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="w-full border border-hairline rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
               />
             </div>
             <div>
@@ -187,7 +188,7 @@ function RegisterForm() {
                 onChange={(e) => setPhone(e.target.value)}
                 required
                 placeholder="08xxxxxxxxxx"
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="w-full border border-hairline rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
               />
               <p className="text-xs text-gray-400 mt-1">1 nomor WA hanya bisa untuk 1 akun</p>
             </div>
@@ -199,7 +200,7 @@ function RegisterForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="Min. 6 karakter"
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="w-full border border-hairline rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
               />
             </div>
 
@@ -210,7 +211,7 @@ function RegisterForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-sky-600 hover:bg-sky-700 disabled:bg-gray-300 text-white rounded-xl py-3 text-sm font-semibold transition-colors"
+              className="w-full bg-navy hover:bg-navy-2 disabled:bg-gray-300 text-white rounded-xl py-3 text-sm font-semibold transition-colors"
             >
               {loading ? 'Memproses...' : 'Daftar Gratis'}
             </button>
