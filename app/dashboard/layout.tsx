@@ -16,6 +16,7 @@ const NAV_ITEMS: { href: string; label: string; icon: string; tier: 'starter' | 
   { href: '/dashboard/cv', label: 'CV Analyzer', icon: '📄', tier: 'starter' },
   { href: '/dashboard/essay', label: 'Essay Workshop', icon: '✏️', tier: 'pro' },
   { href: '/dashboard/affiliate', label: 'Afiliasi & Komisi', icon: '🤝', tier: null },
+  { href: '/dashboard/alumni', label: 'Awardee Alumni', icon: '🎓', tier: null },
 ]
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

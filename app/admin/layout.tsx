@@ -8,6 +8,7 @@ const ADMIN_NAV = [
   { href: '/admin', label: 'Overview', icon: '📊' },
   { href: '/admin/users', label: 'Kelola User', icon: '👥' },
   { href: '/admin/affiliates', label: 'Afiliasi', icon: '🤝' },
+  { href: '/admin/alumni', label: 'Awardee Alumni', icon: '🎓' },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
