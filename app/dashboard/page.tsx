@@ -6,6 +6,16 @@ import { createClient } from '@/lib/supabase'
 import { useUser, canAccess, TIER_LABEL } from '@/lib/use-user'
 import { ScholarshipApplication, getDeadlineInfo, formatDeadline } from '@/lib/tracker'
 import { calculateXp, getPejuangLevel } from '@/lib/gamification'
+import SocialShowcase from './_components/SocialShowcase'
+
+type LearnLesson = { id: string; slug: string; title: string; completed: boolean }
+type LearnQuiz = { id: string; title: string; bestAttempt: { passed: boolean } | null }
+type LearnModule = {
+  slug: string; title: string; icon: string
+  lessons: LearnLesson[]; lessonCount: number; completedCount: number
+  quiz: LearnQuiz | null
+}
+type AchievementItem = { id: string; title: string; icon: string; earned: boolean; earnedAt: string | null }
 
 const XENDIT_LINKS: Record<string, string> = {
   starter: 'https://checkout.xendit.co/od/GANTI_DENGAN_LINK_XENDIT_STARTER',
@@ -14,6 +24,7 @@ const XENDIT_LINKS: Record<string, string> = {
 
 const FEATURES: { href: string; icon: string; title: string; desc: string; tier: 'starter' | 'pro' | null }[] = [
   { href: '/chat', icon: '💬', title: 'Chat AI Den Dhana', desc: 'Konsultasi strategi & pertanyaan seputar beasiswamu', tier: null },
+  { href: '/dashboard/learn', icon: '📚', title: 'Learning Modules', desc: 'Materi #GaliDiri, essay, sampai interview + kuis', tier: null },
   { href: '/tracker', icon: '📋', title: 'Scholarship Tracker', desc: 'Pantau progres tahapan aplikasi beasiswamu', tier: null },
   { href: '/dashboard/calendar', icon: '📅', title: 'Kalender Beasiswa', desc: 'Semua deadline penting dalam satu tampilan', tier: 'starter' },
   { href: '/dashboard/documents', icon: '✅', title: 'Checklist Dokumen', desc: 'Daftar dokumen wajib per jenis beasiswa', tier: null },
@@ -26,6 +37,8 @@ export default function DashboardPage() {
   const { user, loading } = useUser()
   const [applications, setApplications] = useState<ScholarshipApplication[]>([])
   const [pejuangXp, setPejuangXp] = useState(0)
+  const [learnModules, setLearnModules] = useState<LearnModule[]>([])
+  const [achievements, setAchievements] = useState<AchievementItem[]>([])
   const supabase = createClient()
 
   useEffect(() => {
@@ -52,8 +65,20 @@ export default function DashboardPage() {
       })
       setPejuangXp(xp)
     }
+    async function loadLearnAndAchievements() {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) return
+      const headers = { Authorization: `Bearer ${session.access_token}` }
+      const [learnRes, achRes] = await Promise.all([
+        fetch('/api/learn/modules', { headers }),
+        fetch('/api/achievements', { headers }),
+      ])
+      if (learnRes.ok) setLearnModules((await learnRes.json()).modules)
+      if (achRes.ok) setAchievements((await achRes.json()).achievements)
+    }
     load()
     loadXp()
+    loadLearnAndAchievements()
   }, [])
 
   if (loading) {
@@ -69,6 +94,18 @@ export default function DashboardPage() {
     .filter(a => a.deadline)
     .sort((a, b) => new Date(a.deadline!).getTime() - new Date(b.deadline!).getTime())[0]
 
+  const totalLessons = learnModules.reduce((s, m) => s + m.lessonCount, 0)
+  const totalLessonsDone = learnModules.reduce((s, m) => s + m.completedCount, 0)
+  const continueModule = learnModules.find(m => m.completedCount < m.lessonCount)
+    || learnModules.find(m => m.quiz && !m.quiz.bestAttempt?.passed)
+  const continueLesson = continueModule?.lessons.find(l => !l.completed)
+  const continueHref = continueModule
+    ? continueLesson
+      ? `/dashboard/learn/${continueModule.slug}/${continueLesson.slug}`
+      : `/dashboard/learn/${continueModule.slug}/quiz`
+    : '/dashboard/learn'
+  const recentAchievements = achievements.filter(a => a.earned).slice(-4).reverse()
+
   return (
     <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-5xl mx-auto">
       {/* Welcome */}
@@ -76,6 +113,33 @@ export default function DashboardPage() {
         <h1 className="text-xl lg:text-2xl font-bold text-ink">Hei, {user?.name || 'Sobat Beasiswa'} 👋</h1>
         <p className="text-sm text-muted mt-1">Selamat datang di AWARDEE APP — pusat kendali perjalanan beasiswamu.</p>
       </div>
+
+      {/* Continue Learning */}
+      {learnModules.length > 0 && (
+        <Link
+          href={continueHref}
+          className="block bg-gradient-to-br from-navy to-navy-2 rounded-xl p-5 mb-6 text-white hover:opacity-95 transition-opacity"
+        >
+          <div className="flex items-center justify-between gap-4">
+            <div className="min-w-0">
+              <span className="text-xs text-gold font-semibold uppercase tracking-wide">
+                {totalLessonsDone >= totalLessons && totalLessons > 0 ? 'Semua Modul Selesai' : 'Lanjutkan Belajar'}
+              </span>
+              <h2 className="text-lg font-bold mt-1 truncate">
+                {continueModule ? `${continueModule.icon} ${continueModule.title}` : 'Learning Modules'}
+              </h2>
+              <p className="text-white/70 text-xs mt-1">
+                {continueLesson ? `Lanjut: ${continueLesson.title}` : continueModule ? 'Siap kerjakan kuis modul ini' : `${totalLessonsDone}/${totalLessons} lesson selesai — lihat semua modul`}
+              </p>
+            </div>
+            <div className="shrink-0 text-right">
+              <div className="w-14 h-14 rounded-full border-4 border-gold/30 border-t-gold flex items-center justify-center text-sm font-bold">
+                {totalLessons > 0 ? Math.round((totalLessonsDone / totalLessons) * 100) : 0}%
+              </div>
+            </div>
+          </div>
+        </Link>
+      )}
 
       {/* Stats row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-6">
@@ -145,6 +209,30 @@ export default function DashboardPage() {
         )
       })()}
 
+      {/* Achievements teaser */}
+      {achievements.length > 0 && (
+        <div className="bg-white rounded-xl border border-hairline p-4 mb-6">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-sm font-semibold text-ink">Achievements</h2>
+            <Link href="/dashboard/achievements" className="text-xs text-gold-2 hover:underline">
+              Lihat semua ({achievements.filter(a => a.earned).length}/{achievements.length})
+            </Link>
+          </div>
+          {recentAchievements.length > 0 ? (
+            <div className="flex gap-3 flex-wrap">
+              {recentAchievements.map(a => (
+                <div key={a.id} className="flex items-center gap-2 bg-off rounded-lg px-3 py-2 border border-gold">
+                  <span className="text-xl">{a.icon}</span>
+                  <span className="text-xs font-medium text-ink">{a.title}</span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-xs text-muted">Belum ada achievement — mulai belajar atau tracking untuk membuka badge pertamamu.</p>
+          )}
+        </div>
+      )}
+
       {/* Feature grid */}
       <h2 className="text-sm font-semibold text-ink mb-3">Fitur AwardeeOS</h2>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
@@ -191,6 +279,8 @@ export default function DashboardPage() {
           )}
         </div>
       </div>
+
+      <SocialShowcase />
 
       {/* Upgrade section */}
       {tier !== 'pro' && (
