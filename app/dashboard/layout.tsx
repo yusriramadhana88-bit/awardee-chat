@@ -9,6 +9,7 @@ import { useUser, canAccess, TIER_LABEL, TIER_COLOR } from '@/lib/use-user'
 const NAV_ITEMS: { href: string; label: string; icon: string; tier: 'starter' | 'pro' | null }[] = [
   { href: '/dashboard', label: 'Overview', icon: '🏠', tier: null },
   { href: '/chat', label: 'Chat AI Den Dhana', icon: '💬', tier: null },
+  { href: '/dashboard/learn', label: 'Learning Modules', icon: '📚', tier: null },
   { href: '/tracker', label: 'Scholarship Tracker', icon: '📋', tier: null },
   { href: '/dashboard/calendar', label: 'Kalender Beasiswa', icon: '📅', tier: 'starter' },
   { href: '/dashboard/documents', label: 'Checklist Dokumen', icon: '✅', tier: null },
