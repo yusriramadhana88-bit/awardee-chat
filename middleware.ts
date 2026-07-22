@@ -31,7 +31,7 @@ export async function middleware(request: NextRequest) {
   if (path === '/') {
     if (host.startsWith('member.')) rewriteTarget = '/dashboard'
     else if (host.startsWith('chat.')) rewriteTarget = '/chat'
-    else if (host.startsWith('alumni.')) rewriteTarget = '/alumni'
+    else if (host.startsWith('alumnihub.')) rewriteTarget = '/alumni'
   }
   const effectivePath = rewriteTarget || path
 
