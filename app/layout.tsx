@@ -13,20 +13,20 @@ export const metadata: Metadata = {
 
 function Footer() {
   return (
-    <footer className="border-t border-gray-200 bg-white mt-auto">
+    <footer className="border-t border-hairline bg-white mt-auto">
       <div className="max-w-6xl mx-auto px-4 py-6 lg:px-8">
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="text-sm text-gray-400">
+          <div className="text-sm text-muted">
             © {new Date().getFullYear()} AWARDEE APP · Awardee.id · by Den Dhana
           </div>
-          <nav className="flex flex-wrap gap-x-5 gap-y-1 text-sm text-gray-500">
-            <Link href="/about" className="hover:text-sky-600 transition-colors">Tentang</Link>
-            <Link href="/faq" className="hover:text-sky-600 transition-colors">FAQ</Link>
-            <Link href="/contact" className="hover:text-sky-600 transition-colors">Kontak</Link>
-            <Link href="/privacy" className="hover:text-sky-600 transition-colors">Privasi</Link>
-            <Link href="/terms" className="hover:text-sky-600 transition-colors">Syarat & Ketentuan</Link>
-            <Link href="/disclaimer" className="hover:text-sky-600 transition-colors">Disclaimer</Link>
-            <Link href="/copyright" className="hover:text-sky-600 transition-colors">Hak Cipta</Link>
+          <nav className="flex flex-wrap gap-x-5 gap-y-1 text-sm text-muted">
+            <Link href="/about" className="hover:text-ink transition-colors">Tentang</Link>
+            <Link href="/faq" className="hover:text-ink transition-colors">FAQ</Link>
+            <Link href="/contact" className="hover:text-ink transition-colors">Kontak</Link>
+            <Link href="/privacy" className="hover:text-ink transition-colors">Privasi</Link>
+            <Link href="/terms" className="hover:text-ink transition-colors">Syarat & Ketentuan</Link>
+            <Link href="/disclaimer" className="hover:text-ink transition-colors">Disclaimer</Link>
+            <Link href="/copyright" className="hover:text-ink transition-colors">Hak Cipta</Link>
           </nav>
         </div>
       </div>
@@ -41,7 +41,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id">
-      <body className="bg-gray-50 font-sans flex flex-col min-h-screen">
+      <body className="bg-off font-sans text-ink antialiased flex flex-col min-h-screen">
         <main className="flex-1">{children}</main>
         <Footer />
       </body>
