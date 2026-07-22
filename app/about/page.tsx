@@ -12,12 +12,12 @@ export default function AboutPage() {
       <div className="max-w-3xl mx-auto px-4 py-12 lg:px-8">
         <Link href="/" className="text-sm text-gold-2 hover:underline">← Kembali ke Beranda</Link>
 
-        <h1 className="text-3xl font-bold text-gray-900 mt-6 mb-2">Tentang AWARDEE APP</h1>
-        <p className="text-sm text-gray-400 mb-8">Terakhir diperbarui: Juni 2026</p>
+        <h1 className="text-3xl font-bold text-ink mt-6 mb-2">Tentang AWARDEE APP</h1>
+        <p className="text-sm text-muted mb-8">Terakhir diperbarui: Juni 2026</p>
 
-        <div className="prose prose-gray max-w-none space-y-6 text-gray-700 leading-relaxed">
+        <div className="prose prose-gray max-w-none space-y-6 text-ink leading-relaxed">
           <section>
-            <h2 className="text-xl font-bold text-gray-900 mb-3">Apa itu AWARDEE APP?</h2>
+            <h2 className="text-xl font-bold text-ink mb-3">Apa itu AWARDEE APP?</h2>
             <p>
               AWARDEE APP adalah platform digital berbasis AI yang dirancang untuk membantu calon pelamar beasiswa
               internasional — khususnya AAS (Australia Awards Scholarship), LPDP, Chevening, dan GKS —
@@ -30,7 +30,7 @@ export default function AboutPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-gray-900 mb-3">Siapa Den Dhana?</h2>
+            <h2 className="text-xl font-bold text-ink mb-3">Siapa Den Dhana?</h2>
             <p>
               <strong>Den Dhana</strong> (nama pena) adalah seorang auditor di Badan Pemeriksa Keuangan Republik Indonesia
               dan penerima beasiswa Australia Awards Scholarship (AAS). Dengan pengalaman langsung sebagai awardee
@@ -41,7 +41,7 @@ export default function AboutPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-gray-900 mb-3">Fitur Utama</h2>
+            <h2 className="text-xl font-bold text-ink mb-3">Fitur Utama</h2>
             <ul className="list-disc pl-5 space-y-1">
               <li>Chat AI Den Dhana — konsultasi strategi beasiswa kapan saja</li>
               <li>CV Analyzer — analisis kekuatan CV untuk standar beasiswa internasional</li>
@@ -53,7 +53,7 @@ export default function AboutPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-gray-900 mb-3">Mentoring Privat</h2>
+            <h2 className="text-xl font-bold text-ink mb-3">Mentoring Privat</h2>
             <p>
               Selain layanan digital, Den Dhana menawarkan sesi mentoring privat intensif:
               <strong> 4 sesi × 1 jam @ Rp 7.500.000</strong>. Sesi ini mencakup review lengkap profil,
@@ -62,7 +62,7 @@ export default function AboutPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-gray-900 mb-3">Kontak</h2>
+            <h2 className="text-xl font-bold text-ink mb-3">Kontak</h2>
             <p>
               Untuk pertanyaan umum, kemitraan, atau pendaftaran mentoring, silakan kunjungi{' '}
               <Link href="/contact" className="text-gold-2 hover:underline">halaman kontak</Link> kami.

@@ -78,7 +78,7 @@ export default function CvAnalyzerPage() {
   }
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center"><div className="text-gray-400 text-sm">Memuat...</div></div>
+    return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Memuat...</div></div>
   }
 
   if (!allowed) {
@@ -90,39 +90,39 @@ export default function CvAnalyzerPage() {
   return (
     <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-4xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-xl font-bold text-gray-900">CV Analyzer</h1>
-        <p className="text-sm text-gray-500 mt-0.5">
+        <h1 className="text-xl font-bold text-ink">CV Analyzer</h1>
+        <p className="text-sm text-muted mt-0.5">
           Tempel CV kamu, dapatkan analisis kekuatan & kelemahan untuk aplikasi beasiswa.
           {usage && (
-            <span className="ml-1 text-gray-400">
+            <span className="ml-1 text-muted">
               ({usage.used}/{usage.limit === 999 ? '∞' : usage.limit} analisis bulan ini)
             </span>
           )}
         </p>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 p-5 mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">
-          Target Beasiswa <span className="text-gray-400 font-normal">(opsional)</span>
+      <div className="bg-white rounded-xl border border-hairline p-5 mb-6">
+        <label className="block text-sm font-medium text-ink mb-1.5">
+          Target Beasiswa <span className="text-muted font-normal">(opsional)</span>
         </label>
         <input
           type="text"
           value={target}
           onChange={e => setTarget(e.target.value)}
           placeholder="Contoh: AAS, LPDP Reguler, Chevening"
-          className="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gold mb-4"
+          className="w-full border border-hairline rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gold mb-4"
         />
 
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">Isi CV</label>
+        <label className="block text-sm font-medium text-ink mb-1.5">Isi CV</label>
         <textarea
           value={cvContent}
           onChange={e => setCvContent(e.target.value)}
           placeholder="Tempel seluruh isi CV kamu di sini (pengalaman kerja, pendidikan, organisasi, prestasi, dll)..."
           rows={12}
-          className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold resize-none font-mono"
+          className="w-full border border-hairline rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold resize-none font-mono"
         />
         <div className="flex items-center justify-between mt-1 mb-4">
-          <span className="text-xs text-gray-400">{cvContent.length} karakter</span>
+          <span className="text-xs text-muted">{cvContent.length} karakter</span>
         </div>
 
         {error && (
@@ -132,7 +132,7 @@ export default function CvAnalyzerPage() {
         <button
           onClick={handleAnalyze}
           disabled={analyzing || atLimit || cvContent.trim().length < 50}
-          className="w-full bg-navy hover:bg-navy-2 disabled:bg-gray-300 text-white rounded-xl py-3 text-sm font-semibold transition-colors"
+          className="w-full bg-navy hover:bg-navy-2 disabled:bg-hairline text-white rounded-xl py-3 text-sm font-semibold transition-colors"
         >
           {analyzing ? 'Menganalisis...' : atLimit ? 'Batas bulanan tercapai' : 'Analisis CV'}
         </button>
@@ -140,7 +140,7 @@ export default function CvAnalyzerPage() {
 
       {analysis && (
         <div className="bg-white rounded-xl border border-gold p-5 mb-6">
-          <h2 className="font-semibold text-gray-900 mb-3 text-sm">Hasil Analisis</h2>
+          <h2 className="font-semibold text-ink mb-3 text-sm">Hasil Analisis</h2>
           {currentScore !== null && (() => {
             const lvl = getScoreLevel(currentScore)
             return (
@@ -161,29 +161,29 @@ export default function CvAnalyzerPage() {
               </div>
             )
           })()}
-          <div className="prose prose-sm max-w-none text-gray-700 whitespace-pre-wrap leading-relaxed">
+          <div className="prose prose-sm max-w-none text-ink whitespace-pre-wrap leading-relaxed">
             {analysis}
           </div>
         </div>
       )}
 
       {history.length > 0 && (
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
-          <h2 className="font-semibold text-gray-900 mb-3 text-sm">Riwayat Analisis</h2>
+        <div className="bg-white rounded-xl border border-hairline p-5">
+          <h2 className="font-semibold text-ink mb-3 text-sm">Riwayat Analisis</h2>
           <div className="space-y-3">
             {history.map(h => (
-              <details key={h.id} className="border border-gray-100 rounded-lg group">
-                <summary className="px-4 py-3 cursor-pointer text-sm font-medium text-gray-800 flex items-center justify-between">
+              <details key={h.id} className="border border-hairline rounded-lg group">
+                <summary className="px-4 py-3 cursor-pointer text-sm font-medium text-ink flex items-center justify-between">
                   <span>{h.target_scholarship || 'Analisis CV'} — {new Date(h.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                   <div className="flex items-center gap-2">
                     {h.score !== null && (() => {
                       const lvl = getScoreLevel(h.score)
                       return <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${lvl.bgColor} ${lvl.color}`}>{lvl.emoji} {h.score}/10</span>
                     })()}
-                    <span className="text-gray-400 group-open:rotate-180 transition-transform">▾</span>
+                    <span className="text-muted group-open:rotate-180 transition-transform">▾</span>
                   </div>
                 </summary>
-                <div className="px-4 pb-4 text-sm text-gray-600 whitespace-pre-wrap leading-relaxed">{h.analysis}</div>
+                <div className="px-4 pb-4 text-sm text-muted whitespace-pre-wrap leading-relaxed">{h.analysis}</div>
               </details>
             ))}
           </div>

@@ -12,12 +12,12 @@ export default function CopyrightPage() {
       <div className="max-w-3xl mx-auto px-4 py-12 lg:px-8">
         <Link href="/" className="text-sm text-gold-2 hover:underline">← Kembali ke Beranda</Link>
 
-        <h1 className="text-3xl font-bold text-gray-900 mt-6 mb-2">Hak Cipta & Pelanggaran Konten</h1>
-        <p className="text-sm text-gray-400 mb-8">Terakhir diperbarui: Juni 2026</p>
+        <h1 className="text-3xl font-bold text-ink mt-6 mb-2">Hak Cipta & Pelanggaran Konten</h1>
+        <p className="text-sm text-muted mb-8">Terakhir diperbarui: Juni 2026</p>
 
-        <div className="prose prose-gray max-w-none space-y-6 text-gray-700 leading-relaxed">
+        <div className="prose prose-gray max-w-none space-y-6 text-ink leading-relaxed">
           <section>
-            <h2 className="text-xl font-bold text-gray-900 mb-3">Kepemilikan Konten</h2>
+            <h2 className="text-xl font-bold text-ink mb-3">Kepemilikan Konten</h2>
             <p>
               Semua konten orisinal di AWARDEE APP — termasuk teks, desain, metode bimbingan, sistem prompt AI,
               panduan beasiswa, dan materi edukatif — dilindungi oleh hak cipta dan merupakan milik
@@ -26,7 +26,7 @@ export default function CopyrightPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-gray-900 mb-3">Konten Pengguna</h2>
+            <h2 className="text-xl font-bold text-ink mb-3">Konten Pengguna</h2>
             <p>
               Anda mempertahankan hak milik atas semua konten yang Anda unggah (CV, essay, dokumen pribadi).
               Dengan mengunggah konten tersebut, Anda memberikan kami lisensi terbatas untuk memprosesnya
@@ -35,13 +35,13 @@ export default function CopyrightPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-gray-900 mb-3">Melaporkan Pelanggaran</h2>
+            <h2 className="text-xl font-bold text-ink mb-3">Melaporkan Pelanggaran</h2>
             <p>
               Jika Anda yakin konten di platform kami melanggar hak cipta Anda, silakan kirimkan laporan ke:
             </p>
-            <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 my-3">
-              <p className="font-medium text-gray-900">Email: yusri.ramadhana88@gmail.com</p>
-              <p className="text-sm text-gray-600 mt-1">Subject: [DMCA] Laporan Pelanggaran Hak Cipta</p>
+            <div className="bg-off border border-hairline rounded-xl p-4 my-3">
+              <p className="font-medium text-ink">Email: yusri.ramadhana88@gmail.com</p>
+              <p className="text-sm text-muted mt-1">Subject: [DMCA] Laporan Pelanggaran Hak Cipta</p>
             </div>
             <p>Laporan harus menyertakan:</p>
             <ul className="list-disc pl-5 space-y-1">
@@ -53,7 +53,7 @@ export default function CopyrightPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-gray-900 mb-3">Tindakan Kami</h2>
+            <h2 className="text-xl font-bold text-ink mb-3">Tindakan Kami</h2>
             <p>
               Kami akan meninjau setiap laporan yang masuk dan mengambil tindakan yang sesuai, termasuk
               menghapus konten yang terbukti melanggar, dalam waktu 7 hari kerja.

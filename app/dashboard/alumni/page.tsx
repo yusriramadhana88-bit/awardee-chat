@@ -114,7 +114,7 @@ export default function AlumniPage() {
   }
 
   if (loading || pageLoading) {
-    return <div className="min-h-screen flex items-center justify-center"><div className="text-gray-400 text-sm">Memuat...</div></div>
+    return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Memuat...</div></div>
   }
 
   const totalHours = contributions.reduce((sum, c) => sum + (Number(c.hours) || 0), 0)
@@ -122,8 +122,8 @@ export default function AlumniPage() {
   return (
     <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-4xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-xl font-bold text-gray-900">Awardee Alumni</h1>
-        <p className="text-sm text-gray-500 mt-0.5">Sudah lolos beasiswa lewat Awardee.id? Gabung dan bantu mewujudkan #IndonesiaGoesGlobal.</p>
+        <h1 className="text-xl font-bold text-ink">Awardee Alumni</h1>
+        <p className="text-sm text-muted mt-0.5">Sudah lolos beasiswa lewat Awardee.id? Gabung dan bantu mewujudkan #IndonesiaGoesGlobal.</p>
       </div>
 
       {collectiveStats && (
@@ -144,34 +144,34 @@ export default function AlumniPage() {
       )}
 
       {!alumni && (
-        <form onSubmit={handleApply} className="bg-white rounded-xl border border-gray-200 p-6 space-y-4 max-w-lg">
+        <form onSubmit={handleApply} className="bg-white rounded-xl border border-hairline p-6 space-y-4 max-w-lg">
           <div className="text-3xl mb-1">🎓</div>
-          <h2 className="font-semibold text-gray-900 text-lg">Ajukan Jadi Awardee Alumni</h2>
-          <p className="text-sm text-gray-500">Ceritakan sedikit tentang beasiswamu — tim kami akan review sebelum akun alumni-mu aktif.</p>
+          <h2 className="font-semibold text-ink text-lg">Ajukan Jadi Awardee Alumni</h2>
+          <p className="text-sm text-muted">Ceritakan sedikit tentang beasiswamu — tim kami akan review sebelum akun alumni-mu aktif.</p>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Nama Beasiswa *</label>
+            <label className="block text-sm font-medium text-ink mb-1">Nama Beasiswa *</label>
             <input required value={scholarshipName} onChange={e => setScholarshipName(e.target.value)}
               placeholder="Contoh: Australia Awards Scholarship (AAS)"
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" />
+              className="w-full border border-hairline rounded-lg px-3 py-2 text-sm" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Universitas</label>
+            <label className="block text-sm font-medium text-ink mb-1">Universitas</label>
             <input value={university} onChange={e => setUniversity(e.target.value)}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" />
+              className="w-full border border-hairline rounded-lg px-3 py-2 text-sm" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Tahun Lulus</label>
+            <label className="block text-sm font-medium text-ink mb-1">Tahun Lulus</label>
             <input type="number" value={gradYear} onChange={e => setGradYear(e.target.value)}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" />
+              className="w-full border border-hairline rounded-lg px-3 py-2 text-sm" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Ceritakan Singkat Perjalananmu</label>
+            <label className="block text-sm font-medium text-ink mb-1">Ceritakan Singkat Perjalananmu</label>
             <textarea value={story} onChange={e => setStory(e.target.value)} rows={4}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" />
+              className="w-full border border-hairline rounded-lg px-3 py-2 text-sm" />
           </div>
           <button type="submit" disabled={submitting}
-            className="bg-navy hover:bg-navy-2 disabled:bg-gray-300 text-white px-6 py-3 rounded-xl font-semibold text-sm transition-colors">
+            className="bg-navy hover:bg-navy-2 disabled:bg-hairline text-white px-6 py-3 rounded-xl font-semibold text-sm transition-colors">
             {submitting ? 'Mengirim...' : 'Kirim Pengajuan'}
           </button>
         </form>
@@ -180,14 +180,14 @@ export default function AlumniPage() {
       {alumni?.status === 'pending' && (
         <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6 text-center max-w-lg">
           <div className="text-3xl mb-2">⏳</div>
-          <h2 className="font-semibold text-gray-900 mb-1">Pengajuan Sedang Direview</h2>
-          <p className="text-sm text-gray-600">Tim Awardee.id akan meninjau pengajuanmu sebagai <strong>{alumni.scholarship_name}</strong> awardee. Kami akan aktifkan akun alumni-mu setelah disetujui.</p>
+          <h2 className="font-semibold text-ink mb-1">Pengajuan Sedang Direview</h2>
+          <p className="text-sm text-muted">Tim Awardee.id akan meninjau pengajuanmu sebagai <strong>{alumni.scholarship_name}</strong> awardee. Kami akan aktifkan akun alumni-mu setelah disetujui.</p>
         </div>
       )}
 
       {alumni?.status === 'rejected' && (
-        <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 text-center max-w-lg">
-          <p className="text-sm text-gray-600">Pengajuan Awardee Alumni kamu belum bisa disetujui saat ini. Hubungi tim Awardee.id kalau ada pertanyaan.</p>
+        <div className="bg-off border border-hairline rounded-xl p-6 text-center max-w-lg">
+          <p className="text-sm text-muted">Pengajuan Awardee Alumni kamu belum bisa disetujui saat ini. Hubungi tim Awardee.id kalau ada pertanyaan.</p>
         </div>
       )}
 
@@ -195,49 +195,49 @@ export default function AlumniPage() {
         <div className="space-y-4">
           {/* Stats */}
           <div className="grid grid-cols-2 gap-3">
-            <div className="bg-white rounded-xl border border-gray-200 p-4">
-              <div className="text-2xl font-bold text-gray-800">{contributions.length}</div>
-              <div className="text-xs text-gray-400 mt-1">Total kontribusi tercatat</div>
+            <div className="bg-white rounded-xl border border-hairline p-4">
+              <div className="text-2xl font-bold text-ink">{contributions.length}</div>
+              <div className="text-xs text-muted mt-1">Total kontribusi tercatat</div>
             </div>
-            <div className="bg-white rounded-xl border border-gray-200 p-4">
+            <div className="bg-white rounded-xl border border-hairline p-4">
               <div className="text-2xl font-bold text-gold-2">{totalHours}</div>
-              <div className="text-xs text-gray-400 mt-1">Total jam kontribusi</div>
+              <div className="text-xs text-muted mt-1">Total jam kontribusi</div>
             </div>
           </div>
 
           {/* Log new contribution */}
-          <form onSubmit={handleLogContribution} className="bg-white rounded-xl border border-gray-200 p-5 space-y-3">
-            <h2 className="font-semibold text-gray-900 text-sm">Catat Kontribusi Baru</h2>
+          <form onSubmit={handleLogContribution} className="bg-white rounded-xl border border-hairline p-5 space-y-3">
+            <h2 className="font-semibold text-ink text-sm">Catat Kontribusi Baru</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <select value={contribType} onChange={e => setContribType(e.target.value)}
-                className="border border-gray-200 rounded-lg px-3 py-2 text-sm">
+                className="border border-hairline rounded-lg px-3 py-2 text-sm">
                 {Object.entries(TYPE_LABEL).map(([val, label]) => <option key={val} value={val}>{label}</option>)}
               </select>
               <input type="date" value={contribDate} onChange={e => setContribDate(e.target.value)}
-                className="border border-gray-200 rounded-lg px-3 py-2 text-sm" />
+                className="border border-hairline rounded-lg px-3 py-2 text-sm" />
             </div>
             <input placeholder="Deskripsi singkat (opsional)" value={contribDesc} onChange={e => setContribDesc(e.target.value)}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" />
+              className="w-full border border-hairline rounded-lg px-3 py-2 text-sm" />
             <div className="flex items-center gap-3">
               <input type="number" step="0.5" placeholder="Jam" value={contribHours} onChange={e => setContribHours(e.target.value)}
-                className="w-24 border border-gray-200 rounded-lg px-3 py-2 text-sm" />
+                className="w-24 border border-hairline rounded-lg px-3 py-2 text-sm" />
               <button type="submit" disabled={logging}
-                className="bg-navy hover:bg-navy-2 disabled:bg-gray-300 text-white px-5 py-2 rounded-lg font-medium text-sm transition-colors">
+                className="bg-navy hover:bg-navy-2 disabled:bg-hairline text-white px-5 py-2 rounded-lg font-medium text-sm transition-colors">
                 {logging ? 'Menyimpan...' : 'Simpan'}
               </button>
             </div>
           </form>
 
           {/* History */}
-          <div className="bg-white rounded-xl border border-gray-200 p-5">
-            <h2 className="font-semibold text-gray-900 text-sm mb-3">Riwayat Kontribusi</h2>
+          <div className="bg-white rounded-xl border border-hairline p-5">
+            <h2 className="font-semibold text-ink text-sm mb-3">Riwayat Kontribusi</h2>
             {contributions.length === 0 ? (
-              <p className="text-sm text-gray-400">Belum ada kontribusi tercatat. Mulai dari sesi mentoring pertamamu!</p>
+              <p className="text-sm text-muted">Belum ada kontribusi tercatat. Mulai dari sesi mentoring pertamamu!</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="text-left text-xs text-gray-400 border-b border-gray-100">
+                    <tr className="text-left text-xs text-muted border-b border-hairline">
                       <th className="pb-2 pr-4">Tanggal</th>
                       <th className="pb-2 pr-4">Jenis</th>
                       <th className="pb-2 pr-4">Deskripsi</th>
@@ -246,11 +246,11 @@ export default function AlumniPage() {
                   </thead>
                   <tbody>
                     {contributions.map(c => (
-                      <tr key={c.id} className="border-b border-gray-50">
-                        <td className="py-2 pr-4 text-gray-600">{new Date(c.contributed_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
-                        <td className="py-2 pr-4 text-gray-800">{TYPE_LABEL[c.contribution_type] ?? c.contribution_type}</td>
-                        <td className="py-2 pr-4 text-gray-500">{c.description || '—'}</td>
-                        <td className="py-2 text-right font-semibold text-gray-800">{c.hours ?? '—'}</td>
+                      <tr key={c.id} className="border-b border-hairline">
+                        <td className="py-2 pr-4 text-muted">{new Date(c.contributed_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
+                        <td className="py-2 pr-4 text-ink">{TYPE_LABEL[c.contribution_type] ?? c.contribution_type}</td>
+                        <td className="py-2 pr-4 text-muted">{c.description || '—'}</td>
+                        <td className="py-2 text-right font-semibold text-ink">{c.hours ?? '—'}</td>
                       </tr>
                     ))}
                   </tbody>

@@ -73,48 +73,48 @@ export default function NewTrackerPage() {
 
   if (checking) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-gray-400 text-sm">Memeriksa akun...</div>
+      <div className="min-h-screen flex items-center justify-center bg-off">
+        <div className="text-muted text-sm">Memeriksa akun...</div>
       </div>
     )
   }
 
   if (!canCreate) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-        <div className="bg-white rounded-2xl border border-gray-200 p-8 max-w-sm w-full text-center">
+      <div className="min-h-screen bg-off flex items-center justify-center px-4">
+        <div className="bg-white rounded-2xl border border-hairline p-8 max-w-sm w-full text-center">
           <div className="text-3xl mb-3">🔒</div>
-          <h2 className="font-bold text-gray-900 mb-2">Batas aplikasi tercapai</h2>
-          <p className="text-sm text-gray-500 mb-5">
+          <h2 className="font-bold text-ink mb-2">Batas aplikasi tercapai</h2>
+          <p className="text-sm text-muted mb-5">
             Upgrade akun untuk membuat lebih banyak aplikasi beasiswa.
           </p>
           <Link href="/dashboard" className="block bg-navy text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-navy-2 transition-colors mb-3">
             Upgrade Sekarang
           </Link>
-          <Link href="/tracker" className="text-sm text-gray-400 hover:text-gray-600">Kembali ke Tracker</Link>
+          <Link href="/tracker" className="text-sm text-muted hover:text-ink">Kembali ke Tracker</Link>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 px-4 py-3">
+    <div className="min-h-screen bg-off">
+      <header className="bg-white border-b border-hairline px-4 py-3">
         <div className="max-w-xl mx-auto flex items-center gap-3">
-          <Link href="/tracker" className="text-gray-400 hover:text-gray-600 transition-colors">
+          <Link href="/tracker" className="text-muted hover:text-ink transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
               <path fillRule="evenodd" d="M11.03 3.97a.75.75 0 010 1.06l-6.22 6.22H21a.75.75 0 010 1.5H4.81l6.22 6.22a.75.75 0 11-1.06 1.06l-7.5-7.5a.75.75 0 010-1.06l7.5-7.5a.75.75 0 011.06 0z" />
             </svg>
           </Link>
-          <span className="font-semibold text-gray-900 text-sm">Buat Aplikasi Baru</span>
+          <span className="font-semibold text-ink text-sm">Buat Aplikasi Baru</span>
         </div>
       </header>
 
       <main className="max-w-xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+        <div className="bg-white rounded-2xl border border-hairline p-6 shadow-sm">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label className="block text-sm font-medium text-ink mb-1.5">
                 Nama Beasiswa <span className="text-red-500">*</span>
               </label>
               <input
@@ -123,35 +123,35 @@ export default function NewTrackerPage() {
                 onChange={e => setName(e.target.value)}
                 required
                 placeholder="Contoh: AAS 2026, LPDP Reguler 2025"
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
+                className="w-full border border-hairline rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label className="block text-sm font-medium text-ink mb-1.5">
                 Catatan / Deskripsi
-                <span className="text-gray-400 font-normal ml-1">(opsional)</span>
+                <span className="text-muted font-normal ml-1">(opsional)</span>
               </label>
               <textarea
                 value={description}
                 onChange={e => setDescription(e.target.value)}
                 placeholder="Contoh: Beasiswa pemerintah Australia untuk S2 di bidang governance"
                 rows={2}
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold resize-none"
+                className="w-full border border-hairline rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold resize-none"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label className="block text-sm font-medium text-ink mb-1.5">
                 Deadline Aplikasi
-                <span className="text-gray-400 font-normal ml-1">(opsional)</span>
+                <span className="text-muted font-normal ml-1">(opsional)</span>
               </label>
               <input
                 type="date"
                 value={deadline}
                 onChange={e => setDeadline(e.target.value)}
                 min={new Date().toISOString().split('T')[0]}
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
+                className="w-full border border-hairline rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
               />
             </div>
 
@@ -162,14 +162,14 @@ export default function NewTrackerPage() {
             <div className="flex gap-3 pt-1">
               <Link
                 href="/tracker"
-                className="flex-1 text-center border border-gray-300 text-gray-600 py-3 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors"
+                className="flex-1 text-center border border-hairline text-muted py-3 rounded-xl text-sm font-medium hover:bg-off transition-colors"
               >
                 Batal
               </Link>
               <button
                 type="submit"
                 disabled={loading || !name.trim()}
-                className="flex-1 bg-navy hover:bg-navy-2 disabled:bg-gray-300 text-white py-3 rounded-xl text-sm font-semibold transition-colors"
+                className="flex-1 bg-navy hover:bg-navy-2 disabled:bg-hairline text-white py-3 rounded-xl text-sm font-semibold transition-colors"
               >
                 {loading ? 'Membuat...' : 'Buat & Atur Tahapan →'}
               </button>
@@ -177,7 +177,7 @@ export default function NewTrackerPage() {
           </form>
         </div>
 
-        <p className="text-center text-xs text-gray-400 mt-4">
+        <p className="text-center text-xs text-muted mt-4">
           Setelah ini, kamu bisa menambahkan tahapan & checklist yang disesuaikan.
         </p>
       </main>

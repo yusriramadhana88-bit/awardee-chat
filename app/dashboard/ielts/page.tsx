@@ -95,7 +95,7 @@ export default function IeltsTrackerPage() {
   }
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center"><div className="text-gray-400 text-sm">Memuat...</div></div>
+    return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Memuat...</div></div>
   }
 
   if (!allowed) {
@@ -118,8 +118,8 @@ export default function IeltsTrackerPage() {
     <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-4xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-xl font-bold text-gray-900">IELTS / Test Score Tracker</h1>
-          <p className="text-sm text-gray-500 mt-0.5">Catat hasil tes bahasa kamu dan pantau progres menuju target.</p>
+          <h1 className="text-xl font-bold text-ink">IELTS / Test Score Tracker</h1>
+          <p className="text-sm text-muted mt-0.5">Catat hasil tes bahasa kamu dan pantau progres menuju target.</p>
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
@@ -130,25 +130,25 @@ export default function IeltsTrackerPage() {
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200 p-5 mb-6 space-y-4">
+        <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-hairline p-5 mb-6 space-y-4">
           <div className="grid sm:grid-cols-3 gap-3">
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Jenis Tes</label>
+              <label className="block text-xs font-medium text-muted mb-1">Jenis Tes</label>
               <select
                 value={form.test_type}
                 onChange={e => setForm({ ...form, test_type: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
+                className="w-full border border-hairline rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
               >
                 {Object.entries(TEST_TYPE_LABEL).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Tanggal Tes</label>
+              <label className="block text-xs font-medium text-muted mb-1">Tanggal Tes</label>
               <input
                 type="date"
                 value={form.test_date}
                 onChange={e => setForm({ ...form, test_date: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
+                className="w-full border border-hairline rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
               />
             </div>
             <div className="flex items-center gap-2 pt-5">
@@ -157,16 +157,16 @@ export default function IeltsTrackerPage() {
                 id="is_target"
                 checked={form.is_target}
                 onChange={e => setForm({ ...form, is_target: e.target.checked })}
-                className="rounded border-gray-300"
+                className="rounded border-hairline"
               />
-              <label htmlFor="is_target" className="text-sm text-gray-700">Ini adalah skor target</label>
+              <label htmlFor="is_target" className="text-sm text-ink">Ini adalah skor target</label>
             </div>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
             {skills.map(s => (
               <div key={s.key as string}>
-                <label className="block text-xs font-medium text-gray-600 mb-1">{s.label}</label>
+                <label className="block text-xs font-medium text-muted mb-1">{s.label}</label>
                 <input
                   type="number"
                   step="0.5"
@@ -175,37 +175,37 @@ export default function IeltsTrackerPage() {
                   value={(form as any)[s.key]}
                   onChange={e => setForm({ ...form, [s.key]: e.target.value })}
                   placeholder="0.0"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
+                  className="w-full border border-hairline rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
                 />
               </div>
             ))}
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Catatan (opsional)</label>
+            <label className="block text-xs font-medium text-muted mb-1">Catatan (opsional)</label>
             <input
               type="text"
               value={form.notes}
               onChange={e => setForm({ ...form, notes: e.target.value })}
               placeholder="Contoh: Percobaan ke-2, fokus latihan writing task 2"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
+              className="w-full border border-hairline rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
             />
           </div>
 
           <div className="flex gap-2">
-            <button type="submit" disabled={saving} className="bg-navy text-white text-sm px-4 py-2 rounded-lg font-medium hover:bg-navy-2 transition-colors disabled:bg-gray-300">
+            <button type="submit" disabled={saving} className="bg-navy text-white text-sm px-4 py-2 rounded-lg font-medium hover:bg-navy-2 transition-colors disabled:bg-hairline">
               {saving ? 'Menyimpan...' : 'Simpan'}
             </button>
-            <button type="button" onClick={() => setShowForm(false)} className="text-sm text-gray-500 px-4 py-2">Batal</button>
+            <button type="button" onClick={() => setShowForm(false)} className="text-sm text-muted px-4 py-2">Batal</button>
           </div>
         </form>
       )}
 
       {/* Progress vs Target */}
       {target && (
-        <div className="bg-white rounded-xl border border-gray-200 p-5 mb-6">
+        <div className="bg-white rounded-xl border border-hairline p-5 mb-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="font-semibold text-gray-900 text-sm">
+            <h2 className="font-semibold text-ink text-sm">
               Progres Menuju Target {TEST_TYPE_LABEL[target.test_type]}
             </h2>
             {latest?.overall_score !== undefined && latest.overall_score !== null && (() => {
@@ -247,13 +247,13 @@ export default function IeltsTrackerPage() {
 
               return (
                 <div key={s.key as string}>
-                  <div className="flex justify-between text-xs text-gray-600 mb-1">
+                  <div className="flex justify-between text-xs text-muted mb-1">
                     <span>{s.label}</span>
                     <span className={reached ? 'text-green-600 font-semibold' : ''}>
                       {currentVal ?? '—'} / {targetVal}
                     </span>
                   </div>
-                  <div className="w-full bg-gray-100 rounded-full h-2">
+                  <div className="w-full bg-off rounded-full h-2">
                     <div className={`h-2 rounded-full transition-all ${reached ? 'bg-green-500' : 'bg-blue-500'}`} style={{ width: `${pct}%` }} />
                   </div>
                 </div>
@@ -264,15 +264,15 @@ export default function IeltsTrackerPage() {
       )}
 
       {/* History */}
-      <div className="bg-white rounded-xl border border-gray-200 p-5">
-        <h2 className="font-semibold text-gray-900 text-sm mb-4">Riwayat Percobaan</h2>
+      <div className="bg-white rounded-xl border border-hairline p-5">
+        <h2 className="font-semibold text-ink text-sm mb-4">Riwayat Percobaan</h2>
         {attempts.length === 0 ? (
-          <p className="text-sm text-gray-400">Belum ada riwayat tes. Tambahkan skor pertamamu!</p>
+          <p className="text-sm text-muted">Belum ada riwayat tes. Tambahkan skor pertamamu!</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-gray-400 text-xs border-b border-gray-100">
+                <tr className="text-left text-muted text-xs border-b border-hairline">
                   <th className="pb-2 pr-4">Tanggal</th>
                   <th className="pb-2 pr-4">Jenis</th>
                   <th className="pb-2 pr-4 text-center">Overall</th>
@@ -285,16 +285,16 @@ export default function IeltsTrackerPage() {
               </thead>
               <tbody>
                 {[...attempts].reverse().map(s => (
-                  <tr key={s.id} className="border-b border-gray-50">
-                    <td className="py-2 pr-4 text-gray-700">{s.test_date ? new Date(s.test_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'}</td>
-                    <td className="py-2 pr-4 text-gray-700">{TEST_TYPE_LABEL[s.test_type]}</td>
+                  <tr key={s.id} className="border-b border-hairline">
+                    <td className="py-2 pr-4 text-ink">{s.test_date ? new Date(s.test_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'}</td>
+                    <td className="py-2 pr-4 text-ink">{TEST_TYPE_LABEL[s.test_type]}</td>
                     <td className="py-2 pr-4 text-center font-semibold text-gold-2">{s.overall_score ?? '—'}</td>
-                    <td className="py-2 pr-4 text-center text-gray-600">{s.listening ?? '—'}</td>
-                    <td className="py-2 pr-4 text-center text-gray-600">{s.reading ?? '—'}</td>
-                    <td className="py-2 pr-4 text-center text-gray-600">{s.writing ?? '—'}</td>
-                    <td className="py-2 pr-4 text-center text-gray-600">{s.speaking ?? '—'}</td>
+                    <td className="py-2 pr-4 text-center text-muted">{s.listening ?? '—'}</td>
+                    <td className="py-2 pr-4 text-center text-muted">{s.reading ?? '—'}</td>
+                    <td className="py-2 pr-4 text-center text-muted">{s.writing ?? '—'}</td>
+                    <td className="py-2 pr-4 text-center text-muted">{s.speaking ?? '—'}</td>
                     <td className="py-2 text-right">
-                      <button onClick={() => handleDelete(s.id)} className="text-gray-300 hover:text-red-500 transition-colors">
+                      <button onClick={() => handleDelete(s.id)} className="text-muted hover:text-red-500 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4"><path fillRule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.256 1.478l-.209-.035-1.005 13.07a3 3 0 01-2.991 2.77H8.084a3 3 0 01-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 01-.256-1.478A48.567 48.567 0 017.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 013.369 0c1.603.051 2.815 1.387 2.815 2.951zm-6.136-1.452a51.196 51.196 0 013.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 00-6 0v-.113c0-.794.609-1.428 1.364-1.452zm-.355 5.945a.75.75 0 10-1.5.058l.347 9a.75.75 0 101.499-.058l-.346-9zm5.48.058a.75.75 0 10-1.498-.058l-.347 9a.75.75 0 001.5.058l.345-9z" /></svg>
                       </button>
                     </td>
@@ -305,7 +305,7 @@ export default function IeltsTrackerPage() {
           </div>
         )}
         {!target && (
-          <p className="text-xs text-gray-400 mt-4">Tip: tambahkan skor dengan centang &quot;Ini adalah skor target&quot; untuk melihat progres visual.</p>
+          <p className="text-xs text-muted mt-4">Tip: tambahkan skor dengan centang &quot;Ini adalah skor target&quot; untuk melihat progres visual.</p>
         )}
       </div>
     </div>

@@ -151,8 +151,8 @@ export default function TrackerDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-gray-400 text-sm">Memuat...</div>
+      <div className="min-h-screen flex items-center justify-center bg-off">
+        <div className="text-muted text-sm">Memuat...</div>
       </div>
     )
   }
@@ -163,15 +163,15 @@ export default function TrackerDetailPage() {
   const completedStages = stages.filter(s => s.status === 'done').length
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 px-4 py-3">
+    <div className="min-h-screen bg-off">
+      <header className="bg-white border-b border-hairline px-4 py-3">
         <div className="max-w-2xl mx-auto flex items-center gap-3">
-          <Link href="/tracker" className="text-gray-400 hover:text-gray-600 transition-colors">
+          <Link href="/tracker" className="text-muted hover:text-ink transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
               <path fillRule="evenodd" d="M11.03 3.97a.75.75 0 010 1.06l-6.22 6.22H21a.75.75 0 010 1.5H4.81l6.22 6.22a.75.75 0 11-1.06 1.06l-7.5-7.5a.75.75 0 010-1.06l7.5-7.5a.75.75 0 011.06 0z" />
             </svg>
           </Link>
-          <span className="font-semibold text-gray-900 text-sm flex-1 truncate">{app.name}</span>
+          <span className="font-semibold text-ink text-sm flex-1 truncate">{app.name}</span>
           <Link
             href={`/tracker/${id}/stages`}
             className="text-xs text-gold-2 hover:underline"
@@ -183,18 +183,18 @@ export default function TrackerDetailPage() {
 
       <main className="max-w-2xl mx-auto px-4 py-6">
         {/* Progress Card */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-5 mb-5 shadow-sm">
+        <div className="bg-white rounded-2xl border border-hairline p-5 mb-5 shadow-sm">
           <div className="flex items-start justify-between mb-3">
             <div>
-              <h1 className="font-bold text-gray-900 text-lg">{app.name}</h1>
+              <h1 className="font-bold text-ink text-lg">{app.name}</h1>
               {app.description && (
-                <p className="text-sm text-gray-500 mt-0.5">{app.description}</p>
+                <p className="text-sm text-muted mt-0.5">{app.description}</p>
               )}
             </div>
             <span className="text-3xl font-bold text-gold-2 shrink-0 ml-3">{app.overall_progress}%</span>
           </div>
 
-          <div className="w-full bg-gray-100 rounded-full h-3 mb-3">
+          <div className="w-full bg-off rounded-full h-3 mb-3">
             <div
               className="bg-blue-500 h-3 rounded-full transition-all duration-500"
               style={{ width: `${app.overall_progress}%` }}
@@ -202,12 +202,12 @@ export default function TrackerDetailPage() {
           </div>
 
           <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-500">
+            <span className="text-muted">
               {completedStages}/{stages.length} tahapan selesai
             </span>
             <div className="flex items-center gap-2">
               {app.deadline && (
-                <span className="text-gray-400 text-xs">
+                <span className="text-muted text-xs">
                   {formatDeadline(app.deadline)}
                 </span>
               )}
@@ -220,7 +220,7 @@ export default function TrackerDetailPage() {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-2 mt-4 pt-4 border-t border-gray-100">
+          <div className="flex gap-2 mt-4 pt-4 border-t border-hairline">
             {tier === 'pro' ? (
               <button
                 onClick={handleShareLink}
@@ -233,7 +233,7 @@ export default function TrackerDetailPage() {
                 {shareCopied ? 'Link disalin!' : app.share_token ? 'Salin Link' : 'Buat Share Link'}
               </button>
             ) : (
-              <span className="text-xs text-gray-400 bg-gray-50 border border-gray-200 px-3 py-2 rounded-lg">
+              <span className="text-xs text-muted bg-off border border-hairline px-3 py-2 rounded-lg">
                 🔒 Share link (Pro)
               </span>
             )}
@@ -248,8 +248,8 @@ export default function TrackerDetailPage() {
 
         {/* Stages */}
         {stages.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-dashed border-gray-300 p-8 text-center">
-            <p className="text-gray-500 text-sm mb-3">Belum ada tahapan. Tambahkan dulu!</p>
+          <div className="bg-white rounded-2xl border border-dashed border-hairline p-8 text-center">
+            <p className="text-muted text-sm mb-3">Belum ada tahapan. Tambahkan dulu!</p>
             <Link
               href={`/tracker/${id}/stages`}
               className="inline-block bg-navy text-white text-sm px-5 py-2.5 rounded-xl hover:bg-navy-2 transition-colors"
@@ -303,7 +303,7 @@ function StageCard({
   const checkedCount = stage.checklist_items.filter(c => c.is_completed).length
 
   return (
-    <div className={`bg-white rounded-xl border transition-all ${isDone ? 'border-green-200 bg-green-50/30' : 'border-gray-200'}`}>
+    <div className={`bg-white rounded-xl border transition-all ${isDone ? 'border-green-200 bg-green-50/30' : 'border-hairline'}`}>
       <div
         className="flex items-center gap-3 px-4 py-3.5 cursor-pointer"
         onClick={onToggleExpand}
@@ -313,7 +313,7 @@ function StageCard({
           className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
             isDone
               ? 'bg-green-500 border-green-500 text-white'
-              : 'border-gray-300 hover:border-gold'
+              : 'border-hairline hover:border-gold'
           }`}
         >
           {isDone && (
@@ -325,13 +325,13 @@ function StageCard({
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-400 font-medium">{index}.</span>
-            <span className={`text-sm font-medium ${isDone ? 'text-gray-400 line-through' : 'text-gray-800'}`}>
+            <span className="text-xs text-muted font-medium">{index}.</span>
+            <span className={`text-sm font-medium ${isDone ? 'text-muted line-through' : 'text-ink'}`}>
               {stage.name}
             </span>
           </div>
           {stage.checklist_items.length > 0 && (
-            <p className="text-xs text-gray-400 mt-0.5">
+            <p className="text-xs text-muted mt-0.5">
               {checkedCount}/{stage.checklist_items.length} checklist
             </p>
           )}
@@ -345,7 +345,7 @@ function StageCard({
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            className={`w-4 h-4 text-gray-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+            className={`w-4 h-4 text-muted transition-transform ${isExpanded ? 'rotate-180' : ''}`}
           >
             <path fillRule="evenodd" d="M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z" />
           </svg>
@@ -353,7 +353,7 @@ function StageCard({
       </div>
 
       {isExpanded && (
-        <div className="px-4 pb-4 border-t border-gray-100 pt-3 space-y-3">
+        <div className="px-4 pb-4 border-t border-hairline pt-3 space-y-3">
           {/* Checklist */}
           {stage.checklist_items.length > 0 && (
             <div className="space-y-2">
@@ -363,9 +363,9 @@ function StageCard({
                     type="checkbox"
                     checked={item.is_completed}
                     onChange={() => onToggleChecklist(stage.id, item.id, item.is_completed)}
-                    className="w-4 h-4 rounded border-gray-300 text-gold-2 focus:ring-gold cursor-pointer"
+                    className="w-4 h-4 rounded border-hairline text-gold-2 focus:ring-gold cursor-pointer"
                   />
-                  <span className={`text-sm ${item.is_completed ? 'line-through text-gray-400' : 'text-gray-700'}`}>
+                  <span className={`text-sm ${item.is_completed ? 'line-through text-muted' : 'text-ink'}`}>
                     {item.text}
                   </span>
                 </label>
@@ -375,18 +375,18 @@ function StageCard({
 
           {/* Notes */}
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1.5">Catatan</label>
+            <label className="block text-xs font-medium text-muted mb-1.5">Catatan</label>
             <textarea
               value={notes}
               onChange={e => setNotes(e.target.value)}
               placeholder="Tulis catatan untuk tahapan ini..."
               rows={2}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold resize-none bg-gray-50"
+              className="w-full border border-hairline rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold resize-none bg-off"
             />
             <button
               onClick={() => onSaveNote(stage.id, notes)}
               disabled={savingNote}
-              className="mt-1 text-xs text-gold-2 hover:underline disabled:text-gray-400"
+              className="mt-1 text-xs text-gold-2 hover:underline disabled:text-muted"
             >
               {savingNote ? 'Menyimpan...' : 'Simpan catatan'}
             </button>

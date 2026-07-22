@@ -47,23 +47,23 @@ export default function FaqPage() {
       <div className="max-w-3xl mx-auto px-4 py-12 lg:px-8">
         <Link href="/" className="text-sm text-gold-2 hover:underline">← Kembali ke Beranda</Link>
 
-        <h1 className="text-3xl font-bold text-gray-900 mt-6 mb-2">Pertanyaan Umum (FAQ)</h1>
-        <p className="text-sm text-gray-400 mb-8">Terakhir diperbarui: Juni 2026</p>
+        <h1 className="text-3xl font-bold text-ink mt-6 mb-2">Pertanyaan Umum (FAQ)</h1>
+        <p className="text-sm text-muted mb-8">Terakhir diperbarui: Juni 2026</p>
 
         <div className="space-y-4">
           {faqs.map((faq, i) => (
-            <details key={i} className="group border border-gray-200 rounded-xl">
-              <summary className="px-5 py-4 cursor-pointer font-medium text-gray-900 flex items-center justify-between text-sm">
+            <details key={i} className="group border border-hairline rounded-xl">
+              <summary className="px-5 py-4 cursor-pointer font-medium text-ink flex items-center justify-between text-sm">
                 {faq.q}
-                <span className="text-gray-400 group-open:rotate-180 transition-transform flex-shrink-0 ml-3">▾</span>
+                <span className="text-muted group-open:rotate-180 transition-transform flex-shrink-0 ml-3">▾</span>
               </summary>
-              <div className="px-5 pb-4 text-sm text-gray-600 leading-relaxed">{faq.a}</div>
+              <div className="px-5 pb-4 text-sm text-muted leading-relaxed">{faq.a}</div>
             </details>
           ))}
         </div>
 
         <div className="mt-8 bg-off border border-gold rounded-xl p-5">
-          <p className="text-sm text-gray-700">
+          <p className="text-sm text-ink">
             Masih ada pertanyaan? Kunjungi <Link href="/contact" className="text-gold-2 font-medium hover:underline">halaman kontak</Link> kami atau chat langsung dengan AI Den Dhana di platform.
           </p>
         </div>

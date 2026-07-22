@@ -48,49 +48,49 @@ export default function AdminOverviewPage() {
     load()
   }, [])
 
-  if (loading) return <div className="p-8 text-gray-400 text-sm">Memuat statistik...</div>
+  if (loading) return <div className="p-8 text-muted text-sm">Memuat statistik...</div>
   if (!stats) return <div className="p-8 text-red-500 text-sm">Gagal memuat data.</div>
 
   return (
     <div className="px-6 py-8 max-w-5xl mx-auto">
-      <h1 className="text-xl font-bold text-gray-900 mb-6">Admin Overview</h1>
+      <h1 className="text-xl font-bold text-ink mb-6">Admin Overview</h1>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {[
-          { label: 'Total User', value: stats.total, color: 'text-gray-800' },
-          { label: 'Free', value: stats.free, color: 'text-gray-600' },
+          { label: 'Total User', value: stats.total, color: 'text-ink' },
+          { label: 'Free', value: stats.free, color: 'text-muted' },
           { label: 'Starter', value: stats.starter, color: 'text-gold-2' },
           { label: 'Pro', value: stats.pro, color: 'text-purple-600' },
         ].map(s => (
-          <div key={s.label} className="bg-white rounded-xl border border-gray-200 p-4">
+          <div key={s.label} className="bg-white rounded-xl border border-hairline p-4">
             <div className={`text-3xl font-bold ${s.color}`}>{s.value}</div>
-            <div className="text-xs text-gray-400 mt-1">{s.label}</div>
+            <div className="text-xs text-muted mt-1">{s.label}</div>
           </div>
         ))}
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
-          <h2 className="font-semibold text-gray-900 text-sm mb-3">Chat hari ini (semua user)</h2>
+        <div className="bg-white rounded-xl border border-hairline p-5">
+          <h2 className="font-semibold text-ink text-sm mb-3">Chat hari ini (semua user)</h2>
           <div className="text-4xl font-bold text-gold-2">{stats.chatToday}</div>
-          <div className="text-xs text-gray-400 mt-1">total pesan terkirim ke AI hari ini</div>
+          <div className="text-xs text-muted mt-1">total pesan terkirim ke AI hari ini</div>
         </div>
 
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
-          <h2 className="font-semibold text-gray-900 text-sm mb-3">Top Afiliasi</h2>
+        <div className="bg-white rounded-xl border border-hairline p-5">
+          <h2 className="font-semibold text-ink text-sm mb-3">Top Afiliasi</h2>
           {stats.topAffiliates.length === 0 ? (
-            <p className="text-sm text-gray-400">Belum ada afiliasi.</p>
+            <p className="text-sm text-muted">Belum ada afiliasi.</p>
           ) : (
             <div className="space-y-2">
               {stats.topAffiliates.map(a => (
                 <div key={a.code} className="flex items-center justify-between text-sm">
                   <div>
-                    <span className="font-medium text-gray-800">{a.name}</span>
-                    <span className="ml-2 text-xs text-gray-400 font-mono">{a.code}</span>
+                    <span className="font-medium text-ink">{a.name}</span>
+                    <span className="ml-2 text-xs text-muted font-mono">{a.code}</span>
                   </div>
                   <div className="text-right">
                     <div className="text-xs text-green-600 font-semibold">Rp {a.earned.toLocaleString('id-ID')}</div>
-                    <div className="text-xs text-gray-400">{a.conversions} konversi</div>
+                    <div className="text-xs text-muted">{a.conversions} konversi</div>
                   </div>
                 </div>
               ))}

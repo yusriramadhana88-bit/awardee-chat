@@ -51,23 +51,23 @@ export default function TrackerPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-gray-400 text-sm">Memuat tracker...</div>
+      <div className="min-h-screen flex items-center justify-center bg-off">
+        <div className="text-muted text-sm">Memuat tracker...</div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 px-4 py-3">
+    <div className="min-h-screen bg-off">
+      <header className="bg-white border-b border-hairline px-4 py-3">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <Link href="/dashboard" className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-navy flex items-center justify-center text-white font-bold text-sm">A</div>
-            <span className="font-bold text-gray-900 text-sm">Awardee.id</span>
+            <span className="font-bold text-ink text-sm">Awardee.id</span>
           </Link>
           <div className="flex items-center gap-3">
-            <Link href="/dashboard" className="text-sm text-gray-500 hover:text-gray-700 transition-colors">Dashboard</Link>
-            <button onClick={handleLogout} className="text-sm text-gray-500 hover:text-gray-700 transition-colors">Keluar</button>
+            <Link href="/dashboard" className="text-sm text-muted hover:text-ink transition-colors">Dashboard</Link>
+            <button onClick={handleLogout} className="text-sm text-muted hover:text-ink transition-colors">Keluar</button>
           </div>
         </div>
       </header>
@@ -75,8 +75,8 @@ export default function TrackerPage() {
       <main className="max-w-3xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-xl font-bold text-gray-900">Scholarship Tracker</h1>
-            <p className="text-sm text-gray-500 mt-0.5">
+            <h1 className="text-xl font-bold text-ink">Scholarship Tracker</h1>
+            <p className="text-sm text-muted mt-0.5">
               {applications.length}/{limit === 999 ? '∞' : limit} aplikasi aktif
               {tier !== 'pro' && (
                 <Link href="/dashboard" className="ml-2 text-gold-2 hover:underline text-xs">
@@ -103,10 +103,10 @@ export default function TrackerPage() {
         </div>
 
         {applications.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-gray-200 p-10 text-center">
+          <div className="bg-white rounded-2xl border border-hairline p-10 text-center">
             <div className="text-4xl mb-3">🎓</div>
-            <h2 className="font-semibold text-gray-800 mb-1">Belum ada aplikasi</h2>
-            <p className="text-sm text-gray-500 mb-5">
+            <h2 className="font-semibold text-ink mb-1">Belum ada aplikasi</h2>
+            <p className="text-sm text-muted mb-5">
               Mulai tracking perjalanan beasiswamu sekarang.
             </p>
             <Link
@@ -141,13 +141,13 @@ function ApplicationCard({ app }: { app: ScholarshipApplication }) {
   return (
     <Link
       href={`/tracker/${app.id}`}
-      className="block bg-white rounded-2xl border border-gray-200 p-5 hover:border-gold hover:shadow-sm transition-all"
+      className="block bg-white rounded-2xl border border-hairline p-5 hover:border-gold hover:shadow-sm transition-all"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-gray-900 truncate">{app.name}</h3>
+          <h3 className="font-semibold text-ink truncate">{app.name}</h3>
           {app.description && (
-            <p className="text-xs text-gray-500 mt-0.5 truncate">{app.description}</p>
+            <p className="text-xs text-muted mt-0.5 truncate">{app.description}</p>
           )}
         </div>
         <div className="text-right shrink-0">
@@ -156,7 +156,7 @@ function ApplicationCard({ app }: { app: ScholarshipApplication }) {
       </div>
 
       <div className="mt-3">
-        <div className="w-full bg-gray-100 rounded-full h-2">
+        <div className="w-full bg-off rounded-full h-2">
           <div
             className="bg-blue-500 h-2 rounded-full transition-all"
             style={{ width: `${app.overall_progress}%` }}
@@ -165,7 +165,7 @@ function ApplicationCard({ app }: { app: ScholarshipApplication }) {
       </div>
 
       <div className="mt-3 flex items-center justify-between">
-        <span className="text-xs text-gray-400">
+        <span className="text-xs text-muted">
           Deadline: {formatDeadline(app.deadline)}
         </span>
         {deadline && (

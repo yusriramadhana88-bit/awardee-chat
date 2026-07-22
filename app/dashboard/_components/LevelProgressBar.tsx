@@ -30,7 +30,7 @@ export default function LevelProgressBar({
   return (
     <div className={`rounded-xl border ${borderColor} ${bgColor} p-3`}>
       <div className="flex items-center justify-between mb-1.5">
-        <span className="text-xs font-medium text-gray-600">{label}</span>
+        <span className="text-xs font-medium text-muted">{label}</span>
         <div className="flex items-center gap-1.5">
           <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${bgColor} ${color} border ${borderColor}`}>
             {emoji} {levelName}

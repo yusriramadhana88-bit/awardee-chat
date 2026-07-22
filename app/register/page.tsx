@@ -113,11 +113,11 @@ function RegisterForm() {
 
   if (done) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-off flex items-center justify-center px-4">
         <div className="max-w-sm w-full text-center">
           <div className="text-4xl mb-4">✅</div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Akun berhasil dibuat!</h2>
-          <p className="text-gray-500 text-sm mb-6">
+          <h2 className="text-xl font-bold text-ink mb-2">Akun berhasil dibuat!</h2>
+          <p className="text-muted text-sm mb-6">
             Akun kamu sudah aktif. Silakan login untuk mulai chat dengan Den Dhana.
           </p>
           {plan !== 'free' && (
@@ -133,15 +133,15 @@ function RegisterForm() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-off flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
             <div className="w-9 h-9 rounded-xl bg-navy flex items-center justify-center text-white font-bold">A</div>
-            <span className="font-bold text-gray-900">Awardee.id</span>
+            <span className="font-bold text-ink">Awardee.id</span>
           </Link>
-          <h1 className="text-xl font-bold text-gray-900">Buat akun gratis</h1>
-          <p className="text-sm text-gray-500 mt-1">Sudah punya akun? <Link href={`/login?next=${encodeURIComponent(next)}`} className="text-gold-2 hover:underline">Masuk</Link></p>
+          <h1 className="text-xl font-bold text-ink">Buat akun gratis</h1>
+          <p className="text-sm text-muted mt-1">Sudah punya akun? <Link href={`/login?next=${encodeURIComponent(next)}`} className="text-gold-2 hover:underline">Masuk</Link></p>
         </div>
 
         <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-4 text-sm text-amber-700">
@@ -154,10 +154,10 @@ function RegisterForm() {
           </div>
         )}
 
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+        <div className="bg-white rounded-2xl border border-hairline p-6 shadow-sm">
           <form onSubmit={handleRegister} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Nama lengkap</label>
+              <label className="block text-sm font-medium text-ink mb-1">Nama lengkap</label>
               <input
                 type="text"
                 value={name}
@@ -168,7 +168,7 @@ function RegisterForm() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <label className="block text-sm font-medium text-ink mb-1">Email</label>
               <input
                 type="email"
                 value={email}
@@ -179,7 +179,7 @@ function RegisterForm() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-ink mb-1">
                 Nomor WhatsApp <span className="text-amber-600 font-normal">(wajib, untuk verifikasi)</span>
               </label>
               <input
@@ -190,10 +190,10 @@ function RegisterForm() {
                 placeholder="08xxxxxxxxxx"
                 className="w-full border border-hairline rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
               />
-              <p className="text-xs text-gray-400 mt-1">1 nomor WA hanya bisa untuk 1 akun</p>
+              <p className="text-xs text-muted mt-1">1 nomor WA hanya bisa untuk 1 akun</p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+              <label className="block text-sm font-medium text-ink mb-1">Password</label>
               <input
                 type="password"
                 value={password}
@@ -211,12 +211,12 @@ function RegisterForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-navy hover:bg-navy-2 disabled:bg-gray-300 text-white rounded-xl py-3 text-sm font-semibold transition-colors"
+              className="w-full bg-navy hover:bg-navy-2 disabled:bg-hairline text-white rounded-xl py-3 text-sm font-semibold transition-colors"
             >
               {loading ? 'Memproses...' : 'Daftar Gratis'}
             </button>
           </form>
-          <p className="text-xs text-gray-400 text-center mt-4">
+          <p className="text-xs text-muted text-center mt-4">
             Dengan daftar, kamu setuju dengan syarat penggunaan Awardee.id.
           </p>
         </div>
@@ -227,7 +227,7 @@ function RegisterForm() {
 
 export default function RegisterPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-gray-50 flex items-center justify-center"><div className="text-gray-400">Memuat...</div></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-off flex items-center justify-center"><div className="text-muted">Memuat...</div></div>}>
       <RegisterForm />
     </Suspense>
   )

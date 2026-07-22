@@ -124,7 +124,7 @@ export default function EssayWorkshopPage() {
   }
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center"><div className="text-gray-400 text-sm">Memuat...</div></div>
+    return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Memuat...</div></div>
   }
 
   if (!allowed) {
@@ -137,8 +137,8 @@ export default function EssayWorkshopPage() {
     <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-5xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-xl font-bold text-gray-900">Essay Workshop</h1>
-          <p className="text-sm text-gray-500 mt-0.5">Tulis, simpan, dan dapatkan kritik AI mendalam untuk essay beasiswamu.</p>
+          <h1 className="text-xl font-bold text-ink">Essay Workshop</h1>
+          <p className="text-sm text-muted mt-0.5">Tulis, simpan, dan dapatkan kritik AI mendalam untuk essay beasiswamu.</p>
         </div>
         <button onClick={handleNewDraft} className="bg-navy text-white text-sm px-4 py-2 rounded-xl font-medium hover:bg-navy-2 transition-colors whitespace-nowrap">
           + Draft Baru
@@ -149,7 +149,7 @@ export default function EssayWorkshopPage() {
         {/* Draft list */}
         <div className="lg:col-span-1 space-y-2">
           {drafts.length === 0 ? (
-            <div className="bg-white rounded-xl border border-gray-200 p-6 text-center text-sm text-gray-400">
+            <div className="bg-white rounded-xl border border-hairline p-6 text-center text-sm text-muted">
               Belum ada draft essay. Buat draft pertamamu!
             </div>
           ) : (
@@ -157,13 +157,13 @@ export default function EssayWorkshopPage() {
               <button
                 key={d.id}
                 onClick={() => selectDraft(d)}
-                className={`w-full text-left bg-white rounded-xl border p-3.5 transition-colors ${selectedId === d.id ? 'border-gold ring-1 ring-gold/30' : 'border-gray-200 hover:border-gold'}`}
+                className={`w-full text-left bg-white rounded-xl border p-3.5 transition-colors ${selectedId === d.id ? 'border-gold ring-1 ring-gold/30' : 'border-hairline hover:border-gold'}`}
               >
-                <div className="font-medium text-sm text-gray-900 truncate">{d.title}</div>
-                <div className="text-xs text-gray-400 mt-0.5">{ESSAY_TYPES[d.essay_type] || 'Lainnya'}</div>
+                <div className="font-medium text-sm text-ink truncate">{d.title}</div>
+                <div className="text-xs text-muted mt-0.5">{ESSAY_TYPES[d.essay_type] || 'Lainnya'}</div>
                 <div className="flex items-center gap-2 mt-1.5">
                   {d.ai_feedback && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-green-100 text-green-700 font-medium">Sudah direview</span>}
-                  <span className="text-[10px] text-gray-400">{new Date(d.updated_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}</span>
+                  <span className="text-[10px] text-muted">{new Date(d.updated_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}</span>
                 </div>
               </button>
             ))
@@ -173,44 +173,44 @@ export default function EssayWorkshopPage() {
         {/* Editor */}
         <div className="lg:col-span-2">
           {!selected ? (
-            <div className="bg-white rounded-xl border border-gray-200 p-10 text-center text-sm text-gray-400 h-full flex items-center justify-center">
+            <div className="bg-white rounded-xl border border-hairline p-10 text-center text-sm text-muted h-full flex items-center justify-center">
               Pilih draft di sebelah kiri, atau buat draft baru.
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="bg-white rounded-xl border border-gray-200 p-5">
+              <div className="bg-white rounded-xl border border-hairline p-5">
                 <div className="grid sm:grid-cols-3 gap-3 mb-3">
                   <div className="sm:col-span-2">
-                    <label className="block text-xs font-medium text-gray-600 mb-1">Judul Draft</label>
+                    <label className="block text-xs font-medium text-muted mb-1">Judul Draft</label>
                     <input
                       type="text"
                       value={title}
                       onChange={e => setTitle(e.target.value)}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
+                      className="w-full border border-hairline rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">Jenis Essay</label>
+                    <label className="block text-xs font-medium text-muted mb-1">Jenis Essay</label>
                     <select
                       value={essayType}
                       onChange={e => setEssayType(e.target.value)}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
+                      className="w-full border border-hairline rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
                     >
                       {Object.entries(ESSAY_TYPES).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
                     </select>
                   </div>
                 </div>
 
-                <label className="block text-xs font-medium text-gray-600 mb-1">Isi Essay</label>
+                <label className="block text-xs font-medium text-muted mb-1">Isi Essay</label>
                 <textarea
                   value={content}
                   onChange={e => setContent(e.target.value)}
                   rows={14}
                   placeholder="Tulis atau tempel essay kamu di sini..."
-                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold resize-none"
+                  className="w-full border border-hairline rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold resize-none"
                 />
                 <div className="flex items-center justify-between mt-1">
-                  <span className="text-xs text-gray-400">{content.trim().split(/\s+/).filter(Boolean).length} kata</span>
+                  <span className="text-xs text-muted">{content.trim().split(/\s+/).filter(Boolean).length} kata</span>
                 </div>
 
                 {error && (
@@ -218,13 +218,13 @@ export default function EssayWorkshopPage() {
                 )}
 
                 <div className="flex gap-2 mt-4">
-                  <button onClick={handleSave} disabled={saving} className="border border-gray-300 text-gray-700 text-sm px-4 py-2 rounded-lg font-medium hover:bg-gray-50 transition-colors disabled:opacity-50">
+                  <button onClick={handleSave} disabled={saving} className="border border-hairline text-ink text-sm px-4 py-2 rounded-lg font-medium hover:bg-off transition-colors disabled:opacity-50">
                     {saving ? 'Menyimpan...' : 'Simpan Draft'}
                   </button>
-                  <button onClick={handleReview} disabled={reviewing} className="bg-navy text-white text-sm px-4 py-2 rounded-lg font-medium hover:bg-navy-2 transition-colors disabled:bg-gray-300">
+                  <button onClick={handleReview} disabled={reviewing} className="bg-navy text-white text-sm px-4 py-2 rounded-lg font-medium hover:bg-navy-2 transition-colors disabled:bg-hairline">
                     {reviewing ? 'Menganalisis...' : 'Minta Kritik AI'}
                   </button>
-                  <button onClick={() => handleDelete(selected.id)} className="ml-auto text-sm text-gray-400 hover:text-red-500 transition-colors px-3">
+                  <button onClick={() => handleDelete(selected.id)} className="ml-auto text-sm text-muted hover:text-red-500 transition-colors px-3">
                     Hapus
                   </button>
                 </div>
@@ -232,9 +232,9 @@ export default function EssayWorkshopPage() {
 
               {selected.ai_feedback && (
                 <div className="bg-white rounded-xl border border-gold p-5">
-                  <h2 className="font-semibold text-gray-900 mb-1 text-sm">Kritik AI — GALI DIRI</h2>
+                  <h2 className="font-semibold text-ink mb-1 text-sm">Kritik AI — GALI DIRI</h2>
                   {selected.reviewed_at && (
-                    <p className="text-xs text-gray-400 mb-3">Direview pada {new Date(selected.reviewed_at).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' })}</p>
+                    <p className="text-xs text-muted mb-3">Direview pada {new Date(selected.reviewed_at).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' })}</p>
                   )}
                   {selected.score !== null && (() => {
                     const lvl = getScoreLevel(selected.score)
@@ -256,7 +256,7 @@ export default function EssayWorkshopPage() {
                       </div>
                     )
                   })()}
-                  <div className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{selected.ai_feedback}</div>
+                  <div className="text-sm text-ink whitespace-pre-wrap leading-relaxed">{selected.ai_feedback}</div>
                 </div>
               )}
             </div>

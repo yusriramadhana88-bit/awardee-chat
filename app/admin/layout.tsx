@@ -22,14 +22,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 lg:flex">
-      <aside className="w-full lg:w-56 bg-gray-900 text-gray-100 lg:h-screen lg:sticky lg:top-0">
+    <div className="min-h-screen bg-off lg:flex">
+      <aside className="w-full lg:w-56 bg-navy text-off lg:h-screen lg:sticky lg:top-0">
         <div className="p-4">
           <div className="flex items-center gap-2 mb-6 px-2 pt-2">
             <div className="w-8 h-8 rounded-lg bg-red-500 flex items-center justify-center text-white font-bold text-sm">⚙</div>
             <div>
               <div className="font-bold text-sm leading-tight">Admin Panel</div>
-              <div className="text-[10px] text-gray-400 leading-tight">AWARDEE APP</div>
+              <div className="text-[10px] text-muted leading-tight">AWARDEE APP</div>
             </div>
           </div>
           <nav className="space-y-1">
@@ -39,8 +39,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 href={item.href}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                   pathname === item.href
-                    ? 'bg-gray-700 text-white'
-                    : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                    ? 'bg-navy-2 text-white'
+                    : 'text-muted hover:bg-navy hover:text-white'
                 }`}
               >
                 <span>{item.icon}</span>
@@ -49,11 +49,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             ))}
           </nav>
         </div>
-        <div className="p-4 mt-auto border-t border-gray-800">
-          <Link href="/dashboard" className="block text-sm text-gray-400 hover:text-white px-2 mb-2">
+        <div className="p-4 mt-auto border-t border-navy">
+          <Link href="/dashboard" className="block text-sm text-muted hover:text-white px-2 mb-2">
             ← Kembali ke Dashboard
           </Link>
-          <button onClick={handleLogout} className="w-full text-left text-sm text-gray-500 hover:text-white px-2 py-1.5 transition-colors">
+          <button onClick={handleLogout} className="w-full text-left text-sm text-muted hover:text-white px-2 py-1.5 transition-colors">
             Keluar
           </button>
         </div>

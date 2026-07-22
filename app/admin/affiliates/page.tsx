@@ -51,23 +51,23 @@ export default function AdminAffiliatesPage() {
     setUpdating(null)
   }
 
-  if (loading) return <div className="p-8 text-gray-400 text-sm">Memuat data afiliasi...</div>
+  if (loading) return <div className="p-8 text-muted text-sm">Memuat data afiliasi...</div>
 
   return (
     <div className="px-6 py-8 max-w-6xl mx-auto">
-      <h1 className="text-xl font-bold text-gray-900 mb-2">Program Afiliasi ({affiliates.length})</h1>
-      <p className="text-sm text-gray-500 mb-6">Komisi default 20% dari nilai subscription konversi.</p>
+      <h1 className="text-xl font-bold text-ink mb-2">Program Afiliasi ({affiliates.length})</h1>
+      <p className="text-sm text-muted mb-6">Komisi default 20% dari nilai subscription konversi.</p>
 
       {affiliates.length === 0 ? (
-        <div className="bg-white rounded-xl border border-gray-200 p-10 text-center text-gray-400 text-sm">
+        <div className="bg-white rounded-xl border border-hairline p-10 text-center text-muted text-sm">
           Belum ada afiliasi terdaftar.
         </div>
       ) : (
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <div className="bg-white rounded-xl border border-hairline overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="bg-gray-50 border-b border-gray-200">
-                <tr className="text-left text-xs text-gray-500">
+              <thead className="bg-off border-b border-hairline">
+                <tr className="text-left text-xs text-muted">
                   <th className="px-4 py-3">Afiliasi</th>
                   <th className="px-4 py-3">Kode Referral</th>
                   <th className="px-4 py-3 text-center">Klik</th>
@@ -80,19 +80,19 @@ export default function AdminAffiliatesPage() {
               </thead>
               <tbody>
                 {affiliates.map(a => (
-                  <tr key={a.id} className="border-b border-gray-50 hover:bg-gray-50">
-                    <td className="px-4 py-3 font-medium text-gray-900">{a.profiles?.name ?? 'Unknown'}</td>
+                  <tr key={a.id} className="border-b border-hairline hover:bg-off">
+                    <td className="px-4 py-3 font-medium text-ink">{a.profiles?.name ?? 'Unknown'}</td>
                     <td className="px-4 py-3">
-                      <span className="font-mono text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">{a.referral_code}</span>
+                      <span className="font-mono text-xs bg-off text-ink px-2 py-1 rounded">{a.referral_code}</span>
                     </td>
-                    <td className="px-4 py-3 text-center text-gray-600">{a.clicks}</td>
+                    <td className="px-4 py-3 text-center text-muted">{a.clicks}</td>
                     <td className="px-4 py-3 text-center">
                       <span className="font-semibold text-green-600">{a.conversions}</span>
                     </td>
-                    <td className="px-4 py-3 text-right font-semibold text-gray-800">
+                    <td className="px-4 py-3 text-right font-semibold text-ink">
                       Rp {Number(a.total_earned).toLocaleString('id-ID')}
                     </td>
-                    <td className="px-4 py-3 text-right text-gray-500">
+                    <td className="px-4 py-3 text-right text-muted">
                       Rp {Number(a.total_paid).toLocaleString('id-ID')}
                     </td>
                     <td className="px-4 py-3 text-center">
@@ -104,7 +104,7 @@ export default function AdminAffiliatesPage() {
                       <button
                         onClick={() => toggleStatus(a.id)}
                         disabled={updating === a.id}
-                        className="text-xs text-gray-400 hover:text-gray-700 disabled:opacity-50"
+                        className="text-xs text-muted hover:text-ink disabled:opacity-50"
                       >
                         {a.status === 'active' ? 'Suspend' : 'Aktifkan'}
                       </button>

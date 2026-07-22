@@ -106,7 +106,7 @@ export default function DocumentsPage() {
   }
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center"><div className="text-gray-400 text-sm">Memuat...</div></div>
+    return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Memuat...</div></div>
   }
 
   const list = CHECKLISTS[scholarship]
@@ -116,8 +116,8 @@ export default function DocumentsPage() {
   return (
     <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-3xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-xl font-bold text-gray-900">Checklist Dokumen</h1>
-        <p className="text-sm text-gray-500 mt-0.5">Pastikan semua dokumen wajib siap sebelum mengajukan aplikasi.</p>
+        <h1 className="text-xl font-bold text-ink">Checklist Dokumen</h1>
+        <p className="text-sm text-muted mt-0.5">Pastikan semua dokumen wajib siap sebelum mengajukan aplikasi.</p>
       </div>
 
       <div className="flex gap-2 mb-5 overflow-x-auto pb-1">
@@ -126,7 +126,7 @@ export default function DocumentsPage() {
             key={key}
             onClick={() => setScholarship(key)}
             className={`shrink-0 text-sm px-4 py-2 rounded-xl font-medium transition-colors ${
-              scholarship === key ? 'bg-navy text-white' : 'bg-white border border-gray-200 text-gray-600 hover:border-gold'
+              scholarship === key ? 'bg-navy text-white' : 'bg-white border border-hairline text-muted hover:border-gold'
             }`}
           >
             {key.toUpperCase()}
@@ -134,35 +134,35 @@ export default function DocumentsPage() {
         ))}
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 p-5">
+      <div className="bg-white rounded-xl border border-hairline p-5">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-semibold text-gray-900 text-sm">{list.label}</h2>
+          <h2 className="font-semibold text-ink text-sm">{list.label}</h2>
           <span className="text-sm font-bold text-gold-2">{doneCount}/{list.items.length}</span>
         </div>
-        <div className="w-full bg-gray-100 rounded-full h-2 mb-5">
+        <div className="w-full bg-off rounded-full h-2 mb-5">
           <div className="bg-blue-500 h-2 rounded-full transition-all" style={{ width: `${pct}%` }} />
         </div>
 
         {loadingItems ? (
-          <p className="text-sm text-gray-400">Memuat checklist...</p>
+          <p className="text-sm text-muted">Memuat checklist...</p>
         ) : (
           <div className="space-y-2">
             {list.items.map(item => (
-              <label key={item.key} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+              <label key={item.key} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-off cursor-pointer transition-colors">
                 <input
                   type="checkbox"
                   checked={!!completed[item.key]}
                   onChange={() => toggleItem(item.key)}
-                  className="w-4 h-4 rounded border-gray-300 text-gold-2 focus:ring-gold"
+                  className="w-4 h-4 rounded border-hairline text-gold-2 focus:ring-gold"
                 />
-                <span className={`text-sm ${completed[item.key] ? 'text-gray-400 line-through' : 'text-gray-700'}`}>{item.label}</span>
+                <span className={`text-sm ${completed[item.key] ? 'text-muted line-through' : 'text-ink'}`}>{item.label}</span>
               </label>
             ))}
           </div>
         )}
       </div>
 
-      <p className="text-xs text-gray-400 mt-4 text-center">
+      <p className="text-xs text-muted mt-4 text-center">
         Daftar ini adalah panduan umum. Selalu cek persyaratan resmi terbaru di website masing-masing beasiswa.
       </p>
     </div>

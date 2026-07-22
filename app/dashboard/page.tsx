@@ -59,7 +59,7 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-gray-400 text-sm">Memuat dashboard...</div>
+        <div className="text-muted text-sm">Memuat dashboard...</div>
       </div>
     )
   }
@@ -73,29 +73,29 @@ export default function DashboardPage() {
     <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-5xl mx-auto">
       {/* Welcome */}
       <div className="mb-6">
-        <h1 className="text-xl lg:text-2xl font-bold text-gray-900">Hei, {user?.name || 'Sobat Beasiswa'} 👋</h1>
-        <p className="text-sm text-gray-500 mt-1">Selamat datang di AWARDEE APP — pusat kendali perjalanan beasiswamu.</p>
+        <h1 className="text-xl lg:text-2xl font-bold text-ink">Hei, {user?.name || 'Sobat Beasiswa'} 👋</h1>
+        <p className="text-sm text-muted mt-1">Selamat datang di AWARDEE APP — pusat kendali perjalanan beasiswamu.</p>
       </div>
 
       {/* Stats row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-6">
-        <div className="bg-white rounded-xl border border-gray-200 p-4">
+        <div className="bg-white rounded-xl border border-hairline p-4">
           <div className="text-2xl font-bold text-gold-2">{user?.used ?? 0}/{user?.limit ?? 10}</div>
-          <div className="text-xs text-gray-400 mt-1">Pertanyaan AI hari ini</div>
+          <div className="text-xs text-muted mt-1">Pertanyaan AI hari ini</div>
         </div>
-        <div className="bg-white rounded-xl border border-gray-200 p-4">
-          <div className="text-2xl font-bold text-gray-700">{applications.length}</div>
-          <div className="text-xs text-gray-400 mt-1">Aplikasi beasiswa aktif</div>
+        <div className="bg-white rounded-xl border border-hairline p-4">
+          <div className="text-2xl font-bold text-ink">{applications.length}</div>
+          <div className="text-xs text-muted mt-1">Aplikasi beasiswa aktif</div>
         </div>
-        <div className="bg-white rounded-xl border border-gray-200 p-4 col-span-2 lg:col-span-1">
-          <div className="text-2xl font-bold text-gray-700">
+        <div className="bg-white rounded-xl border border-hairline p-4 col-span-2 lg:col-span-1">
+          <div className="text-2xl font-bold text-ink">
             {upcoming ? formatDeadline(upcoming.deadline) : '—'}
           </div>
-          <div className="text-xs text-gray-400 mt-1">Deadline terdekat{upcoming ? ` · ${upcoming.name}` : ''}</div>
+          <div className="text-xs text-muted mt-1">Deadline terdekat{upcoming ? ` · ${upcoming.name}` : ''}</div>
         </div>
-        <div className="bg-white rounded-xl border border-gray-200 p-4">
+        <div className="bg-white rounded-xl border border-hairline p-4">
           <div className="text-2xl font-bold text-purple-600">{TIER_LABEL[tier]}</div>
-          <div className="text-xs text-gray-400 mt-1">Paket aktif</div>
+          <div className="text-xs text-muted mt-1">Paket aktif</div>
         </div>
       </div>
 
@@ -109,18 +109,18 @@ export default function DashboardPage() {
           <div className={`rounded-xl border p-4 mb-6 ${lvl.bgColor}`}>
             <div className="flex items-center justify-between mb-2">
               <div>
-                <span className="text-xs font-medium text-gray-500 block">Level Pejuang Beasiswa</span>
+                <span className="text-xs font-medium text-muted block">Level Pejuang Beasiswa</span>
                 <span className={`text-lg font-bold ${lvl.color}`}>{lvl.emoji} {lvl.name}</span>
               </div>
               <div className="text-right">
-                <span className="text-xs text-gray-400">XP</span>
+                <span className="text-xs text-muted">XP</span>
                 <div className={`text-xl font-bold ${lvl.color}`}>{lvl.xp}</div>
               </div>
             </div>
             <div className="h-2 bg-white/60 rounded-full overflow-hidden">
               <div className={`h-2 rounded-full transition-all duration-700 ${lvl.level >= 5 ? 'bg-purple-500' : lvl.level >= 3 ? 'bg-blue-500' : 'bg-yellow-400'}`} style={{ width: `${pct}%` }} />
             </div>
-            <p className="text-[11px] text-gray-500 mt-1.5">
+            <p className="text-[11px] text-muted mt-1.5">
               {lvl.level < 5 ? `${lvl.nextLevelXp - lvl.xp} XP lagi ke level berikutnya · ` : ''}
               XP didapat dari analisis CV, review essay, input skor tes, dan tracking beasiswa.
             </p>
@@ -136,9 +136,9 @@ export default function DashboardPage() {
           <div className={`rounded-xl border p-4 mb-6 flex items-center justify-between gap-3 ${info.bgColor}`}>
             <div>
               <p className={`text-sm font-semibold ${info.color}`}>{info.label} — {upcoming.name}</p>
-              <p className="text-xs text-gray-500 mt-0.5">Deadline: {formatDeadline(upcoming.deadline)}</p>
+              <p className="text-xs text-muted mt-0.5">Deadline: {formatDeadline(upcoming.deadline)}</p>
             </div>
-            <Link href={`/tracker/${upcoming.id}`} className="text-xs font-semibold bg-white border border-gray-200 px-3 py-1.5 rounded-lg hover:border-gold transition-colors whitespace-nowrap">
+            <Link href={`/tracker/${upcoming.id}`} className="text-xs font-semibold bg-white border border-hairline px-3 py-1.5 rounded-lg hover:border-gold transition-colors whitespace-nowrap">
               Lihat Detail
             </Link>
           </div>
@@ -146,7 +146,7 @@ export default function DashboardPage() {
       })()}
 
       {/* Feature grid */}
-      <h2 className="text-sm font-semibold text-gray-700 mb-3">Fitur AwardeeOS</h2>
+      <h2 className="text-sm font-semibold text-ink mb-3">Fitur AwardeeOS</h2>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
         {FEATURES.map((f) => {
           const locked = !canAccess(tier, f.tier)
@@ -155,7 +155,7 @@ export default function DashboardPage() {
               key={f.href}
               href={locked ? '#upgrade' : f.href}
               className={`relative bg-white rounded-xl border p-4 transition-colors ${
-                locked ? 'border-gray-200 opacity-70' : 'border-gray-200 hover:border-gold'
+                locked ? 'border-hairline opacity-70' : 'border-hairline hover:border-gold'
               }`}
             >
               {locked && (
@@ -164,29 +164,29 @@ export default function DashboardPage() {
                 </span>
               )}
               <div className="text-2xl mb-2">{f.icon}</div>
-              <div className="font-medium text-gray-900 text-sm">{f.title}</div>
-              <div className="text-xs text-gray-400 mt-0.5">{f.desc}</div>
+              <div className="font-medium text-ink text-sm">{f.title}</div>
+              <div className="text-xs text-muted mt-0.5">{f.desc}</div>
             </Link>
           )
         })}
       </div>
 
       {/* Account info */}
-      <div className="bg-white rounded-xl border border-gray-200 p-5 mb-6">
-        <h2 className="font-semibold text-gray-900 mb-3 text-sm">Informasi Akun</h2>
+      <div className="bg-white rounded-xl border border-hairline p-5 mb-6">
+        <h2 className="font-semibold text-ink mb-3 text-sm">Informasi Akun</h2>
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
-            <span className="text-gray-500">Email</span>
-            <span className="text-gray-800">{user?.email}</span>
+            <span className="text-muted">Email</span>
+            <span className="text-ink">{user?.email}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-500">Paket</span>
-            <span className="font-medium text-gray-800">{TIER_LABEL[tier]}</span>
+            <span className="text-muted">Paket</span>
+            <span className="font-medium text-ink">{TIER_LABEL[tier]}</span>
           </div>
           {user?.expires_at && (
             <div className="flex justify-between">
-              <span className="text-gray-500">Aktif hingga</span>
-              <span className="text-gray-800">{new Date(user.expires_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+              <span className="text-muted">Aktif hingga</span>
+              <span className="text-ink">{new Date(user.expires_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
             </div>
           )}
         </div>
