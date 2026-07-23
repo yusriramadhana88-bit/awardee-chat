@@ -6,11 +6,10 @@
  *      DATABASE_URL=postgresql://postgres.nprxqhvkpqdwxvjcxjzn:PASSWORD@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
  *      (ambil dari: Supabase Dashboard → Project Settings → Database → URI)
  *
- *   2. Jalankan:
- *      node scripts/run-migration.mjs
+ *   2. Jalankan (satu atau lebih file migration, berurutan):
+ *      node scripts/run-migration.mjs 008_tier_restructure.sql 009_scholarship_database.sql
  *
- *      Atau langsung dengan URL sebagai argumen:
- *      node scripts/run-migration.mjs "postgresql://..."
+ *      Tanpa argumen filename, default ke 003_gamification_admin_affiliate.sql (untuk kompatibilitas lama).
  *
  *   3. Setelah berhasil, set akun admin kamu:
  *      node scripts/run-migration.mjs --set-admin yusri.ramadhana88@gmail.com
@@ -25,8 +24,8 @@ const { Client } = pg
 // ── Baca DATABASE_URL ────────────────────────────────────────────────────────
 function getDatabaseUrl() {
   // 1. Argumen CLI: node run-migration.mjs "postgresql://..."
-  const arg = process.argv[2]
-  if (arg && arg.startsWith('postgresql://')) return arg
+  const urlArg = process.argv.slice(2).find(a => a.startsWith('postgresql://'))
+  if (urlArg) return urlArg
 
   // 2. Environment variable langsung
   if (process.env.DATABASE_URL) return process.env.DATABASE_URL
@@ -99,45 +98,54 @@ async function main() {
       return
     }
 
-    // ── Run migration 003 ───────────────────────────────────────────────────
-    console.log('📦 Menjalankan migration 003_gamification_admin_affiliate...\n')
+    // ── Run migration file(s) ───────────────────────────────────────────────
+    const filenames = process.argv.slice(2).filter(a => a.endsWith('.sql'))
+    if (filenames.length === 0) filenames.push('003_gamification_admin_affiliate.sql')
 
-    const sql = readMigrationFile('003_gamification_admin_affiliate.sql')
-    if (!sql) {
-      console.error('❌ File migration tidak ditemukan: supabase/migrations/003_gamification_admin_affiliate.sql')
-      process.exit(1)
-    }
+    for (const filename of filenames) {
+      console.log(`📦 Menjalankan migration ${filename}...\n`)
 
-    // Split SQL menjadi statement individual (pisahkan di titik koma)
-    // Tapi harus hati-hati dengan isi function/procedure yang mengandung titik koma
-    // Untuk migration ini yang flat, split sederhana cukup
-    const statements = sql
-      .split(/;\s*\n/)
-      .map(s => s.trim())
-      .filter(s => s.length > 0 && !s.startsWith('--'))
+      const sql = readMigrationFile(filename)
+      if (!sql) {
+        console.error(`❌ File migration tidak ditemukan: supabase/migrations/${filename}`)
+        process.exit(1)
+      }
 
-    let success = 0
-    let skipped = 0
+      // Split SQL menjadi statement individual (pisahkan di titik koma)
+      // Tapi harus hati-hati dengan isi function/procedure yang mengandung titik koma
+      // Untuk migration flat seperti ini, split sederhana cukup.
+      // Tiap chunk bisa diawali baris komentar (header file, atau catatan sebelum satu
+      // statement) — itu harus DILUCUTI dulu, bukan bikin seluruh chunk dibuang, karena
+      // SQL asli setelah komentar itu tetap harus dijalankan.
+      const statements = sql
+        .split(/;\s*\n/)
+        .map(s => s.replace(/^(\s*--[^\n]*\n)+/, '').trim())
+        .filter(s => s.length > 0 && !s.startsWith('--'))
 
-    for (const stmt of statements) {
-      const preview = stmt.replace(/\s+/g, ' ').substring(0, 80)
-      try {
-        await client.query(stmt)
-        console.log(`  ✅ ${preview}...`)
-        success++
-      } catch (err) {
-        if (err.message.includes('already exists') || err.message.includes('duplicate')) {
-          console.log(`  ⏭️  SKIP (sudah ada): ${preview}...`)
-          skipped++
-        } else {
-          console.error(`  ❌ ERROR: ${err.message}`)
-          console.error(`     SQL: ${preview}`)
+      let success = 0
+      let skipped = 0
+
+      for (const stmt of statements) {
+        const preview = stmt.replace(/\s+/g, ' ').substring(0, 80)
+        try {
+          await client.query(stmt)
+          console.log(`  ✅ ${preview}...`)
+          success++
+        } catch (err) {
+          if (err.message.includes('already exists') || err.message.includes('duplicate')) {
+            console.log(`  ⏭️  SKIP (sudah ada): ${preview}...`)
+            skipped++
+          } else {
+            console.error(`  ❌ ERROR: ${err.message}`)
+            console.error(`     SQL: ${preview}`)
+          }
         }
       }
+
+      console.log(`\n🎉 ${filename} selesai! ${success} berhasil, ${skipped} diskip (sudah ada).\n`)
     }
 
-    console.log(`\n🎉 Migration selesai! ${success} berhasil, ${skipped} diskip (sudah ada).`)
-    console.log('\n📋 Langkah berikutnya:')
+    console.log('📋 Langkah berikutnya (kalau belum admin):')
     console.log('   node scripts/run-migration.mjs --set-admin yusri.ramadhana88@gmail.com')
 
   } finally {
