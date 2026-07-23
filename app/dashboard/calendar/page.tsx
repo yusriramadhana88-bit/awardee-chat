@@ -9,8 +9,18 @@ type CalEvent = {
   id: string
   title: string
   date: string // YYYY-MM-DD
-  category: 'deadline' | 'test' | 'interview' | 'document' | 'other' | 'application'
-  source: 'application' | 'custom'
+  category: 'deadline' | 'test' | 'interview' | 'document' | 'other' | 'application' | 'global'
+  source: 'application' | 'custom' | 'global'
+  url?: string
+  confidence?: 'confirmed' | 'estimated'
+}
+
+type UnscheduledScholarship = {
+  id: string
+  name: string
+  label: string
+  note: string | null
+  url: string
 }
 
 const CATEGORY_LABEL: Record<string, string> = {
@@ -20,6 +30,7 @@ const CATEGORY_LABEL: Record<string, string> = {
   document: 'Dokumen',
   other: 'Lainnya',
   application: 'Aplikasi Beasiswa',
+  global: 'Beasiswa Global',
 }
 
 const CATEGORY_COLOR: Record<string, string> = {
@@ -29,6 +40,7 @@ const CATEGORY_COLOR: Record<string, string> = {
   document: 'bg-off text-navy',
   other: 'bg-off text-ink',
   application: 'bg-green-100 text-green-700',
+  global: 'bg-indigo-100 text-indigo-700',
 }
 
 const MONTH_NAMES = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
@@ -41,6 +53,7 @@ function toDateKey(d: Date) {
 export default function CalendarPage() {
   const { user, loading } = useUser()
   const [events, setEvents] = useState<CalEvent[]>([])
+  const [unscheduled, setUnscheduled] = useState<UnscheduledScholarship[]>([])
   const [current, setCurrent] = useState(() => {
     const d = new Date()
     return new Date(d.getFullYear(), d.getMonth(), 1)
@@ -60,9 +73,10 @@ export default function CalendarPage() {
   }, [allowed])
 
   async function loadEvents() {
-    const [appsRes, evRes] = await Promise.all([
+    const [appsRes, evRes, globalRes] = await Promise.all([
       supabase.from('scholarship_applications').select('id, name, deadline').eq('status', 'active'),
       supabase.from('calendar_events').select('*').order('event_date', { ascending: true }),
+      supabase.from('scholarship_deadlines').select('id, deadline_date, deadline_label, cycle_pattern_note, confidence, scholarship:scholarships(id, name, official_url)'),
     ])
 
     const fromApps: CalEvent[] = (appsRes.data || [])
@@ -77,7 +91,26 @@ export default function CalendarPage() {
       source: 'custom' as const,
     }))
 
-    setEvents([...fromApps, ...fromEvents])
+    const globalRows = (globalRes.data || []) as any[]
+    const fromGlobal: CalEvent[] = globalRows
+      .filter(g => g.deadline_date && g.scholarship)
+      .map(g => ({
+        id: `global-${g.id}`,
+        title: `${g.scholarship.name} — ${g.deadline_label}`,
+        date: g.deadline_date,
+        category: 'global' as const,
+        source: 'global' as const,
+        url: g.scholarship.official_url,
+        confidence: g.confidence,
+      }))
+
+    setUnscheduled(
+      globalRows
+        .filter(g => !g.deadline_date && g.scholarship)
+        .map(g => ({ id: g.id, name: g.scholarship.name, label: g.deadline_label, note: g.cycle_pattern_note, url: g.scholarship.official_url }))
+    )
+
+    setEvents([...fromApps, ...fromEvents, ...fromGlobal])
   }
 
   async function handleAddEvent(e: React.FormEvent) {
@@ -274,7 +307,15 @@ export default function CalendarPage() {
                   <div key={ev.id} className="flex items-center justify-between gap-2">
                     <div className="min-w-0">
                       <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${CATEGORY_COLOR[ev.category]}`}>{CATEGORY_LABEL[ev.category]}</span>
+                      {ev.confidence === 'estimated' && (
+                        <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium bg-off text-muted ml-1">~perkiraan</span>
+                      )}
                       <p className="text-sm text-ink mt-1 truncate">{ev.title}</p>
+                      {ev.url && (
+                        <a href={ev.url} target="_blank" rel="noopener noreferrer" className="text-xs text-gold-2 hover:underline">
+                          Info resmi →
+                        </a>
+                      )}
                     </div>
                     {ev.source === 'custom' && (
                       <button onClick={() => handleDelete(ev.id)} className="text-muted hover:text-red-500 transition-colors shrink-0">
@@ -298,6 +339,9 @@ export default function CalendarPage() {
                     <div className="min-w-0">
                       <p className="text-sm text-ink truncate">{ev.title}</p>
                       <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${CATEGORY_COLOR[ev.category]}`}>{CATEGORY_LABEL[ev.category]}</span>
+                      {ev.confidence === 'estimated' && (
+                        <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium bg-off text-muted ml-1">~perkiraan</span>
+                      )}
                     </div>
                     <span className="text-xs text-muted shrink-0">{new Date(ev.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}</span>
                   </div>
@@ -305,6 +349,23 @@ export default function CalendarPage() {
               </div>
             )}
           </div>
+
+          {unscheduled.length > 0 && (
+            <div className="bg-white rounded-xl border border-hairline p-4">
+              <h3 className="font-semibold text-ink text-sm mb-1">Prediksi Siklus Beasiswa Lainnya</h3>
+              <p className="text-xs text-muted mb-3">Beasiswa ini belum umumkan tanggal pasti — perkiraan berdasarkan pola siklus tahun sebelumnya.</p>
+              <div className="space-y-3">
+                {unscheduled.map(s => (
+                  <div key={s.id} className="border-t border-hairline pt-2 first:border-t-0 first:pt-0">
+                    <p className="text-sm font-medium text-ink">{s.name}</p>
+                    <p className="text-xs text-muted mt-0.5">{s.label}</p>
+                    {s.note && <p className="text-xs text-muted mt-1">{s.note}</p>}
+                    <a href={s.url} target="_blank" rel="noopener noreferrer" className="text-xs text-gold-2 hover:underline">Info resmi →</a>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
