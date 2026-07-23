@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { loadEnvKey } from '@/lib/env'
+import { canAccess } from '@/lib/tier'
 
 function getSupabaseWithToken(token: string) {
   return createSupabaseClient(
@@ -38,9 +39,21 @@ export async function GET(req: NextRequest, { params }: { params: { lessonId: st
 
   const { data: moduleRow } = await admin
     .from('modules')
-    .select('id, slug, title, icon')
+    .select('id, slug, title, icon, tier')
     .eq('id', lesson.module_id)
     .single()
+
+  if (!moduleRow) return NextResponse.json({ error: 'Modul tidak ditemukan' }, { status: 404 })
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('subscription_tier')
+    .eq('id', user.id)
+    .single()
+
+  if (moduleRow.tier !== 'free' && !canAccess(profile?.subscription_tier, moduleRow.tier)) {
+    return NextResponse.json({ error: 'TIER_REQUIRED', requiredTier: moduleRow.tier }, { status: 403 })
+  }
 
   const { data: siblings } = await admin
     .from('lessons')

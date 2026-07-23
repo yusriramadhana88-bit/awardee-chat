@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { loadEnvKey } from '@/lib/env'
 import { checkQuizAchievements } from '@/lib/achievements-server'
+import { canAccess } from '@/lib/tier'
 
 function getSupabaseWithToken(token: string) {
   return createSupabaseClient(
@@ -35,10 +36,26 @@ export async function POST(req: NextRequest, { params }: { params: { quizId: str
 
   const { data: quiz } = await admin
     .from('quizzes')
-    .select('id, passing_score')
+    .select('id, module_id, passing_score')
     .eq('id', params.quizId)
     .single()
   if (!quiz) return NextResponse.json({ error: 'Kuis tidak ditemukan' }, { status: 404 })
+
+  const { data: moduleRow } = await admin
+    .from('modules')
+    .select('tier')
+    .eq('id', quiz.module_id)
+    .single()
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('subscription_tier')
+    .eq('id', user.id)
+    .single()
+
+  if (moduleRow?.tier && moduleRow.tier !== 'free' && !canAccess(profile?.subscription_tier, moduleRow.tier)) {
+    return NextResponse.json({ error: 'TIER_REQUIRED', requiredTier: moduleRow.tier }, { status: 403 })
+  }
 
   const { data: questions } = await admin
     .from('quiz_questions')
