@@ -12,11 +12,11 @@ const faqs = [
     a: 'Tidak. Kami menyediakan alat dan bimbingan untuk meningkatkan kualitas aplikasi Anda, namun keputusan penerimaan sepenuhnya ada di tangan lembaga beasiswa. Lihat Disclaimer kami untuk detail lebih lanjut.',
   },
   {
-    q: 'Apa perbedaan paket Free, Starter, dan Pro?',
-    a: 'Free: 10 chat AI/hari, tracker beasiswa, checklist dokumen. Starter (Rp99K/bulan): 50 chat/hari + kalender, IELTS tracker, CV Analyzer (3x/bulan). Pro (Rp299K/bulan): unlimited chat + semua fitur Starter + Essay Workshop GALI DIRI unlimited.',
+    q: 'Apa perbedaan paket Free, Kopi, Starter, dan Pro?',
+    a: 'Free: 5 chat AI/hari, tanpa fitur lain. Kopi (Rp25K/bulan): 20 chat/hari + Learning Modules, Scholarship Tracker, Checklist Dokumen, dan Achievements. Starter (Rp99K/bulan): 50 chat/hari + semua fitur Kopi + Kalender Beasiswa, IELTS Tracker, CV Analyzer (3x/bulan). Pro (Rp249K/bulan): unlimited chat + semua fitur Starter + CV Analyzer unlimited + Essay Workshop GALI DIRI unlimited.',
   },
   {
-    q: 'Bagaimana cara upgrade ke Starter atau Pro?',
+    q: 'Bagaimana cara upgrade ke Kopi, Starter, atau Pro?',
     a: 'Buka menu Overview di Dashboard, scroll ke bagian "Upgrade Paket", klik link checkout sesuai paket yang diinginkan. Setelah pembayaran, konfirmasi via WhatsApp ke DenDhana untuk aktivasi manual.',
   },
   {

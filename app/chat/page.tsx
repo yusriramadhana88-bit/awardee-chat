@@ -4,10 +4,9 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
+import { TIER_LABEL } from '@/lib/use-user'
 
 type Message = { role: 'user' | 'assistant'; content: string }
-
-const LIMITS: Record<string, number> = { free: 10, starter: 50, pro: 999 }
 
 const WELCOME: Message = {
   role: 'assistant',
@@ -133,7 +132,7 @@ export default function ChatPage() {
       } else if (data.error === 'LIMIT_REACHED') {
         setMessages((prev) => [...prev, {
           role: 'assistant',
-          content: 'Batas pertanyaan harian kamu sudah habis. Upgrade ke Starter atau Pro untuk lanjut konsultasi hari ini ya.',
+          content: 'Batas pertanyaan harian kamu sudah habis. Upgrade paket untuk lanjut konsultasi hari ini ya.',
         }])
       } else if (data.error === 'PHONE_REQUIRED') {
         // Kembalikan pesan ke input supaya bisa dikirim ulang setelah verifikasi nomor
@@ -187,7 +186,7 @@ export default function ChatPage() {
             <div className="text-right hidden sm:block">
               <div className="text-xs text-muted">{user.name}</div>
               <div className="text-xs text-muted">
-                {user.tier === 'free' ? 'Gratis' : user.tier === 'starter' ? 'Starter' : 'Pro'} · {Math.max(0, user.limit - user.used)}/{user.limit} sisa
+                {TIER_LABEL[user.tier] ?? user.tier} · {Math.max(0, user.limit - user.used)}/{user.limit} sisa
               </div>
             </div>
             <button onClick={handleLogout} className="text-xs text-muted hover:text-ink transition-colors">Keluar</button>

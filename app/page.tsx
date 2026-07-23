@@ -123,14 +123,14 @@ export default function LandingPage() {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-semibold text-center text-ink tracking-tight mb-2">Pilih paket yang sesuai</h2>
           <p className="text-center text-muted mb-12">Mulai gratis, upgrade kapan kamu siap</p>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Free */}
             <div className="border border-hairline rounded-2xl p-6">
               <div className="text-sm font-medium text-muted mb-1">GRATIS</div>
               <div className="text-3xl font-semibold text-ink mb-1">Rp0</div>
               <div className="text-sm text-muted mb-6">selamanya</div>
               <ul className="space-y-3 mb-8">
-                {['10 pertanyaan per hari', 'Akses semua topik AAS', 'Tidak perlu kartu kredit'].map((f) => (
+                {['5 chat AI per hari', 'Akses semua topik AAS', 'Tidak perlu kartu kredit'].map((f) => (
                   <li key={f} className="flex items-center gap-2 text-sm text-ink/80">
                     <span className="text-gold-2">✓</span>{f}
                   </li>
@@ -141,6 +141,23 @@ export default function LandingPage() {
               </Link>
             </div>
 
+            {/* Kopi */}
+            <div className="border border-hairline rounded-2xl p-6">
+              <div className="text-sm font-semibold text-amber-700 mb-1">KOPI</div>
+              <div className="text-3xl font-semibold text-ink mb-1">Rp25K</div>
+              <div className="text-sm text-muted mb-6">per bulan — seharga kopimu</div>
+              <ul className="space-y-3 mb-8">
+                {['20 chat AI per hari', 'Learning Modules & kuis', 'Scholarship Tracker', 'Checklist Dokumen & Achievements'].map((f) => (
+                  <li key={f} className="flex items-center gap-2 text-sm text-ink/80">
+                    <span className="text-gold-2">✓</span>{f}
+                  </li>
+                ))}
+              </ul>
+              <Link href="/register?plan=kopi" className="block text-center border border-hairline text-ink rounded-pill py-2.5 text-sm font-medium hover:border-ink transition-colors">
+                Mulai Kopi
+              </Link>
+            </div>
+
             {/* Starter */}
             <div className="border-2 border-gold rounded-2xl p-6 relative shadow-brand">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold text-navy text-xs px-3 py-1 rounded-pill font-bold">PALING POPULER</div>
@@ -148,7 +165,7 @@ export default function LandingPage() {
               <div className="text-3xl font-semibold text-ink mb-1">Rp99K</div>
               <div className="text-sm text-muted mb-6">per bulan</div>
               <ul className="space-y-3 mb-8">
-                {['50 pertanyaan per hari', 'Semua fitur Gratis', 'Akses knowledge base video', 'Priority response'].map((f) => (
+                {['50 chat AI per hari', 'Semua fitur Kopi', 'Kalender Beasiswa & IELTS Tracker', 'CV Analyzer 3x/bulan'].map((f) => (
                   <li key={f} className="flex items-center gap-2 text-sm text-ink/80">
                     <span className="text-gold-2">✓</span>{f}
                   </li>
@@ -162,10 +179,10 @@ export default function LandingPage() {
             {/* Pro */}
             <div className="border border-navy rounded-2xl p-6 bg-navy">
               <div className="text-sm font-medium text-white/60 mb-1">PRO</div>
-              <div className="text-3xl font-semibold text-white mb-1">Rp299K</div>
+              <div className="text-3xl font-semibold text-white mb-1">Rp249K</div>
               <div className="text-sm text-white/50 mb-6">per bulan</div>
               <ul className="space-y-3 mb-8">
-                {['Unlimited pertanyaan', 'Semua fitur Starter', 'Akses essay framework', '1x konsultasi chat langsung/bulan'].map((f) => (
+                {['Unlimited chat', 'Semua fitur Starter', 'Essay Workshop + kritik AI GALI DIRI', 'CV Analyzer unlimited'].map((f) => (
                   <li key={f} className="flex items-center gap-2 text-sm text-white/80">
                     <span className="text-gold">✓</span>{f}
                   </li>

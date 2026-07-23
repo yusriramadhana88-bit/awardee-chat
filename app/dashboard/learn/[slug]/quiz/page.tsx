@@ -4,9 +4,10 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
-import { useUser } from '@/lib/use-user'
+import { useUser, canAccess, Tier } from '@/lib/use-user'
+import FeatureLock from '../../../_components/FeatureLock'
 
-type ModuleItem = { slug: string; title: string; quiz: { id: string; title: string; passing_score: number } | null }
+type ModuleItem = { slug: string; title: string; tier: Tier; quiz: { id: string; title: string; passing_score: number } | null }
 type Question = { id: string; question: string; options: string[]; order_index: number }
 type ReviewItem = { questionId: string; question: string; options: string[]; selectedIndex: number | null; correctIndex: number; explanation: string | null; isCorrect: boolean }
 type SubmitResult = { score: number; total: number; percent: number; passed: boolean; passingScore: number; review: ReviewItem[]; newAchievements: string[] }
@@ -23,6 +24,7 @@ export default function QuizPage() {
   const [result, setResult] = useState<SubmitResult | null>(null)
   const [pageLoading, setPageLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
+  const [lockedTier, setLockedTier] = useState<Tier | null>(null)
   const supabase = createClient()
 
   useEffect(() => {
@@ -34,6 +36,14 @@ export default function QuizPage() {
       const modulesData = await modulesRes.json()
       const moduleItem: ModuleItem | undefined = modulesData.modules.find((m: ModuleItem) => m.slug === slug)
       if (!moduleItem?.quiz) return setPageLoading(false)
+
+      const userRes = await fetch('/api/user', { headers: { Authorization: `Bearer ${session.access_token}` } })
+      const userData = userRes.ok ? await userRes.json() : null
+      if (moduleItem.tier !== 'free' && !canAccess(userData?.tier, moduleItem.tier)) {
+        setLockedTier(moduleItem.tier)
+        return setPageLoading(false)
+      }
+
       setModuleTitle(moduleItem.title)
       setQuizId(moduleItem.quiz.id)
       setQuizTitle(moduleItem.quiz.title)
@@ -67,6 +77,10 @@ export default function QuizPage() {
 
   if (loading || pageLoading) {
     return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Memuat kuis...</div></div>
+  }
+
+  if (lockedTier) {
+    return <FeatureLock requiredTier={lockedTier as 'kopi' | 'starter' | 'pro'} featureName="Kuis ini" />
   }
 
   if (!quizId) {

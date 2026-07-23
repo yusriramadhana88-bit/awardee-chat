@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
-import { useUser } from '@/lib/use-user'
+import { useUser, canAccess, Tier } from '@/lib/use-user'
+import FeatureLock from '../../../_components/FeatureLock'
 import { renderMarkdown } from '@/lib/markdown'
 
-type ModuleItem = { id: string; slug: string; title: string; icon: string; lessons: { id: string; slug: string }[]; quiz: { id: string } | null }
+type ModuleItem = { id: string; slug: string; title: string; icon: string; tier: Tier; lessons: { id: string; slug: string }[]; quiz: { id: string } | null }
 type LessonDetail = {
   lesson: { id: string; slug: string; title: string; content: string; duration_minutes: number }
   module: { slug: string; title: string; icon: string }
@@ -27,6 +28,7 @@ export default function LessonPage() {
   const [pageLoading, setPageLoading] = useState(true)
   const [marking, setMarking] = useState(false)
   const [hasQuiz, setHasQuiz] = useState(false)
+  const [lockedTier, setLockedTier] = useState<ModuleItem['tier'] | null>(null)
   const supabase = createClient()
 
   async function loadLesson() {
@@ -38,6 +40,14 @@ export default function LessonPage() {
     const moduleItem: ModuleItem | undefined = modulesData.modules.find((m: ModuleItem) => m.slug === slug)
     if (!moduleItem) return null
     setHasQuiz(!!moduleItem.quiz)
+
+    const userRes = await fetch('/api/user', { headers: { Authorization: `Bearer ${session.access_token}` } })
+    const userData = userRes.ok ? await userRes.json() : null
+    if (moduleItem.tier !== 'free' && !canAccess(userData?.tier, moduleItem.tier)) {
+      setLockedTier(moduleItem.tier)
+      return session
+    }
+
     const lessonRef = moduleItem.lessons.find(l => l.slug === lessonSlug)
     if (!lessonRef) return null
 
@@ -75,6 +85,10 @@ export default function LessonPage() {
 
   if (loading || pageLoading) {
     return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Memuat lesson...</div></div>
+  }
+
+  if (lockedTier) {
+    return <FeatureLock requiredTier={lockedTier as 'kopi' | 'starter' | 'pro'} featureName="Lesson ini" />
   }
 
   if (!detail) {

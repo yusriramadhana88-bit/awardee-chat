@@ -17,7 +17,7 @@ function getSupabaseAdmin() {
   )
 }
 
-const DAILY_LIMITS: Record<string, number> = { free: 10, starter: 50, pro: 999 }
+const DAILY_LIMITS: Record<string, number> = { free: 5, kopi: 20, starter: 50, pro: 999 }
 
 // Knowledge base dari video YouTube (akan diisi setelah extract-youtube dijalankan)
 let YOUTUBE_KNOWLEDGE = ''
@@ -182,7 +182,7 @@ export async function POST(req: NextRequest) {
       .single()
 
     const tier = profile?.subscription_tier || 'free'
-    const limit = DAILY_LIMITS[tier] ?? 10
+    const limit = DAILY_LIMITS[tier] ?? 5
 
     // Cek phone uniqueness untuk tier free — wajib ada phone terverifikasi
     if (tier === 'free' && !profile?.phone) {

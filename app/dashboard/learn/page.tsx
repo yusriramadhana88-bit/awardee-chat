@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase'
-import { useUser, canAccess } from '@/lib/use-user'
+import { useUser, canAccess, TIER_LABEL } from '@/lib/use-user'
 
 type Lesson = { id: string; slug: string; title: string; order_index: number; duration_minutes: number; completed: boolean }
 type Quiz = { id: string; title: string; passing_score: number; bestAttempt: { score: number; total: number; passed: boolean } | null }
@@ -13,7 +13,7 @@ type ModuleItem = {
   title: string
   description: string | null
   icon: string
-  tier: 'free' | 'starter' | 'pro'
+  tier: 'free' | 'kopi' | 'starter' | 'pro'
   lessons: Lesson[]
   lessonCount: number
   completedCount: number
@@ -81,7 +81,7 @@ export default function LearnPage() {
             >
               {locked && (
                 <span className="absolute top-4 right-4 text-[10px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 font-semibold">
-                  {m.tier === 'pro' ? 'PRO' : 'STARTER'}
+                  {TIER_LABEL[m.tier].toUpperCase()}
                 </span>
               )}
               <div className="text-3xl mb-2">{m.icon}</div>

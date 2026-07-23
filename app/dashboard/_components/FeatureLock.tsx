@@ -1,14 +1,15 @@
 'use client'
 
 import Link from 'next/link'
+import { TIER_LABEL } from '@/lib/use-user'
 
-export default function FeatureLock({ requiredTier, featureName }: { requiredTier: 'starter' | 'pro'; featureName: string }) {
+export default function FeatureLock({ requiredTier, featureName }: { requiredTier: 'kopi' | 'starter' | 'pro'; featureName: string }) {
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4">
       <div className="bg-white rounded-2xl border border-hairline p-8 max-w-sm w-full text-center">
         <div className="text-3xl mb-3">🔒</div>
         <h2 className="font-bold text-ink mb-2">
-          {featureName} — Fitur {requiredTier === 'pro' ? 'Pro' : 'Starter'}
+          {featureName} — Fitur {TIER_LABEL[requiredTier]}
         </h2>
         <p className="text-sm text-muted mb-5">
           Upgrade paket kamu untuk membuka {featureName.toLowerCase()} dan fitur lainnya di AwardeeOS.

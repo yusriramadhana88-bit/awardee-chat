@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase'
-import { useUser, canAccess, TIER_LABEL } from '@/lib/use-user'
+import { useUser, canAccess, TIER_LABEL, TIER_PRICE } from '@/lib/use-user'
 import { ScholarshipApplication, getDeadlineInfo, formatDeadline } from '@/lib/tracker'
 import { calculateXp, getPejuangLevel } from '@/lib/gamification'
 import SocialShowcase from './_components/SocialShowcase'
@@ -18,16 +18,17 @@ type LearnModule = {
 type AchievementItem = { id: string; title: string; icon: string; earned: boolean; earnedAt: string | null }
 
 const XENDIT_LINKS: Record<string, string> = {
+  kopi: 'https://checkout.xendit.co/od/GANTI_DENGAN_LINK_XENDIT_KOPI',
   starter: 'https://checkout.xendit.co/od/GANTI_DENGAN_LINK_XENDIT_STARTER',
   pro: 'https://checkout.xendit.co/od/GANTI_DENGAN_LINK_XENDIT_PRO',
 }
 
-const FEATURES: { href: string; icon: string; title: string; desc: string; tier: 'starter' | 'pro' | null }[] = [
+const FEATURES: { href: string; icon: string; title: string; desc: string; tier: 'kopi' | 'starter' | 'pro' | null }[] = [
   { href: '/chat', icon: '💬', title: 'Chat AI Den Dhana', desc: 'Konsultasi strategi & pertanyaan seputar beasiswamu', tier: null },
-  { href: '/dashboard/learn', icon: '📚', title: 'Learning Modules', desc: 'Materi #GaliDiri, essay, sampai interview + kuis', tier: null },
-  { href: '/tracker', icon: '📋', title: 'Scholarship Tracker', desc: 'Pantau progres tahapan aplikasi beasiswamu', tier: null },
+  { href: '/dashboard/learn', icon: '📚', title: 'Learning Modules', desc: 'Materi #GaliDiri, essay, sampai interview + kuis', tier: 'kopi' },
+  { href: '/tracker', icon: '📋', title: 'Scholarship Tracker', desc: 'Pantau progres tahapan aplikasi beasiswamu', tier: 'kopi' },
   { href: '/dashboard/calendar', icon: '📅', title: 'Kalender Beasiswa', desc: 'Semua deadline penting dalam satu tampilan', tier: 'starter' },
-  { href: '/dashboard/documents', icon: '✅', title: 'Checklist Dokumen', desc: 'Daftar dokumen wajib per jenis beasiswa', tier: null },
+  { href: '/dashboard/documents', icon: '✅', title: 'Checklist Dokumen', desc: 'Daftar dokumen wajib per jenis beasiswa', tier: 'kopi' },
   { href: '/dashboard/ielts', icon: '🎯', title: 'IELTS Tracker', desc: 'Catat skor & pantau progres menuju target', tier: 'starter' },
   { href: '/dashboard/cv', icon: '📄', title: 'CV Analyzer', desc: 'Analisis kekuatan CV untuk aplikasi beasiswa', tier: 'starter' },
   { href: '/dashboard/essay', icon: '✏️', title: 'Essay Workshop', desc: 'Kelola draft essay & dapatkan kritik AI mendalam', tier: 'pro' },
@@ -246,9 +247,9 @@ export default function DashboardPage() {
                 locked ? 'border-hairline opacity-70' : 'border-hairline hover:border-gold'
               }`}
             >
-              {locked && (
+              {locked && f.tier && (
                 <span className="absolute top-3 right-3 text-[10px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 font-semibold">
-                  {f.tier === 'pro' ? 'PRO' : 'STARTER'}
+                  {TIER_LABEL[f.tier].toUpperCase()}
                 </span>
               )}
               <div className="text-2xl mb-2">{f.icon}</div>
@@ -286,21 +287,28 @@ export default function DashboardPage() {
       {tier !== 'pro' && (
         <div id="upgrade" className="bg-gradient-to-br from-navy to-navy-2 rounded-xl p-5 text-white scroll-mt-6">
           <h2 className="font-semibold mb-1">
-            {tier === 'free' ? 'Upgrade ke Starter atau Pro' : 'Upgrade ke Pro'}
+            {tier === 'free' ? 'Upgrade untuk buka semua fitur' : tier === 'kopi' ? 'Upgrade ke Starter atau Pro' : 'Upgrade ke Pro'}
           </h2>
           <p className="text-white/70 text-sm mb-4">
             {tier === 'free'
+              ? `Mulai dari ${TIER_PRICE.kopi} — buka Learning Modules, Scholarship Tracker, Checklist Dokumen & Achievements.`
+              : tier === 'kopi'
               ? 'Buka Kalender Beasiswa, IELTS Tracker, CV Analyzer, dan hapus batas harian chat.'
               : 'Akses unlimited + Essay Workshop dengan kritik AI mendalam + konsultasi langsung bulanan.'}
           </p>
           <div className="flex flex-wrap gap-3">
             {tier === 'free' && (
+              <a href={XENDIT_LINKS.kopi} target="_blank" rel="noopener noreferrer" className="bg-white text-gold-2 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-off transition-colors">
+                Kopi — {TIER_PRICE.kopi}/bulan
+              </a>
+            )}
+            {(tier === 'free' || tier === 'kopi') && (
               <a href={XENDIT_LINKS.starter} target="_blank" rel="noopener noreferrer" className="bg-white text-gold-2 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-off transition-colors">
-                Starter — Rp99K/bulan
+                Starter — {TIER_PRICE.starter}/bulan
               </a>
             )}
             <a href={XENDIT_LINKS.pro} target="_blank" rel="noopener noreferrer" className="bg-gold text-navy text-sm font-semibold px-4 py-2 rounded-lg hover:bg-gold-2 transition-colors border border-gold">
-              Pro — Rp299K/bulan
+              Pro — {TIER_PRICE.pro}/bulan
             </a>
           </div>
           <p className="text-white/50 text-xs mt-3">

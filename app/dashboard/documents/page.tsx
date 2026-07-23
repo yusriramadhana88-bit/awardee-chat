@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase'
-import { useUser } from '@/lib/use-user'
+import { useUser, canAccess } from '@/lib/use-user'
+import FeatureLock from '../_components/FeatureLock'
 
 const CHECKLISTS: Record<string, { label: string; items: { key: string; label: string }[] }> = {
   aas: {
@@ -64,7 +65,7 @@ const CHECKLISTS: Record<string, { label: string; items: { key: string; label: s
 }
 
 export default function DocumentsPage() {
-  const { loading } = useUser()
+  const { user, loading } = useUser()
   const [scholarship, setScholarship] = useState('aas')
   const [completed, setCompleted] = useState<Record<string, boolean>>({})
   const [loadingItems, setLoadingItems] = useState(true)
@@ -107,6 +108,10 @@ export default function DocumentsPage() {
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Memuat...</div></div>
+  }
+
+  if (!canAccess(user?.tier, 'kopi')) {
+    return <FeatureLock requiredTier="kopi" featureName="Checklist Dokumen" />
   }
 
   const list = CHECKLISTS[scholarship]

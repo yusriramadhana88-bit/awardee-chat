@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
-import { useUser } from '@/lib/use-user'
+import { useUser, canAccess, Tier } from '@/lib/use-user'
+import FeatureLock from '../../_components/FeatureLock'
 
 type Lesson = { id: string; slug: string; title: string; order_index: number; duration_minutes: number; completed: boolean }
 type Quiz = { id: string; title: string; passing_score: number; bestAttempt: { score: number; total: number; passed: boolean } | null }
@@ -14,6 +15,7 @@ type ModuleItem = {
   title: string
   description: string | null
   icon: string
+  tier: Tier
   lessons: Lesson[]
   lessonCount: number
   completedCount: number
@@ -21,7 +23,7 @@ type ModuleItem = {
 }
 
 export default function ModuleDetailPage() {
-  const { loading } = useUser()
+  const { user, loading } = useUser()
   const params = useParams()
   const slug = params.slug as string
   const [moduleData, setModuleData] = useState<ModuleItem | null>(null)
@@ -48,6 +50,10 @@ export default function ModuleDetailPage() {
 
   if (!moduleData) {
     return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Modul tidak ditemukan.</div></div>
+  }
+
+  if (moduleData.tier !== 'free' && !canAccess(user?.tier, moduleData.tier)) {
+    return <FeatureLock requiredTier={moduleData.tier as 'kopi' | 'starter' | 'pro'} featureName={moduleData.title} />
   }
 
   const allLessonsDone = moduleData.completedCount === moduleData.lessonCount && moduleData.lessonCount > 0

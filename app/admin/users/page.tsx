@@ -8,7 +8,7 @@ type User = {
   name: string
   email: string | null
   phone: string | null
-  subscription_tier: 'free' | 'starter' | 'pro'
+  subscription_tier: 'free' | 'kopi' | 'starter' | 'pro'
   subscription_expires_at: string | null
   is_admin: boolean
   chat_today: number
@@ -17,6 +17,7 @@ type User = {
 
 const TIER_COLORS = {
   free: 'text-muted bg-off',
+  kopi: 'text-amber-700 bg-amber-100',
   starter: 'text-navy bg-off',
   pro: 'text-purple-700 bg-purple-100',
 }
@@ -43,7 +44,7 @@ export default function AdminUsersPage() {
 
   useEffect(() => { loadUsers() }, [])
 
-  async function handleTierChange(userId: string, tier: 'free' | 'starter' | 'pro') {
+  async function handleTierChange(userId: string, tier: 'free' | 'kopi' | 'starter' | 'pro') {
     setUpdating(userId)
     const { data: { session } } = await supabase.auth.getSession()
     if (!session) return
@@ -115,11 +116,12 @@ export default function AdminUsersPage() {
                     {!u.is_admin && (
                       <select
                         value={u.subscription_tier}
-                        onChange={e => handleTierChange(u.id, e.target.value as 'free' | 'starter' | 'pro')}
+                        onChange={e => handleTierChange(u.id, e.target.value as 'free' | 'kopi' | 'starter' | 'pro')}
                         disabled={updating === u.id}
                         className="border border-hairline rounded-lg px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-gold disabled:opacity-50"
                       >
                         <option value="free">Free</option>
+                        <option value="kopi">Kopi</option>
                         <option value="starter">Starter</option>
                         <option value="pro">Pro</option>
                       </select>

@@ -7,19 +7,19 @@ import { createClient } from '@/lib/supabase'
 import { useUser, canAccess, TIER_LABEL, TIER_COLOR } from '@/lib/use-user'
 import { APP_VERSION } from '@/lib/version'
 
-const NAV_ITEMS: { href: string; label: string; icon: string; tier: 'starter' | 'pro' | null }[] = [
+const NAV_ITEMS: { href: string; label: string; icon: string; tier: 'kopi' | 'starter' | 'pro' | null }[] = [
   { href: '/dashboard', label: 'Overview', icon: '🏠', tier: null },
   { href: '/chat', label: 'Chat AI Den Dhana', icon: '💬', tier: null },
-  { href: '/dashboard/learn', label: 'Learning Modules', icon: '📚', tier: null },
-  { href: '/tracker', label: 'Scholarship Tracker', icon: '📋', tier: null },
+  { href: '/dashboard/learn', label: 'Learning Modules', icon: '📚', tier: 'kopi' },
+  { href: '/tracker', label: 'Scholarship Tracker', icon: '📋', tier: 'kopi' },
   { href: '/dashboard/calendar', label: 'Kalender Beasiswa', icon: '📅', tier: 'starter' },
-  { href: '/dashboard/documents', label: 'Checklist Dokumen', icon: '✅', tier: null },
+  { href: '/dashboard/documents', label: 'Checklist Dokumen', icon: '✅', tier: 'kopi' },
   { href: '/dashboard/ielts', label: 'IELTS Tracker', icon: '🎯', tier: 'starter' },
   { href: '/dashboard/cv', label: 'CV Analyzer', icon: '📄', tier: 'starter' },
   { href: '/dashboard/essay', label: 'Essay Workshop', icon: '✏️', tier: 'pro' },
   { href: '/dashboard/affiliate', label: 'Afiliasi & Komisi', icon: '🤝', tier: null },
   { href: '/dashboard/alumni', label: 'Awardee Alumni', icon: '🎓', tier: null },
-  { href: '/dashboard/achievements', label: 'Achievements', icon: '🏆', tier: null },
+  { href: '/dashboard/achievements', label: 'Achievements', icon: '🏆', tier: 'kopi' },
   { href: '/dashboard/profile', label: 'Profil Saya', icon: '👤', tier: null },
 ]
 
@@ -94,9 +94,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 >
                   <span className="text-lg">{item.icon}</span>
                   <span className="flex-1">{item.label}</span>
-                  {locked && (
+                  {locked && item.tier && (
                     <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 font-semibold">
-                      {item.tier === 'pro' ? 'PRO' : 'STARTER'}
+                      {TIER_LABEL[item.tier].toUpperCase()}
                     </span>
                   )}
                 </Link>

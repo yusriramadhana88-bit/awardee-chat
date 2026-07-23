@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
+import { canAccess, TIER_LABEL } from '@/lib/use-user'
+import FeatureLock from '../dashboard/_components/FeatureLock'
 import {
   ScholarshipApplication,
   getDeadlineInfo,
@@ -55,6 +57,10 @@ export default function TrackerPage() {
         <div className="text-muted text-sm">Memuat tracker...</div>
       </div>
     )
+  }
+
+  if (!canAccess(tier, 'kopi')) {
+    return <FeatureLock requiredTier="kopi" featureName="Scholarship Tracker" />
   }
 
   return (
@@ -126,7 +132,7 @@ export default function TrackerPage() {
 
         {atLimit && tier !== 'pro' && applications.length > 0 && (
           <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-700 flex items-center justify-between">
-            <span>Batas {limit} aplikasi untuk paket {tier === 'free' ? 'Gratis' : 'Starter'}.</span>
+            <span>Batas {limit} aplikasi untuk paket {TIER_LABEL[tier] ?? tier}.</span>
             <Link href="/dashboard" className="font-semibold underline ml-2">Upgrade</Link>
           </div>
         )}

@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase'
-import { useUser } from '@/lib/use-user'
+import { useUser, canAccess } from '@/lib/use-user'
+import FeatureLock from '../_components/FeatureLock'
 
 type Achievement = {
   id: string
@@ -15,7 +16,7 @@ type Achievement = {
 }
 
 export default function AchievementsPage() {
-  const { loading } = useUser()
+  const { user, loading } = useUser()
   const [achievements, setAchievements] = useState<Achievement[]>([])
   const [earnedCount, setEarnedCount] = useState(0)
   const [pageLoading, setPageLoading] = useState(true)
@@ -38,6 +39,10 @@ export default function AchievementsPage() {
 
   if (loading || pageLoading) {
     return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Memuat achievement...</div></div>
+  }
+
+  if (!canAccess(user?.tier, 'kopi')) {
+    return <FeatureLock requiredTier="kopi" featureName="Achievements" />
   }
 
   const pct = achievements.length > 0 ? Math.round((earnedCount / achievements.length) * 100) : 0

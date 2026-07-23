@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase'
 type Stats = {
   total: number
   free: number
+  kopi: number
   starter: number
   pro: number
   chatToday: number
@@ -33,6 +34,7 @@ export default function AdminOverviewPage() {
       setStats({
         total: users.length,
         free: users.filter((u: any) => u.subscription_tier === 'free').length,
+        kopi: users.filter((u: any) => u.subscription_tier === 'kopi').length,
         starter: users.filter((u: any) => u.subscription_tier === 'starter').length,
         pro: users.filter((u: any) => u.subscription_tier === 'pro').length,
         chatToday: users.reduce((sum: number, u: any) => sum + (u.chat_today ?? 0), 0),
@@ -55,10 +57,11 @@ export default function AdminOverviewPage() {
     <div className="px-6 py-8 max-w-5xl mx-auto">
       <h1 className="text-xl font-bold text-ink mb-6">Admin Overview</h1>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
         {[
           { label: 'Total User', value: stats.total, color: 'text-ink' },
           { label: 'Free', value: stats.free, color: 'text-muted' },
+          { label: 'Kopi', value: stats.kopi, color: 'text-amber-700' },
           { label: 'Starter', value: stats.starter, color: 'text-gold-2' },
           { label: 'Pro', value: stats.pro, color: 'text-purple-600' },
         ].map(s => (

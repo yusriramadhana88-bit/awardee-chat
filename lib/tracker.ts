@@ -70,7 +70,8 @@ export function generateShareToken(): string {
 }
 
 export const APP_LIMITS: Record<string, number> = {
-  free: 1,
+  free: 0,
+  kopi: 1,
   starter: 3,
   pro: 999,
 }

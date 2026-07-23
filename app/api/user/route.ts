@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
-const LIMITS: Record<string, number> = { free: 10, starter: 50, pro: 999 }
+const LIMITS: Record<string, number> = { free: 5, kopi: 20, starter: 50, pro: 999 }
 
 export async function GET(req: NextRequest) {
   try {
@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({
       name: profile?.name || user.email?.split('@')[0] || 'User',
       tier,
-      limit: LIMITS[tier] ?? 10,
+      limit: LIMITS[tier] ?? 5,
       used: usage?.count || 0,
       expires_at: profile?.subscription_expires_at || null,
     })

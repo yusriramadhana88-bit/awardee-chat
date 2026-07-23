@@ -63,7 +63,7 @@ export async function PATCH(req: NextRequest) {
   if (!adminUser) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
   const { userId, tier } = await req.json()
-  if (!userId || !['free', 'starter', 'pro'].includes(tier)) {
+  if (!userId || !['free', 'kopi', 'starter', 'pro'].includes(tier)) {
     return NextResponse.json({ error: 'Invalid payload' }, { status: 400 })
   }
 

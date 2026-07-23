@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { useRouter, useParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
+import { canAccess } from '@/lib/use-user'
+import FeatureLock from '../../dashboard/_components/FeatureLock'
 import {
   ScholarshipApplication,
   ApplicationStage,
@@ -158,6 +160,10 @@ export default function TrackerDetailPage() {
   }
 
   if (!app) return null
+
+  if (!canAccess(tier, 'kopi')) {
+    return <FeatureLock requiredTier="kopi" featureName="Scholarship Tracker" />
+  }
 
   const deadline = getDeadlineInfo(app.deadline)
   const completedStages = stages.filter(s => s.status === 'done').length

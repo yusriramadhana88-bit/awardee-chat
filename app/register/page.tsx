@@ -4,6 +4,7 @@ import { Suspense, useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
+import { TIER_LABEL, TIER_PRICE } from '@/lib/use-user'
 
 function RegisterForm() {
   const [name, setName] = useState('')
@@ -122,7 +123,7 @@ function RegisterForm() {
           </p>
           {plan !== 'free' && (
             <div className="bg-off border border-gold rounded-xl p-4 text-sm text-navy mb-4">
-              Kamu pilih paket <strong>{plan === 'pro' ? 'Pro (Rp299K)' : 'Starter (Rp99K)'}</strong>.<br />
+              Kamu pilih paket <strong>{TIER_LABEL[plan] ?? plan} ({TIER_PRICE[plan] ?? ''})</strong>.<br />
               Setelah login, kamu bisa upgrade dari dashboard.
             </div>
           )}
@@ -145,12 +146,12 @@ function RegisterForm() {
         </div>
 
         <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-4 text-sm text-amber-700">
-          <strong>Akun gratis:</strong> 3 chat/minggu. Nomor WhatsApp dipakai untuk verifikasi identitas — 1 nomor untuk 1 akun.
+          <strong>Akun gratis:</strong> 5 chat AI/hari. Nomor WhatsApp dipakai untuk verifikasi identitas — 1 nomor untuk 1 akun.
         </div>
 
         {plan !== 'free' && (
           <div className="bg-off border border-gold rounded-xl px-4 py-3 mb-4 text-sm text-navy text-center">
-            Daftar untuk paket <strong>{plan === 'pro' ? 'Pro' : 'Starter'}</strong>
+            Daftar untuk paket <strong>{TIER_LABEL[plan] ?? plan}</strong>
           </div>
         )}
 
