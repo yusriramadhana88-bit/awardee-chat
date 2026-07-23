@@ -18,6 +18,7 @@ function getSupabaseAdmin() {
 }
 
 const DAILY_LIMITS: Record<string, number> = { free: 5, kopi: 20, starter: 50, pro: 999 }
+const GUEST_DAILY_LIMIT = 8
 
 // Knowledge base dari video YouTube (akan diisi setelah extract-youtube dijalankan)
 let YOUTUBE_KNOWLEDGE = ''
@@ -30,7 +31,8 @@ try {
   }
 } catch {}
 
-const SYSTEM_PROMPT = `Kamu adalah Den Dhana — AI mentor beasiswa yang dibuat dari persona nyata Dhana, founder Awardee.id.
+function buildSystemPrompt(isGuest: boolean): string {
+  return `Kamu adalah Den Dhana — AI mentor beasiswa yang dibuat dari persona nyata Dhana, founder Awardee.id.
 
 ## Identitas
 - Nama: Den Dhana / Kak Dhana
@@ -151,20 +153,83 @@ Kalau mengarahkan ke WhatsApp, tetap hangat, contoh: "Untuk detail harga dan jad
 
 Untuk pertanyaan umum (strategi beasiswa, essay, GALI DIRI, IELTS, dll): SELALU jawab tuntas di chat ini, JANGAN arahkan ke WhatsApp.
 
-Kalau relevan, ajak client explore AWARDEE APP (member area gratis di member.awardee.id) — Learning Modules, Scholarship Tracker, Kalender Beasiswa, CV Analyzer, Essay Workshop — supaya mereka rasakan sendiri manfaatnya, bukan cuma dengar dari chat ini.
+## Konteks Percakapan Ini: ${isGuest ? 'GUEST — belum daftar/login member area' : 'MEMBER — sudah login akun Awardee.id'}
+${isGuest ? `
+Orang yang chat denganmu sekarang GUEST — belum daftar akun member Awardee.id. Dia mungkin baru pertama kali datang lewat Google, Instagram, atau rekomendasi teman, dan BELUM percaya sepenuhnya sama Awardee.id.
 
+Kamu punya dua peran ganda untuk guest, dan kamu sendiri yang menilai dari isi pesannya peran mana yang paling relevan (boleh dua-duanya sekaligus dalam satu jawaban):
+1. **Customer Service** — kalau dia tanya soal Awardee.id sendiri (layanan apa saja, harga, cara kerja, siapa Dhana, testimoni, produk, dll), jawab jelas dan meyakinkan seperti CS yang benar-benar paham produknya luar-dalam.
+2. **Konsultan Beasiswa** — kalau dia tanya soal beasiswa (strategi, essay, profil, AAS/LPDP/dll), jawab persis seperti biasa kamu jawab ke member: pakai GALI DIRI, jujur, spesifik, bukan generik.
+
+ATURAN PALING PENTING soal guest — JANGAN DILANGGAR:
+- JANGAN minta dia daftar/login/signup di awal percakapan atau di beberapa balasan pertama, dan JANGAN tampilkan/sebutkan link halaman signup member area sebagai bagian dari 1-2 balasan pertamamu, apapun pertanyaannya.
+- Alasan: dia masih terlalu awal untuk komitmen. Kalau langsung diarahkan daftar sebelum dia percaya, closing rate turun karena terasa seperti hard-selling, bukan membantu.
+- Fokus dulu bangun trust: jawab tuntas, tunjukkan kamu benar-benar paham kondisi dia, kasih value nyata di chat ini dulu — supaya dia nyaman dan yakin sendiri, baru setelah itu ajakan daftar terasa natural.
+- Ajakan daftar/eksplor AWARDEE APP HANYA boleh muncul setelah kamu sudah memberi beberapa jawaban substantif (bukan cuma di sapaan/balasan pertama-kedua), dan harus terasa sebagai kelanjutan natural dari obrolan — bukan CTA generik yang dipaksakan. Contoh momen yang tepat: setelah selesai satu putaran GALI DIRI dan dia mulai serius, atau setelah dia sendiri tanya "terus gimana caranya lanjut" / "gimana cara kerja sama kamu".
+- Kalau momen itu sudah pas, framing-nya "coba dulu gratis", bukan perintah. Contoh: "Kalau kamu mau, progress obrolan ini bisa kesimpen rapi lewat AWARDEE APP — gratis buat coba, tinggal daftar di member.awardee.id."
+` : `
+Orang yang chat denganmu sekarang MEMBER — sudah login akun Awardee.id, artinya dia sudah cukup percaya untuk daftar. Kamu boleh lebih proaktif ajak dia pakai fitur-fitur AWARDEE APP (Scholarship Tracker, Kalender Beasiswa, CV Analyzer, Learning Modules, Essay Workshop) kalau relevan, dan boleh lebih proaktif arahkan ke produk berbayar kalau memang cocok dengan kebutuhannya.
+`}
 ## Batasan
 - Di luar topik beasiswa/pengembangan diri untuk beasiswa: jawab singkat, arahkan balik ke topik utama
 - Bukan konsultan hukum atau finansial
 - Tidak memberikan jaminan kelulusan — aku bisa tingkatkan peluang, bukan jamin hasilnya
 
 ${YOUTUBE_KNOWLEDGE ? `## Pengetahuan & Pengalaman Dhana dari Sesi Mentoring\n${YOUTUBE_KNOWLEDGE}` : ''}`
+}
 
 export async function POST(req: NextRequest) {
   try {
     const token = req.headers.get('Authorization')?.replace('Bearer ', '') ?? ''
+
     if (!token) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      // Guest (belum login) — tetap boleh chat supaya bisa bangun trust dulu sebelum diminta daftar,
+      // lihat aturan "JANGAN minta daftar di awal" di buildSystemPrompt(true).
+      const guestId = req.headers.get('X-Guest-Id')?.slice(0, 100) ?? ''
+      if (!guestId) {
+        return NextResponse.json({ error: 'GUEST_ID_REQUIRED' }, { status: 400 })
+      }
+
+      const today = new Date().toISOString().split('T')[0]
+      const admin = getSupabaseAdmin()
+      const { data: usage } = await admin
+        .from('guest_chat_usage')
+        .select('count')
+        .eq('guest_id', guestId)
+        .eq('date', today)
+        .single()
+
+      const currentCount = usage?.count || 0
+      if (currentCount >= GUEST_DAILY_LIMIT) {
+        return NextResponse.json(
+          { error: 'GUEST_LIMIT_REACHED', guestUsed: currentCount, guestLimit: GUEST_DAILY_LIMIT },
+          { status: 429 }
+        )
+      }
+
+      await admin.from('guest_chat_usage').upsert({
+        guest_id: guestId,
+        date: today,
+        count: currentCount + 1,
+      }, { onConflict: 'guest_id,date' })
+
+      const { messages } = await req.json()
+      if (!messages || !Array.isArray(messages)) {
+        return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
+      }
+
+      const response = await getAnthropic().messages.create({
+        model: HAIKU_MODEL,
+        max_tokens: 1024,
+        system: buildSystemPrompt(true),
+        messages: messages.slice(-10).map((m: { role: string; content: string }) => ({
+          role: m.role as 'user' | 'assistant',
+          content: m.content,
+        })),
+      })
+
+      const text = response.content[0].type === 'text' ? response.content[0].text : ''
+      return NextResponse.json({ message: text, guestUsed: currentCount + 1, guestLimit: GUEST_DAILY_LIMIT })
     }
 
     const supabase = getSupabaseWithToken(token)
@@ -218,7 +283,7 @@ export async function POST(req: NextRequest) {
     const response = await getAnthropic().messages.create({
       model: HAIKU_MODEL,
       max_tokens: 1024,
-      system: SYSTEM_PROMPT,
+      system: buildSystemPrompt(false),
       messages: messages.slice(-10).map((m: { role: string; content: string }) => ({
         role: m.role as 'user' | 'assistant',
         content: m.content,

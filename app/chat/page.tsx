@@ -19,6 +19,8 @@ export default function ChatPage() {
   const [loading, setLoading] = useState(false)
   const [user, setUser] = useState<{ name: string; tier: string; used: number; limit: number } | null>(null)
   const [checkingAuth, setCheckingAuth] = useState(true)
+  const [guestId, setGuestId] = useState<string | null>(null)
+  const [guestUsage, setGuestUsage] = useState<{ used: number; limit: number } | null>(null)
   const [showPhoneModal, setShowPhoneModal] = useState(false)
   const [phoneInput, setPhoneInput] = useState('')
   const [phoneError, setPhoneError] = useState('')
@@ -87,7 +89,14 @@ export default function ChatPage() {
     async function loadUser() {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session) {
-        router.push('/login')
+        // Guest (belum login) — tetap boleh chat, tidak dipaksa daftar dulu.
+        let gid = localStorage.getItem('awardee_guest_id')
+        if (!gid) {
+          gid = crypto.randomUUID()
+          localStorage.setItem('awardee_guest_id', gid)
+        }
+        setGuestId(gid)
+        setCheckingAuth(false)
         return
       }
       const res = await fetch('/api/user', {
@@ -108,6 +117,7 @@ export default function ChatPage() {
     const text = input.trim()
     if (!text || loading) return
     if (user && user.used >= user.limit) return
+    if (guestId && guestUsage && guestUsage.used >= guestUsage.limit) return
 
     const userMsg: Message = { role: 'user', content: text }
     const newMessages = [...messages, userMsg]
@@ -117,23 +127,38 @@ export default function ChatPage() {
 
     try {
       const { data: { session } } = await supabase.auth.getSession()
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+      if (session?.access_token) {
+        headers['Authorization'] = `Bearer ${session.access_token}`
+      } else if (guestId) {
+        headers['X-Guest-Id'] = guestId
+      }
+
       const res = await fetch('/api/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session?.access_token ?? ''}`,
-        },
+        headers,
         body: JSON.stringify({ messages: newMessages }),
       })
       const data = await res.json()
       if (data.message) {
         setMessages((prev) => [...prev, { role: 'assistant', content: data.message }])
         if (user) setUser({ ...user, used: user.used + 1 })
+        if (guestId && typeof data.guestUsed === 'number') {
+          setGuestUsage({ used: data.guestUsed, limit: data.guestLimit })
+        }
       } else if (data.error === 'LIMIT_REACHED') {
         setMessages((prev) => [...prev, {
           role: 'assistant',
           content: 'Batas pertanyaan harian kamu sudah habis. Upgrade paket untuk lanjut konsultasi hari ini ya.',
         }])
+      } else if (data.error === 'GUEST_LIMIT_REACHED') {
+        setMessages((prev) => [...prev, {
+          role: 'assistant',
+          content: 'Seru banget ngobrol sama kamu! Chat gratis kamu hari ini sudah habis — daftar gratis yuk biar bisa lanjut chat + progress kamu kesimpen rapi.',
+        }])
+        if (typeof data.guestLimit === 'number') {
+          setGuestUsage({ used: data.guestUsed ?? data.guestLimit, limit: data.guestLimit })
+        }
       } else if (data.error === 'PHONE_REQUIRED') {
         // Kembalikan pesan ke input supaya bisa dikirim ulang setelah verifikasi nomor
         setMessages((prev) => prev.slice(0, -1))
@@ -170,7 +195,8 @@ export default function ChatPage() {
     )
   }
 
-  const atLimit = user ? user.used >= user.limit : false
+  const guestAtLimit = guestUsage ? guestUsage.used >= guestUsage.limit : false
+  const atLimit = user ? user.used >= user.limit : guestAtLimit
 
   return (
     <div className="flex flex-col h-screen max-w-2xl mx-auto">
@@ -192,6 +218,11 @@ export default function ChatPage() {
             <button onClick={handleLogout} className="text-xs text-muted hover:text-ink transition-colors">Keluar</button>
           </div>
         )}
+        {!user && guestId && (
+          <Link href="/register?next=%2Fchat" className="text-xs bg-gold text-navy px-3 py-1 rounded-full font-semibold hover:bg-gold-2 transition-colors whitespace-nowrap">
+            Daftar Gratis
+          </Link>
+        )}
       </header>
 
       {/* Upgrade banner jika mendekati/sudah limit */}
@@ -202,6 +233,22 @@ export default function ChatPage() {
           </p>
           <Link href="/#harga" className="text-xs bg-gold text-navy px-3 py-1 rounded-full font-semibold hover:bg-gold-2 transition-colors whitespace-nowrap ml-2">
             Upgrade
+          </Link>
+        </div>
+      )}
+
+      {/* Info mode tamu — bukan blocking, cuma info + ajakan halus daftar */}
+      {!user && guestId && (
+        <div className="bg-blue-50 border-b border-blue-200 px-4 py-2 flex items-center justify-between">
+          <p className="text-xs text-blue-700">
+            {guestAtLimit
+              ? 'Chat gratis kamu hari ini sudah habis.'
+              : guestUsage
+                ? `Mode tamu · ${Math.max(0, guestUsage.limit - guestUsage.used)} chat gratis tersisa hari ini.`
+                : 'Mode tamu · chat gratis, tanpa perlu daftar dulu.'}
+          </p>
+          <Link href="/register?next=%2Fchat" className="text-xs bg-navy text-white px-3 py-1 rounded-full font-semibold hover:bg-navy-2 transition-colors whitespace-nowrap ml-2">
+            Daftar Gratis
           </Link>
         </div>
       )}
@@ -237,10 +284,21 @@ export default function ChatPage() {
       <div className="bg-white border-t border-hairline px-4 py-3">
         {atLimit ? (
           <div className="text-center py-2">
-            <p className="text-sm text-muted mb-3">Batas harian kamu sudah habis. Upgrade untuk lanjut.</p>
-            <Link href="/#harga" className="bg-navy text-white text-sm px-6 py-2 rounded-xl hover:bg-navy-2 transition-colors">
-              Lihat Paket Upgrade
-            </Link>
+            {user ? (
+              <>
+                <p className="text-sm text-muted mb-3">Batas harian kamu sudah habis. Upgrade untuk lanjut.</p>
+                <Link href="/#harga" className="bg-navy text-white text-sm px-6 py-2 rounded-xl hover:bg-navy-2 transition-colors">
+                  Lihat Paket Upgrade
+                </Link>
+              </>
+            ) : (
+              <>
+                <p className="text-sm text-muted mb-3">Chat gratis tamu kamu hari ini sudah habis. Daftar gratis untuk lanjut chat.</p>
+                <Link href="/register?next=%2Fchat" className="bg-navy text-white text-sm px-6 py-2 rounded-xl hover:bg-navy-2 transition-colors">
+                  Daftar Gratis untuk Lanjut
+                </Link>
+              </>
+            )}
           </div>
         ) : (
           <div className="flex gap-2 items-end">
