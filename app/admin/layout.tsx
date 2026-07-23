@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
+import { APP_VERSION } from '@/lib/version'
 
 const ADMIN_NAV = [
   { href: '/admin', label: 'Overview', icon: '📊' },
@@ -30,7 +31,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <div className="w-8 h-8 rounded-lg bg-red-500 flex items-center justify-center text-white font-bold text-sm">⚙</div>
             <div>
               <div className="font-bold text-sm leading-tight">Admin Panel</div>
-              <div className="text-[10px] text-muted leading-tight">AWARDEE APP</div>
+              <div className="text-[10px] text-muted leading-tight">AWARDEE APP v{APP_VERSION}</div>
             </div>
           </div>
           <nav className="space-y-1">

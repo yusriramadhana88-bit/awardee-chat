@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 import { useUser, canAccess, TIER_LABEL, TIER_COLOR } from '@/lib/use-user'
+import { APP_VERSION } from '@/lib/version'
 
 const NAV_ITEMS: { href: string; label: string; icon: string; tier: 'starter' | 'pro' | null }[] = [
   { href: '/dashboard', label: 'Overview', icon: '🏠', tier: null },
@@ -70,7 +71,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <div className="w-9 h-9 rounded-xl bg-navy flex items-center justify-center text-white font-bold">A</div>
             <div>
               <div className="font-bold text-ink text-sm leading-tight">AWARDEE APP</div>
-              <div className="text-[10px] text-muted leading-tight">v2.0 · by Awardee.id</div>
+              <div className="text-[10px] text-muted leading-tight">v{APP_VERSION} · by Awardee.id</div>
             </div>
           </Link>
 
