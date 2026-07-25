@@ -1,0 +1,114 @@
+# Knowledge Base LPDP — Awardee.id
+# Dikompilasi dari: 6 artikel blog Awardee.id (LPDP Batch 2 2026) + 2 riset video YouTube dari awardee LPDP asli
+# Tanggal kompilasi: 26/7/2026
+# CATATAN PENTING: Angka/tanggal spesifik (kuota, tenggat, skor) bisa berubah tiap periode — selalu arahkan
+# user ke sumber resmi beasiswalpdp.kemenkeu.go.id untuk konfirmasi akhir.
+
+=== SUMBER: Blog Awardee.id — Profil Diri LPDP: Format Baru Pengganti Personal Statement ===
+
+LPDP Batch 2 2026 mengganti Personal Statement dengan Profil Diri — dokumen poin berisi Kekuatan, Kelemahan, dan Pengalaman Relevan. Profil Diri TERPISAH dari Esai Komitmen Kembali ke Indonesia (maksimal 1.500 kata) — jangan digabung jadi satu tulisan, ini kesalahan paling umum.
+
+3 Bagian Profil Diri:
+1. Kekuatan (2-3 poin) — tiap poin wajib disertai bukti konkret, bukan sifat abstrak seperti "saya pekerja keras".
+2. Kelemahan (1-2 poin) — jujur, tapi wajib disertai langkah perbaikan yang sudah dijalani (bukan sekadar mengaku lemah tanpa solusi — ini jadi bumerang saat wawancara, panelis akan tanya "kalau gitu nanti kuliah gimana?").
+3. Pengalaman Relevan — kronologis singkat, hanya yang relevan dengan studi dan rencana kontribusi.
+
+Kerangka cepat penulisan: "[Poin] — dibuktikan saat [situasi konkret], hasilnya [terukur]."
+
+Formula 4 langkah Esai Komitmen (tetap naratif, maks 1.500 kata):
+1. Problem spesifik yang ingin diselesaikan.
+2. Peran kandidat — kenapa dia yang tepat menyelesaikannya.
+3. Bukti nyata sudah bergerak ke arah itu.
+4. Rencana ke depan setelah lulus.
+Hindari kalimat pembuka klise ("Sejak kecil saya bercita-cita..."). Tes cepat: minta orang asing baca esai — kalau dalam 2 menit belum paham inti niatnya, tulis ulang.
+
+Kesalahan paling umum: mencampur Profil Diri dan Esai Komitmen jadi satu tulisan; kelemahan yang "disamarkan" jadi kekuatan tanpa langkah perbaikan; rencana kontribusi generik tanpa target/lokasi/mekanisme konkret.
+
+=== SUMBER: Blog Awardee.id — Cara Menyusun Sanggahan LPDP: Kapan Layak, Kapan Percuma ===
+
+Sanggahan = mekanisme koreksi kesalahan sistem/penilaian dokumen, BUKAN kesempatan kedua memperbaiki kekurangan aplikasi. Masa sanggah historisnya HANYA sekitar 1 hari setelah pengumuman administrasi — siapkan bukti dari sekarang, jangan menunggu hasil keluar.
+
+Kapan layak diajukan:
+- Kesalahan teknis sistem yang terbukti (misal sudah unggah sertifikat bahasa resmi asli, tapi sistem mencatat "tidak diunggah" — bukti: screenshot proses unggah dengan timestamp).
+- Kesalahan pembacaan data (nilai/skor yang diinput benar tapi sistem menampilkan angka berbeda).
+- Syarat tertulis vs alasan penolakan bertentangan (misal ditolak karena "sertifikat bahasa tidak terpenuhi", padahal punya LoA Unconditional yang membebaskan syarat itu).
+
+Kapan percuma: dokumen yang diunggah memang tidak asli/resmi (misal hasil prediction test); alasan subjektif ("saya yakin kualifikasi saya cukup"); melengkapi dokumen yang memang belum diunggah saat pendaftaran ditutup; tanpa bukti konkret sama sekali.
+
+Cara menyusun yang efektif: nyatakan poin sanggahan spesifik di kalimat pertama; lampirkan bukti konkret; hindari nada emosional/memohon (diproses berdasarkan validitas bukti); fokus SATU poin kesalahan paling kuat buktinya, jangan campur banyak alasan; kirim sebelum tenggat.
+
+Penting: sanggahan TIDAK bisa mengubah hasil wawancara/substansi — hanya berlaku untuk hasil seleksi administrasi.
+
+=== SUMBER: Blog Awardee.id — AAS vs LPDP: Beasiswa Mana yang Cocok untuk Profilmu? ===
+
+Perbandingan cepat:
+- LPDP: dikelola Kemenkeu Indonesia, cakupan negara sangat luas, beberapa skema (reguler/afirmasi/targeted), seleksi Administrasi → Substansi/Wawancara.
+- AAS: dikelola DFAT Australia, khusus universitas Australia, menekankan relevansi kerja sama Indonesia-Australia & leadership, seleksi Administrasi → Wawancara (JST).
+
+Pilih LPDP kalau: ingin fleksibilitas negara/universitas tujuan lebih luas; relevan dengan skema afirmasi/targeted; ingin opsi studi dalam maupun luar negeri di satu skema.
+
+Persamaan yang sering diabaikan: keduanya sama-sama menilai kejelasan rencana kontribusi (bukan cuma prestasi akademik) dan punya tahap wawancara yang menguji kesiapan langsung. Dokumen awal yang matang untuk satu beasiswa umumnya jadi fondasi kuat juga untuk yang lain — tapi kerangka esai sebaiknya disesuaikan, bukan disalin langsung, karena penekanan penilaiannya beda.
+
+Tidak ada dasar untuk mengklaim AAS lebih mudah diterima dibanding LPDP atau sebaliknya — persaingan tergantung jumlah pendaftar dan kuota tiap periode.
+
+=== SUMBER: Blog Awardee.id — Jurusan Paling Sering Didanai LPDP & AAS ===
+
+LPDP dan AAS tidak melarang jurusan tertentu — tapi ada bidang prioritas yang lebih mudah "dijustifikasi" dalam rencana kontribusi: STEM (teknologi digital, energi terbarukan, rekayasa infrastruktur), kesehatan masyarakat, pendidikan, ekonomi & kebijakan publik, pertanian/ketahanan pangan/lingkungan, hukum & tata kelola pemerintahan. Daftar resmi berubah tiap periode.
+
+Jurusan di luar daftar prioritas TETAP BISA didanai, hanya perlu argumen relevansi yang lebih kuat. Kalau jurusan tidak ada di daftar: cari titik temu dengan isu prioritas yang lebih luas (misal desain komunikasi visual dihubungkan ke edukasi publik/kampanye kesehatan); perkuat dengan data dan contoh konkret; JANGAN memaksakan pindah jurusan hanya demi terlihat strategis — reviewer sensitif terhadap narasi yang tidak koheren.
+
+3 pertanyaan untuk memvalidasi pilihan jurusan: (1) Masalah apa yang ingin diselesaikan? (2) Ilmu/kompetensi apa yang dibutuhkan untuk menyelesaikannya? (3) Bagaimana gelar ini akan dipakai setelah lulus? Kalau tiga jawaban ini koheren, narasi jauh lebih kuat dibanding sekadar mengikuti daftar prioritas.
+
+=== SUMBER: Blog Awardee.id — LoA Unconditional vs Conditional LPDP ===
+
+LoA Unconditional = penerimaan kampus tanpa syarat tambahan. LoA Conditional masih mensyaratkan sesuatu (paling sering skor bahasa Inggris) sebelum berubah jadi unconditional.
+
+Untuk LPDP Batch 2 2026: pemegang LoA Unconditional yang sesuai ketentuan LPDP TIDAK WAJIB sertifikat bahasa Inggris terpisah, dan DIKECUALIKAN dari Seleksi Bakat Skolastik (TBS) — langsung lanjut ke Seleksi Substansi/Wawancara. LoA Conditional dengan syarat bahasa yang belum terpenuhi TIDAK membebaskan dari kewajiban sertifikat bahasa maupun TBS.
+
+Kesalahan umum: menyangka semua LoA otomatis "unconditional" hanya karena emailnya terdengar positif; menganggap syarat bahasa di LoA Conditional "akan menyusul" tanpa benar-benar menyiapkan sertifikatnya; tidak mengecek apakah LoA sudah sesuai ketentuan LPDP (validasi ini di pihak LPDP, bukan asumsi sepihak); menunda pengurusan LoA sampai mendekati batas akhir pendaftaran.
+
+Kalau belum punya LoA sama sekali, tetap bisa daftar LPDP — dengan konsekuensi mengikuti Seleksi Bakat Skolastik dan menyertakan sertifikat bahasa Inggris.
+
+=== SUMBER: Riset video YouTube — Lucyana Lufti (awardee LPDP 2023 Batch 1 asli, Studentnesia Mentorship, "Dokumen Wajib LPDP Master") ===
+
+Skema beasiswa LPDP: Beasiswa Umum (reguler, perguruan tinggi utama dunia/PTUD, parsial); Beasiswa Targeted (PNS/TNI/Polri, entrepreneur, dokter spesialis/subspesialis, program BRIN, joint scholarship); Beasiswa Afirmasi (penyandang disabilitas, daerah afirmasi, prasejahtera); Beasiswa Kolaboratif (kerja sama Kemenag, Kemendiktisaintek, dll). Kewajiban pasca studi: kembali ke Indonesia, mengabdi selama 2N+1 tahun (N = lama masa studi yang dibiayai).
+
+Benefit sebagai awardee (yang jarang dibahas): Persiapan Keberangkatan (PK) — materi kepemimpinan, wawasan kebangsaan, soft skills, networking, bukan formalitas tapi fondasi mental; Pengayaan Bahasa (khusus penerima afirmasi yang skor bahasanya belum cukup untuk LoA, program 3-6 bulan dengan living allowance); Dana Pendidikan (biaya pendaftaran HANYA 1 kampus tujuan dibayar meski daftar di 3 kampus, tuition fee, tunjangan buku, dana penelitian disertasi, dana seminar & publikasi internasional); Dana Pendukung (tiket PP, reimbursement visa, asuransi kesehatan, living allowance bulanan, settlement allowance dibayar 2x — sebelum berangkat & setelah sampai, dana lomba internasional, family allowance khusus doktoral, dana darurat); psychological support (psikolog LPDP untuk awardee yang stres/kesulitan adaptasi); alumni management pasca lulus.
+
+Timeline umum siklus seleksi (pola berulang tiap tahun, bukan tanggal spesifik): Pendaftaran ~1 bulan → Pengumuman administrasi ~2-3 minggu setelah pendaftaran ditutup → Masa sanggah HANYA 1 HARI → Tes Bakat Skolastik/TBS ~2 minggu (DISKIP TOTAL kalau sudah punya LoA) → Pengumuman hasil TBS 1 hari → Substansi/wawancara ~2-3 minggu → Pengumuman akhir.
+
+3 highlight kesalahan pendaftar yang sering terjadi (dari pengalaman Lucyana):
+1. Biodata diri — TIDAK ADA aturan resmi wajib pakai Bahasa Indonesia untuk tujuan dalam negeri / Bahasa Inggris untuk luar negeri (ini mitos). Yang penting otentik dan jujur sesuai kondisi nyata.
+2. Surat rekomendasi — jangan asal minta dari nama besar (dekan/rektor) yang sebenarnya tidak kenal kandidat dengan baik. Surat dari orang yang benar-benar tahu kapasitas & kinerja kandidat lebih kuat dan lebih real saat diverifikasi.
+3. Sertifikat bahasa — WAJIB dari lembaga resmi terdaftar, prediction test TIDAK DITERIMA.
+
+Kunci sukses substansi/wawancara menurut Lucyana: jawab LANGSUNG apa yang ditanya, jangan berputar dengan cerita latar belakang panjang; framework jawaban (STAR/SMART) tidak wajib — kalau bikin blank, lebih baik jawab otentik berdasarkan pemahaman diri yang dalam; metode persiapan efektif: posisikan diri sebagai 3 jenis panelis (psikolog, akademisi, unsur LPDP) dan cari sendiri celah/kelemahan di esai serta alasan pilih kampus, sampai punya puluhan pertanyaan kritis untuk diri sendiri; panel terdiri dari 3 unsur (psikolog, akademisi, perwakilan LPDP); jaga demeanor percaya diri dan mood baik; pastikan koneksi internet stabil (wawancara online, sesi maksimal ~45 menit).
+
+Kunci soal LoA & konsistensi: bukan "harus sudah punya LoA sebelum daftar", tapi konsistensi cerita antara aplikasi kampus (motivation letter) dan aplikasi LPDP (esai komitmen) — supaya saat ditanya di substansi jawabannya solid karena semua informasi valid dan sinkron.
+
+Kunci soal Profil Diri: JANGAN tulis hal yang terdengar bagus tapi tidak benar-benar dipahami/dijalani — ini jadi bumerang saat substansi (kalau tulis kelemahan "tidak bisa atur waktu", HARUS disertai upaya konkret yang sudah/sedang dilakukan mengatasinya).
+
+Kunci soal Esai Komitmen: kesalahan paling umum adalah menghabiskan porsi besar esai untuk cerita background keluarga/prestasi S1 yang tidak relevan dengan studi yang dituju. Fokus ke alasan spesifik pilih kampus itu (mata kuliah/fasilitas yang relevan dengan masalah nyata yang dialami), bukan cerita hidup umum.
+
+Pesan penutup Lucyana: tidak ada rumus/ketentuan mutlak untuk lolos LPDP — maksimalkan kekuatan diri, kenali kelemahan dengan baik, jadilah versi paling otentik dari diri sendiri.
+
+=== SUMBER: Riset video YouTube — Channel Crojobs, "Cara Daftar Beasiswa LPDP 2026 | Panduan Lengkap Step-by-Step" ===
+CATATAN: video ini kemungkinan menunjukkan portal Batch 1 2026. Struktur teknis (buat akun, isi profil, pilih kampus, upload dokumen, submit) tetap relevan karena itu infrastruktur portal. TAPI bagian esai di video ini menyebut "Personal Statement" terpisah — untuk Batch 2 2026 itu SUDAH DIGANTI format Profil Diri (lihat blok Profil Diri di atas). Jangan sebut "Personal Statement" sebagai dokumen LPDP saat ini — sebut "Profil Diri".
+
+Langkah teknis pengisian aplikasi (infrastruktur portal, umumnya stabil antar batch):
+
+A. Buat Akun: buka portal resmi LPDP, klik "Apply Now" → isi email aktif (semua notifikasi lewat sini) + password → isi nama lengkap (HARUS SINKRON dengan NIK), NIK, nomor KK, tempat/tanggal lahir, jenis kelamin — semua harus SAMA PERSIS dengan KTP & KK. Siapkan KTP + KK sebelum mulai. Kendala akun: WhatsApp helpline LPDP.
+
+B. Lengkapi Profil/CV (wajib sebelum pilih program, siapkan ~30 menit): info pribadi termasuk no HP yang terkoneksi WhatsApp untuk OTP; pekerjaan; alamat sesuai KTP + domisili; akun media sosial (WAJIB minimal 1, tidak bisa dikosongkan); pendidikan terakhir (lulusan luar negeri WAJIB konversi IPK ke skala 4.0); data keluarga lengkap (ayah, ibu, pasangan jika menikah); riwayat pendidikan detail termasuk nomor ijazah; riwayat pekerjaan; pengalaman organisasi (bisa dari SMP/SMA, termasuk organisasi luar/sosial); riwayat prestasi; kemampuan bahasa; pengalaman workshop/pelatihan; riset/publikasi/konferensi/penghargaan; riwayat beasiswa sebelumnya (termasuk beasiswa lokal/institusi, tidak cuma pemerintah).
+
+C. Pemilihan Jenjang, Skema, Kampus & Program: pilih jenjang (Magister/Doktor/Spesialis); siapkan transkrip nilai, LoA jika sudah ada (harus UNCONDITIONAL), sertifikat bahasa, dokumen pendukung — maksimal ~2MB per file; pilih skema (STEM untuk industri strategis atau SHARE untuk social science, atau skema kerja sama khusus lainnya); untuk STEM pilih bidang spesifik → sistem otomatis filter kampus relevan; status LoA (sudah/belum); status afirmasi jika relevan; tujuan dalam/luar negeri; skema pendanaan full/parsial; single/double degree; kampus tujuan; target waktu mulai studi; status pendaftar saat ini.
+
+D. Surat Rekomendasi: SIFATNYA OPSIONAL di tahap pengisian form — ada pilihan "tidak ada surat rekomendasi". Kalau isi: formulir data pemberi rekomendasi ATAU upload dokumen langsung (maks 2MB). Tips: usahakan pakai penomoran surat resmi dari instansi — lebih kredibel.
+
+E. Esai — untuk Batch 2 2026: gunakan format Profil Diri (poin kekuatan/kelemahan/pengalaman, BUKAN esai naratif "Personal Statement" terpisah). Esai Komitmen Kontribusi tetap ada, maksimal 1.500 kata (angka resmi terverifikasi).
+
+F. Upload Dokumen: KTP (+nomor, tanggal terbit); Ijazah S1 atau SKL jika belum resmi lulus (+nomor, tanggal terbit); transkrip nilai; sertifikat bahasa asing. Semua file maksimal ~2MB — kompres dulu kalau kebesaran.
+
+G. Ringkasan & Submit: sistem tampilkan ringkasan aplikasi lengkap untuk dicek ulang; baca & setujui "Pernyataan Beasiswa LPDP" (patuh Pancasila, tidak pernah pindah kewarganegaraan, tidak menerima beasiswa lain bersamaan, tidak menyalahgunakan media sosial, tidak pernah terlibat masalah hukum, bersedia TIDAK BEKERJA selama studi, bersedia kembali ke Indonesia & kontribusi 2N+1 tahun, khusus afirmasi bersedia kontribusi ke provinsi asal); klik "Saya Setuju" → APLIKASI OTOMATIS TERSUBMIT saat itu juga, TIDAK ADA tombol submit terpisah setelahnya — pastikan benar-benar yakin sebelum klik.
+
+Detail teknis penting: nomor KK dan NIK harus sinkron persis dengan dokumen resmi (typo kecil bisa jadi kendala); no HP wajib bisa terima OTP via WhatsApp; minimal 1 akun media sosial wajib diisi; ukuran file upload dibatasi ~2MB per dokumen; lulusan luar negeri wajib konversi IPK ke skala 4.0 Indonesia.

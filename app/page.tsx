@@ -61,7 +61,7 @@ export default function LandingPage() {
                 Lihat Demo Chat
               </Link>
             </div>
-            <p className="text-xs text-muted mt-4">Gratis 10 pertanyaan/hari. Tidak perlu kartu kredit.</p>
+            <p className="text-xs text-muted mt-4">Gratis 5 pertanyaan/hari. Tidak perlu kartu kredit.</p>
 
             <div className="flex gap-10 mt-14 pt-8 border-t border-hairline">
               {[
@@ -122,7 +122,10 @@ export default function LandingPage() {
       <section className="py-20 px-4 bg-white" id="harga">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-semibold text-center text-ink tracking-tight mb-2">Pilih paket yang sesuai</h2>
-          <p className="text-center text-muted mb-12">Mulai gratis, upgrade kapan kamu siap</p>
+          <p className="text-center text-muted mb-2">Mulai gratis, upgrade kapan kamu siap</p>
+          <p className="text-center text-sm mb-12">
+            <Link href="/demo" className="text-gold-2 underline hover:text-navy transition-colors">Lihat demo semua fitur dashboard →</Link>
+          </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Free */}
             <div className="border border-hairline rounded-2xl p-6">
@@ -241,7 +244,7 @@ export default function LandingPage() {
       <section className="py-20 px-4 bg-navy">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight mb-3">Siap mulai perjalanan beasiswamu?</h2>
-          <p className="text-white/70 mb-8">Gratis 10 pertanyaan per hari. Tidak perlu kartu kredit.</p>
+          <p className="text-white/70 mb-8">Gratis 5 pertanyaan per hari. Tidak perlu kartu kredit.</p>
           <Link href="/register" className="inline-block bg-gold hover:bg-gold-2 text-navy font-semibold px-8 py-3.5 rounded-pill transition-colors">
             Coba Sekarang — Gratis
           </Link>

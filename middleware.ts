@@ -35,8 +35,10 @@ export async function middleware(request: NextRequest) {
   }
   const effectivePath = rewriteTarget || path
 
-  // Redirect ke login kalau belum auth dan coba akses halaman protected
-  if (!user && (effectivePath.startsWith('/chat') || effectivePath.startsWith('/dashboard') || effectivePath.startsWith('/admin'))) {
+  // Redirect ke login kalau belum auth dan coba akses halaman protected.
+  // '/chat' persis (bot CS) boleh diakses guest — lihat BOTS.cs.guestAllowed di lib/bots.ts.
+  // '/chat/aas' dan '/chat/lpdp' (subpath apa pun di bawah /chat/) tetap member-only.
+  if (!user && (effectivePath.startsWith('/chat/') || effectivePath.startsWith('/dashboard') || effectivePath.startsWith('/admin'))) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
@@ -66,5 +68,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/chat', '/dashboard/:path*', '/admin/:path*', '/login', '/register'],
+  matcher: ['/', '/chat/:path*', '/dashboard/:path*', '/admin/:path*', '/login', '/register'],
 }

@@ -9,7 +9,9 @@ import { APP_VERSION } from '@/lib/version'
 
 const NAV_ITEMS: { href: string; label: string; icon: string; tier: 'kopi' | 'starter' | 'pro' | null }[] = [
   { href: '/dashboard', label: 'Overview', icon: '🏠', tier: null },
-  { href: '/chat', label: 'Chat AI Den Dhana', icon: '💬', tier: null },
+  { href: '/chat/aas', label: 'Chat AAS · Den Dhana', icon: '🇦🇺', tier: null },
+  { href: '/chat/lpdp', label: 'Chat LPDP · Den Dhana', icon: '🇮🇩', tier: null },
+  { href: '/chat', label: 'Tanya Produk & Layanan', icon: '💬', tier: null },
   { href: '/dashboard/learn', label: 'Learning Modules', icon: '📚', tier: 'kopi' },
   { href: '/tracker', label: 'Scholarship Tracker', icon: '📋', tier: 'kopi' },
   { href: '/dashboard/calendar', label: 'Kalender Beasiswa', icon: '📅', tier: 'starter' },

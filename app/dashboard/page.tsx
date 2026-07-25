@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase'
 import { useUser, canAccess, TIER_LABEL, TIER_PRICE } from '@/lib/use-user'
 import { ScholarshipApplication, getDeadlineInfo, formatDeadline } from '@/lib/tracker'
 import { calculateXp, getPejuangLevel } from '@/lib/gamification'
+import { LYNK_MEMBERSHIP_LINKS } from '@/lib/payment-links'
 import SocialShowcase from './_components/SocialShowcase'
 
 type LearnLesson = { id: string; slug: string; title: string; completed: boolean }
@@ -17,14 +18,10 @@ type LearnModule = {
 }
 type AchievementItem = { id: string; title: string; icon: string; earned: boolean; earnedAt: string | null }
 
-const XENDIT_LINKS: Record<string, string> = {
-  kopi: 'https://checkout.xendit.co/od/GANTI_DENGAN_LINK_XENDIT_KOPI',
-  starter: 'https://checkout.xendit.co/od/GANTI_DENGAN_LINK_XENDIT_STARTER',
-  pro: 'https://checkout.xendit.co/od/GANTI_DENGAN_LINK_XENDIT_PRO',
-}
-
 const FEATURES: { href: string; icon: string; title: string; desc: string; tier: 'kopi' | 'starter' | 'pro' | null }[] = [
-  { href: '/chat', icon: '💬', title: 'Chat AI Den Dhana', desc: 'Konsultasi strategi & pertanyaan seputar beasiswamu', tier: null },
+  { href: '/chat/aas', icon: '🇦🇺', title: 'Chat AAS · Den Dhana', desc: 'Konsultan khusus persiapan Australia Awards Scholarship', tier: null },
+  { href: '/chat/lpdp', icon: '🇮🇩', title: 'Chat LPDP · Den Dhana', desc: 'Konsultan khusus persiapan LPDP', tier: null },
+  { href: '/chat', icon: '💬', title: 'Tanya Produk & Layanan', desc: 'Tanya soal Awardee.id, produk, atau beasiswa secara umum', tier: null },
   { href: '/dashboard/learn', icon: '📚', title: 'Learning Modules', desc: 'Materi #GaliDiri, essay, sampai interview + kuis', tier: 'kopi' },
   { href: '/tracker', icon: '📋', title: 'Scholarship Tracker', desc: 'Pantau progres tahapan aplikasi beasiswamu', tier: 'kopi' },
   { href: '/dashboard/calendar', icon: '📅', title: 'Kalender Beasiswa', desc: 'Semua deadline penting dalam satu tampilan', tier: 'starter' },
@@ -298,21 +295,21 @@ export default function DashboardPage() {
           </p>
           <div className="flex flex-wrap gap-3">
             {tier === 'free' && (
-              <a href={XENDIT_LINKS.kopi} target="_blank" rel="noopener noreferrer" className="bg-white text-gold-2 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-off transition-colors">
+              <a href={LYNK_MEMBERSHIP_LINKS.kopi} target="_blank" rel="noopener noreferrer" className="bg-white text-gold-2 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-off transition-colors">
                 Kopi — {TIER_PRICE.kopi}/bulan
               </a>
             )}
             {(tier === 'free' || tier === 'kopi') && (
-              <a href={XENDIT_LINKS.starter} target="_blank" rel="noopener noreferrer" className="bg-white text-gold-2 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-off transition-colors">
+              <a href={LYNK_MEMBERSHIP_LINKS.starter} target="_blank" rel="noopener noreferrer" className="bg-white text-gold-2 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-off transition-colors">
                 Starter — {TIER_PRICE.starter}/bulan
               </a>
             )}
-            <a href={XENDIT_LINKS.pro} target="_blank" rel="noopener noreferrer" className="bg-gold text-navy text-sm font-semibold px-4 py-2 rounded-lg hover:bg-gold-2 transition-colors border border-gold">
+            <a href={LYNK_MEMBERSHIP_LINKS.pro} target="_blank" rel="noopener noreferrer" className="bg-gold text-navy text-sm font-semibold px-4 py-2 rounded-lg hover:bg-gold-2 transition-colors border border-gold">
               Pro — {TIER_PRICE.pro}/bulan
             </a>
           </div>
           <p className="text-white/50 text-xs mt-3">
-            Setelah bayar, WhatsApp ke Kak Dhana dengan bukti pembayaran untuk aktivasi akun.
+            Setelah bayar via lynk.id, WhatsApp ke Kak Dhana dengan bukti pembayaran untuk aktivasi akun (biasanya &lt;24 jam).
           </p>
         </div>
       )}
