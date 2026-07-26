@@ -218,7 +218,7 @@ function RegisterForm() {
             </button>
           </form>
           <p className="text-xs text-muted text-center mt-4">
-            Dengan daftar, kamu setuju dengan syarat penggunaan Awardee.id.
+            Dengan daftar, kamu setuju dengan syarat penggunaan Awardee.id, dan otomatis berlangganan newsletter beasiswa (3x/minggu ke email kamu) — bisa berhenti kapan saja lewat Profil atau link di email.
           </p>
         </div>
       </div>

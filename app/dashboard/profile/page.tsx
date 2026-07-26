@@ -12,6 +12,7 @@ type Profile = {
   expiresAt: string | null
   memberSince: string
   isAdmin: boolean
+  newsletterOptIn: boolean
 }
 type Stats = {
   lessonsCompleted: number
@@ -31,6 +32,7 @@ export default function ProfilePage() {
   const [nameInput, setNameInput] = useState('')
   const [saving, setSaving] = useState(false)
   const [saveMsg, setSaveMsg] = useState('')
+  const [newsletterSaving, setNewsletterSaving] = useState(false)
   const supabase = createClient()
 
   async function load() {
@@ -67,6 +69,23 @@ export default function ProfilePage() {
       setSaveMsg('Gagal menyimpan. Coba lagi.')
     }
     setSaving(false)
+  }
+
+  async function toggleNewsletter() {
+    if (!profile) return
+    const nextValue = !profile.newsletterOptIn
+    setNewsletterSaving(true)
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) return
+    const res = await fetch('/api/profile', {
+      method: 'PATCH',
+      headers: { Authorization: `Bearer ${session.access_token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ newsletterOptIn: nextValue }),
+    })
+    if (res.ok) {
+      setProfile(p => p ? { ...p, newsletterOptIn: nextValue } : p)
+    }
+    setNewsletterSaving(false)
   }
 
   if (loading || pageLoading || !profile || !stats) {
@@ -130,6 +149,23 @@ export default function ProfilePage() {
               <span className="text-ink">{new Date(profile.expiresAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
             </div>
           )}
+        </div>
+      </div>
+
+      <div className="bg-white rounded-xl border border-hairline p-5 mb-6">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <h2 className="font-semibold text-ink text-sm mb-1">Newsletter Beasiswa</h2>
+            <p className="text-xs text-muted">Artikel & info beasiswa terbaru, dikirim ke email kamu 3x seminggu. Bisa dimatikan kapan saja.</p>
+          </div>
+          <button
+            onClick={toggleNewsletter}
+            disabled={newsletterSaving}
+            className={`shrink-0 w-11 h-6 rounded-full transition-colors relative disabled:opacity-60 ${profile.newsletterOptIn ? 'bg-navy' : 'bg-hairline'}`}
+            aria-label="Toggle newsletter"
+          >
+            <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${profile.newsletterOptIn ? 'translate-x-[22px]' : 'translate-x-0.5'}`} />
+          </button>
         </div>
       </div>
 
