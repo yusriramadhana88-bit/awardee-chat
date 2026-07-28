@@ -60,6 +60,7 @@ export default function EsaiPage() {
     }
 
     setReviewing(true)
+    setResult(null)
     try {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session) return
@@ -70,22 +71,63 @@ export default function EsaiPage() {
         body: JSON.stringify({ essayType: tab, content }),
       })
 
-      let data: Record<string, unknown>
-      try {
-        data = await res.json()
-      } catch {
-        setError(`Server tidak merespons dengan benar (status ${res.status}). Coba lagi ya.`)
-        return
-      }
-      if (res.status === 403 && data.error === 'TIER_REQUIRED') {
-        setUpsell(true)
-        return
-      }
       if (!res.ok) {
+        let data: Record<string, unknown> = {}
+        try {
+          data = await res.json()
+        } catch {
+          setError(`Server tidak merespons dengan benar (status ${res.status}). Coba lagi ya.`)
+          return
+        }
+        if (res.status === 403 && data.error === 'TIER_REQUIRED') {
+          setUpsell(true)
+          return
+        }
         setError((data.error as string) || 'Gagal mereview tulisan.')
         return
       }
-      setResult({ feedback: data.feedback as string, score: data.score as number | null, charCount: data.charCount as number })
+      if (!res.body) {
+        setError('Server tidak mengirim data. Coba lagi ya.')
+        return
+      }
+
+      // Respons di-stream (NDJSON) supaya koneksi tetap "hidup" selama Claude menulis — esai
+      // panjang + konteks handbook besar bisa kena idle-timeout jaringan edge kalau ditunggu utuh.
+      const reader = res.body.getReader()
+      const decoder = new TextDecoder()
+      let buffer = ''
+      let feedback = ''
+      let finalScore: number | null = null
+      let finalCharCount = content.length
+      let streamError: string | null = null
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split('\n')
+        buffer = lines.pop() ?? ''
+        for (const line of lines) {
+          if (!line.trim()) continue
+          const evt = JSON.parse(line)
+          if (evt.type === 'delta') {
+            feedback += evt.text
+            setResult({ feedback, score: null, charCount: finalCharCount })
+          } else if (evt.type === 'done') {
+            finalScore = evt.score
+            finalCharCount = evt.charCount
+          } else if (evt.type === 'error') {
+            streamError = evt.error
+          }
+        }
+      }
+
+      if (streamError) {
+        setError(streamError)
+        setResult(null)
+        return
+      }
+      setResult({ feedback, score: finalScore, charCount: finalCharCount })
       loadAll()
     } catch {
       setError('Gagal menghubungi server. Cek koneksi kamu dan coba lagi.')

@@ -103,40 +103,61 @@ export async function POST(req: NextRequest) {
     const system = buildEssayReviewSystemPrompt(essayType as LpdpEssayType, profileContext)
     const userPrompt = `Jumlah kata (dihitung sistem, akurat): ${wordCount} kata\n\nBerikut isi tulisannya:\n\n${content.slice(0, 16000)}`
 
-    const response = await getAnthropic().messages.create({
+    // Streaming (bukan sekadar UX) — respons panjang (handbook context besar + max_tokens tinggi)
+    // bisa melebihi idle-timeout jaringan edge Vercel kalau dikirim sebagai satu blok JSON di akhir.
+    // NDJSON: baris {"type":"delta",...} selama teks mengalir, ditutup {"type":"done",...}/{"type":"error",...}.
+    const encoder = new TextEncoder()
+    const stream = getAnthropic().messages.stream({
       model: SONNET_MODEL,
       max_tokens: 3072,
       system,
       messages: [{ role: 'user', content: userPrompt }],
     })
 
-    const feedback = response.content[0].type === 'text' ? response.content[0].text : ''
-    const scoreMatch = feedback.match(/(\d{1,2})\/10/)
-    const score = scoreMatch ? parseInt(scoreMatch[1], 10) : null
+    const readable = new ReadableStream({
+      async start(controller) {
+        stream.on('text', (delta) => {
+          controller.enqueue(encoder.encode(JSON.stringify({ type: 'delta', text: delta }) + '\n'))
+        })
+        try {
+          const finalMessage = await stream.finalMessage()
+          const feedback = finalMessage.content[0]?.type === 'text' ? finalMessage.content[0].text : ''
+          const scoreMatch = feedback.match(/(\d{1,2})\/10/)
+          const score = scoreMatch ? parseInt(scoreMatch[1], 10) : null
 
-    const admin = getAdminSupabase()
-    await logLpdpUsage(admin, user.id, 'essay_review', SONNET_MODEL, response.usage.input_tokens, response.usage.output_tokens)
+          const admin = getAdminSupabase()
+          await logLpdpUsage(admin, user.id, 'essay_review', SONNET_MODEL, finalMessage.usage.input_tokens, finalMessage.usage.output_tokens)
 
-    await supabase.from('lpdp_essay_reviews').insert({
-      user_id: user.id,
-      essay_type: essayType,
-      content: content.slice(0, 16000),
-      feedback,
-      score,
-      storage_path: storagePath,
+          await supabase.from('lpdp_essay_reviews').insert({
+            user_id: user.id,
+            essay_type: essayType,
+            content: content.slice(0, 16000),
+            feedback,
+            score,
+            storage_path: storagePath,
+          })
+
+          await awardAchievement(admin, user.id, 'lpdp_first_essay')
+          if (lpdpProfile) await checkLpdpReadyAchievement(supabase, admin, user.id, lpdpProfile)
+
+          const quotaAfter = await checkLpdpQuota(supabase, user.id, tier)
+
+          controller.enqueue(encoder.encode(JSON.stringify({
+            type: 'done', score, wordCount,
+            wordRange: ESSAY_TYPES[essayType as LpdpEssayType],
+            usedIdr: quotaAfter.usedIdr,
+            budgetIdr: quotaAfter.budgetIdr,
+          }) + '\n'))
+        } catch (error) {
+          console.error('Error:', error)
+          controller.enqueue(encoder.encode(JSON.stringify({ type: 'error', error: 'Gagal mereview tulisan. Coba lagi ya.' }) + '\n'))
+        } finally {
+          controller.close()
+        }
+      },
     })
 
-    await awardAchievement(admin, user.id, 'lpdp_first_essay')
-    if (lpdpProfile) await checkLpdpReadyAchievement(supabase, admin, user.id, lpdpProfile)
-
-    const quotaAfter = await checkLpdpQuota(supabase, user.id, tier)
-
-    return NextResponse.json({
-      feedback, score, wordCount,
-      wordRange: ESSAY_TYPES[essayType as LpdpEssayType],
-      usedIdr: quotaAfter.usedIdr,
-      budgetIdr: quotaAfter.budgetIdr,
-    })
+    return new NextResponse(readable, { headers: { 'Content-Type': 'application/x-ndjson; charset=utf-8' } })
   } catch (error) {
     console.error('Error:', error)
     return NextResponse.json({ error: 'Gagal mereview tulisan. Coba lagi ya.' }, { status: 500 })
