@@ -61,6 +61,8 @@ export default function EsaiPage() {
 
     setReviewing(true)
     setResult(null)
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 55000)
     try {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session) return
@@ -69,6 +71,7 @@ export default function EsaiPage() {
         method: 'POST',
         headers: { Authorization: `Bearer ${session.access_token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({ essayType: tab, content }),
+        signal: controller.signal,
       })
 
       if (!res.ok) {
@@ -129,9 +132,14 @@ export default function EsaiPage() {
       }
       setResult({ feedback, score: finalScore, charCount: finalCharCount })
       loadAll()
-    } catch {
-      setError('Gagal menghubungi server. Cek koneksi kamu dan coba lagi.')
+    } catch (err) {
+      if (err instanceof DOMException && err.name === 'AbortError') {
+        setError('Waktu tunggu habis (>55 detik). Coba lagi ya — kalau tulisannya sangat panjang, coba persingkat dulu.')
+      } else {
+        setError('Gagal menghubungi server. Cek koneksi kamu dan coba lagi.')
+      }
     } finally {
+      clearTimeout(timeoutId)
       setReviewing(false)
     }
   }

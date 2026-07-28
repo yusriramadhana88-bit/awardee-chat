@@ -109,7 +109,7 @@ export async function POST(req: NextRequest) {
     const encoder = new TextEncoder()
     const stream = getAnthropic().messages.stream({
       model: SONNET_MODEL,
-      max_tokens: 3072,
+      max_tokens: 2000,
       system,
       messages: [{ role: 'user', content: userPrompt }],
     })
