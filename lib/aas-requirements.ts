@@ -27,7 +27,7 @@ export type AasDoc = {
   label: string
   wajib: boolean
   hint: string
-  acceptedTypes: Array<'pdf' | 'jpg' | 'png'> // Word (.docx) TIDAK diterima untuk dokumen resmi AAS
+  acceptedTypes: Array<'pdf' | 'jpg' | 'png' | 'docx'> // docx hanya untuk slot CV (lihat catatan di bawah) — dokumen resmi AAS lain TIDAK menerima Word
   appliesTo: (p: AasProfileLite) => boolean
 }
 
@@ -54,8 +54,8 @@ export const AAS_DOCS: AasDoc[] = [
     key: 'cv',
     label: 'Curriculum Vitae (CV)',
     wajib: true,
-    hint: 'CV terbaru yang menjelaskan singkat riwayat kerja & tanggung jawab (dan pengalaman riset kalau relevan dengan pendaftaran).',
-    acceptedTypes: ['pdf', 'jpg', 'png'],
+    hint: 'CV terbaru yang menjelaskan singkat riwayat kerja & tanggung jawab (dan pengalaman riset kalau relevan dengan pendaftaran). Catatan: form OASIS asli hanya menerima PDF/Image untuk upload resmi — Word diterima DI SINI khusus untuk kemudahan review AI, bukan format yang bisa langsung dipakai submit ke OASIS.',
+    acceptedTypes: ['pdf', 'jpg', 'png', 'docx'],
     appliesTo: ALWAYS,
   },
   {

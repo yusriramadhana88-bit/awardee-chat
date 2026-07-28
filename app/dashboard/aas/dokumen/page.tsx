@@ -20,7 +20,7 @@ type DocCheckRow = {
 
 const EMPTY_PROFILE: AasProfileLite = { applicant_category: null, jenjang: null, status_kerja: null }
 
-const ACCEPT_MAP: Record<string, string> = { pdf: '.pdf', jpg: '.jpg,.jpeg', png: '.png' }
+const ACCEPT_MAP: Record<string, string> = { pdf: '.pdf', jpg: '.jpg,.jpeg', png: '.png', docx: '.docx' }
 
 const LOADING_TIPS = [
   'Membaca dokumennya pelan-pelan...',

@@ -6,7 +6,7 @@ import { getAnthropic, SONNET_MODEL } from '@/lib/anthropic'
 import { awardAchievement } from '@/lib/achievements-server'
 import { canAccess } from '@/lib/tier'
 import { AAS_DOCS } from '@/lib/aas-requirements'
-import { detectFileType, uploadEncrypted, MAX_FILE_BYTES } from '@/lib/aas-files'
+import { detectFileType, uploadEncrypted, extractDocxText, MAX_FILE_BYTES } from '@/lib/aas-files'
 import { buildDocCheckSystemPrompt, extractJson } from '@/lib/aas-ai'
 import { checkAasDocsClearAchievement, checkAasReadyAchievement } from '@/lib/aas-achievements'
 
@@ -102,7 +102,10 @@ export async function POST(req: NextRequest) {
     const system = buildDocCheckSystemPrompt(doc, profileContext)
 
     let userContent: string | Anthropic.Messages.ContentBlockParam[]
-    if (fileType === 'pdf') {
+    if (fileType === 'docx') {
+      const text = await extractDocxText(buf)
+      userContent = `Berikut isi dokumen (diekstrak dari Word — ingat: format Word cuma untuk review, OASIS asli tidak menerima ini):\n\n${text.slice(0, 16000)}`
+    } else if (fileType === 'pdf') {
       userContent = [
         { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: buf.toString('base64') } },
         { type: 'text', text: 'Berikut dokumen yang diunggah user untuk dicek.' },
