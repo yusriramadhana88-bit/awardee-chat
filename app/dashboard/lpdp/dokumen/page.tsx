@@ -81,31 +81,41 @@ export default function DokumenPage() {
       return
     }
     setUploadingKey(doc.key)
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) return
-    const fd = new FormData()
-    fd.append('file', file)
-    fd.append('docKey', doc.key)
-    const res = await fetch('/api/lpdp/doc-check', { method: 'POST', headers: { Authorization: `Bearer ${session.access_token}` }, body: fd })
-    const data = await res.json()
-    if (res.status === 403 && data.error === 'TIER_REQUIRED') {
-      setUpsell(true)
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) return
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('docKey', doc.key)
+      const res = await fetch('/api/lpdp/doc-check', { method: 'POST', headers: { Authorization: `Bearer ${session.access_token}` }, body: fd })
+
+      let data: Record<string, unknown>
+      try {
+        data = await res.json()
+      } catch {
+        setError(`Server tidak merespons dengan benar (status ${res.status}). Coba lagi ya.`)
+        return
+      }
+      if (res.status === 403 && data.error === 'TIER_REQUIRED') {
+        setUpsell(true)
+        return
+      }
+      if (!res.ok) {
+        setError((data.error as string) || 'Gagal memverifikasi dokumen.')
+        return
+      }
+      setLatest((prev) => ({
+        ...prev,
+        [doc.key]: { doc_key: doc.key, verdict: data.verdict, skor: data.skor, komentar: data.komentar, temuan: data.temuan, file_name: file.name, created_at: new Date().toISOString() } as DocCheckRow,
+      }))
+      setUsedIdr(data.usedIdr as number)
+      setBudgetIdr(data.budgetIdr as number)
+      setExpandedKey(doc.key)
+    } catch {
+      setError('Gagal menghubungi server. Cek koneksi kamu dan coba lagi.')
+    } finally {
       setUploadingKey(null)
-      return
     }
-    if (!res.ok) {
-      setError(data.error || 'Gagal memverifikasi dokumen.')
-      setUploadingKey(null)
-      return
-    }
-    setLatest((prev) => ({
-      ...prev,
-      [doc.key]: { doc_key: doc.key, verdict: data.verdict, skor: data.skor, komentar: data.komentar, temuan: data.temuan, file_name: file.name, created_at: new Date().toISOString() },
-    }))
-    setUsedIdr(data.usedIdr)
-    setBudgetIdr(data.budgetIdr)
-    setExpandedKey(doc.key)
-    setUploadingKey(null)
   }
 
   if (loading || pageLoading) {

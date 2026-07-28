@@ -60,29 +60,38 @@ export default function EsaiPage() {
     }
 
     setReviewing(true)
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) { setReviewing(false); return }
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) return
 
-    const res = await fetch('/api/aas/essay-review', {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${session.access_token}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ essayType: tab, content }),
-    })
+      const res = await fetch('/api/aas/essay-review', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${session.access_token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ essayType: tab, content }),
+      })
 
-    const data = await res.json()
-    if (res.status === 403 && data.error === 'TIER_REQUIRED') {
-      setUpsell(true)
+      let data: Record<string, unknown>
+      try {
+        data = await res.json()
+      } catch {
+        setError(`Server tidak merespons dengan benar (status ${res.status}). Coba lagi ya.`)
+        return
+      }
+      if (res.status === 403 && data.error === 'TIER_REQUIRED') {
+        setUpsell(true)
+        return
+      }
+      if (!res.ok) {
+        setError((data.error as string) || 'Gagal mereview tulisan.')
+        return
+      }
+      setResult({ feedback: data.feedback as string, score: data.score as number | null, charCount: data.charCount as number })
+      loadAll()
+    } catch {
+      setError('Gagal menghubungi server. Cek koneksi kamu dan coba lagi.')
+    } finally {
       setReviewing(false)
-      return
     }
-    if (!res.ok) {
-      setError(data.error || 'Gagal mereview tulisan.')
-      setReviewing(false)
-      return
-    }
-    setResult({ feedback: data.feedback, score: data.score, charCount: data.charCount })
-    setReviewing(false)
-    loadAll()
   }
 
   if (loading || pageLoading) {
