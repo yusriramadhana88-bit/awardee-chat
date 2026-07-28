@@ -128,7 +128,7 @@ export async function POST(req: NextRequest) {
           const admin = getAdminSupabase()
           await logLpdpUsage(admin, user.id, 'essay_review', SONNET_MODEL, finalMessage.usage.input_tokens, finalMessage.usage.output_tokens)
 
-          await supabase.from('lpdp_essay_reviews').insert({
+          const { error: insertError } = await supabase.from('lpdp_essay_reviews').insert({
             user_id: user.id,
             essay_type: essayType,
             content: content.slice(0, 16000),
@@ -136,6 +136,7 @@ export async function POST(req: NextRequest) {
             score,
             storage_path: storagePath,
           })
+          if (insertError) throw new Error(`Insert gagal: ${insertError.message}`)
 
           await awardAchievement(admin, user.id, 'lpdp_first_essay')
           if (lpdpProfile) await checkLpdpReadyAchievement(supabase, admin, user.id, lpdpProfile)

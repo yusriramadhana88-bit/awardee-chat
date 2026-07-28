@@ -149,7 +149,7 @@ export async function POST(req: NextRequest) {
     const storagePath = `${user.id}/${docKey}/${Date.now()}.enc`
     await uploadEncrypted(admin, storagePath, buf)
 
-    await supabase.from('lpdp_doc_checks').insert({
+    const { error: insertError } = await supabase.from('lpdp_doc_checks').insert({
       user_id: user.id,
       doc_key: docKey,
       file_name: file.name,
@@ -161,6 +161,7 @@ export async function POST(req: NextRequest) {
       temuan: result.temuan,
       komentar: result.komentar,
     })
+    if (insertError) throw new Error(`Insert gagal: ${insertError.message}`)
 
     await awardAchievement(admin, user.id, 'lpdp_first_doc')
     if (lpdpProfile) {

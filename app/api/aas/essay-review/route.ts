@@ -96,13 +96,14 @@ export async function POST(req: NextRequest) {
           const scoreMatch = feedback.match(/(\d{1,2})\/10/)
           const score = scoreMatch ? parseInt(scoreMatch[1], 10) : null
 
-          await supabase.from('aas_essay_reviews').insert({
+          const { error: insertError } = await supabase.from('aas_essay_reviews').insert({
             user_id: user.id,
             essay_type: essayType,
             content: content.slice(0, 16000),
             feedback,
             score,
           })
+          if (insertError) throw new Error(`Insert gagal: ${insertError.message}`)
 
           const admin = getAdminSupabase()
           await awardAchievement(admin, user.id, 'aas_first_essay')
