@@ -1,0 +1,547 @@
+# LPDP HANDBOOK — Knowledge Base untuk Bima (LPDP Center)
+# Sumber utama: Buku Panduan resmi LPDP Batch 2 2026, dipublikasikan 30 Juni 2026 —
+# skema SHARE (Social/Humaniora/Art/Religius/Edukasi — skema umum, dipakai mayoritas pendaftar),
+# skema STEM Industri Strategis, skema Talenta Riset Inovasi Nasional (TRIN/BRIN Doctor by Research).
+# Semua angka (tanggal, IPK, skor bahasa, batas usia, jumlah kata) dikutip langsung dari teks PDF resmi.
+# Bagian yang TIDAK ditemukan tertulis eksplisit di PDF resmi ditandai jelas "[TIDAK DIKONFIRMASI DI PDF RESMI]"
+# — jangan disampaikan ke user sebagai fakta pasti, arahkan ke portal resmi beasiswalpdp.kemenkeu.go.id.
+# Cakupan: hanya SHARE (skema utama) + catatan beda STEM/TRIN. Daftar ratusan universitas tujuan DIABAIKAN
+# (ada PDF terpisah khusus daftar kampus — tidak relevan untuk verifikasi dokumen).
+
+======================================================================
+1. JADWAL BATCH 2 2026 (SHARE & STEM — identik)
+======================================================================
+
+| Tahapan                                   | Tanggal                        |
+|--------------------------------------------|--------------------------------|
+| Pendaftaran Seleksi                        | 30 Juni – 31 Juli 2026          |
+| Seleksi Administrasi                       | 3 – 27 Agustus 2026             |
+| Pengumuman Hasil Seleksi Administrasi      | 28 Agustus 2026                 |
+| Pengajuan Sanggah                          | 29 Agustus – 1 September 2026   |
+| Pengumuman Hasil Sanggah                   | 22 September 2026               |
+| Simulasi Seleksi Bakat Skolastik (SBS)     | 27 & 28 September 2026          |
+| Seleksi Bakat Skolastik                    | 29 September – 4 Oktober 2026   |
+| Pengumuman Hasil Seleksi Bakat Skolastik   | 9 Oktober 2026                  |
+| Seleksi Substansi                          | 14 Oktober – 20 November 2026   |
+| Pengumuman Hasil Seleksi Substansi         | 30 November 2026                |
+| Periode Perkuliahan (paling cepat)         | Januari 2027                    |
+
+DEADLINE PENDAFTARAN: 31 Juli 2026 23:59 WIB (akhir masa Pendaftaran Seleksi). Sudah terverifikasi, jangan diragukan lagi.
+
+Catatan penting soal validitas dokumen — semua tanggal "berlaku sampai dengan" dokumen (sertifikat bahasa, dsb.)
+DIHITUNG sampai tanggal Pengumuman Hasil Sanggah (22 September 2026), BUKAN sampai tanggal submit pendaftaran.
+Ini sering salah dipahami pendaftar — sertifikat bahasa yang "expired" per 22 September 2026 sudah tidak sah
+meski saat submit pendaftaran (Juli) masih berlaku.
+
+Catatan: peserta yang sudah punya LoA Unconditional sesuai ketentuan LPDP DISKIP dari Seleksi Bakat Skolastik
+dan langsung ke Seleksi Substansi — lihat Bagian 7 (LoA).
+
+Sanggah = klarifikasi atas kesalahan proses/pembacaan hasil Seleksi Administrasi, BUKAN kesempatan melengkapi
+dokumen yang belum diunggah saat pendaftaran, dan tidak bisa mengubah hasil Substansi/Wawancara.
+
+======================================================================
+2. SKEMA & JALUR PENDANAAN
+======================================================================
+
+Skema pendaftaran (dipilih pendaftar saat isi form): SHARE (Social, Humaniora, Art, Religius, Edukasi — skema
+paling umum/paling banyak dipakai), STEM Industri Strategis (bidang sains-teknologi-rekayasa-matematika
+prioritas industri strategis, dokumen & persyaratan HAMPIR IDENTIK dengan SHARE — lihat Bagian 13), Talenta
+Riset Inovasi Nasional/TRIN (BRIN Jalur Doctor by Research — skema niche khusus riset doktor bekerja sama
+dengan BRIN, lihat Bagian 13), serta skema Kerja Sama Khusus lain (di luar cakupan 3 dokumen sumber ini).
+
+Skema pendanaan (dipilih di dalam SHARE/STEM):
+- Pendanaan Penuh — semua biaya ditanggung LPDP.
+- Pendanaan Parsial — sumber dana sebagian dari individu/lembaga lain; WAJIB melampirkan Surat Pernyataan
+  Tanggung Jawab Mutlak (SPTJM) yang menyatakan dana individu TIDAK bersumber dari APBN/APBD. Jika terbukti
+  sebaliknya di kemudian hari, beasiswa dihentikan dan wajib mengembalikan dana.
+
+Kriteria pendaftar (memengaruhi dokumen tambahan yang wajib):
+Kriteria Umum, Kriteria CPNS/PNS/TNI/POLRI, Kriteria Afirmasi - Putra Putri Papua, Kriteria Afirmasi - Daerah
+Afirmasi, Kriteria Afirmasi - Prasejahtera, Kriteria Afirmasi - Penyandang Disabilitas.
+
+Jenjang: Magister (S2), Doktor (S3), termasuk jalur D4/S1 langsung ke Doktor (syarat: wajib sudah punya LoA
+Unconditional dari PT tujuan DAN memenuhi seluruh kriteria persyaratan jenjang Doktor).
+
+======================================================================
+3. PERSYARATAN UMUM SEMUA PENDAFTAR (berlaku lintas kriteria)
+======================================================================
+
+- Pendaftar jenjang Magister harus lulusan/berijazah Sarjana (S1)/D4. Pendaftar jenjang Doktor harus lulusan
+  Magister (S2), dokter spesialis, atau dokter subspesialis.
+- Pendaftar yang SUDAH MENYELESAIKAN studi Magister TIDAK DIIZINKAN mendaftar beasiswa jenjang Magister;
+  yang sudah menyelesaikan studi Doktor TIDAK DIIZINKAN mendaftar beasiswa jenjang Doktor. (Tidak berlaku
+  untuk pendaftar dokter spesialis/subspesialis pindah ke jenjang magister/doktor atau sebaliknya, dengan
+  syarat khusus — lihat "Pendaftar on-going" di bawah.)
+- Kelas yang DIPERBOLEHKAN: kelas reguler penuh waktu (by coursework atau by research), atau kelas khusus
+  hasil kerja sama LPDP dengan instansi lain.
+- Kelas yang TIDAK DIPERBOLEHKAN (auto-gagal administrasi jika terpilih): kelas eksekutif, kelas khusus
+  (di luar kerja sama LPDP), kelas karyawan, kelas jarak jauh, kelas yang diselenggarakan bukan di perguruan
+  tinggi induk, kelas internasional untuk pendaftar tujuan studi DALAM NEGERI, kelas yang diselenggarakan di
+  lebih dari 1 negara perguruan tinggi (kecuali dengan syarat khusus soal LoA & gelar tunggal), atau kelas
+  lain yang tidak memenuhi ketentuan LPDP.
+- Lulusan luar negeri di jenjang studi sebelumnya WAJIB melampirkan: (a) hasil penyetaraan ijazah dari
+  Kemendiktisaintek (piln.kemdiktisaintek.go.id) atau Kemenag (diktis.kemenag.go.id/penyetaraanijazah/),
+  (b) hasil konversi IPK dari lembaga yang sama, (c) jika penyetaraan/konversi belum terbit — tangkapan layar
+  ajuan yang menampilkan identitas pendaftar, TIDAK sedang dalam proses verifikasi, dan TIDAK berstatus
+  ditunda/ditolak.
+- Pendaftar sedang studi (on-going) BOLEH mendaftar dengan syarat: mendaftar program studi/PT yang BERBEDA
+  dari yang sedang ditempuh; wajib menyerahkan surat pemberhentian resmi dari PT sebelumnya SEBELUM
+  penandatanganan Surat Pernyataan Penerima Beasiswa; jika lulus Substansi tapi tidak penuhi syarat ini,
+  LPDP BISA membatalkan status Calon Penerima Beasiswa; jika pendaftar keburu lulus (dapat gelar) sebelum
+  pengumuman Substansi, status juga bisa dibatalkan.
+- Pendaftar on-going dokter spesialis/subspesialis pindah ke magister/doktor (atau sebaliknya) boleh
+  mendaftar dengan syarat serupa: wajib selesaikan jenjang sebelumnya dan serahkan ijazah/SKL sebelum tanda
+  tangan Surat Pernyataan Penerima Beasiswa.
+- Pendaftar yang PERNAH menempuh studi magister/doktor/dokter spesialis/subspesialis tapi TIDAK LULUS boleh
+  mendaftar ulang di jenjang yang sama, dengan melampirkan surat pemberhentian/sejenisnya sebagai mahasiswa.
+- Pendaftar jenjang Doktor DIUTAMAKAN (bukan wajib mutlak, tapi jadi nilai plus) jika melampirkan: surat
+  pernyataan promotor (persetujuan co-promotor dari PT dalam negeri, khusus pendaftar doktor luar negeri),
+  dan/atau surat keterangan kesesuaian bidang riset dari pimpinan lembaga/instansi/perusahaan.
+- Pendaftar dokter spesialis/subspesialis boleh pakai transkrip nilai dokter spesialis/subspesialis sebagai
+  bukti pemenuhan syarat IPK.
+
+======================================================================
+4. IPK MINIMUM PER KRITERIA & JENJANG (SHARE — STEM identik)
+======================================================================
+
+| Kriteria Pendaftar                    | Magister               | Doktor                  |
+|----------------------------------------|-------------------------|--------------------------|
+| Umum (reguler)                         | ≥ 3,00 skala 4,00       | ≥ 3,25 skala 4,00        |
+| CPNS/PNS/TNI/POLRI                     | ≥ 3,00 skala 4,00       | ≥ 3,25 skala 4,00        |
+| CPNS/PNS/TNI/POLRI (khusus TNI/POLRI doktor) | —                 | ≥ 3,00 skala 4,00        |
+| Afirmasi - Putra Putri Papua           | TIDAK dipersyaratkan    | TIDAK dipersyaratkan     |
+| Afirmasi - Daerah Afirmasi             | ≥ 2,5 skala 4           | ≥ 3,0 skala 4            |
+| Afirmasi - Prasejahtera                | ≥ 3,00 skala 4,0        | (hanya magister disebut eksplisit di PDF SHARE; skema doktor prasejahtera ikuti syarat magister jika ada — cek portal) |
+| Afirmasi - Penyandang Disabilitas      | ≥ 2,5 skala 4           | ≥ 3,0 skala 4            |
+
+Semua IPK dibuktikan dengan transkrip nilai ASLI atau salinan yang telah DILEGALISIR (tidak diterima
+transkrip fotokopi biasa tanpa legalisir).
+
+Pengecualian: pendaftar jenjang Doktor dari program Magister TANPA nilai IPK (mis. sistem penilaian PT asal
+tidak pakai IPK) wajib melampirkan surat keterangan dari perguruan tinggi asal sebagai pengganti.
+
+======================================================================
+5. SERTIFIKAT KEMAMPUAN BAHASA INGGRIS — SKOR MINIMUM
+======================================================================
+
+Berlaku maksimal 2 (dua) tahun terakhir, dihitung sampai tanggal Pengumuman Hasil Sanggah periode berjalan
+(22 September 2026) — bukan sampai tanggal submit pendaftaran. Diterbitkan oleh: ETS (ets.org), PTE Academic
+(pearsonpte.com), IELTS (ielts.org), Test of English Proficiency/TOEP (plti.co.id), Duolingo English Test
+(englishtest.duolingo.com), atau Tes Mandiri Internal Perguruan Tinggi Dalam Negeri (dari daftar PT resmi
+yang ditunjuk LPDP — bukan tes bahasa buatan sendiri). Sertifikat TOEFL ITP HARUS dari lembaga resmi
+penyelenggara tes TOEFL ITP di Indonesia — prediction test / tes tidak resmi TIDAK DITERIMA.
+
+| Kriteria & Jenjang                          | TOEFL ITP | TOEFL iBT | PTE Academic | IELTS | Duolingo | TOEP |
+|----------------------------------------------|-----------|-----------|---------------|-------|----------|------|
+| Umum — Magister Dalam Negeri                 | 500       | 61        | 50            | 6.0   | 105      | 500  |
+| Umum — Magister Luar Negeri                  | —         | 80        | 58            | 6.5   | 120      | —    |
+| Umum — Doktor Dalam Negeri                   | 530       | 70        | 50            | 6.0   | 110      | 530  |
+| Umum — Doktor Luar Negeri                    | —         | 94        | 65            | 7.0   | 130      | —    |
+| CPNS/PNS/TNI/POLRI — Magister DN             | 500       | 61        | 50            | 6.0   | (cek daftar) | (cek daftar) |
+| CPNS/PNS/TNI/POLRI — Magister LN             | 530       | 80        | 58            | (cek daftar) | (cek daftar) | — |
+| CPNS/PNS/TNI/POLRI — Doktor LN               | —         | 80        | 58            | (cek daftar) | (cek daftar) | — |
+| Daerah Afirmasi — Magister/Doktor LN (DN tidak wajib) | 500 | 61     | 50            | 6.0   | 95       | 500  |
+| Prasejahtera — Magister LN (DN tidak wajib)  | 500       | 61        | 50            | 6.0   | 95       | 500  |
+| Disabilitas — Magister/Doktor LN (DN tidak wajib) | 500  | 61        | 50            | 6.0   | 95       | 500  |
+| Disabilitas RUNGU — Magister/Doktor LN (kriteria khusus) | rata-rata 50 semua bagian KECUALI listening | — | — | rata-rata 6.0 semua bagian KECUALI listening | — | — |
+| Putra Putri Papua                            | TIDAK dipersyaratkan sertifikat bahasa sama sekali (semua jenjang) | | | | | |
+
+ATURAN PEMBEBASAN: pendaftar tujuan dalam negeri ATAU luar negeri yang sudah punya LoA Unconditional sesuai
+ketentuan LPDP TIDAK WAJIB mengunggah sertifikat bahasa Inggris terpisah — berlaku untuk SEMUA kriteria
+pendaftar di atas. LoA Conditional dengan syarat bahasa yang belum terpenuhi TIDAK membebaskan dari
+kewajiban ini (lihat Bagian 7).
+
+Bima harus periksa: skor pada sertifikat yang diunggah user ≥ ambang batas jenjang+lokasi+kriteria yang
+relevan, DAN tanggal terbit sertifikat masih dalam rentang 2 tahun terakhir dihitung mundur dari 22 September
+2026 (yaitu terbit paling awal sekitar 22 September 2024), DAN penerbit termasuk dalam daftar resmi di atas.
+
+======================================================================
+6. LoA (LETTER OF ACCEPTANCE) — UNCONDITIONAL vs CONDITIONAL
+======================================================================
+
+- LoA Unconditional = penerimaan tanpa syarat tambahan yang menggantung, DAN sesuai ketentuan LPDP (LPDP
+  yang memvalidasi kesesuaian ini, bukan asumsi sepihak pendaftar/agen).
+- Efek LoA Unconditional yang sesuai ketentuan LPDP: (1) TIDAK WAJIB unggah sertifikat bahasa Inggris
+  terpisah; (2) DISKIP dari Seleksi Bakat Skolastik — langsung ke Seleksi Substansi.
+- LoA Conditional (masih ada syarat menggantung, paling sering skor bahasa Inggris yang belum tercapai)
+  TIDAK membebaskan dari kewajiban sertifikat bahasa maupun Seleksi Bakat Skolastik.
+- Kelas yang diselenggarakan lebih dari 1 PT dalam 1 negara (tujuan luar negeri) boleh, DENGAN SYARAT: LoA
+  Unconditional hanya dari 1 PT yang masuk daftar tujuan LPDP; dana pendidikan hanya dibayar ke PT penerbit
+  LoA itu; gelar hanya dari PT penerbit LoA itu; jika program studi memberi >1 gelar akademik, harus dapat
+  persetujuan Direktur Utama LPDP terlebih dulu.
+- Belum punya LoA sama sekali? Tetap boleh daftar — konsekuensinya wajib ikut Seleksi Bakat Skolastik dan
+  wajib unggah sertifikat bahasa Inggris sesuai kriteria di Bagian 5.
+- Pendaftar D4/S1 langsung Doktor WAJIB sudah punya LoA Unconditional dari PT tujuan (tidak ada opsi tanpa
+  LoA untuk jalur ini).
+
+======================================================================
+7. CHECKLIST DOKUMEN — KRITERIA UMUM (Pendanaan Penuh)
+======================================================================
+Format: [Online] = diisi sebagai field di form pendaftaran online. [Unggah] = file diupload.
+
+WAJIB (semua pendaftar Kriteria Umum):
+1. Biodata Diri — [Online]
+2. Kartu Tanda Penduduk (KTP) — [Unggah]
+3. Scan Ijazah S1/D4/S2/Spesialis (Asli atau Legalisir) ATAU Surat Keterangan Lulus (SKL) jika ijazah belum
+   terbit — [Unggah]
+4. Scan Transkrip Nilai D4/S1/S2/Spesialis (BUKAN Transkrip Profesi) — [Unggah]
+5. Surat pernyataan pada aplikasi pendaftaran, disetujui saat submit (lihat poin-poin di Bagian 11) —
+   [Online, centang persetujuan]
+6. Profil diri pada formulir pendaftaran online — [Online] (lihat Bagian 9)
+7. Komitmen kembali ke Indonesia, rencana pasca studi, dan rencana kontribusi di Indonesia — [Online]
+   (lihat Bagian 10 — INI YANG SERING DISEBUT "esai komitmen", tapi nama resminya BUKAN itu)
+
+KONDISIONAL (trigger tertentu):
+8. Surat pemberhentian sebagai mahasiswa dari PT sebelumnya — WAJIB HANYA bagi pendaftar yang PERNAH studi
+   tapi TIDAK LULUS / sedang on-going pindah program — [Unggah]
+9. Dokumen penyetaraan ijazah dari Kemendiktisaintek/Kemenag (atau tangkapan layar pengajuan) — WAJIB HANYA
+   bagi lulusan PT luar negeri di jenjang sebelumnya — [Unggah]
+10. Dokumen konversi IPK dari Kemendiktisaintek/Kemenag (atau tangkapan layar pengajuan) — WAJIB HANYA bagi
+    lulusan PT luar negeri; TIDAK BERLAKU untuk pendaftar Kriteria Afirmasi Putra-Putri Papua — [Unggah]
+11. Letter of Acceptance (LoA) Unconditional sesuai ketentuan LPDP — kondisional (jika sudah punya) —
+    [Unggah]
+12. Sertifikat bahasa asing yang dipersyaratkan & masih berlaku (Asli) — WAJIB kecuali sudah punya LoA
+    Unconditional sesuai ketentuan LPDP, atau termasuk kriteria yang dibebaskan (lihat Bagian 5) — [Unggah]
+13. Surat usulan dari pejabat setingkat eselon II yang membidangi SDM — WAJIB HANYA untuk pendaftar
+    CPNS/PNS/TNI/POLRI — [Unggah] (lihat Bagian 12)
+14. Publikasi ilmiah, prestasi kejuaraan/non kejuaraan, dan pengalaman organisasi — WAJIB DIISI HANYA jika
+    pendaftar punya riwayatnya (tidak wajib kosong kalau memang tidak ada) — [Online]
+15. Surat rekomendasi dari tokoh masyarakat atau akademisi — OPSIONAL secara resmi (ada pilihan "tidak ada
+    surat rekomendasi" di form), tapi sangat disarankan diisi — [Online ATAU Unggah] (lihat Bagian 13)
+16. Proposal Penelitian — WAJIB HANYA untuk pendaftar jenjang Doktor — [Unggah] (lihat Bagian 10B)
+17. Surat keterangan pimpinan instansi/lembaga/perusahaan — OPSIONAL, khusus pendaftar jenjang Doktor —
+    [Unggah]
+18. Surat pernyataan promotor — OPSIONAL, khusus pendaftar jenjang Doktor — [Unggah]
+19. Dokumen lengkap RISPRO Invitasi (Surat Rekomendasi Ketua Periset RISPRO, SK Tim Periset, Surat
+    Pernyataan Kolaborasi Riset/kesediaan jadi Promotor) — OPSIONAL, khusus pendaftar Doktor peserta RISPRO
+    Invitasi (bisa jadi PENGGANTI surat pernyataan promotor) — [Unggah]. Surat Rekomendasi Ketua Periset
+    HARUS diterbitkan PADA TAHUN pendaftaran (tidak boleh tahun sebelumnya).
+20. Data & dokumen bukti NIDN (Nomor Induk Dosen Nasional) atau NUPTK — WAJIB HANYA bagi pendaftar berprofesi
+    dosen tetap (relevan untuk kelonggaran batas usia, lihat Bagian 14) — [Online + Unggah]
+21. SK Jabatan Terakhir/sejenisnya — WAJIB HANYA bagi PNS dengan jabatan fungsional Peneliti/Perekayasa/
+    Medis/Paramedis/Pendidik — [Unggah]
+
+DOKUMEN TAMBAHAN KHUSUS PENDANAAN PARSIAL:
+22. Surat Pernyataan Tanggung Jawab Mutlak (SPTJM) — dana individu TIDAK bersumber dari APBN/APBD — WAJIB
+    HANYA untuk pendaftar Skema Pendanaan Parsial — [Unggah]
+
+======================================================================
+8. CHECKLIST DOKUMEN TAMBAHAN — KRITERIA AFIRMASI & KHUSUS
+======================================================================
+
+A. Afirmasi - Putra Putri Papua (tambahan dari dokumen umum):
+   - Kartu Keluarga (KK) — [Unggah]
+   - Scan ijazah SD/SMP/SMA — WAJIB HANYA bagi pendaftar yang tinggal DI LUAR wilayah Papua (6 provinsi:
+     Papua, Papua Barat, Papua Selatan, Papua Tengah, Papua Pegunungan, Papua Barat Daya) — [Unggah]
+   - Surat pernyataan ditandatangani orang tua/wali/kepala adat/kepala lembaga adat resmi Papua/kepala desa,
+     menyatakan pendaftar bermarga Asli Papua ATAU ibu kandung/bapak kandung Orang Asli Papua — [Unggah]
+   - Surat Pernyataan bermaterai Rp 10.000 (opsional) jika pendaftar anak pertama & satu-satunya di keluarga
+     yang meraih S1 atau sedang mengejar S2 — [Unggah]
+   - Definisi "Orang Asli Papua": rumpun ras Melanesia dari suku-suku asli 6 provinsi Papua di atas.
+   - Tidak dipersyaratkan IPK minimum maupun sertifikat bahasa Inggris sama sekali.
+   - Batas usia: Magister maks 47 tahun, Doktor maks 50 tahun (per 31 Desember tahun pendaftaran).
+
+B. Afirmasi - Daerah Afirmasi (tambahan dari dokumen umum):
+   - KTP + Surat keterangan dari Lurah/Kepala Desa (terbit maks 1 tahun sebelum, di bulan yang sama dengan
+     bulan pendaftaran) yang menyatakan bertempat tinggal di daerah afirmasi — [Unggah]
+   - Bukti telah menamatkan pendidikan dasar/menengah DI daerah afirmasi (ijazah), ATAU sudah tinggal
+     minimal 10 tahun di daerah afirmasi (dibuktikan surat keterangan Lurah/Kepala Desa) — [Unggah]
+   - Surat Pernyataan bermaterai Rp 10.000 (opsional, sama seperti kategori Papua) — [Unggah]
+   - Kartu Keluarga (opsional, mendukung poin di atas) — [Unggah]
+   - IPK minimum: Magister 2,5 / Doktor 3,0 (skala 4). DN tidak wajib sertifikat bahasa; LN wajib (lihat
+     Bagian 5). Batas usia: Magister maks 47 tahun, Doktor maks 50 tahun.
+   - Daftar resmi "Daerah Afirmasi" (kabupaten/kota per provinsi) tercantum di lampiran PDF SHARE — cek
+     kabupaten/kota spesifik user terhadap daftar itu jika perlu (tidak disalin ke file ini karena sangat
+     panjang, sama alasan universitas — arahkan cek dokumen asli/portal LPDP).
+
+C. Afirmasi - Prasejahtera (tambahan dari dokumen umum):
+   - Syarat utama: terdaftar & aktif sebagai penerima ATAU anggota KK dari kepala keluarga penerima PKH
+     (Program Keluarga Harapan), BPNT (Bantuan Pangan Non Tunai), dan/atau PBI (Penerima Bantuan Iuran) pada
+     sistem DTSEN Kemensos, diverifikasi via NIK & Nomor KK di aplikasi pendaftaran — TIDAK ada dokumen upload
+     manual untuk ini, validasi otomatis sistem.
+   - Batas usia: maksimal 42 tahun (per 31 Desember tahun pendaftaran) — satu angka untuk kategori ini
+     (PDF tidak memisahkan magister/doktor secara eksplisit di bagian ini).
+   - IPK minimum: 3,00 skala 4,0.
+   - DN tidak wajib sertifikat bahasa; LN wajib skor setara kategori afirmasi (lihat Bagian 5).
+
+D. Afirmasi - Penyandang Disabilitas (tambahan dari dokumen umum):
+   - Kategori: Disabilitas Fisik, Intelektual, Mental, Sensorik, atau Ganda/Multi.
+   - Surat keterangan format khusus (terlampir di PDF), menyatakan pendaftar mengalami hambatan/kesulitan
+     berpartisipasi penuh & efektif, DITANDATANGANI oleh Dokter, Psikolog/Psikiater, atau Audiologis dari
+     RUMAH SAKIT PEMERINTAH atau Puskesmas (tidak berlaku surat dari klinik swasta/dokter umum biasa) —
+     [Unggah]
+   - Jika kondisi disabilitas tidak sesuai kategori LPDP: LPDP bisa memindahkan pendaftar ke kriteria lain
+     (jika penuhi syaratnya), atau menyatakan tidak lulus di tahap tertentu.
+   - Batas usia: Magister maks 42 tahun, Doktor maks 47 tahun.
+   - IPK minimum: Magister 2,5 / Doktor 3,0 (skala 4).
+   - Kriteria khusus disabilitas RUNGU untuk sertifikat bahasa (LN saja): TOEFL ITP rata-rata 50 dari semua
+     bagian KECUALI listening, atau IELTS rata-rata 6.0 dari semua bagian KECUALI listening.
+
+======================================================================
+9. FORMAT "PROFIL DIRI" (Online, formulir pendaftaran)
+======================================================================
+
+Yang TERKONFIRMASI tertulis eksplisit di PDF resmi:
+- "Profil diri pada formulir pendaftaran online" adalah item checklist WAJIB tersendiri (field [Online],
+  bukan dokumen upload).
+- Poin persyaratan resmi terkait ini: "Menulis profil diri TERMASUK riwayat pendidikan yang TIDAK
+  diselesaikan (tidak lulus)" — artinya kolom riwayat pendidikan WAJIB mencantumkan studi yang pernah
+  ditempuh tapi tidak tuntas/drop out, bukan hanya pendidikan yang berhasil diselesaikan. Ini poin
+  verifikasi paling konkret yang bisa dicek Bima: apakah user menyembunyikan riwayat studi yang gagal/putus.
+- Field terpisah lain di form yang sering disalahpahami sebagai "bagian dari" Profil Diri, padahal field
+  MANDIRI: "Komitmen kembali ke Indonesia, rencana pasca studi, dan rencana kontribusi di Indonesia" (lihat
+  Bagian 10) dan "Publikasi ilmiah, prestasi kejuaraan/non kejuaraan, dan pengalaman organisasi" (diisi
+  HANYA jika pendaftar punya riwayatnya).
+
+[TIDAK DIKONFIRMASI DI PDF RESMI]: struktur 3-poin "Kekuatan / Kelemahan / Pengalaman Relevan" yang selama
+ini dipakai sebagai template internal Awardee.id (lihat knowledge/lpdp.txt) TIDAK ditemukan tertulis di teks
+PDF Buku Panduan SHARE/STEM/TRIN 2026 manapun — kemungkinan itu deskripsi tampilan UI form portal LPDP yang
+memang belum terdokumentasi di buku panduan PDF (buku panduan hanya menjelaskan syarat administratif, bukan
+tata letak form). JANGAN sampaikan struktur Kekuatan/Kelemahan/Pengalaman ke user sebagai "syarat resmi LPDP"
+— sampaikan sebagai "pola umum yang biasa dipakai pendaftar berdasarkan tampilan form portal", dan sarankan
+user cek langsung tampilan form di portal saat login untuk field pastinya.
+
+======================================================================
+10. FORMAT ESAI/TULISAN NARATIF — DUA JENIS BERBEDA
+======================================================================
+
+PENTING — TEMUAN KUNCI: PDF resmi TIDAK memakai istilah "Esai Komitmen" sebagai nama dokumen. Nama resmi
+field-nya adalah "Komitmen kembali ke Indonesia, rencana pasca studi, dan rencana kontribusi di Indonesia".
+Field ini SELALU terpisah dari "Profil diri" di checklist dokumen (dua baris berbeda di tabel resmi), jadi
+klaim "Profil Diri terpisah dari esai komitmen" TERBUKTI BENAR secara substansi — tapi nama & angka batas
+kata yang beredar di materi lama Awardee.id (maks 1.500 kata) TIDAK TEPAT. Angka yang benar per PDF resmi:
+
+A. "Komitmen kembali ke Indonesia, rencana pasca studi, dan rencana kontribusi di Indonesia" — [Online]
+   PANJANG RESMI: 1.500 – 2.000 KATA (rentang minimum-maksimum, BUKAN "maksimal 1.500 kata").
+   Isi wajib menurut PDF: deskripsi jelas & konkret tentang (1) komitmen kembali ke Indonesia, (2) rencana
+   pasca studi, (3) rencana kontribusi di Indonesia, disertai BENTUK PENGABDIAN di industri/bidang tertentu
+   yang sesuai program studi tujuan. Pengabdian & kontribusi DIUTAMAKAN untuk mendukung bidang sosial,
+   budaya, humaniora, keagamaan, pendidikan, dan bidang lainnya (untuk skema SHARE — skema STEM redaksinya
+   sama tapi "industri strategis" sebagai fokus, cek Bagian 13).
+   Wajib untuk SEMUA pendaftar (Magister maupun Doktor), semua kriteria.
+
+B. "Kerangka Proposal Penelitian" — [Unggah] — WAJIB HANYA untuk pendaftar jenjang DOKTOR.
+   PANJANG RESMI: 1.500 – 2.500 KATA.
+   Struktur wajib (8 bagian, sesuai contoh kerangka terlampir di PDF):
+   A. Judul Penelitian
+   B. Latar Belakang — topik/isu yang diteliti & signifikansinya.
+   C. Perumusan Permasalahan (Statement of Problem) — state of the art, kenapa masih perlu diteliti, solusi
+      yang ada belum menyelesaikan masalah.
+   D. Pertanyaan/Tujuan Penelitian.
+   E. Kelogisan (Rationale) — bagaimana pertanyaan penelitian mendukung latar belakang; hipotesis dan/atau
+      model penelitian; kontribusi teoritis & praktis jika hipotesis tidak terbukti.
+   F. Metode dan Desain — cara pengumpulan data & alasannya; kenapa metode ini terbaik; analisis & hasil
+      yang mendukung/tidak mendukung hipotesis; outline jadwal penelitian dari awal sampai selesai.
+   G. Signifikansi/Manfaat — kegunaan teoritis maupun praktis.
+   H. Daftar Pustaka.
+
+KESIMPULAN UNTUK BIMA: saat user upload/paste tulisan yang diklaim "esai komitmen", verifikasi terhadap
+Item A di atas (1.500–2.000 kata, isi soal komitmen pulang + rencana pasca studi + rencana kontribusi).
+Jangan tolak esai 1.600 kata dengan alasan "lebih dari 1.500" — itu justru DI DALAM rentang yang benar.
+Tolak/tandai jika di BAWAH 1.500 kata atau DI ATAS 2.000 kata. Untuk pendaftar Doktor, proposal penelitian
+adalah dokumen TERPISAH dengan rentang kata beda (1.500–2.500) dan struktur 8-bagian di atas — jangan
+mencampur checking-nya dengan Item A.
+
+======================================================================
+11. SURAT PERNYATAAN PADA APLIKASI PENDAFTARAN (Disetujui Saat Submit)
+======================================================================
+
+Field [Online] — dicentang/disetujui pendaftar saat akan submit (BUKAN dokumen upload terpisah). Isinya
+20 poin pernyataan berikut (sesuai teks PDF resmi, dirangkas tapi substansi utuh):
+
+1. Setia kepada Pancasila, NKRI, dan UUD 1945.
+2. Tidak pernah/sedang/akan mendukung gerakan/organisasi/ideologi yang bertentangan dengan Pancasila, UUD
+   1945, dan NKRI.
+3. Mendahulukan kepentingan Bangsa & NKRI di atas kepentingan pribadi.
+4. Tidak akan berpindah kewarganegaraan sejak pendaftaran sampai selesainya masa kontribusi sebagai alumni.
+5. Tidak akan menerima beasiswa jenjang bergelar dari sumber lain yang berpotensi double funding.
+6. Tidak menggunakan media informasi/sosial untuk menyebarkan info belum terkonfirmasi yang berpotensi
+   memicu konflik masyarakat.
+7. Mengikuti kode etik Calon Penerima & Penerima Beasiswa LPDP jika dinyatakan lulus.
+8. Tidak pernah/sedang/akan terlibat tindak pidana apapun.
+9. Tidak pernah/sedang/akan terkait penggunaan/pengedaran narkoba/zat adiktif.
+10. Tidak pernah menyelesaikan studi pada jenjang yang SAMA dengan jenjang yang dilamar.
+11. Bersedia TIDAK BEKERJA selama masa studi, kecuali atas persetujuan LPDP.
+12. Kembali ke Indonesia & berkontribusi di Indonesia selama 2 KALI MASA STUDI (2N) setelah selesai studi.
+13. Khusus pendaftar on-going: (a) wajib serahkan surat pemberhentian resmi dari PT sebelumnya SEBELUM
+    tanda tangan Surat Pernyataan Penerima Beasiswa; (b) diberhentikan beasiswanya jika tidak penuhi (a).
+14. Khusus pendaftar program dokter spesialis: belum pernah selesai studi dokter spesialis. Khusus
+    subspesialis: belum pernah selesai studi dokter subspesialis.
+15. Khusus CPNS/PNS/TNI/POLRI: bersedia penuhi ketentuan tugas belajar & dapat surat izin dari pejabat
+    berwenang.
+16. Khusus CPNS/PNS/TNI/POLRI: bersedia diberhentikan beasiswanya jika mengundurkan diri dari status
+    kepegawaian setelah ditetapkan Calon Penerima Beasiswa; wajib kembalikan dana jika mengundurkan diri
+    dari kepegawaian setelah ditetapkan Penerima Beasiswa (bukan hanya calon).
+17. Khusus CPNS/PNS/TNI/POLRI: tidak akan mengundurkan diri dari status kepegawaian selama masa kontribusi
+    di Indonesia.
+18. Khusus pendaftar Beasiswa Putra-Putri Papua: definisi kriteria Orang Asli Papua (marga asli Papua ATAU
+    ibu/bapak kandung Orang Asli Papua).
+19. Memberikan dokumen & data pendaftaran yang benar, akurat, sesuai aslinya; bersedia sanksi pemblokiran
+    bila ada info yang tidak benar.
+20. Berkomitmen membaca, memahami, dan melaksanakan seluruh ketentuan beasiswa LPDP yang berlaku.
+
+Sanksi umum pelanggaran: sesuai ketentuan yang berlaku (bisa berupa pemberhentian status penerima beasiswa +
+kewajiban pengembalian dana + pemblokiran mengikuti program LPDP di masa depan).
+
+======================================================================
+12. SURAT REKOMENDASI
+======================================================================
+
+- Sifatnya OPSIONAL secara resmi di form pendaftaran (ada pilihan eksplisit "tidak ada surat rekomendasi"),
+  BUKAN dokumen wajib mutlak — tapi sangat disarankan diisi untuk memperkuat aplikasi.
+- Validitas: ditandatangani/disetujui PALING LAMA 1 (satu) TAHUN di bulan yang sama dengan waktu pendaftaran
+  beasiswa (untuk Batch 2 2026 yang mendaftar Juli 2026 → surat rekomendasi idealnya terbit sekitar Juli
+  2025 atau lebih baru).
+- Dua cara penyampaian:
+  a. Online Form — pendaftar input data pemberi rekomendasi (nama, instansi, jabatan, email aktif, no HP) di
+     aplikasi; LPDP mengirim email ke pemberi rekomendasi untuk mengisi & submit langsung ke LPDP.
+  b. Offline Form (unggahan) — surat ditandatangani pemberi rekomendasi lalu diunggah pendaftar, disertai
+     input data: nama pemberi rekomendasi, bulan & tahun penerbitan/tanda tangan surat.
+- Bima harus periksa untuk versi unggahan: ada tanda tangan pemberi rekomendasi, ada tanggal terbit yang
+  masih dalam rentang 1 tahun dari bulan pendaftaran, dan idealnya (bukan wajib) ada nomor surat resmi dari
+  instansi agar lebih kredibel saat verifikasi.
+
+======================================================================
+13. SURAT USULAN/IZIN ATASAN (CPNS/PNS/TNI/POLRI)
+======================================================================
+
+- WAJIB bagi SEMUA pendaftar berstatus CPNS/PNS/prajurit TNI/anggota POLRI, di semua skema beasiswa LPDP.
+- Siapa yang wajib tanda tangan:
+  - CPNS/PNS: sekurang-kurangnya pejabat SETINGKAT ESELON II yang membidangi pembinaan/pengembangan SDM
+    pada Kementerian/Lembaga atau Pemerintah Daerah tempat pendaftar bekerja.
+  - Prajurit TNI: sekurang-kurangnya pejabat yang membidangi pembinaan SDM pada Mabes TNI/TNI AD/TNI AL/
+    TNI AU.
+  - Anggota POLRI: sekurang-kurangnya pejabat yang membidangi pembinaan SDM pada Mabes POLRI.
+- Isi wajib surat: (1) mengusulkan/merekomendasikan pendaftar untuk ikut program Beasiswa LPDP, DAN
+  (2) mencantumkan Nama Lengkap serta Nomor Induk Pegawai (NIP) pendaftar. Format mengacu contoh terlampir
+  di PDF resmi.
+- Lulusan Sekolah Kedinasan yang BELUM diangkat CPNS: boleh daftar dengan mengunggah surat keterangan dari
+  Kementerian/Lembaga yang menaungi sekolah tersebut (menjelaskan sedang proses pengangkatan CPNS + izin
+  ikut seleksi LPDP) SEBAGAI PENGGANTI surat usulan institusi.
+- Syarat tambahan status kepegawaian: berstatus AKTIF sebagai CPNS/PNS/TNI/POLRI dan TIDAK SEDANG menjalani
+  hukuman disiplin.
+- PNS jabatan fungsional Peneliti/Perekayasa/Medis/Paramedis/Pendidik (Guru, Dosen, Konselor, Pamong
+  Belajar, Widyaiswara, Instruktur, Fasilitator): tambahan wajib unggah SK Jabatan Terakhir atau SK Kenaikan
+  Pangkat Terakhir/sejenisnya yang membuktikan jabatan fungsional tersebut — dan dapat kelonggaran batas usia
+  (lihat Bagian 14).
+
+======================================================================
+14. BATAS USIA PENDAFTAR (per 31 Desember tahun pendaftaran = 31 Desember 2026)
+======================================================================
+
+| Kriteria                                              | Magister | Doktor |
+|--------------------------------------------------------|----------|--------|
+| Umum                                                    | 35 tahun | 40 tahun |
+| Dosen tetap ber-NIDN/NUPTK                              | 42 tahun | 47 tahun |
+| CPNS/PNS                                                | 37 tahun | 42 tahun |
+| PNS fungsional Peneliti/Perekayasa/Medis/Paramedis/Pendidik | 42 tahun | 47 tahun |
+| Prajurit TNI / anggota POLRI                            | 40 tahun | 45 tahun |
+| Afirmasi - Putra Putri Papua                            | 47 tahun | 50 tahun |
+| Afirmasi - Daerah Afirmasi                              | 47 tahun | 50 tahun |
+| Afirmasi - Prasejahtera                                 | 42 tahun (satu angka, tidak dipisah jenjang di PDF) | |
+| Afirmasi - Penyandang Disabilitas                       | 42 tahun | 47 tahun |
+
+Bima harus hitung usia user PER 31 Desember 2026 (bukan per tanggal pendaftaran/hari ini), dan cocokkan
+dengan kriteria yang paling sesuai profil user (kalau user CPNS ber-NIDN sekaligus dosen, pakai baris paling
+menguntungkan yang memang berlaku untuknya sesuai bukti dokumen, bukan asal pilih).
+
+======================================================================
+15. BATAS UKURAN & FORMAT UNGGAHAN FILE
+======================================================================
+
+[TIDAK DIKONFIRMASI DI PDF RESMI]: ketiga PDF sumber (SHARE, STEM, TRIN) yang dianalisis TIDAK menyebutkan
+angka batas ukuran file (MB) maupun format file (PDF/JPG dll.) untuk unggahan dokumen sama sekali — ini
+kemungkinan diatur di level teknis portal (bukan di buku panduan kebijakan), atau berubah-ubah tanpa
+didokumentasikan di PDF. Materi lama Awardee.id (dari observasi walkthrough video portal, bukan dari PDF
+resmi) menyebut angka perkiraan "~2MB per file" — angka ini TIDAK BOLEH disampaikan ke user sebagai fakta
+resmi LPDP. Bima harus sampaikan: "batas ukuran file tidak disebutkan di buku panduan resmi; cek langsung di
+halaman upload portal pendaftaran (biasanya ada keterangan di sebelah tombol unggah), dan siapkan file dalam
+ukuran sewajarnya (idealnya di bawah beberapa MB, format PDF) untuk jaga-jaga."
+
+======================================================================
+16. KETENTUAN YANG MENGGAGALKAN ADMINISTRASI — DAFTAR PERIKSA CEPAT BIMA
+======================================================================
+
+Tandai/flag ke user jika ditemukan salah satu dari ini:
+1. Usia per 31 Desember 2026 melebihi batas kriteria yang berlaku (lihat Bagian 14).
+2. Sudah pernah MENYELESAIKAN studi di jenjang yang SAMA dengan yang dilamar (S2 selesai lalu daftar S2
+   lagi, atau S3 selesai lalu daftar S3 lagi) — dilarang mutlak, kecuali kasus dokter spesialis/subspesialis
+   pindah jenjang sesuai aturan khusus di Bagian 3.
+3. IPK di bawah ambang minimum kriteria & jenjangnya (lihat Bagian 4), dan bukan kategori yang dibebaskan
+   (Papua).
+4. Sertifikat bahasa Inggris: skor di bawah ambang, ATAU dari lembaga/tes yang tidak diakui (prediction
+   test, tes internal PT yang tidak masuk daftar resmi), ATAU sudah lewat 2 tahun dihitung mundur dari
+   22 September 2026, DAN user tidak punya LoA Unconditional pengganti.
+5. Kelas tujuan termasuk kelas yang dilarang (eksekutif, karyawan, jarak jauh, kelas internasional untuk
+   tujuan dalam negeri, dst — daftar lengkap di Bagian 3).
+6. Transkrip nilai berupa Transkrip Profesi (bukan D4/S1/S2/Spesialis) — tidak diterima sebagai pengganti
+   transkrip akademik reguler.
+7. CPNS/PNS/TNI/POLRI tanpa surat usulan yang ditandatangani pejabat sesuai level minimum yang disyaratkan
+   (di bawah eselon II untuk PNS, misalnya) — surat dari atasan langsung level rendah TIDAK CUKUP.
+8. Surat rekomendasi/surat usulan/surat keterangan afirmasi yang terbit LEBIH dari 1 tahun sebelum bulan
+   pendaftaran (untuk dokumen yang punya syarat validitas 1 tahun).
+9. Lulusan luar negeri yang belum punya bukti pengajuan penyetaraan ijazah/konversi IPK sama sekali (baik
+   hasil final maupun tangkapan layar pengajuan).
+10. Pendaftar on-going yang tidak akan bisa menyerahkan surat pemberhentian resmi dari PT sebelumnya sebelum
+    tanda tangan Surat Pernyataan Penerima Beasiswa (risiko dibatalkan meski lulus Substansi).
+11. Dokumen afirmasi (Papua/Daerah Afirmasi/Disabilitas) ditandatangani oleh pihak yang TIDAK berwenang
+    sesuai ketentuan (mis. surat keterangan disabilitas dari dokter klinik swasta, bukan RS Pemerintah/
+    Puskesmas; atau surat pernyataan Papua tanpa tanda tangan orang tua/wali/kepala adat/kepala desa).
+12. Field "Komitmen kembali ke Indonesia..." di luar rentang 1.500–2.000 kata, atau Proposal Penelitian
+    Doktor di luar rentang 1.500–2.500 kata / tidak mengikuti struktur 8-bagian wajib.
+13. Program studi tujuan memberikan gelar dari LEBIH dari 1 PT tanpa persetujuan Direktur Utama LPDP
+    terlebih dulu (untuk kelas kerja sama multi-PT).
+
+======================================================================
+17. PERBEDAAN SKEMA STEM & TRIN vs SHARE
+======================================================================
+
+STEM Industri Strategis: struktur dokumen, IPK minimum, skor bahasa, batas usia, dan jadwal Batch 2 2026
+SECARA SUBSTANSI IDENTIK dengan SHARE (angka-angka di Bagian 1–14 di atas berlaku sama). Perbedaan utama
+hanya di FOKUS BIDANG STUDI (industri strategis: teknologi, energi, manufaktur, dst — sistem portal akan
+memfilter kampus/prodi relevan begitu skema STEM & bidang spesifik dipilih) dan REDAKSI field "Komitmen
+kembali ke Indonesia..." yang menekankan pengabdian di INDUSTRI STRATEGIS (bukan sosial/humaniora/keagamaan
+seperti redaksi SHARE) — tetap 1.500–2.000 kata. STEM juga punya jalur skema entrepreneur/bisnis dengan
+field tambahan "Rencana Pengembangan Bisnis" (5–10 halaman: Ide/Gambaran Produk-Bisnis, dst) — di luar
+cakupan detail file ini karena niche, cek PDF STEM asli jika user memilih jalur ini.
+
+Talenta Riset Inovasi Nasional (TRIN) / Beasiswa Doktor untuk Talenta Riset dan Inovasi Nasional BRIN Jalur
+Doctor by Research: skema NICHE, KHUSUS JENJANG DOKTOR, kerja sama LPDP dengan BRIN, untuk periset topik
+prioritas industri strategis, durasi pendanaan maksimal 48 bulan (single degree). BUKAN skema yang relevan
+untuk mayoritas pendaftar umum/magister — jika user menyebut BRIN/riset doktor spesifik, arahkan cek PDF
+TRIN asli terpisah (di luar cakupan detail file ringkas ini) karena persyaratannya cukup berbeda dari SHARE/
+STEM reguler (mis. melibatkan promotor/co-supervisor dari BRIN, dokumen RISPRO Invitasi jadi lebih sentral).
+
+======================================================================
+18. KEWAJIBAN PASCA-STUDI (konteks umum, bukan syarat administrasi awal)
+======================================================================
+
+Penerima Beasiswa wajib kembali ke Indonesia dan mengabdi/berkontribusi di Indonesia selama 2 KALI masa
+studi (2N) setelah selesai studi — dituliskan eksplisit di Poin 12 Surat Pernyataan (Bagian 11) dan
+disebutkan berulang di berbagai bagian PDF. Ini bukan syarat DOKUMEN yang diverifikasi saat administrasi,
+tapi KOMITMEN yang harus konsisten dengan isi field "Komitmen kembali ke Indonesia..." (Bagian 10A) — Bima
+bisa menandai jika esai user tidak menyebutkan rencana kontribusi/pengabdian yang jelas, karena ini relevan
+dengan penilaian Substansi meski bukan gugur administrasi murni.
+
+======================================================================
+19. CATATAN KEANDALAN SUMBER
+======================================================================
+
+- Bagian 1–14, 18 di atas dikutip LANGSUNG dari teks Buku Panduan resmi LPDP Batch 2 2026 (dipublikasikan
+  30 Juni 2026), file share-full.txt (skema SHARE, 44 halaman) sebagai sumber utama, dicek silang dengan
+  stem-full.txt (STEM, 47 halaman) dan trin-full.txt (TRIN, sumber untuk Bagian 17 saja).
+- Bagian 15 (ukuran file) dan sebagian Bagian 9 (struktur internal Profil Diri) TIDAK ditemukan di PDF resmi
+  — ditandai eksplisit sebagai tidak terkonfirmasi, jangan disampaikan sebagai aturan resmi LPDP ke user.
+  Jika angka/rincian teknis portal dibutuhkan user, arahkan ke beasiswalpdp.kemenkeu.go.id atau screenshot
+  form aktual saat mereka login.
+  Jika Awardee.id MCP tool (beasiswa_get_document_checklist) menyebut dokumen "Surat Keterangan Sehat",
+  "Bebas TBC", "Bebas Napza", atau "Pas Foto" sebagai wajib — dokumen-dokumen itu TIDAK MUNCUL di checklist
+  tabel resmi PDF SHARE/STEM 2026 manapun yang dianalisis untuk file ini. Kemungkinan itu berasal dari
+  pengetahuan generik/periode lama yang belum diperbarui di knowledge base MCP tersebut, atau memang
+  dokumen tahap LATER (pasca dinyatakan lulus, sebelum keberangkatan) — bukan tahap Seleksi Administrasi.
+  Jangan tolak aplikasi user karena "kurang surat sehat/bebas TBC/bebas napza/pas foto" di tahap administrasi
+  berdasarkan PDF Batch 2 2026 ini; jika user bertanya soal dokumen itu, sampaikan ketidakpastian ini secara
+  jujur dan arahkan cek portal resmi.
+- Semua tanggal & angka lain di file ini valid untuk periode Batch 2 2026 saja dan BISA BERUBAH di periode
+  berikutnya — selalu ingatkan user untuk cek ulang di portal resmi sebelum submit final, terutama mendekati
+  deadline 31 Juli 2026 23:59 WIB.

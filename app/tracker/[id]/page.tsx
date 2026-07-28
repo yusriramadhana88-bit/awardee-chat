@@ -161,8 +161,8 @@ export default function TrackerDetailPage() {
 
   if (!app) return null
 
-  if (!canAccess(tier, 'kopi')) {
-    return <FeatureLock requiredTier="kopi" featureName="Scholarship Tracker" />
+  if (!canAccess(tier, 'starter')) {
+    return <FeatureLock requiredTier="starter" featureName="Scholarship Tracker" />
   }
 
   const deadline = getDeadlineInfo(app.deadline)
@@ -227,7 +227,7 @@ export default function TrackerDetailPage() {
 
           {/* Action Buttons */}
           <div className="flex gap-2 mt-4 pt-4 border-t border-hairline">
-            {tier === 'pro' ? (
+            {tier === 'vvip' ? (
               <button
                 onClick={handleShareLink}
                 disabled={shareLoading}

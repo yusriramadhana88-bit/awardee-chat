@@ -59,8 +59,8 @@ export default function TrackerPage() {
     )
   }
 
-  if (!canAccess(tier, 'kopi')) {
-    return <FeatureLock requiredTier="kopi" featureName="Scholarship Tracker" />
+  if (!canAccess(tier, 'starter')) {
+    return <FeatureLock requiredTier="starter" featureName="Scholarship Tracker" />
   }
 
   return (
@@ -84,14 +84,14 @@ export default function TrackerPage() {
             <h1 className="text-xl font-bold text-ink">Scholarship Tracker</h1>
             <p className="text-sm text-muted mt-0.5">
               {applications.length}/{limit === 999 ? '∞' : limit} aplikasi aktif
-              {tier !== 'pro' && (
+              {tier !== 'vvip' && (
                 <Link href="/dashboard" className="ml-2 text-gold-2 hover:underline text-xs">
                   Upgrade untuk lebih
                 </Link>
               )}
             </p>
           </div>
-          {atLimit && tier !== 'pro' ? (
+          {atLimit && tier !== 'vvip' ? (
             <Link
               href="/dashboard"
               className="bg-amber-500 text-white text-sm px-4 py-2 rounded-xl font-medium hover:bg-amber-600 transition-colors"
@@ -130,7 +130,7 @@ export default function TrackerPage() {
           </div>
         )}
 
-        {atLimit && tier !== 'pro' && applications.length > 0 && (
+        {atLimit && tier !== 'vvip' && applications.length > 0 && (
           <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-700 flex items-center justify-between">
             <span>Batas {limit} aplikasi untuk paket {TIER_LABEL[tier] ?? tier}.</span>
             <Link href="/dashboard" className="font-semibold underline ml-2">Upgrade</Link>

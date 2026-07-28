@@ -110,8 +110,8 @@ export default function DocumentsPage() {
     return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Memuat...</div></div>
   }
 
-  if (!canAccess(user?.tier, 'kopi')) {
-    return <FeatureLock requiredTier="kopi" featureName="Checklist Dokumen" />
+  if (!canAccess(user?.tier, 'starter')) {
+    return <FeatureLock requiredTier="starter" featureName="Checklist Dokumen" />
   }
 
   const list = CHECKLISTS[scholarship]

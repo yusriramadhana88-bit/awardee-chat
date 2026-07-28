@@ -144,11 +144,11 @@ export default function LandingPage() {
               </Link>
             </div>
 
-            {/* Kopi */}
+            {/* Starter */}
             <div className="border border-hairline rounded-2xl p-6">
-              <div className="text-sm font-semibold text-amber-700 mb-1">KOPI</div>
-              <div className="text-3xl font-semibold text-ink mb-1">Rp25K</div>
-              <div className="text-sm text-muted mb-6">per bulan — seharga kopimu</div>
+              <div className="text-sm font-semibold text-amber-700 mb-1">STARTER</div>
+              <div className="text-3xl font-semibold text-ink mb-1">Rp49K</div>
+              <div className="text-sm text-muted mb-6">per bulan</div>
               <ul className="space-y-3 mb-8">
                 {['20 chat AI per hari', 'Learning Modules & kuis', 'Scholarship Tracker', 'Checklist Dokumen & Achievements'].map((f) => (
                   <li key={f} className="flex items-center gap-2 text-sm text-ink/80">
@@ -156,43 +156,43 @@ export default function LandingPage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/register?plan=kopi" className="block text-center border border-hairline text-ink rounded-pill py-2.5 text-sm font-medium hover:border-ink transition-colors">
-                Mulai Kopi
+              <Link href="/register?plan=starter" className="block text-center border border-hairline text-ink rounded-pill py-2.5 text-sm font-medium hover:border-ink transition-colors">
+                Mulai Starter
               </Link>
             </div>
 
-            {/* Starter */}
+            {/* VIP */}
             <div className="border-2 border-gold rounded-2xl p-6 relative shadow-brand">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold text-navy text-xs px-3 py-1 rounded-pill font-bold">PALING POPULER</div>
-              <div className="text-sm font-semibold text-gold-2 mb-1">STARTER</div>
-              <div className="text-3xl font-semibold text-ink mb-1">Rp99K</div>
+              <div className="text-sm font-semibold text-gold-2 mb-1">VIP</div>
+              <div className="text-3xl font-semibold text-ink mb-1">Rp149K</div>
               <div className="text-sm text-muted mb-6">per bulan</div>
               <ul className="space-y-3 mb-8">
-                {['50 chat AI per hari', 'Semua fitur Kopi', 'Kalender Beasiswa & IELTS Tracker', 'CV Analyzer 3x/bulan'].map((f) => (
+                {['50 chat AI per hari', 'Semua fitur Starter', 'Kalender Beasiswa & IELTS Tracker', 'CV Analyzer 3x/bulan'].map((f) => (
                   <li key={f} className="flex items-center gap-2 text-sm text-ink/80">
                     <span className="text-gold-2">✓</span>{f}
                   </li>
                 ))}
               </ul>
-              <Link href="/register?plan=starter" className="block text-center bg-gold hover:bg-gold-2 text-navy rounded-pill py-2.5 text-sm font-semibold transition-colors">
-                Mulai Starter
+              <Link href="/register?plan=vip" className="block text-center bg-gold hover:bg-gold-2 text-navy rounded-pill py-2.5 text-sm font-semibold transition-colors">
+                Mulai VIP
               </Link>
             </div>
 
-            {/* Pro */}
+            {/* VVIP */}
             <div className="border border-navy rounded-2xl p-6 bg-navy">
-              <div className="text-sm font-medium text-white/60 mb-1">PRO</div>
-              <div className="text-3xl font-semibold text-white mb-1">Rp249K</div>
+              <div className="text-sm font-medium text-white/60 mb-1">VVIP</div>
+              <div className="text-3xl font-semibold text-white mb-1">Rp240K</div>
               <div className="text-sm text-white/50 mb-6">per bulan</div>
               <ul className="space-y-3 mb-8">
-                {['Unlimited chat', 'Semua fitur Starter', 'Essay Workshop + kritik AI GALI DIRI', 'CV Analyzer unlimited'].map((f) => (
+                {['Unlimited chat', 'Semua fitur VIP', 'Essay Workshop + kritik AI GALI DIRI', 'CV Analyzer unlimited'].map((f) => (
                   <li key={f} className="flex items-center gap-2 text-sm text-white/80">
                     <span className="text-gold">✓</span>{f}
                   </li>
                 ))}
               </ul>
-              <Link href="/register?plan=pro" className="block text-center bg-white hover:bg-off text-navy rounded-pill py-2.5 text-sm font-semibold transition-colors">
-                Mulai Pro
+              <Link href="/register?plan=vvip" className="block text-center bg-white hover:bg-off text-navy rounded-pill py-2.5 text-sm font-semibold transition-colors">
+                Mulai VVIP
               </Link>
             </div>
           </div>

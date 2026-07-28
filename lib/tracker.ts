@@ -71,9 +71,9 @@ export function generateShareToken(): string {
 
 export const APP_LIMITS: Record<string, number> = {
   free: 0,
-  kopi: 1,
-  starter: 3,
-  pro: 999,
+  starter: 1,
+  vip: 3,
+  vvip: 999,
 }
 
 export const STAGE_STATUS_LABEL: Record<string, string> = {

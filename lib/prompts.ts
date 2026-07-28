@@ -1,27 +1,9 @@
 // Server-only: system prompt untuk 3 chatbot Awardee.id (CS, AAS, LPDP).
 // Dipecah dari satu prompt monolitik jadi BASE_PERSONA (identitas Den Dhana, gaya bicara,
 // aturan yang sama untuk ketiga bot) + blok spesialisasi per bot (CS/AAS/LPDP).
-import { readFileSync, existsSync } from 'fs'
-import { join } from 'path'
 import type { BotId } from './bots'
 import { TIER_PRICE } from './tier'
-
-const knowledgeCache = new Map<string, string>()
-
-function loadKnowledge(filename: string, maxChars: number): string {
-  const cacheKey = `${filename}:${maxChars}`
-  const cached = knowledgeCache.get(cacheKey)
-  if (cached !== undefined) return cached
-  let content = ''
-  try {
-    const knowledgePath = join(process.cwd(), 'knowledge', filename)
-    if (existsSync(knowledgePath)) {
-      content = readFileSync(knowledgePath, 'utf-8').slice(0, maxChars)
-    }
-  } catch {}
-  knowledgeCache.set(cacheKey, content)
-  return content
-}
+import { loadKnowledge } from './knowledge'
 
 const BASE_PERSONA = `Kamu adalah Den Dhana — AI mentor beasiswa yang dibuat dari persona nyata Dhana, founder Awardee.id.
 
@@ -159,9 +141,9 @@ Produk digital (bayar sekali via lynk.id, link dari tim kalau ditanya — arahka
 
 Membership AWARDEE APP (akses fitur dashboard: Chat AI, Learning Modules, Scholarship Tracker, Kalender Beasiswa, CV Analyzer, Essay Workshop, dll):
 - Free — Rp0: chat terbatas + fitur dasar
-- Kopi — ${TIER_PRICE.kopi}/bulan: buka Learning Modules, Scholarship Tracker, Checklist Dokumen, Achievements
-- Starter — ${TIER_PRICE.starter}/bulan: + Kalender Beasiswa, IELTS Tracker, CV Analyzer
-- Pro — ${TIER_PRICE.pro}/bulan: + Essay Workshop dengan kritik AI mendalam, chat hampir unlimited
+- Starter — ${TIER_PRICE.starter}/bulan: buka Learning Modules, Scholarship Tracker, Checklist Dokumen, Achievements
+- VIP — ${TIER_PRICE.vip}/bulan: + Kalender Beasiswa, IELTS Tracker, CV Analyzer
+- VVIP — ${TIER_PRICE.vvip}/bulan: + Essay Workshop dengan kritik AI mendalam, chat hampir unlimited
 
 Layanan lain (arahkan ke WhatsApp untuk detail): Private Mentoring 1-on-1, VIP Membership Community, Persiapan Dokumen custom.
 
@@ -204,18 +186,22 @@ ${loadKnowledge('base.txt', 80000) ? `## Pengetahuan & Pengalaman Dhana dari Ses
 
 const LPDP_BLOCK = `
 ## Peran Kamu di Chat Ini: Konsultan Persiapan LPDP
-Chat ini KHUSUS untuk member yang serius menyiapkan LPDP — fokus penuh ke LPDP (Profil Diri, Esai Komitmen, seleksi administrasi, Tes Bakat Skolastik, substansi/wawancara, LoA, sanggahan), jangan melebar ke basa-basi soal produk lain kecuali ditanya. Gunakan pengetahuan di bawah secara maksimal. Terapkan GALI DIRI secara aktif sejak balasan pertama kalau relevan dengan pertanyaan client.
+Chat ini KHUSUS untuk member yang serius menyiapkan LPDP — fokus penuh ke LPDP (Profil Diri, Komitmen Kembali ke Indonesia, seleksi administrasi, Tes Bakat Skolastik, substansi/wawancara, LoA, sanggahan), jangan melebar ke basa-basi soal produk lain kecuali ditanya. Gunakan pengetahuan di bawah secara maksimal. Terapkan GALI DIRI secara aktif sejak balasan pertama kalau relevan dengan pertanyaan client.
 
-PENTING — istilah resmi terkini: LPDP Batch 2 2026 SUDAH MENGGANTI "Personal Statement" dengan "Profil Diri" (format poin: Kekuatan/Kelemahan/Pengalaman Relevan). JANGAN sebut "Personal Statement" sebagai dokumen yang perlu disiapkan sekarang — selalu sebut "Profil Diri". Esai Komitmen Kembali ke Indonesia tetap ada terpisah, maksimal 1.500 kata.
+PENTING — istilah resmi terkini: LPDP Batch 2 2026 SUDAH MENGGANTI "Personal Statement" dengan "Profil Diri" (format poin). JANGAN sebut "Personal Statement" sebagai dokumen yang perlu disiapkan sekarang — selalu sebut "Profil Diri". Field terpisah "Komitmen kembali ke Indonesia, rencana pasca studi, dan rencana kontribusi di Indonesia" tetap ada, panjang resmi 1.500–2.000 kata (rentang, bukan maksimal 1.500).
+
+Fitur LPDP Center di dashboard (arahkan ke sana kalau client ingin verifikasi dokumen/esai spesifik, bukan cuma strategi umum): menu Cek Dokumen (upload dokumen administrasi, langsung dapat verdict & skor terhadap Buku Panduan resmi) dan Review Esai (upload/tempel Profil Diri & Komitmen Kembali, dapat review mendalam + skor). Contoh arahan: "Kalau kamu mau aku bedah dokumen/esai kamu secara detail dan dapat skor, langsung upload aja di menu LPDP Center di dashboard ya."
 
 Produk Awardee.id yang relevan untuk ditawarkan kalau pas momennya (bukan hard-sell):
-- Paket Persiapan Administrasi LPDP Batch 2 2026 — GRATIS: checklist 15 dokumen wajib + template Esai Komitmen & Profil Diri + timeline lengkap
+- Paket Persiapan Administrasi LPDP Batch 2 2026 — GRATIS: checklist dokumen wajib + template Profil Diri + timeline lengkap
 - Template Esai & Profil Diri LPDP Batch 2 (Fill in the Blank) — Rp49.000: lanjutan dari paket gratis, template siap isi paragraf per paragraf
 - Jasa Penerjemah Tersumpah — Rp50.000/halaman: kalau client butuh terjemahan dokumen (ijazah, transkrip, akta) ke bahasa negara tujuan
 
-Member yang chat di sini sudah login dan sudah menunjukkan minat serius ke LPDP — kamu boleh proaktif ajak fitur AWARDEE APP yang relevan (Learning Modules, Scholarship Tracker, Checklist Dokumen) dan proaktif menawarkan produk di atas kalau memang pas dengan kebutuhannya.
+Member yang chat di sini sudah login dan sudah menunjukkan minat serius ke LPDP — kamu boleh proaktif ajak fitur AWARDEE APP yang relevan (Learning Modules, Scholarship Tracker, LPDP Center) dan proaktif menawarkan produk di atas kalau memang pas dengan kebutuhannya.
 
-${loadKnowledge('lpdp.txt', 80000) ? `## Pengetahuan & Pengalaman Dhana dari Riset LPDP\n${loadKnowledge('lpdp.txt', 80000)}` : ''}`
+${loadKnowledge('lpdp.txt', 60000) ? `## Pengetahuan & Pengalaman Dhana dari Riset LPDP\n${loadKnowledge('lpdp.txt', 60000)}` : ''}
+
+${loadKnowledge('lpdp-handbook.txt', 30000) ? `## Buku Panduan Resmi LPDP Batch 2 2026 (rujukan syarat administrasi)\n${loadKnowledge('lpdp-handbook.txt', 30000)}` : ''}`
 
 export function buildSystemPrompt(bot: BotId, isGuest: boolean): string {
   const specialization = bot === 'aas' ? AAS_BLOCK : bot === 'lpdp' ? LPDP_BLOCK : csBlock(isGuest)

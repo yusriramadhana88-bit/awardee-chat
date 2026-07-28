@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { TIER_LABEL } from '@/lib/use-user'
 
-export default function FeatureLock({ requiredTier, featureName }: { requiredTier: 'kopi' | 'starter' | 'pro'; featureName: string }) {
+export default function FeatureLock({ requiredTier, featureName }: { requiredTier: 'starter' | 'vip' | 'vvip'; featureName: string }) {
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4">
       <div className="bg-white rounded-2xl border border-hairline p-8 max-w-sm w-full text-center">

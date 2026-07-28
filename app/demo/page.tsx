@@ -8,15 +8,15 @@ export const metadata = {
   description: 'Intip semua fitur dashboard AWARDEE APP — 3 chatbot AI, Learning Modules, Scholarship Tracker, dan lainnya — sebelum daftar. Bandingkan paket & bayar langsung via lynk.id.',
 }
 
-const FEATURES: { icon: string; title: string; desc: string; tier: 'kopi' | 'starter' | 'pro' | null }[] = [
-  { icon: '📚', title: 'Learning Modules', desc: 'Materi #GaliDiri, essay, sampai interview + kuis', tier: 'kopi' },
-  { icon: '📋', title: 'Scholarship Tracker', desc: 'Pantau progres tiap tahapan aplikasi beasiswamu', tier: 'kopi' },
-  { icon: '✅', title: 'Checklist Dokumen', desc: 'Daftar dokumen wajib per jenis beasiswa', tier: 'kopi' },
-  { icon: '🏆', title: 'Achievements', desc: 'Kumpulkan badge sepanjang progres persiapanmu', tier: 'kopi' },
-  { icon: '📅', title: 'Kalender Beasiswa', desc: 'Semua deadline penting dalam satu tampilan', tier: 'starter' },
-  { icon: '🎯', title: 'IELTS Tracker', desc: 'Catat skor & pantau progres menuju target', tier: 'starter' },
-  { icon: '📄', title: 'CV Analyzer', desc: 'Analisis kekuatan CV untuk aplikasi beasiswa', tier: 'starter' },
-  { icon: '✏️', title: 'Essay Workshop', desc: 'Kelola draft essay & dapatkan kritik AI mendalam', tier: 'pro' },
+const FEATURES: { icon: string; title: string; desc: string; tier: 'starter' | 'vip' | 'vvip' | null }[] = [
+  { icon: '📚', title: 'Learning Modules', desc: 'Materi #GaliDiri, essay, sampai interview + kuis', tier: 'starter' },
+  { icon: '📋', title: 'Scholarship Tracker', desc: 'Pantau progres tiap tahapan aplikasi beasiswamu', tier: 'starter' },
+  { icon: '✅', title: 'Checklist Dokumen', desc: 'Daftar dokumen wajib per jenis beasiswa', tier: 'starter' },
+  { icon: '🏆', title: 'Achievements', desc: 'Kumpulkan badge sepanjang progres persiapanmu', tier: 'starter' },
+  { icon: '📅', title: 'Kalender Beasiswa', desc: 'Semua deadline penting dalam satu tampilan', tier: 'vip' },
+  { icon: '🎯', title: 'IELTS Tracker', desc: 'Catat skor & pantau progres menuju target', tier: 'vip' },
+  { icon: '📄', title: 'CV Analyzer', desc: 'Analisis kekuatan CV untuk aplikasi beasiswa', tier: 'vip' },
+  { icon: '✏️', title: 'Essay Workshop', desc: 'Kelola draft essay & dapatkan kritik AI mendalam', tier: 'vvip' },
 ]
 
 const FAQS = [

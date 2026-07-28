@@ -22,7 +22,7 @@ export default function CvAnalyzerPage() {
   const supabase = createClient()
 
   const tier = user?.tier || 'free'
-  const allowed = canAccess(tier, 'starter')
+  const allowed = canAccess(tier, 'vip')
 
   useEffect(() => {
     if (!allowed) return
@@ -82,7 +82,7 @@ export default function CvAnalyzerPage() {
   }
 
   if (!allowed) {
-    return <FeatureLock requiredTier="starter" featureName="CV Analyzer" />
+    return <FeatureLock requiredTier="vip" featureName="CV Analyzer" />
   }
 
   const atLimit = usage ? usage.used >= usage.limit : false

@@ -53,7 +53,7 @@ export default function ModuleDetailPage() {
   }
 
   if (moduleData.tier !== 'free' && !canAccess(user?.tier, moduleData.tier)) {
-    return <FeatureLock requiredTier={moduleData.tier as 'kopi' | 'starter' | 'pro'} featureName={moduleData.title} />
+    return <FeatureLock requiredTier={moduleData.tier as 'starter' | 'vip' | 'vvip'} featureName={moduleData.title} />
   }
 
   const allLessonsDone = moduleData.completedCount === moduleData.lessonCount && moduleData.lessonCount > 0

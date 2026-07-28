@@ -80,7 +80,7 @@ export default function QuizPage() {
   }
 
   if (lockedTier) {
-    return <FeatureLock requiredTier={lockedTier as 'kopi' | 'starter' | 'pro'} featureName="Kuis ini" />
+    return <FeatureLock requiredTier={lockedTier as 'starter' | 'vip' | 'vvip'} featureName="Kuis ini" />
   }
 
   if (!quizId) {

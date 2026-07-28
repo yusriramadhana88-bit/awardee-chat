@@ -50,7 +50,7 @@ export default function IeltsTrackerPage() {
   const supabase = createClient()
 
   const tier = user?.tier || 'free'
-  const allowed = canAccess(tier, 'starter')
+  const allowed = canAccess(tier, 'vip')
 
   useEffect(() => {
     if (!allowed) return
@@ -99,7 +99,7 @@ export default function IeltsTrackerPage() {
   }
 
   if (!allowed) {
-    return <FeatureLock requiredTier="starter" featureName="IELTS Tracker" />
+    return <FeatureLock requiredTier="vip" featureName="IELTS Tracker" />
   }
 
   const target = scores.find(s => s.is_target)

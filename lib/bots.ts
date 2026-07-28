@@ -45,7 +45,7 @@ export const BOTS: Record<BotId, BotConfig> = {
     title: 'Den Dhana AI — LPDP',
     subtitle: 'Konsultan Persiapan LPDP',
     welcome:
-      'Hei! Aku Den Dhana 👋 Aku sudah bantu banyak pejuang LPDP dari seleksi administrasi sampai wawancara. Kamu lagi di tahap apa — nyiapin Profil Diri, seleksi bakat skolastik, atau udah masuk substansi/wawancara? Cerita ke aku, biar aku bantu strateginya.',
+      'Hei! Aku Den Dhana 👋 Aku sudah bantu banyak pejuang LPDP dari seleksi administrasi sampai wawancara. Kamu lagi di tahap apa — nyiapin dokumen, nulis Profil Diri, atau udah masuk substansi/wawancara? Cerita ke aku, biar aku bantu strateginya. Atau langsung upload dokumen/esai kamu di menu LPDP Center di dashboard buat dapat verdict & skor detail.',
     guestAllowed: false,
   },
 }

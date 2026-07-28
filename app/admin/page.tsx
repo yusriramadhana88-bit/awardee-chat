@@ -6,9 +6,9 @@ import { createClient } from '@/lib/supabase'
 type Stats = {
   total: number
   free: number
-  kopi: number
   starter: number
-  pro: number
+  vip: number
+  vvip: number
   chatToday: number
   topAffiliates: { name: string; code: string; conversions: number; earned: number }[]
 }
@@ -34,9 +34,9 @@ export default function AdminOverviewPage() {
       setStats({
         total: users.length,
         free: users.filter((u: any) => u.subscription_tier === 'free').length,
-        kopi: users.filter((u: any) => u.subscription_tier === 'kopi').length,
         starter: users.filter((u: any) => u.subscription_tier === 'starter').length,
-        pro: users.filter((u: any) => u.subscription_tier === 'pro').length,
+        vip: users.filter((u: any) => u.subscription_tier === 'vip').length,
+        vvip: users.filter((u: any) => u.subscription_tier === 'vvip').length,
         chatToday: users.reduce((sum: number, u: any) => sum + (u.chat_today ?? 0), 0),
         topAffiliates: affiliates.slice(0, 5).map((a: any) => ({
           name: a.profiles?.name ?? 'Unknown',
@@ -61,9 +61,9 @@ export default function AdminOverviewPage() {
         {[
           { label: 'Total User', value: stats.total, color: 'text-ink' },
           { label: 'Free', value: stats.free, color: 'text-muted' },
-          { label: 'Kopi', value: stats.kopi, color: 'text-amber-700' },
-          { label: 'Starter', value: stats.starter, color: 'text-gold-2' },
-          { label: 'Pro', value: stats.pro, color: 'text-purple-600' },
+          { label: 'Starter', value: stats.starter, color: 'text-amber-700' },
+          { label: 'VIP', value: stats.vip, color: 'text-gold-2' },
+          { label: 'VVIP', value: stats.vvip, color: 'text-purple-600' },
         ].map(s => (
           <div key={s.label} className="bg-white rounded-xl border border-hairline p-4">
             <div className={`text-3xl font-bold ${s.color}`}>{s.value}</div>

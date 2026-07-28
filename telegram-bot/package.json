@@ -1,0 +1,16 @@
+{
+  "name": "awardee-telegram-bot",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Bot Telegram resmi Awardee.id — kirim lead magnet ke opt-in dari landing page, dan broadcast follow-up ke subscriber yang sudah start chat.",
+  "scripts": {
+    "start": "node bot.mjs",
+    "broadcast": "node broadcast.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "dotenv": "^16.4.5",
+    "grammy": "^1.30.0"
+  }
+}

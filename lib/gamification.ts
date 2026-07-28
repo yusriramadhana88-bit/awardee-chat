@@ -76,12 +76,20 @@ export function calculateXp(data: {
   essayReviewsCount: number
   testScoresCount: number
   applicationsCount: number
+  lpdpDocChecksCount?: number
+  lpdpEssayReviewsCount?: number
+  aasDocChecksCount?: number
+  aasEssayReviewsCount?: number
 }): number {
   return (
     data.cvAnalysesCount * 5 +
     data.essayReviewsCount * 8 +
     data.testScoresCount * 3 +
-    data.applicationsCount * 4
+    data.applicationsCount * 4 +
+    (data.lpdpDocChecksCount ?? 0) * 3 +
+    (data.lpdpEssayReviewsCount ?? 0) * 8 +
+    (data.aasDocChecksCount ?? 0) * 3 +
+    (data.aasEssayReviewsCount ?? 0) * 8
   )
 }
 

@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
       .single()
 
     const tier = profile?.subscription_tier || 'free'
-    if (tier !== 'pro') {
+    if (tier !== 'vvip') {
       return NextResponse.json({ error: 'TIER_REQUIRED' }, { status: 403 })
     }
 

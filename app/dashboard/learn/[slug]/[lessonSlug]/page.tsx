@@ -88,7 +88,7 @@ export default function LessonPage() {
   }
 
   if (lockedTier) {
-    return <FeatureLock requiredTier={lockedTier as 'kopi' | 'starter' | 'pro'} featureName="Lesson ini" />
+    return <FeatureLock requiredTier={lockedTier as 'starter' | 'vip' | 'vvip'} featureName="Lesson ini" />
   }
 
   if (!detail) {

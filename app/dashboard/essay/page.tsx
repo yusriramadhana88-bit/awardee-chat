@@ -40,7 +40,7 @@ export default function EssayWorkshopPage() {
   const supabase = createClient()
 
   const tier = user?.tier || 'free'
-  const allowed = canAccess(tier, 'pro')
+  const allowed = canAccess(tier, 'vvip')
 
   useEffect(() => {
     if (!allowed) return
@@ -128,7 +128,7 @@ export default function EssayWorkshopPage() {
   }
 
   if (!allowed) {
-    return <FeatureLock requiredTier="pro" featureName="Essay Workshop" />
+    return <FeatureLock requiredTier="vvip" featureName="Essay Workshop" />
   }
 
   const selected = drafts.find(d => d.id === selectedId)

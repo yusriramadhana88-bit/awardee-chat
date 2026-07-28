@@ -65,7 +65,7 @@ export default function CalendarPage() {
   const supabase = createClient()
 
   const tier = user?.tier || 'free'
-  const allowed = canAccess(tier, 'starter')
+  const allowed = canAccess(tier, 'vip')
 
   useEffect(() => {
     if (!allowed) return
@@ -184,7 +184,7 @@ export default function CalendarPage() {
   }
 
   if (!allowed) {
-    return <FeatureLock requiredTier="starter" featureName="Kalender Beasiswa" />
+    return <FeatureLock requiredTier="vip" featureName="Kalender Beasiswa" />
   }
 
   return (

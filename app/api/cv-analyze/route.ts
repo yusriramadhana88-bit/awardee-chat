@@ -11,7 +11,7 @@ function getSupabaseWithToken(token: string) {
 }
 
 // Batas analisis CV per bulan
-const MONTHLY_LIMITS: Record<string, number> = { free: 0, kopi: 0, starter: 3, pro: 999 }
+const MONTHLY_LIMITS: Record<string, number> = { free: 0, starter: 0, vip: 3, vvip: 999 }
 
 const CV_SYSTEM_PROMPT = `Kamu adalah asisten analisis CV untuk pelamar beasiswa (AAS, LPDP, Chevening, GKS, dan beasiswa lainnya), berbasis standar yang digunakan Den Dhana, mentor beasiswa di Awardee.id.
 

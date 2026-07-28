@@ -36,7 +36,7 @@ function getSupabaseAdmin() {
   )
 }
 
-const DAILY_LIMITS: Record<string, number> = { free: 5, kopi: 20, starter: 50, pro: 999 }
+const DAILY_LIMITS: Record<string, number> = { free: 5, starter: 20, vip: 50, vvip: 999 }
 const GUEST_DAILY_LIMIT = 8
 
 function resolveBot(value: unknown): BotId {

@@ -8,7 +8,7 @@ type Profile = {
   name: string
   email: string
   phone: string | null
-  tier: 'free' | 'kopi' | 'starter' | 'pro'
+  tier: 'free' | 'starter' | 'vip' | 'vvip'
   expiresAt: string | null
   memberSince: string
   isAdmin: boolean

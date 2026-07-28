@@ -41,8 +41,8 @@ export default function AchievementsPage() {
     return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Memuat achievement...</div></div>
   }
 
-  if (!canAccess(user?.tier, 'kopi')) {
-    return <FeatureLock requiredTier="kopi" featureName="Achievements" />
+  if (!canAccess(user?.tier, 'starter')) {
+    return <FeatureLock requiredTier="starter" featureName="Achievements" />
   }
 
   const pct = achievements.length > 0 ? Math.round((earnedCount / achievements.length) * 100) : 0

@@ -13,7 +13,7 @@ type ModuleItem = {
   title: string
   description: string | null
   icon: string
-  tier: 'free' | 'kopi' | 'starter' | 'pro'
+  tier: 'free' | 'starter' | 'vip' | 'vvip'
   lessons: Lesson[]
   lessonCount: number
   completedCount: number

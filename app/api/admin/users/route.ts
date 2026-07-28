@@ -57,13 +57,16 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({ users })
 }
 
-// PATCH: upgrade/downgrade tier
+// PATCH: upgrade/downgrade tier. `promoClaim: true` (opsional) mengklaim 1 slot harga promo untuk
+// tier ini (lihat tier_promo_slots) — dipakai admin saat memverifikasi manual via WhatsApp bahwa
+// user membayar harga promo, bukan harga normal. Gagal senyap (tanpa membatalkan update tier) kalau
+// slot promo sudah habis — admin tetap bisa lihat status via GET /api/tier-promo.
 export async function PATCH(req: NextRequest) {
   const adminUser = await assertAdmin(req)
   if (!adminUser) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
-  const { userId, tier } = await req.json()
-  if (!userId || !['free', 'kopi', 'starter', 'pro'].includes(tier)) {
+  const { userId, tier, promoClaim } = await req.json()
+  if (!userId || !['free', 'starter', 'vip', 'vvip'].includes(tier)) {
     return NextResponse.json({ error: 'Invalid payload' }, { status: 400 })
   }
 
@@ -74,5 +77,13 @@ export async function PATCH(req: NextRequest) {
     .eq('id', userId)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  if (promoClaim && tier !== 'free') {
+    const { data: slot } = await supabase.from('tier_promo_slots').select('cap, claimed').eq('tier', tier).single()
+    if (slot && slot.claimed < slot.cap) {
+      await supabase.from('tier_promo_slots').update({ claimed: slot.claimed + 1 }).eq('tier', tier)
+    }
+  }
+
   return NextResponse.json({ ok: true })
 }

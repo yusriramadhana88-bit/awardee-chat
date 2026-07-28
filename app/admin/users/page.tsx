@@ -8,7 +8,7 @@ type User = {
   name: string
   email: string | null
   phone: string | null
-  subscription_tier: 'free' | 'kopi' | 'starter' | 'pro'
+  subscription_tier: 'free' | 'starter' | 'vip' | 'vvip'
   subscription_expires_at: string | null
   is_admin: boolean
   chat_today: number
@@ -17,9 +17,9 @@ type User = {
 
 const TIER_COLORS = {
   free: 'text-muted bg-off',
-  kopi: 'text-amber-700 bg-amber-100',
-  starter: 'text-navy bg-off',
-  pro: 'text-purple-700 bg-purple-100',
+  starter: 'text-amber-700 bg-amber-100',
+  vip: 'text-navy bg-off',
+  vvip: 'text-purple-700 bg-purple-100',
 }
 
 export default function AdminUsersPage() {
@@ -27,6 +27,7 @@ export default function AdminUsersPage() {
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [updating, setUpdating] = useState<string | null>(null)
+  const [promoChecked, setPromoChecked] = useState<Record<string, boolean>>({})
   const supabase = createClient()
 
   async function loadUsers() {
@@ -44,14 +45,14 @@ export default function AdminUsersPage() {
 
   useEffect(() => { loadUsers() }, [])
 
-  async function handleTierChange(userId: string, tier: 'free' | 'kopi' | 'starter' | 'pro') {
+  async function handleTierChange(userId: string, tier: 'free' | 'starter' | 'vip' | 'vvip') {
     setUpdating(userId)
     const { data: { session } } = await supabase.auth.getSession()
     if (!session) return
     await fetch('/api/admin/users', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}` },
-      body: JSON.stringify({ userId, tier }),
+      body: JSON.stringify({ userId, tier, promoClaim: !!promoChecked[userId] }),
     })
     await loadUsers()
     setUpdating(null)
@@ -89,6 +90,7 @@ export default function AdminUsersPage() {
                 <th className="px-4 py-3 text-center">Chat Hari Ini</th>
                 <th className="px-4 py-3">Tier</th>
                 <th className="px-4 py-3">Bergabung</th>
+                <th className="px-4 py-3 text-center">Promo</th>
                 <th className="px-4 py-3">Ubah Tier</th>
               </tr>
             </thead>
@@ -112,18 +114,29 @@ export default function AdminUsersPage() {
                   <td className="px-4 py-3 text-muted text-xs">
                     {new Date(u.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: '2-digit' })}
                   </td>
+                  <td className="px-4 py-3 text-center">
+                    {!u.is_admin && (
+                      <input
+                        type="checkbox"
+                        checked={!!promoChecked[u.id]}
+                        onChange={e => setPromoChecked(prev => ({ ...prev, [u.id]: e.target.checked }))}
+                        title="Centang kalau user bayar harga promo (klaim 1 slot)"
+                        className="w-4 h-4"
+                      />
+                    )}
+                  </td>
                   <td className="px-4 py-3">
                     {!u.is_admin && (
                       <select
                         value={u.subscription_tier}
-                        onChange={e => handleTierChange(u.id, e.target.value as 'free' | 'kopi' | 'starter' | 'pro')}
+                        onChange={e => handleTierChange(u.id, e.target.value as 'free' | 'starter' | 'vip' | 'vvip')}
                         disabled={updating === u.id}
                         className="border border-hairline rounded-lg px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-gold disabled:opacity-50"
                       >
                         <option value="free">Free</option>
-                        <option value="kopi">Kopi</option>
                         <option value="starter">Starter</option>
-                        <option value="pro">Pro</option>
+                        <option value="vip">VIP</option>
+                        <option value="vvip">VVIP</option>
                       </select>
                     )}
                   </td>

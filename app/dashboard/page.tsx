@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase'
 import { useUser, canAccess, TIER_LABEL, TIER_PRICE } from '@/lib/use-user'
+import { TIER_PRICE_PROMO, TIER_PROMO_CAP } from '@/lib/tier'
 import { ScholarshipApplication, getDeadlineInfo, formatDeadline } from '@/lib/tracker'
 import { calculateXp, getPejuangLevel } from '@/lib/gamification'
 import { LYNK_MEMBERSHIP_LINKS } from '@/lib/payment-links'
@@ -18,17 +19,19 @@ type LearnModule = {
 }
 type AchievementItem = { id: string; title: string; icon: string; earned: boolean; earnedAt: string | null }
 
-const FEATURES: { href: string; icon: string; title: string; desc: string; tier: 'kopi' | 'starter' | 'pro' | null }[] = [
+const FEATURES: { href: string; icon: string; title: string; desc: string; tier: 'starter' | 'vip' | 'vvip' | null }[] = [
+  { href: '/dashboard/lpdp', icon: '🛡️', title: 'LPDP Center', desc: 'Cek dokumen & review esai LPDP Batch 2 2026, langsung dapat skor kesiapan', tier: null },
+  { href: '/dashboard/aas', icon: '🦘', title: 'AAS Center', desc: 'Cek dokumen & review supporting statement AAS, langsung dapat skor kesiapan', tier: 'starter' },
   { href: '/chat/aas', icon: '🇦🇺', title: 'Chat AAS · Den Dhana', desc: 'Konsultan khusus persiapan Australia Awards Scholarship', tier: null },
   { href: '/chat/lpdp', icon: '🇮🇩', title: 'Chat LPDP · Den Dhana', desc: 'Konsultan khusus persiapan LPDP', tier: null },
   { href: '/chat', icon: '💬', title: 'Tanya Produk & Layanan', desc: 'Tanya soal Awardee.id, produk, atau beasiswa secara umum', tier: null },
-  { href: '/dashboard/learn', icon: '📚', title: 'Learning Modules', desc: 'Materi #GaliDiri, essay, sampai interview + kuis', tier: 'kopi' },
-  { href: '/tracker', icon: '📋', title: 'Scholarship Tracker', desc: 'Pantau progres tahapan aplikasi beasiswamu', tier: 'kopi' },
-  { href: '/dashboard/calendar', icon: '📅', title: 'Kalender Beasiswa', desc: 'Semua deadline penting dalam satu tampilan', tier: 'starter' },
-  { href: '/dashboard/documents', icon: '✅', title: 'Checklist Dokumen', desc: 'Daftar dokumen wajib per jenis beasiswa', tier: 'kopi' },
-  { href: '/dashboard/ielts', icon: '🎯', title: 'IELTS Tracker', desc: 'Catat skor & pantau progres menuju target', tier: 'starter' },
-  { href: '/dashboard/cv', icon: '📄', title: 'CV Analyzer', desc: 'Analisis kekuatan CV untuk aplikasi beasiswa', tier: 'starter' },
-  { href: '/dashboard/essay', icon: '✏️', title: 'Essay Workshop', desc: 'Kelola draft essay & dapatkan kritik AI mendalam', tier: 'pro' },
+  { href: '/dashboard/learn', icon: '📚', title: 'Learning Modules', desc: 'Materi #GaliDiri, essay, sampai interview + kuis', tier: 'starter' },
+  { href: '/tracker', icon: '📋', title: 'Scholarship Tracker', desc: 'Pantau progres tahapan aplikasi beasiswamu', tier: 'starter' },
+  { href: '/dashboard/calendar', icon: '📅', title: 'Kalender Beasiswa', desc: 'Semua deadline penting dalam satu tampilan', tier: 'vip' },
+  { href: '/dashboard/documents', icon: '✅', title: 'Checklist Dokumen', desc: 'Daftar dokumen wajib per jenis beasiswa', tier: 'starter' },
+  { href: '/dashboard/ielts', icon: '🎯', title: 'IELTS Tracker', desc: 'Catat skor & pantau progres menuju target', tier: 'vip' },
+  { href: '/dashboard/cv', icon: '📄', title: 'CV Analyzer', desc: 'Analisis kekuatan CV untuk aplikasi beasiswa', tier: 'vip' },
+  { href: '/dashboard/essay', icon: '✏️', title: 'Essay Workshop', desc: 'Kelola draft essay & dapatkan kritik AI mendalam', tier: 'vvip' },
 ]
 
 export default function DashboardPage() {
@@ -37,6 +40,8 @@ export default function DashboardPage() {
   const [pejuangXp, setPejuangXp] = useState(0)
   const [learnModules, setLearnModules] = useState<LearnModule[]>([])
   const [achievements, setAchievements] = useState<AchievementItem[]>([])
+  const [promoSlots, setPromoSlots] = useState<Record<string, { cap: number; claimed: number }>>({})
+  const [lpdpQuota, setLpdpQuota] = useState<{ usedIdr: number; budgetIdr: number } | null>(null)
   const supabase = createClient()
 
   useEffect(() => {
@@ -49,17 +54,25 @@ export default function DashboardPage() {
       setApplications(data || [])
     }
     async function loadXp() {
-      const [{ count: cvCount }, { count: essayCount }, { count: testCount }, { count: appCount }] = await Promise.all([
+      const [{ count: cvCount }, { count: essayCount }, { count: testCount }, { count: appCount }, { count: lpdpDocCount }, { count: lpdpEssayCount }, { count: aasDocCount }, { count: aasEssayCount }] = await Promise.all([
         supabase.from('cv_analyses').select('id', { count: 'exact', head: true }),
         supabase.from('essay_drafts').select('id', { count: 'exact', head: true }).not('ai_feedback', 'is', null),
         supabase.from('test_scores').select('id', { count: 'exact', head: true }),
         supabase.from('scholarship_applications').select('id', { count: 'exact', head: true }),
+        supabase.from('lpdp_doc_checks').select('id', { count: 'exact', head: true }),
+        supabase.from('lpdp_essay_reviews').select('id', { count: 'exact', head: true }),
+        supabase.from('aas_doc_checks').select('id', { count: 'exact', head: true }),
+        supabase.from('aas_essay_reviews').select('id', { count: 'exact', head: true }),
       ])
       const xp = calculateXp({
         cvAnalysesCount: cvCount ?? 0,
         essayReviewsCount: essayCount ?? 0,
         testScoresCount: testCount ?? 0,
         applicationsCount: appCount ?? 0,
+        lpdpDocChecksCount: lpdpDocCount ?? 0,
+        lpdpEssayReviewsCount: lpdpEssayCount ?? 0,
+        aasDocChecksCount: aasDocCount ?? 0,
+        aasEssayReviewsCount: aasEssayCount ?? 0,
       })
       setPejuangXp(xp)
     }
@@ -73,10 +86,26 @@ export default function DashboardPage() {
       ])
       if (learnRes.ok) setLearnModules((await learnRes.json()).modules)
       if (achRes.ok) setAchievements((await achRes.json()).achievements)
+
+      const quotaRes = await fetch('/api/lpdp/doc-check', { headers })
+      if (quotaRes.ok) {
+        const data = await quotaRes.json()
+        setLpdpQuota({ usedIdr: data.usedIdr ?? 0, budgetIdr: data.budgetIdr ?? 0 })
+      }
+    }
+    async function loadPromoSlots() {
+      const res = await fetch('/api/tier-promo')
+      if (res.ok) {
+        const data = await res.json()
+        const map: Record<string, { cap: number; claimed: number }> = {}
+        for (const row of data.slots ?? []) map[row.tier] = { cap: row.cap, claimed: row.claimed }
+        setPromoSlots(map)
+      }
     }
     load()
     loadXp()
     loadLearnAndAchievements()
+    loadPromoSlots()
   }, [])
 
   if (loading) {
@@ -91,6 +120,16 @@ export default function DashboardPage() {
   const upcoming = applications
     .filter(a => a.deadline)
     .sort((a, b) => new Date(a.deadline!).getTime() - new Date(b.deadline!).getTime())[0]
+
+  function promoInfo(t: 'starter' | 'vip' | 'vvip') {
+    const slot = promoSlots[t]
+    const remaining = slot ? Math.max(0, slot.cap - slot.claimed) : 0
+    const isPromo = remaining > 0
+    return { price: isPromo ? TIER_PRICE_PROMO[t] : TIER_PRICE[t], remaining, isPromo }
+  }
+  const starterPromo = promoInfo('starter')
+  const vipPromo = promoInfo('vip')
+  const vvipPromo = promoInfo('vvip')
 
   const totalLessons = learnModules.reduce((s, m) => s + m.lessonCount, 0)
   const totalLessonsDone = learnModules.reduce((s, m) => s + m.completedCount, 0)
@@ -281,36 +320,41 @@ export default function DashboardPage() {
       <SocialShowcase />
 
       {/* Upgrade section */}
-      {tier !== 'pro' && (
+      {tier !== 'vvip' && (
         <div id="upgrade" className="bg-gradient-to-br from-navy to-navy-2 rounded-xl p-5 text-white scroll-mt-6">
           <h2 className="font-semibold mb-1">
-            {tier === 'free' ? 'Upgrade untuk buka semua fitur' : tier === 'kopi' ? 'Upgrade ke Starter atau Pro' : 'Upgrade ke Pro'}
+            {tier === 'free' ? 'Upgrade untuk buka semua fitur' : tier === 'starter' ? 'Upgrade ke VIP atau VVIP' : 'Upgrade ke VVIP'}
           </h2>
           <p className="text-white/70 text-sm mb-4">
             {tier === 'free'
-              ? `Mulai dari ${TIER_PRICE.kopi} — buka Learning Modules, Scholarship Tracker, Checklist Dokumen & Achievements.`
-              : tier === 'kopi'
+              ? `Mulai dari ${TIER_PRICE.starter} — buka Learning Modules, Scholarship Tracker, Checklist Dokumen & Achievements.`
+              : tier === 'starter'
               ? 'Buka Kalender Beasiswa, IELTS Tracker, CV Analyzer, dan hapus batas harian chat.'
               : 'Akses unlimited + Essay Workshop dengan kritik AI mendalam + konsultasi langsung bulanan.'}
           </p>
           <div className="flex flex-wrap gap-3">
             {tier === 'free' && (
-              <a href={LYNK_MEMBERSHIP_LINKS.kopi} target="_blank" rel="noopener noreferrer" className="bg-white text-gold-2 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-off transition-colors">
-                Kopi — {TIER_PRICE.kopi}/bulan
-              </a>
-            )}
-            {(tier === 'free' || tier === 'kopi') && (
               <a href={LYNK_MEMBERSHIP_LINKS.starter} target="_blank" rel="noopener noreferrer" className="bg-white text-gold-2 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-off transition-colors">
-                Starter — {TIER_PRICE.starter}/bulan
+                Starter — {starterPromo.price}/bulan{starterPromo.isPromo ? ` (promo, ${starterPromo.remaining} slot lagi)` : ''}
               </a>
             )}
-            <a href={LYNK_MEMBERSHIP_LINKS.pro} target="_blank" rel="noopener noreferrer" className="bg-gold text-navy text-sm font-semibold px-4 py-2 rounded-lg hover:bg-gold-2 transition-colors border border-gold">
-              Pro — {TIER_PRICE.pro}/bulan
+            {(tier === 'free' || tier === 'starter') && (
+              <a href={LYNK_MEMBERSHIP_LINKS.vip} target="_blank" rel="noopener noreferrer" className="bg-white text-gold-2 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-off transition-colors">
+                VIP — {vipPromo.price}/bulan{vipPromo.isPromo ? ` (promo, ${vipPromo.remaining} slot lagi)` : ''}
+              </a>
+            )}
+            <a href={LYNK_MEMBERSHIP_LINKS.vvip} target="_blank" rel="noopener noreferrer" className="bg-gold text-navy text-sm font-semibold px-4 py-2 rounded-lg hover:bg-gold-2 transition-colors border border-gold">
+              VVIP — {vvipPromo.price}/bulan{vvipPromo.isPromo ? ` (promo, ${vvipPromo.remaining} slot lagi)` : ''}
             </a>
           </div>
           <p className="text-white/50 text-xs mt-3">
             Setelah bayar via lynk.id, WhatsApp ke Kak Dhana dengan bukti pembayaran untuk aktivasi akun (biasanya &lt;24 jam).
           </p>
+          {lpdpQuota && lpdpQuota.budgetIdr > 0 && (
+            <p className="text-white/50 text-xs mt-2">
+              Kuota LPDP Center bulan ini: Rp{lpdpQuota.usedIdr.toLocaleString('id-ID')}/Rp{lpdpQuota.budgetIdr.toLocaleString('id-ID')} terpakai. Upgrade tier untuk kuota lebih besar.
+            </p>
+          )}
         </div>
       )}
     </div>

@@ -7,21 +7,23 @@ import { createClient } from '@/lib/supabase'
 import { useUser, canAccess, TIER_LABEL, TIER_COLOR } from '@/lib/use-user'
 import { APP_VERSION } from '@/lib/version'
 
-const NAV_ITEMS: { href: string; label: string; icon: string; tier: 'kopi' | 'starter' | 'pro' | null }[] = [
+const NAV_ITEMS: { href: string; label: string; icon: string; tier: 'starter' | 'vip' | 'vvip' | null }[] = [
   { href: '/dashboard', label: 'Overview', icon: '🏠', tier: null },
+  { href: '/dashboard/lpdp', label: 'LPDP Center', icon: '🛡️', tier: null },
+  { href: '/dashboard/aas', label: 'AAS Center', icon: '🦘', tier: 'starter' },
   { href: '/chat/aas', label: 'Chat AAS · Den Dhana', icon: '🇦🇺', tier: null },
   { href: '/chat/lpdp', label: 'Chat LPDP · Den Dhana', icon: '🇮🇩', tier: null },
   { href: '/chat', label: 'Tanya Produk & Layanan', icon: '💬', tier: null },
-  { href: '/dashboard/learn', label: 'Learning Modules', icon: '📚', tier: 'kopi' },
-  { href: '/tracker', label: 'Scholarship Tracker', icon: '📋', tier: 'kopi' },
-  { href: '/dashboard/calendar', label: 'Kalender Beasiswa', icon: '📅', tier: 'starter' },
-  { href: '/dashboard/documents', label: 'Checklist Dokumen', icon: '✅', tier: 'kopi' },
-  { href: '/dashboard/ielts', label: 'IELTS Tracker', icon: '🎯', tier: 'starter' },
-  { href: '/dashboard/cv', label: 'CV Analyzer', icon: '📄', tier: 'starter' },
-  { href: '/dashboard/essay', label: 'Essay Workshop', icon: '✏️', tier: 'pro' },
+  { href: '/dashboard/learn', label: 'Learning Modules', icon: '📚', tier: 'starter' },
+  { href: '/tracker', label: 'Scholarship Tracker', icon: '📋', tier: 'starter' },
+  { href: '/dashboard/calendar', label: 'Kalender Beasiswa', icon: '📅', tier: 'vip' },
+  { href: '/dashboard/documents', label: 'Checklist Dokumen', icon: '✅', tier: 'starter' },
+  { href: '/dashboard/ielts', label: 'IELTS Tracker', icon: '🎯', tier: 'vip' },
+  { href: '/dashboard/cv', label: 'CV Analyzer', icon: '📄', tier: 'vip' },
+  { href: '/dashboard/essay', label: 'Essay Workshop', icon: '✏️', tier: 'vvip' },
   { href: '/dashboard/affiliate', label: 'Afiliasi & Komisi', icon: '🤝', tier: null },
   { href: '/dashboard/alumni', label: 'Awardee Alumni', icon: '🎓', tier: null },
-  { href: '/dashboard/achievements', label: 'Achievements', icon: '🏆', tier: 'kopi' },
+  { href: '/dashboard/achievements', label: 'Achievements', icon: '🏆', tier: 'starter' },
   { href: '/dashboard/profile', label: 'Profil Saya', icon: '👤', tier: null },
 ]
 

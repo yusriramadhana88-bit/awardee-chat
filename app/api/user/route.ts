@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
-const LIMITS: Record<string, number> = { free: 5, kopi: 20, starter: 50, pro: 999 }
+const LIMITS: Record<string, number> = { free: 5, starter: 20, vip: 50, vvip: 999 }
 
 export async function GET(req: NextRequest) {
   try {
