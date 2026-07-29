@@ -5,6 +5,20 @@ Versi: [Semantic Versioning](https://semver.org/) — Major.Minor.Patch
 
 ---
 
+## [2.10.0] — 2026-07-29
+
+### Fixed
+- **Program afiliasi ternyata tidak pernah benar-benar melacak klik/konversi** — audit menemukan tabel `referrals` tidak pernah diisi kode apapun: tidak ada capture `?ref=CODE` di manapun, dan tidak ada koneksi lynk.id (memang sengaja tanpa webhook, sama seperti semua produk lain). Dashboard afiliasi selalu menampilkan 0 klik/0 konversi meskipun affiliate benar-benar berhasil merujuk pembeli
+
+### Added
+- **Tracking afiliasi semi-otomatis end-to-end**:
+  1. `ReferralCapture.tsx` (dipasang di root layout) mendeteksi `?ref=CODE` di halaman manapun, mencatat 1 baris klik ke tabel `referrals` via `POST /api/affiliate/click`, disimpan di localStorage (30 hari)
+  2. Saat orang itu daftar akun (`app/register/page.tsx` → `/api/confirm-user`), klik yang tersimpan otomatis di-attach ke akun barunya (`referee_user_id`)
+  3. Saat admin mengaktifkan/upgrade tier user tersebut (`PATCH /api/admin/users`) — langkah yang memang sudah manual untuk semua user karena lynk.id tanpa webhook — sistem otomatis mendeteksi klik referral yang belum terkonversi, menghitung komisi (harga tier × commission_rate afiliasi, termasuk harga promo kalau berlaku), dan mengkredit ke `affiliates.total_earned`
+  - Diuji end-to-end langsung ke database production (klik → attach → konversi → komisi Rp49.000×20%=Rp9.800 terverifikasi tepat), lalu dibersihkan
+
+---
+
 ## [2.9.0] — 2026-07-29
 
 ### Fixed

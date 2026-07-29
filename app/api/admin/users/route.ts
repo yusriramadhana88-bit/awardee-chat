@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { loadEnvKey } from '@/lib/env'
+import { TIER_PRICE_IDR, TIER_PRICE_PROMO_IDR } from '@/lib/tier'
 
 function getAdminSupabase() {
   return createSupabaseClient(
@@ -78,10 +79,50 @@ export async function PATCH(req: NextRequest) {
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
+  let promoApplied = false
   if (promoClaim && tier !== 'free') {
     const { data: slot } = await supabase.from('tier_promo_slots').select('cap, claimed').eq('tier', tier).single()
     if (slot && slot.claimed < slot.cap) {
       await supabase.from('tier_promo_slots').update({ claimed: slot.claimed + 1 }).eq('tier', tier)
+      promoApplied = true
+    }
+  }
+
+  // Kredit komisi afiliasi kalau user ini punya klik referral yang belum terkonversi —
+  // ini titik konversi resmi (lynk.id tidak ada webhook, jadi ini dipicu manual oleh admin
+  // saat aktivasi/upgrade tier, bukan otomatis dari pembayaran).
+  if (tier !== 'free') {
+    const { data: pendingReferral } = await supabase
+      .from('referrals')
+      .select('id, affiliate_id')
+      .eq('referee_user_id', userId)
+      .is('converted_at', null)
+      .order('clicked_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+
+    if (pendingReferral) {
+      const priceIdr = promoApplied
+        ? TIER_PRICE_PROMO_IDR[tier as 'starter' | 'vip' | 'vvip']
+        : TIER_PRICE_IDR[tier as 'starter' | 'vip' | 'vvip']
+
+      const { data: affiliate } = await supabase
+        .from('affiliates')
+        .select('commission_rate, total_earned')
+        .eq('id', pendingReferral.affiliate_id)
+        .single()
+
+      if (affiliate) {
+        const commission = Math.round(priceIdr * (Number(affiliate.commission_rate) / 100))
+        await supabase
+          .from('referrals')
+          .update({ converted_at: new Date().toISOString(), subscription_value: priceIdr, commission_earned: commission })
+          .eq('id', pendingReferral.id)
+        await supabase
+          .from('affiliates')
+          .update({ total_earned: Number(affiliate.total_earned) + commission })
+          .eq('id', pendingReferral.affiliate_id)
+      }
     }
   }
 

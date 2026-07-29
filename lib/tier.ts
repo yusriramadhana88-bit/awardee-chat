@@ -36,6 +36,20 @@ export const TIER_PRICE_PROMO: Record<'starter' | 'vip' | 'vvip', string> = {
   vvip: 'Rp120K',
 }
 
+// Versi numerik (IDR) dari TIER_PRICE/TIER_PRICE_PROMO — dipakai untuk hitung komisi afiliasi
+// saat admin upgrade tier user (lihat app/api/admin/users/route.ts).
+export const TIER_PRICE_IDR: Record<'starter' | 'vip' | 'vvip', number> = {
+  starter: 49000,
+  vip: 149000,
+  vvip: 240000,
+}
+
+export const TIER_PRICE_PROMO_IDR: Record<'starter' | 'vip' | 'vvip', number> = {
+  starter: 25000,
+  vip: 74500,
+  vvip: 120000,
+}
+
 export const TIER_PROMO_CAP: Record<'starter' | 'vip' | 'vvip', number> = {
   starter: 25,
   vip: 50,

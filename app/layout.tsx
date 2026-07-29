@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import ReferralCapture from './_components/ReferralCapture'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -42,6 +43,7 @@ export default function RootLayout({
   return (
     <html lang="id">
       <body className="bg-off font-sans text-ink antialiased flex flex-col min-h-screen">
+        <ReferralCapture />
         <main className="flex-1">{children}</main>
         <Footer />
       </body>

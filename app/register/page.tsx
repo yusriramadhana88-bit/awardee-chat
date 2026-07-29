@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 import { TIER_LABEL, TIER_PRICE } from '@/lib/use-user'
+import { getStoredReferral, clearStoredReferral } from '@/lib/referral-client'
 
 function RegisterForm() {
   const [name, setName] = useState('')
@@ -92,12 +93,15 @@ function RegisterForm() {
       return
     }
 
-    // Auto-confirm email (bypass Supabase SMTP limit) + kirim lead magnet gratis
+    // Auto-confirm email (bypass Supabase SMTP limit) + kirim lead magnet gratis +
+    // attach klik referral (kalau dia daftar lewat link afiliasi) ke akun baru ini
+    const referral = getStoredReferral()
     await fetch('/api/confirm-user', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: signUpData.user.id, email, name }),
+      body: JSON.stringify({ userId: signUpData.user.id, email, name, referralId: referral?.referralId }),
     })
+    if (referral) clearStoredReferral()
 
     // Auto-login langsung setelah konfirmasi
     const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
