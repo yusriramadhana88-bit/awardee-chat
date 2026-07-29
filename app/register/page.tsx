@@ -92,11 +92,11 @@ function RegisterForm() {
       return
     }
 
-    // Auto-confirm email (bypass Supabase SMTP limit)
+    // Auto-confirm email (bypass Supabase SMTP limit) + kirim lead magnet gratis
     await fetch('/api/confirm-user', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: signUpData.user.id }),
+      body: JSON.stringify({ userId: signUpData.user.id, email, name }),
     })
 
     // Auto-login langsung setelah konfirmasi

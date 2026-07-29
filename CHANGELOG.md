@@ -5,6 +5,15 @@ Versi: [Semantic Versioning](https://semver.org/) — Major.Minor.Patch
 
 ---
 
+## [2.4.0] — 2026-07-29
+
+### Added
+- **Lead magnet otomatis saat registrasi**: setiap akun baru (semua signup = tier free, upgrade tier terjadi manual belakangan) langsung dapat 1 lead magnet gratis dikirim ke email begitu daftar selesai — dipilih acak dari `LEAD_MAGNETS` di `lib/lead-magnets.ts` (saat ini: "Paket Persiapan Administrasi LPDP Batch 2 2026" via link, dan "Panduan Lolos Interview AAS" sebagai attachment PDF langsung dari `telegram-bot/assets/`)
+- `lib/email.ts` — wrapper Resend untuk kirim email transaksional (`sendLeadMagnetEmail`), dipanggil dari `app/api/confirm-user` tepat setelah email dikonfirmasi otomatis
+- ⚠️ **Butuh setup manual sebelum benar-benar mengirim**: daftar akun di resend.com, verifikasi domain pengirim (`awardee.id`), lalu isi `RESEND_API_KEY` di `.env.local` (lokal) dan Vercel Environment Variables (production) — lihat `.env.local.example`. Tanpa key ini registrasi tetap jalan normal, hanya email lead magnet yang di-skip diam-diam (ter-log di server)
+
+---
+
 ## [2.3.0] — 2026-07-29
 
 ### Added

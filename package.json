@@ -1,6 +1,6 @@
 {
   "name": "awardeeos",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -22,6 +22,7 @@
     "openai": "^6.37.0",
     "react": "^18",
     "react-dom": "^18",
+    "resend": "^6.18.1",
     "youtube-transcript": "^1.2.1"
   },
   "devDependencies": {
