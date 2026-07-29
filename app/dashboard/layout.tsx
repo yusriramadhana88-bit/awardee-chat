@@ -32,9 +32,21 @@ const NAV_ITEMS: { href: string; label: string; icon: string; tier: 'starter' | 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { user, loading } = useUser()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [collapsed, setCollapsed] = useState(() => {
+    if (typeof window === 'undefined') return false
+    return window.localStorage.getItem('awardee_sidebar_collapsed') === '1'
+  })
   const pathname = usePathname()
   const router = useRouter()
   const supabase = createClient()
+
+  function toggleCollapsed() {
+    setCollapsed((prev) => {
+      const next = !prev
+      window.localStorage.setItem('awardee_sidebar_collapsed', next ? '1' : '0')
+      return next
+    })
+  }
 
   async function handleLogout() {
     await supabase.auth.signOut()
@@ -50,6 +62,61 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   const tier = user?.tier || 'free'
+
+  function renderNavItems(onNavClick?: () => void) {
+    return (
+      <nav className="space-y-1">
+        {NAV_ITEMS.map((item) => {
+          const active = pathname === item.href
+          const locked = !canAccess(tier, item.tier)
+          return (
+            <Link
+              key={item.href}
+              href={locked ? '/dashboard#upgrade' : item.href}
+              onClick={onNavClick}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                active
+                  ? 'bg-off text-navy'
+                  : locked
+                  ? 'text-muted hover:bg-off'
+                  : 'text-muted hover:bg-off hover:text-ink'
+              }`}
+            >
+              <span className="text-lg">{item.icon}</span>
+              <span className="flex-1">{item.label}</span>
+              {locked && item.tier && (
+                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 font-semibold">
+                  {TIER_LABEL[item.tier].toUpperCase()}
+                </span>
+              )}
+            </Link>
+          )
+        })}
+      </nav>
+    )
+  }
+
+  function renderSidebarFooter() {
+    return (
+      <div className="p-4 mt-auto border-t border-hairline w-64">
+        <div className="flex items-center justify-between px-2 mb-3">
+          <div className="min-w-0">
+            <div className="text-sm font-medium text-ink truncate">{user?.name}</div>
+            <div className="text-xs text-muted truncate">{user?.email}</div>
+          </div>
+          <span className={`text-[10px] font-bold px-2 py-1 rounded-full ${TIER_COLOR[tier]}`}>
+            {TIER_LABEL[tier]}
+          </span>
+        </div>
+        <button
+          onClick={handleLogout}
+          className="w-full text-left text-sm text-muted hover:text-ink px-2 py-1.5 transition-colors"
+        >
+          Keluar
+        </button>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-off lg:flex">
@@ -70,64 +137,37 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </button>
       </div>
 
-      {/* Sidebar */}
-      <aside className={`${menuOpen ? 'block' : 'hidden'} lg:block w-full lg:w-64 bg-white border-r border-hairline lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto`}>
-        <div className="p-4">
-          <Link href="/dashboard" className="hidden lg:flex items-center gap-2 mb-6 px-2">
-            <div className="w-9 h-9 rounded-xl bg-navy flex items-center justify-center text-white font-bold">A</div>
-            <div>
-              <div className="font-bold text-ink text-sm leading-tight">AWARDEE APP</div>
-              <div className="text-[10px] text-muted leading-tight">v{APP_VERSION} · by Awardee.id</div>
-            </div>
-          </Link>
-
-          <nav className="space-y-1">
-            {NAV_ITEMS.map((item) => {
-              const active = pathname === item.href
-              const locked = !canAccess(tier, item.tier)
-              return (
-                <Link
-                  key={item.href}
-                  href={locked ? '/dashboard#upgrade' : item.href}
-                  onClick={() => setMenuOpen(false)}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
-                    active
-                      ? 'bg-off text-navy'
-                      : locked
-                      ? 'text-muted hover:bg-off'
-                      : 'text-muted hover:bg-off hover:text-ink'
-                  }`}
-                >
-                  <span className="text-lg">{item.icon}</span>
-                  <span className="flex-1">{item.label}</span>
-                  {locked && item.tier && (
-                    <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 font-semibold">
-                      {TIER_LABEL[item.tier].toUpperCase()}
-                    </span>
-                  )}
-                </Link>
-              )
-            })}
-          </nav>
-        </div>
-
-        <div className="p-4 mt-auto border-t border-hairline">
-          <div className="flex items-center justify-between px-2 mb-3">
-            <div className="min-w-0">
-              <div className="text-sm font-medium text-ink truncate">{user?.name}</div>
-              <div className="text-xs text-muted truncate">{user?.email}</div>
-            </div>
-            <span className={`text-[10px] font-bold px-2 py-1 rounded-full ${TIER_COLOR[tier]}`}>
-              {TIER_LABEL[tier]}
-            </span>
+      {/* Desktop sidebar — collapsible via toggle button */}
+      <div className="hidden lg:block relative">
+        <aside className={`${collapsed ? 'lg:w-0' : 'lg:w-64'} bg-white border-r border-hairline lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto overflow-x-hidden transition-all duration-200`}>
+          <div className="p-4 w-64">
+            <Link href="/dashboard" className="flex items-center gap-2 mb-6 px-2">
+              <div className="w-9 h-9 rounded-xl bg-navy flex items-center justify-center text-white font-bold">A</div>
+              <div>
+                <div className="font-bold text-ink text-sm leading-tight">AWARDEE APP</div>
+                <div className="text-[10px] text-muted leading-tight">v{APP_VERSION} · by Awardee.id</div>
+              </div>
+            </Link>
+            {renderNavItems()}
           </div>
-          <button
-            onClick={handleLogout}
-            className="w-full text-left text-sm text-muted hover:text-ink px-2 py-1.5 transition-colors"
-          >
-            Keluar
-          </button>
-        </div>
+          {renderSidebarFooter()}
+        </aside>
+
+        <button
+          onClick={toggleCollapsed}
+          title={collapsed ? 'Tampilkan menu' : 'Sembunyikan menu'}
+          className="absolute top-6 -right-3 z-40 w-6 h-6 rounded-full bg-white border border-hairline shadow-sm flex items-center justify-center text-muted hover:text-ink transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className={`w-3.5 h-3.5 transition-transform ${collapsed ? 'rotate-180' : ''}`}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Mobile sidebar — opened via hamburger, closes on nav click */}
+      <aside className={`${menuOpen ? 'block' : 'hidden'} lg:hidden w-full bg-white border-r border-hairline`}>
+        <div className="p-4">{renderNavItems(() => setMenuOpen(false))}</div>
+        {renderSidebarFooter()}
       </aside>
 
       {/* Main content */}

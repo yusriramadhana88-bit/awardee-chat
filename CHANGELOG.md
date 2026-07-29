@@ -5,6 +5,13 @@ Versi: [Semantic Versioning](https://semver.org/) — Major.Minor.Patch
 
 ---
 
+## [2.7.0] — 2026-07-29
+
+### Added
+- **Sidebar dashboard bisa di-collapse** (desktop) — tombol panah kecil di tepi sidebar untuk sembunyikan/tampilkan menu kiri sesuai kebutuhan, status collapse disimpan di localStorage jadi tetap konsisten walau reload halaman
+
+---
+
 ## [2.6.1] — 2026-07-29
 
 ### Added
