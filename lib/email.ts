@@ -7,7 +7,7 @@ import { LeadMagnet, readLeadMagnetAttachment } from './lead-magnets'
 // pengirim di dashboard Resend sebelum ini bisa benar-benar mengirim di production.
 // Kalau RESEND_API_KEY kosong, sendLeadMagnetEmail() diam-diam skip (tidak menggagalkan
 // registrasi user) — hanya log warning di server.
-const EMAIL_FROM = 'AWARDEE APP <hello@awardee.id>'
+const EMAIL_FROM = 'AWARDEE APP <hello@mail.awardee.id>'
 
 function getResend(): Resend | null {
   const apiKey = loadEnvKey('RESEND_API_KEY')
