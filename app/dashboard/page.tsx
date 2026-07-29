@@ -21,19 +21,27 @@ type LearnModule = {
 }
 type AchievementItem = { id: string; title: string; icon: string; earned: boolean; earnedAt: string | null }
 
-const FEATURES: { href: string; icon: string; title: string; desc: string; tier: 'starter' | 'vip' | 'vvip' | null }[] = [
-  { href: '/dashboard/lpdp', icon: '🛡️', title: 'LPDP Center', desc: 'Cek dokumen & review esai LPDP Batch 2 2026, langsung dapat skor kesiapan', tier: null },
-  { href: '/dashboard/aas', icon: '🦘', title: 'AAS Center', desc: 'Cek dokumen & review supporting statement AAS, langsung dapat skor kesiapan', tier: 'starter' },
-  { href: '/chat/aas', icon: '🇦🇺', title: 'Chat AAS · Den Dhana', desc: 'Konsultan khusus persiapan Australia Awards Scholarship', tier: null },
-  { href: '/chat/lpdp', icon: '🇮🇩', title: 'Chat LPDP · Den Dhana', desc: 'Konsultan khusus persiapan LPDP', tier: null },
-  { href: '/chat', icon: '💬', title: 'Tanya Produk & Layanan', desc: 'Tanya soal Awardee.id, produk, atau beasiswa secara umum', tier: null },
-  { href: '/dashboard/learn', icon: '📚', title: 'Learning Modules', desc: 'Materi #GaliDiri, essay, sampai interview + kuis', tier: 'starter' },
-  { href: '/tracker', icon: '📋', title: 'Scholarship Tracker', desc: 'Pantau progres tahapan aplikasi beasiswamu', tier: 'starter' },
-  { href: '/dashboard/calendar', icon: '📅', title: 'Kalender Beasiswa', desc: 'Semua deadline penting dalam satu tampilan', tier: 'vip' },
-  { href: '/dashboard/documents', icon: '✅', title: 'Checklist Dokumen', desc: 'Daftar dokumen wajib per jenis beasiswa', tier: 'starter' },
-  { href: '/dashboard/ielts', icon: '🎯', title: 'IELTS Tracker', desc: 'Catat skor & pantau progres menuju target', tier: 'vip' },
-  { href: '/dashboard/cv', icon: '📄', title: 'CV Analyzer', desc: 'Analisis kekuatan CV untuk aplikasi beasiswa', tier: 'vip' },
-  { href: '/dashboard/essay', icon: '✏️', title: 'Essay Workshop', desc: 'Kelola draft essay & dapatkan kritik AI mendalam', tier: 'vvip' },
+type Feature = { href: string; icon: string; title: string; desc: string; tier: 'starter' | 'vip' | 'vvip' | null; group: 'program' | 'chat' | 'alat' }
+
+const FEATURES: Feature[] = [
+  { href: '/dashboard/lpdp', icon: '🛡️', title: 'LPDP Center', desc: 'Cek dokumen & review esai LPDP Batch 2 2026, langsung dapat skor kesiapan', tier: null, group: 'program' },
+  { href: '/dashboard/aas', icon: '🦘', title: 'AAS Center', desc: 'Cek dokumen & review supporting statement AAS, langsung dapat skor kesiapan', tier: 'starter', group: 'program' },
+  { href: '/chat/aas', icon: '🇦🇺', title: 'Chat AAS · Den Dhana', desc: 'Konsultan khusus persiapan Australia Awards Scholarship', tier: null, group: 'chat' },
+  { href: '/chat/lpdp', icon: '🇮🇩', title: 'Chat LPDP · Den Dhana', desc: 'Konsultan khusus persiapan LPDP', tier: null, group: 'chat' },
+  { href: '/chat', icon: '💬', title: 'Tanya Produk & Layanan', desc: 'Tanya soal Awardee.id, produk, atau beasiswa secara umum', tier: null, group: 'chat' },
+  { href: '/dashboard/learn', icon: '📚', title: 'Learning Modules', desc: 'Materi #GaliDiri, essay, sampai interview + kuis', tier: 'starter', group: 'alat' },
+  { href: '/tracker', icon: '📋', title: 'Scholarship Tracker', desc: 'Pantau progres tahapan aplikasi beasiswamu', tier: 'starter', group: 'alat' },
+  { href: '/dashboard/calendar', icon: '📅', title: 'Kalender Beasiswa', desc: 'Semua deadline penting dalam satu tampilan', tier: 'vip', group: 'alat' },
+  { href: '/dashboard/documents', icon: '✅', title: 'Checklist Dokumen', desc: 'Daftar dokumen wajib per jenis beasiswa', tier: 'starter', group: 'alat' },
+  { href: '/dashboard/ielts', icon: '🎯', title: 'IELTS Tracker', desc: 'Catat skor & pantau progres menuju target', tier: 'vip', group: 'alat' },
+  { href: '/dashboard/cv', icon: '📄', title: 'CV Analyzer', desc: 'Analisis kekuatan CV untuk aplikasi beasiswa', tier: 'vip', group: 'alat' },
+  { href: '/dashboard/essay', icon: '✏️', title: 'Essay Workshop', desc: 'Kelola draft essay & dapatkan kritik AI mendalam', tier: 'vvip', group: 'alat' },
+]
+
+const FEATURE_GROUPS: { id: Feature['group']; label: string }[] = [
+  { id: 'program', label: '🎯 Program Beasiswa — mulai di sini' },
+  { id: 'chat', label: '💬 Ngobrol Sama AI' },
+  { id: 'alat', label: '🛠️ Alat Bantu Persiapan' },
 ]
 
 export default function DashboardPage() {
@@ -272,31 +280,58 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Feature grid */}
-      <h2 className="text-sm font-semibold text-ink mb-3">Fitur AwardeeOS</h2>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        {FEATURES.map((f) => {
-          const locked = !canAccess(tier, f.tier)
-          return (
-            <Link
-              key={f.href}
-              href={locked ? '#upgrade' : f.href}
-              className={`relative bg-white rounded-xl border p-4 transition-colors ${
-                locked ? 'border-hairline opacity-70' : 'border-hairline hover:border-gold'
-              }`}
-            >
-              {locked && f.tier && (
-                <span className="absolute top-3 right-3 text-[10px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 font-semibold">
-                  {TIER_LABEL[f.tier].toUpperCase()}
-                </span>
-              )}
-              <div className="text-2xl mb-2">{f.icon}</div>
-              <div className="font-medium text-ink text-sm">{f.title}</div>
-              <div className="text-xs text-muted mt-0.5">{f.desc}</div>
-            </Link>
-          )
-        })}
+      {/* Quick-start: bantu user baru yang bingung mau klik apa */}
+      <div className="bg-gradient-to-br from-off to-white border border-gold rounded-xl p-5 mb-8">
+        <h2 className="font-semibold text-ink mb-1">🧭 Bingung mulai dari mana?</h2>
+        <p className="text-sm text-muted mb-4">Pilih salah satu, langsung diarahkan ke langkah pertama yang tepat.</p>
+        <div className="grid sm:grid-cols-3 gap-3">
+          <Link href="/dashboard/lpdp" className="bg-white border border-hairline rounded-xl p-3 text-center hover:border-gold transition-colors">
+            <div className="text-xl mb-1">🛡️</div>
+            <div className="text-sm font-medium text-ink">Aku incar LPDP</div>
+          </Link>
+          <Link href={canAccess(tier, 'starter') ? '/dashboard/aas' : '#upgrade'} className="bg-white border border-hairline rounded-xl p-3 text-center hover:border-gold transition-colors">
+            <div className="text-xl mb-1">🦘</div>
+            <div className="text-sm font-medium text-ink">Aku incar AAS</div>
+          </Link>
+          <Link href="/chat" className="bg-white border border-hairline rounded-xl p-3 text-center hover:border-gold transition-colors">
+            <div className="text-xl mb-1">💬</div>
+            <div className="text-sm font-medium text-ink">Belum yakin, mau tanya dulu</div>
+          </Link>
+        </div>
+        <p className="text-xs text-muted mt-3">
+          Masih bingung soal menu lain? Klik ikon chat 💬 di pojok kanan bawah kapan saja — bisa tanya langsung ke AI.
+        </p>
       </div>
+
+      {/* Feature grid — dikelompokkan per kebutuhan supaya tidak menumpuk jadi satu daftar panjang */}
+      {FEATURE_GROUPS.map((group) => (
+        <div key={group.id} className="mb-8">
+          <h2 className="text-sm font-semibold text-ink mb-3">{group.label}</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {FEATURES.filter((f) => f.group === group.id).map((f) => {
+              const locked = !canAccess(tier, f.tier)
+              return (
+                <Link
+                  key={f.href}
+                  href={locked ? '#upgrade' : f.href}
+                  className={`relative bg-white rounded-xl border p-4 transition-colors ${
+                    locked ? 'border-hairline opacity-70' : 'border-hairline hover:border-gold'
+                  }`}
+                >
+                  {locked && f.tier && (
+                    <span className="absolute top-3 right-3 text-[10px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 font-semibold">
+                      {TIER_LABEL[f.tier].toUpperCase()}
+                    </span>
+                  )}
+                  <div className="text-2xl mb-2">{f.icon}</div>
+                  <div className="font-medium text-ink text-sm">{f.title}</div>
+                  <div className="text-xs text-muted mt-0.5">{f.desc}</div>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+      ))}
 
       {/* Account info */}
       <div className="bg-white rounded-xl border border-hairline p-5 mb-6">

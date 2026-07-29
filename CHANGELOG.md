@@ -5,6 +5,17 @@ Versi: [Semantic Versioning](https://semver.org/) — Major.Minor.Patch
 
 ---
 
+## [2.5.0] — 2026-07-29
+
+### Fixed
+- **Batas karakter Review Esai AAS Center tidak sesuai ketentuan resmi form OASIS** (feedback dari user Febriyanto): sebelumnya 1 textarea gabungan untuk semua pertanyaan per esai dengan cek total gabungan (6500/4500 karakter) — user bisa saja menulis 6000 karakter di jawaban pertanyaan 1 saja dan sistem tetap menerimanya, padahal OASIS membatasi **2000 karakter PER PERTANYAAN** dan menolak kelebihannya. Diperbaiki: sekarang 1 textarea terpisah per pertanyaan, masing-masing hard-capped 2000 karakter (`MAX_CHARS_PER_QUESTION` di `lib/aas-requirements.ts`), divalidasi ulang di server (`app/api/aas/essay-review`), dan disimpan per-pertanyaan (kolom baru `answers` JSONB, migration 018) supaya bisa di-reload dengan benar untuk diedit
+
+### Added
+- **Panduan navigasi untuk user baru**: dashboard Overview kini punya section "🧭 Bingung mulai dari mana?" (3 tombol pilihan cepat: LPDP/AAS/belum yakin) dan grid fitur dikelompokkan per kebutuhan (Program Beasiswa / Ngobrol Sama AI / Alat Bantu Persiapan) — bukan 12 kartu menumpuk jadi satu daftar
+- **Floating chat widget** (`app/dashboard/_components/FloatingChat.tsx`) — muncul di semua halaman dashboard (bukan cuma halaman /chat), bisa langsung ditanya "menu mana yang harus aku klik" tanpa pindah halaman. System prompt CS bot (`lib/prompts.ts`) ditambah "Peta Menu AWARDEE APP" — panduan urutan menu spesifik per tujuan (LPDP/AAS/belum yakin) supaya AI bisa kasih arahan konkret, bukan generik
+
+---
+
 ## [2.4.0] — 2026-07-29
 
 ### Added

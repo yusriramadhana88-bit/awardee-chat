@@ -162,8 +162,13 @@ export function applicableDocs(p: AasProfileLite): AasDoc[] {
 
 export type AasEssayType = 'kepemimpinan_dampak' | 'rencana_reintegrasi'
 
-// Batas resmi form OASIS: MAKSIMAL 2000 KARAKTER per pertanyaan (bukan kata) — jawaban lebih
-// tidak akan dipertimbangkan sistem. maxChars di sini = jumlah pertanyaan digabung x 2000 + buffer.
+// Batas resmi form OASIS: MAKSIMAL 2000 KARAKTER per pertanyaan (bukan kata, bukan gabungan) —
+// jawaban lebih tidak akan dipertimbangkan sistem. Ditegakkan per kotak jawaban di UI (satu
+// textarea per pertanyaan) dan divalidasi ulang di server — lihat app/api/aas/essay-review.
+export const MAX_CHARS_PER_QUESTION = 2000
+
+// maxChars di sini = jumlah pertanyaan digabung x 2000 + buffer (dipakai untuk info/progres total,
+// BUKAN gate keras lagi — gate keras sekarang per pertanyaan via MAX_CHARS_PER_QUESTION).
 export const ESSAY_TYPES: Record<AasEssayType, { label: string; maxChars: number; questions: string[]; hint: string }> = {
   kepemimpinan_dampak: {
     label: 'Alasan Studi, Dampak & Kepemimpinan',

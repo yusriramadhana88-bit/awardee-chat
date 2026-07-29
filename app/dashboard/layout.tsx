@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 import { useUser, canAccess, TIER_LABEL, TIER_COLOR } from '@/lib/use-user'
 import { APP_VERSION } from '@/lib/version'
+import FloatingChat from './_components/FloatingChat'
 
 const NAV_ITEMS: { href: string; label: string; icon: string; tier: 'starter' | 'vip' | 'vvip' | null }[] = [
   { href: '/dashboard', label: 'Overview', icon: '🏠', tier: null },
@@ -130,6 +131,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       {/* Main content */}
       <main className="flex-1 min-w-0">{children}</main>
+
+      <FloatingChat />
     </div>
   )
 }

@@ -4,7 +4,7 @@ import { loadEnvKey } from '@/lib/env'
 import { getAnthropic, SONNET_MODEL } from '@/lib/anthropic'
 import { awardAchievement } from '@/lib/achievements-server'
 import { canAccess } from '@/lib/tier'
-import { ESSAY_TYPES, type AasEssayType } from '@/lib/aas-requirements'
+import { ESSAY_TYPES, MAX_CHARS_PER_QUESTION, type AasEssayType } from '@/lib/aas-requirements'
 import { buildEssayReviewSystemPrompt } from '@/lib/aas-ai'
 import { checkAasReadyAchievement } from '@/lib/aas-achievements'
 import { checkAiQuota, logAiUsage } from '@/lib/ai-quota'
@@ -62,23 +62,34 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json()
     const essayType = body.essayType
-    const content = body.content
+    const answers = body.answers
 
     if (essayType !== 'kepemimpinan_dampak' && essayType !== 'rencana_reintegrasi') {
       return NextResponse.json({ error: 'Jenis esai tidak dikenali' }, { status: 400 })
     }
-    if (!content || typeof content !== 'string' || content.trim().length < 50) {
+
+    const meta = ESSAY_TYPES[essayType as AasEssayType]
+
+    if (!Array.isArray(answers) || answers.length !== meta.questions.length || answers.some((a) => typeof a !== 'string')) {
+      return NextResponse.json({ error: 'Jawaban tidak lengkap' }, { status: 400 })
+    }
+    const overLimitIndex = (answers as string[]).findIndex((a) => a.length > MAX_CHARS_PER_QUESTION)
+    if (overLimitIndex !== -1) {
+      return NextResponse.json({ error: `Jawaban pertanyaan ${overLimitIndex + 1} melebihi batas resmi ${MAX_CHARS_PER_QUESTION} karakter.` }, { status: 400 })
+    }
+    const totalChars = (answers as string[]).reduce((sum, a) => sum + a.trim().length, 0)
+    if (totalChars < 50) {
       return NextResponse.json({ error: 'Tulisan terlalu pendek. Minimal 50 karakter.' }, { status: 400 })
     }
 
-    const meta = ESSAY_TYPES[essayType as AasEssayType]
-    const charCount = content.length
+    const content = meta.questions.map((q, i) => `${i + 1}. ${q}\n\n${(answers as string[])[i].trim()}`).join('\n\n')
+    const charCount = totalChars
 
     const { data: aasProfile } = await supabase.from('aas_profiles').select('*').eq('user_id', user.id).maybeSingle()
     const { data: cvRow } = await supabase.from('cv_analyses').select('cv_content').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1).maybeSingle()
     const profileContext = profileContextString(aasProfile, cvRow?.cv_content ?? null)
     const system = buildEssayReviewSystemPrompt(essayType as AasEssayType, profileContext)
-    const userPrompt = `Jumlah karakter (dihitung sistem, akurat): ${charCount} karakter (batas resmi ${meta.maxChars} untuk gabungan pertanyaan ini)\n\nBerikut jawaban yang ditempel user:\n\n${content.slice(0, 16000)}`
+    const userPrompt = `Jumlah karakter tiap jawaban (dihitung sistem, akurat, batas resmi ${MAX_CHARS_PER_QUESTION} karakter/pertanyaan): ${(answers as string[]).map((a, i) => `Q${i + 1}=${a.length}`).join(', ')}\n\nBerikut jawaban yang ditempel user:\n\n${content.slice(0, 16000)}`
 
     // Streaming (bukan sekadar UX) — respons panjang (handbook context besar + max_tokens tinggi)
     // bisa melebihi idle-timeout jaringan edge Vercel kalau dikirim sebagai satu blok JSON di akhir.
@@ -106,6 +117,7 @@ export async function POST(req: NextRequest) {
             user_id: user.id,
             essay_type: essayType,
             content: content.slice(0, 16000),
+            answers,
             feedback,
             score,
           })
@@ -152,7 +164,7 @@ export async function GET(req: NextRequest) {
 
     const { data: reviews } = await supabase
       .from('aas_essay_reviews')
-      .select('essay_type, content, feedback, score, created_at')
+      .select('essay_type, content, answers, feedback, score, created_at')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
 

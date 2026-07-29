@@ -5,13 +5,14 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase'
 import { useUser, canAccess } from '@/lib/use-user'
 import { getScoreLevel, scoreToPercent } from '@/lib/gamification'
-import { ESSAY_TYPES, type AasEssayType } from '@/lib/aas-requirements'
+import { ESSAY_TYPES, MAX_CHARS_PER_QUESTION, type AasEssayType } from '@/lib/aas-requirements'
 import FeatureLock from '../../_components/FeatureLock'
 import LevelProgressBar from '../../_components/LevelProgressBar'
 
 type EssayReviewRow = {
   essay_type: AasEssayType
   content: string
+  answers: string[] | null
   feedback: string
   score: number | null
   created_at: string
@@ -19,10 +20,14 @@ type EssayReviewRow = {
 
 const TABS: AasEssayType[] = ['kepemimpinan_dampak', 'rencana_reintegrasi']
 
+function emptyAnswers(essayType: AasEssayType): string[] {
+  return ESSAY_TYPES[essayType].questions.map(() => '')
+}
+
 export default function EsaiPage() {
   const { user, loading } = useUser()
   const [tab, setTab] = useState<AasEssayType>('kepemimpinan_dampak')
-  const [content, setContent] = useState('')
+  const [answers, setAnswers] = useState<string[]>(emptyAnswers('kepemimpinan_dampak'))
   const [latest, setLatest] = useState<Record<string, EssayReviewRow>>({})
   const [usedIdr, setUsedIdr] = useState(0)
   const [budgetIdr, setBudgetIdr] = useState<number | null>(null)
@@ -30,7 +35,7 @@ export default function EsaiPage() {
   const [error, setError] = useState('')
   const [upsell, setUpsell] = useState(false)
   const [pageLoading, setPageLoading] = useState(true)
-  const [result, setResult] = useState<{ feedback: string; score: number | null; charCount: number } | null>(null)
+  const [result, setResult] = useState<{ feedback: string; score: number | null } | null>(null)
   const supabase = createClient()
 
   async function loadAll() {
@@ -51,14 +56,23 @@ export default function EsaiPage() {
 
   useEffect(() => {
     const existing = latest[tab]
-    setContent(existing?.content ?? '')
-    setResult(existing ? { feedback: existing.feedback, score: existing.score, charCount: existing.content.length } : null)
+    setAnswers(existing?.answers && existing.answers.length === ESSAY_TYPES[tab].questions.length ? existing.answers : emptyAnswers(tab))
+    setResult(existing ? { feedback: existing.feedback, score: existing.score } : null)
     setError('')
   }, [tab, latest])
 
+  function setAnswer(index: number, value: string) {
+    setAnswers((prev) => {
+      const next = [...prev]
+      next[index] = value.slice(0, MAX_CHARS_PER_QUESTION)
+      return next
+    })
+  }
+
   async function handleReview() {
     setError('')
-    if (content.trim().length < 50) {
+    const totalChars = answers.reduce((sum, a) => sum + a.trim().length, 0)
+    if (totalChars < 50) {
       setError('Tulisan terlalu pendek. Minimal 50 karakter.')
       return
     }
@@ -74,7 +88,7 @@ export default function EsaiPage() {
       const res = await fetch('/api/aas/essay-review', {
         method: 'POST',
         headers: { Authorization: `Bearer ${session.access_token}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ essayType: tab, content }),
+        body: JSON.stringify({ essayType: tab, answers }),
         signal: controller.signal,
       })
 
@@ -105,7 +119,6 @@ export default function EsaiPage() {
       let buffer = ''
       let feedback = ''
       let finalScore: number | null = null
-      let finalCharCount = content.length
       let streamError: string | null = null
 
       while (true) {
@@ -119,10 +132,9 @@ export default function EsaiPage() {
           const evt = JSON.parse(line)
           if (evt.type === 'delta') {
             feedback += evt.text
-            setResult({ feedback, score: null, charCount: finalCharCount })
+            setResult({ feedback, score: null })
           } else if (evt.type === 'done') {
             finalScore = evt.score
-            finalCharCount = evt.charCount
             setUsedIdr(evt.usedIdr)
             setBudgetIdr(evt.budgetIdr)
           } else if (evt.type === 'error') {
@@ -136,7 +148,7 @@ export default function EsaiPage() {
         setResult(null)
         return
       }
-      setResult({ feedback, score: finalScore, charCount: finalCharCount })
+      setResult({ feedback, score: finalScore })
       loadAll()
     } catch (err) {
       if (err instanceof DOMException && err.name === 'AbortError') {
@@ -159,8 +171,6 @@ export default function EsaiPage() {
   }
 
   const meta = ESSAY_TYPES[tab]
-  const charCount = content.length
-  const overLimit = charCount > meta.maxChars
 
   return (
     <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-3xl mx-auto">
@@ -168,7 +178,7 @@ export default function EsaiPage() {
         <Link href="/dashboard/aas" className="text-xs text-muted hover:text-ink">← AAS Center</Link>
         <h1 className="text-xl font-bold text-ink mt-1">📝 Review Esai</h1>
         <p className="text-sm text-muted mt-0.5">
-          Supporting statement — form OASIS membatasi tiap pertanyaan maks 2000 karakter.
+          Supporting statement — form OASIS membatasi tiap pertanyaan maks {MAX_CHARS_PER_QUESTION.toLocaleString('id-ID')} karakter (tidak bisa dinegosiasi sistem).
           {budgetIdr !== null && (
             <span className="block mt-1 font-medium text-ink">
               Kuota AI bulan ini (gabungan AAS+LPDP): Rp{usedIdr.toLocaleString('id-ID')}/Rp{budgetIdr.toLocaleString('id-ID')} terpakai.
@@ -197,34 +207,37 @@ export default function EsaiPage() {
         ))}
       </div>
 
-      <div className="bg-off border border-hairline rounded-xl p-4 mb-4">
-        <p className="text-xs font-semibold text-ink mb-2">Pertanyaan resmi form OASIS (tempel jawaban tiap pertanyaan di bawah ini):</p>
-        <ol className="space-y-1 list-decimal list-inside">
-          {meta.questions.map((q, i) => (
-            <li key={i} className="text-xs text-muted">{q}</li>
-          ))}
-        </ol>
+      <div className="space-y-4 mb-4">
+        {meta.questions.map((q, i) => {
+          const charCount = answers[i]?.length ?? 0
+          const nearLimit = charCount > MAX_CHARS_PER_QUESTION * 0.9
+          return (
+            <div key={i} className="bg-white rounded-xl border border-hairline p-4">
+              <p className="text-xs font-semibold text-ink mb-2">{i + 1}. {q}</p>
+              <textarea
+                value={answers[i] ?? ''}
+                onChange={(e) => setAnswer(i, e.target.value)}
+                rows={6}
+                maxLength={MAX_CHARS_PER_QUESTION}
+                placeholder="Tulis jawabanmu di sini..."
+                className="w-full border border-hairline rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold resize-none"
+              />
+              <div className="flex items-center justify-end mt-1">
+                <span className={`text-xs ${nearLimit ? 'text-red-600 font-semibold' : 'text-muted'}`}>
+                  {charCount.toLocaleString('id-ID')}/{MAX_CHARS_PER_QUESTION.toLocaleString('id-ID')} karakter
+                </span>
+              </div>
+            </div>
+          )
+        })}
       </div>
 
       <div className="bg-white rounded-xl border border-hairline p-4 mb-4">
-        <textarea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          rows={12}
-          placeholder="Tempel jawaban kamu di sini..."
-          className="w-full border border-hairline rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold resize-none"
-        />
-        <div className="flex items-center justify-between mt-2">
-          <span className={`text-xs ${overLimit ? 'text-red-600 font-semibold' : 'text-muted'}`}>
-            {charCount.toLocaleString('id-ID')}/{meta.maxChars.toLocaleString('id-ID')} karakter
-            {overLimit && ' — melebihi batas gabungan, cek ulang panjang tiap jawaban'}
-          </span>
-        </div>
-        {error && <p className="text-xs text-red-600 mt-2">{error}</p>}
+        {error && <p className="text-xs text-red-600 mb-3">{error}</p>}
         <button
           onClick={handleReview}
           disabled={reviewing}
-          className="w-full mt-3 bg-navy hover:bg-navy-2 disabled:opacity-60 text-white text-sm font-semibold py-2.5 rounded-xl transition-colors"
+          className="w-full bg-navy hover:bg-navy-2 disabled:opacity-60 text-white text-sm font-semibold py-2.5 rounded-xl transition-colors"
         >
           {reviewing ? 'Sedang membaca...' : 'Minta Review AI'}
         </button>
