@@ -5,6 +5,13 @@ Versi: [Semantic Versioning](https://semver.org/) — Major.Minor.Patch
 
 ---
 
+## [2.5.1] — 2026-07-29
+
+### Fixed
+- **Resend benar-benar aktif**: domain pengirim `mail.awardee.id` diverifikasi di Resend (DKIM+SPF ditambahkan ke DNS Hostinger, subdomain terpisah dari root `awardee.id` supaya tidak bentrok dengan mailbox asli), `RESEND_API_KEY` diisi di `.env.local` & Vercel Environment Variables, dan `lib/email.ts` diupdate untuk kirim dari `hello@mail.awardee.id`. Lead magnet registrasi (lihat 2.4.0) sekarang benar-benar terkirim, bukan cuma skip diam-diam
+
+---
+
 ## [2.5.0] — 2026-07-29
 
 ### Fixed
