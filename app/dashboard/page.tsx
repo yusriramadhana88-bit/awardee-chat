@@ -8,6 +8,8 @@ import { TIER_PRICE_PROMO, TIER_PROMO_CAP } from '@/lib/tier'
 import { ScholarshipApplication, getDeadlineInfo, formatDeadline } from '@/lib/tracker'
 import { calculateXp, getPejuangLevel } from '@/lib/gamification'
 import { LYNK_MEMBERSHIP_LINKS } from '@/lib/payment-links'
+import { LYNK_TOPUP_LINKS } from '@/lib/topup-links'
+import { TOPUP_PACKAGES } from '@/lib/ai-quota'
 import SocialShowcase from './_components/SocialShowcase'
 
 type LearnLesson = { id: string; slug: string; title: string; completed: boolean }
@@ -41,7 +43,7 @@ export default function DashboardPage() {
   const [learnModules, setLearnModules] = useState<LearnModule[]>([])
   const [achievements, setAchievements] = useState<AchievementItem[]>([])
   const [promoSlots, setPromoSlots] = useState<Record<string, { cap: number; claimed: number }>>({})
-  const [lpdpQuota, setLpdpQuota] = useState<{ usedIdr: number; budgetIdr: number } | null>(null)
+  const [aiQuota, setAiQuota] = useState<{ usedIdr: number; budgetIdr: number } | null>(null)
   const supabase = createClient()
 
   useEffect(() => {
@@ -90,7 +92,7 @@ export default function DashboardPage() {
       const quotaRes = await fetch('/api/lpdp/doc-check', { headers })
       if (quotaRes.ok) {
         const data = await quotaRes.json()
-        setLpdpQuota({ usedIdr: data.usedIdr ?? 0, budgetIdr: data.budgetIdr ?? 0 })
+        setAiQuota({ usedIdr: data.usedIdr ?? 0, budgetIdr: data.budgetIdr ?? 0 })
       }
     }
     async function loadPromoSlots() {
@@ -350,11 +352,39 @@ export default function DashboardPage() {
           <p className="text-white/50 text-xs mt-3">
             Setelah bayar via lynk.id, WhatsApp ke Kak Dhana dengan bukti pembayaran untuk aktivasi akun (biasanya &lt;24 jam).
           </p>
-          {lpdpQuota && lpdpQuota.budgetIdr > 0 && (
+          {aiQuota && aiQuota.budgetIdr > 0 && (
             <p className="text-white/50 text-xs mt-2">
-              Kuota LPDP Center bulan ini: Rp{lpdpQuota.usedIdr.toLocaleString('id-ID')}/Rp{lpdpQuota.budgetIdr.toLocaleString('id-ID')} terpakai. Upgrade tier untuk kuota lebih besar.
+              Kuota AI bulan ini (gabungan AAS+LPDP): Rp{aiQuota.usedIdr.toLocaleString('id-ID')}/Rp{aiQuota.budgetIdr.toLocaleString('id-ID')} terpakai. Upgrade tier untuk kuota lebih besar.
             </p>
           )}
+        </div>
+      )}
+
+      {/* Booster Kuota AI section */}
+      {aiQuota && aiQuota.budgetIdr > 0 && (
+        <div id="booster" className="bg-white rounded-xl border border-hairline p-5 mt-6 scroll-mt-6">
+          <h2 className="font-semibold text-ink mb-1">⚡ Booster Kuota AI</h2>
+          <p className="text-muted text-sm mb-4">
+            Kuota AI bulanmu habis sebelum bulan berganti? Beli tambahan tanpa perlu naik tier — berlaku sampai akhir bulan kalender ini.
+          </p>
+          <div className="grid sm:grid-cols-3 gap-3">
+            {TOPUP_PACKAGES.map((pkg) => (
+              <a
+                key={pkg.id}
+                href={LYNK_TOPUP_LINKS[pkg.id as keyof typeof LYNK_TOPUP_LINKS]}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border border-hairline rounded-xl p-4 hover:border-gold transition-colors text-center"
+              >
+                <div className="font-semibold text-ink text-sm">{pkg.label}</div>
+                <div className="text-gold-2 font-bold text-lg mt-1">Rp{pkg.priceIdr.toLocaleString('id-ID')}</div>
+                <div className="text-xs text-muted mt-1">Tambahan kuota untuk bulan ini</div>
+              </a>
+            ))}
+          </div>
+          <p className="text-muted text-xs mt-3">
+            Setelah bayar via lynk.id, WhatsApp ke Kak Dhana dengan bukti pembayaran untuk aktivasi (biasanya &lt;24 jam).
+          </p>
         </div>
       )}
     </div>

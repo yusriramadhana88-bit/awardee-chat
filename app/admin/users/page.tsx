@@ -22,12 +22,20 @@ const TIER_COLORS = {
   vvip: 'text-purple-700 bg-purple-100',
 }
 
+const TOPUP_OPTIONS = [
+  { id: 'booster_kecil', label: 'Kecil — Rp20K' },
+  { id: 'booster_sedang', label: 'Sedang — Rp50K' },
+  { id: 'booster_besar', label: 'Besar — Rp100K' },
+]
+
 export default function AdminUsersPage() {
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [updating, setUpdating] = useState<string | null>(null)
   const [promoChecked, setPromoChecked] = useState<Record<string, boolean>>({})
+  const [topupPackage, setTopupPackage] = useState<Record<string, string>>({})
+  const [grantingTopup, setGrantingTopup] = useState<string | null>(null)
   const supabase = createClient()
 
   async function loadUsers() {
@@ -56,6 +64,19 @@ export default function AdminUsersPage() {
     })
     await loadUsers()
     setUpdating(null)
+  }
+
+  async function handleGrantTopup(userId: string) {
+    const packageId = topupPackage[userId] || 'booster_kecil'
+    setGrantingTopup(userId)
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) return
+    await fetch('/api/admin/topups', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}` },
+      body: JSON.stringify({ userId, packageId }),
+    })
+    setGrantingTopup(null)
   }
 
   const filtered = users.filter(u =>
@@ -92,6 +113,7 @@ export default function AdminUsersPage() {
                 <th className="px-4 py-3">Bergabung</th>
                 <th className="px-4 py-3 text-center">Promo</th>
                 <th className="px-4 py-3">Ubah Tier</th>
+                <th className="px-4 py-3">Booster Kuota AI</th>
               </tr>
             </thead>
             <tbody>
@@ -138,6 +160,29 @@ export default function AdminUsersPage() {
                         <option value="vip">VIP</option>
                         <option value="vvip">VVIP</option>
                       </select>
+                    )}
+                  </td>
+                  <td className="px-4 py-3">
+                    {!u.is_admin && (
+                      <div className="flex items-center gap-1.5">
+                        <select
+                          value={topupPackage[u.id] || 'booster_kecil'}
+                          onChange={e => setTopupPackage(prev => ({ ...prev, [u.id]: e.target.value }))}
+                          disabled={grantingTopup === u.id}
+                          className="border border-hairline rounded-lg px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-gold disabled:opacity-50"
+                        >
+                          {TOPUP_OPTIONS.map(opt => (
+                            <option key={opt.id} value={opt.id}>{opt.label}</option>
+                          ))}
+                        </select>
+                        <button
+                          onClick={() => handleGrantTopup(u.id)}
+                          disabled={grantingTopup === u.id}
+                          className="text-xs bg-gold text-navy font-semibold px-2 py-1 rounded-lg hover:bg-gold-2 transition-colors disabled:opacity-50 whitespace-nowrap"
+                        >
+                          {grantingTopup === u.id ? '...' : 'Aktifkan'}
+                        </button>
+                      </div>
                     )}
                   </td>
                 </tr>

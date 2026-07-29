@@ -7,6 +7,7 @@ import { canAccess } from '@/lib/tier'
 import { ESSAY_TYPES, type AasEssayType } from '@/lib/aas-requirements'
 import { buildEssayReviewSystemPrompt } from '@/lib/aas-ai'
 import { checkAasReadyAchievement } from '@/lib/aas-achievements'
+import { checkAiQuota, logAiUsage } from '@/lib/ai-quota'
 
 export const maxDuration = 60
 
@@ -52,6 +53,11 @@ export async function POST(req: NextRequest) {
 
     if (!canAccess(tier, 'starter')) {
       return NextResponse.json({ error: 'TIER_REQUIRED' }, { status: 403 })
+    }
+
+    const quota = await checkAiQuota(supabase, user.id, tier)
+    if (!quota.allowed) {
+      return NextResponse.json({ error: 'TIER_REQUIRED', usedIdr: quota.usedIdr, budgetIdr: quota.budgetIdr }, { status: 403 })
     }
 
     const body = await req.json()
@@ -106,10 +112,16 @@ export async function POST(req: NextRequest) {
           if (insertError) throw new Error(`Insert gagal: ${insertError.message}`)
 
           const admin = getAdminSupabase()
+          await logAiUsage(admin, user.id, 'aas', 'essay_review', SONNET_MODEL, finalMessage.usage.input_tokens, finalMessage.usage.output_tokens)
           await awardAchievement(admin, user.id, 'aas_first_essay')
           if (aasProfile) await checkAasReadyAchievement(supabase, admin, user.id, aasProfile)
 
-          controller.enqueue(encoder.encode(JSON.stringify({ type: 'done', score, charCount, maxChars: meta.maxChars }) + '\n'))
+          const quotaAfter = await checkAiQuota(supabase, user.id, tier)
+
+          controller.enqueue(encoder.encode(JSON.stringify({
+            type: 'done', score, charCount, maxChars: meta.maxChars,
+            usedIdr: quotaAfter.usedIdr, budgetIdr: quotaAfter.budgetIdr,
+          }) + '\n'))
         } catch (error) {
           console.error('Error:', error)
           controller.enqueue(encoder.encode(JSON.stringify({ type: 'error', error: 'Gagal mereview tulisan. Coba lagi ya.' }) + '\n'))
@@ -135,6 +147,9 @@ export async function GET(req: NextRequest) {
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     if (authError || !user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const { data: profileRow } = await supabase.from('profiles').select('subscription_tier').eq('id', user.id).single()
+    const tier = profileRow?.subscription_tier || 'free'
+
     const { data: reviews } = await supabase
       .from('aas_essay_reviews')
       .select('essay_type, content, feedback, score, created_at')
@@ -146,7 +161,9 @@ export async function GET(req: NextRequest) {
       if (!latestByType[row.essay_type]) latestByType[row.essay_type] = row
     }
 
-    return NextResponse.json({ latest: latestByType })
+    const quota = await checkAiQuota(supabase, user.id, tier)
+
+    return NextResponse.json({ latest: latestByType, usedIdr: quota.usedIdr, budgetIdr: quota.budgetIdr })
   } catch {
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
   }

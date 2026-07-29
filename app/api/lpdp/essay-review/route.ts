@@ -7,7 +7,7 @@ import { ESSAY_TYPES, type LpdpEssayType } from '@/lib/lpdp-requirements'
 import { detectFileType, uploadEncrypted, extractDocxText, MAX_FILE_BYTES } from '@/lib/lpdp-files'
 import { buildEssayReviewSystemPrompt } from '@/lib/lpdp-ai'
 import { checkLpdpReadyAchievement } from '@/lib/lpdp-achievements'
-import { checkLpdpQuota, logLpdpUsage } from '@/lib/lpdp-quota'
+import { checkAiQuota, logAiUsage } from '@/lib/ai-quota'
 
 export const maxDuration = 60
 
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
     const { data: profileRow } = await supabase.from('profiles').select('subscription_tier').eq('id', user.id).single()
     const tier = profileRow?.subscription_tier || 'free'
 
-    const quota = await checkLpdpQuota(supabase, user.id, tier)
+    const quota = await checkAiQuota(supabase, user.id, tier)
     if (!quota.allowed) {
       return NextResponse.json({ error: 'TIER_REQUIRED', usedIdr: quota.usedIdr, budgetIdr: quota.budgetIdr }, { status: 403 })
     }
@@ -126,7 +126,7 @@ export async function POST(req: NextRequest) {
           const score = scoreMatch ? parseInt(scoreMatch[1], 10) : null
 
           const admin = getAdminSupabase()
-          await logLpdpUsage(admin, user.id, 'essay_review', SONNET_MODEL, finalMessage.usage.input_tokens, finalMessage.usage.output_tokens)
+          await logAiUsage(admin, user.id, 'lpdp', 'essay_review', SONNET_MODEL, finalMessage.usage.input_tokens, finalMessage.usage.output_tokens)
 
           const { error: insertError } = await supabase.from('lpdp_essay_reviews').insert({
             user_id: user.id,
@@ -141,7 +141,7 @@ export async function POST(req: NextRequest) {
           await awardAchievement(admin, user.id, 'lpdp_first_essay')
           if (lpdpProfile) await checkLpdpReadyAchievement(supabase, admin, user.id, lpdpProfile)
 
-          const quotaAfter = await checkLpdpQuota(supabase, user.id, tier)
+          const quotaAfter = await checkAiQuota(supabase, user.id, tier)
 
           controller.enqueue(encoder.encode(JSON.stringify({
             type: 'done', score, wordCount,
@@ -188,7 +188,7 @@ export async function GET(req: NextRequest) {
       if (!latestByType[row.essay_type]) latestByType[row.essay_type] = row
     }
 
-    const quota = await checkLpdpQuota(supabase, user.id, tier)
+    const quota = await checkAiQuota(supabase, user.id, tier)
 
     return NextResponse.json({
       usedIdr: quota.usedIdr,

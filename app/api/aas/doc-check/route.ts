@@ -9,6 +9,7 @@ import { AAS_DOCS } from '@/lib/aas-requirements'
 import { detectFileType, uploadEncrypted, extractDocxText, MAX_FILE_BYTES } from '@/lib/aas-files'
 import { buildDocCheckSystemPrompt, extractJson } from '@/lib/aas-ai'
 import { checkAasDocsClearAchievement, checkAasReadyAchievement } from '@/lib/aas-achievements'
+import { checkAiQuota, logAiUsage } from '@/lib/ai-quota'
 
 export const maxDuration = 60
 
@@ -73,6 +74,11 @@ export async function POST(req: NextRequest) {
 
     if (!canAccess(tier, 'starter')) {
       return NextResponse.json({ error: 'TIER_REQUIRED' }, { status: 403 })
+    }
+
+    const quota = await checkAiQuota(supabase, user.id, tier)
+    if (!quota.allowed) {
+      return NextResponse.json({ error: 'TIER_REQUIRED', usedIdr: quota.usedIdr, budgetIdr: quota.budgetIdr }, { status: 403 })
     }
 
     const formData = await req.formData()
@@ -154,13 +160,16 @@ export async function POST(req: NextRequest) {
     })
     if (insertError) throw new Error(`Insert gagal: ${insertError.message}`)
 
+    await logAiUsage(admin, user.id, 'aas', 'doc_check', SONNET_MODEL, response.usage.input_tokens, response.usage.output_tokens)
     await awardAchievement(admin, user.id, 'aas_first_doc')
     if (aasProfile) {
       await checkAasDocsClearAchievement(supabase, admin, user.id, aasProfile)
       await checkAasReadyAchievement(supabase, admin, user.id, aasProfile)
     }
 
-    return NextResponse.json(result)
+    const quotaAfter = await checkAiQuota(supabase, user.id, tier)
+
+    return NextResponse.json({ ...result, usedIdr: quotaAfter.usedIdr, budgetIdr: quotaAfter.budgetIdr })
   } catch (error) {
     console.error('Error:', error)
     return NextResponse.json({ error: 'Gagal memverifikasi dokumen. Coba lagi ya.' }, { status: 500 })
@@ -176,6 +185,9 @@ export async function GET(req: NextRequest) {
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     if (authError || !user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const { data: profileRow } = await supabase.from('profiles').select('subscription_tier').eq('id', user.id).single()
+    const tier = profileRow?.subscription_tier || 'free'
+
     const { data: checks } = await supabase
       .from('aas_doc_checks')
       .select('doc_key, verdict, skor, komentar, temuan, file_name, created_at')
@@ -187,7 +199,9 @@ export async function GET(req: NextRequest) {
       if (!latestByDocKey[row.doc_key]) latestByDocKey[row.doc_key] = row
     }
 
-    return NextResponse.json({ latest: latestByDocKey })
+    const quota = await checkAiQuota(supabase, user.id, tier)
+
+    return NextResponse.json({ latest: latestByDocKey, usedIdr: quota.usedIdr, budgetIdr: quota.budgetIdr })
   } catch {
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
   }

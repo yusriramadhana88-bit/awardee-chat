@@ -24,6 +24,8 @@ export default function EsaiPage() {
   const [tab, setTab] = useState<AasEssayType>('kepemimpinan_dampak')
   const [content, setContent] = useState('')
   const [latest, setLatest] = useState<Record<string, EssayReviewRow>>({})
+  const [usedIdr, setUsedIdr] = useState(0)
+  const [budgetIdr, setBudgetIdr] = useState<number | null>(null)
   const [reviewing, setReviewing] = useState(false)
   const [error, setError] = useState('')
   const [upsell, setUpsell] = useState(false)
@@ -39,6 +41,8 @@ export default function EsaiPage() {
     if (res.ok) {
       const data = await res.json()
       setLatest(data.latest ?? {})
+      setUsedIdr(data.usedIdr ?? 0)
+      setBudgetIdr(data.budgetIdr ?? null)
     }
     setPageLoading(false)
   }
@@ -119,6 +123,8 @@ export default function EsaiPage() {
           } else if (evt.type === 'done') {
             finalScore = evt.score
             finalCharCount = evt.charCount
+            setUsedIdr(evt.usedIdr)
+            setBudgetIdr(evt.budgetIdr)
           } else if (evt.type === 'error') {
             streamError = evt.error
           }
@@ -161,12 +167,21 @@ export default function EsaiPage() {
       <div className="mb-6">
         <Link href="/dashboard/aas" className="text-xs text-muted hover:text-ink">← AAS Center</Link>
         <h1 className="text-xl font-bold text-ink mt-1">📝 Review Esai</h1>
-        <p className="text-sm text-muted mt-0.5">Supporting statement — form OASIS membatasi tiap pertanyaan maks 2000 karakter.</p>
+        <p className="text-sm text-muted mt-0.5">
+          Supporting statement — form OASIS membatasi tiap pertanyaan maks 2000 karakter.
+          {budgetIdr !== null && (
+            <span className="block mt-1 font-medium text-ink">
+              Kuota AI bulan ini (gabungan AAS+LPDP): Rp{usedIdr.toLocaleString('id-ID')}/Rp{budgetIdr.toLocaleString('id-ID')} terpakai.
+            </span>
+          )}
+        </p>
       </div>
 
       {upsell && (
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-5 text-sm text-amber-800">
-          Review Esai AAS butuh tier Starter ke atas. <Link href="/dashboard#upgrade" className="font-semibold underline">Upgrade tier</Link> untuk mengakses fitur ini.
+          {budgetIdr !== null && usedIdr >= budgetIdr
+            ? <>Kuota AI kamu bulan ini sudah habis. <Link href="/dashboard#upgrade" className="font-semibold underline">Upgrade tier</Link> untuk kuota lebih besar, beli <Link href="/dashboard#booster" className="font-semibold underline">Booster Kuota AI</Link>, atau tunggu reset bulan depan.</>
+            : <>Review Esai AAS butuh tier Starter ke atas. <Link href="/dashboard#upgrade" className="font-semibold underline">Upgrade tier</Link> untuk mengakses fitur ini.</>}
         </div>
       )}
 

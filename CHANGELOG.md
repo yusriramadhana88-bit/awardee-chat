@@ -5,6 +5,24 @@ Versi: [Semantic Versioning](https://semver.org/) — Major.Minor.Patch
 
 ---
 
+## [2.3.0] — 2026-07-29
+
+### Added
+- **Kuota AI gabungan AAS+LPDP**: `lib/ai-quota.ts` (menggantikan `lib/lpdp-quota.ts`) — satu ceiling biaya AI bulanan per tier dipakai bersama oleh Review Esai & Cek Dokumen di AAS Center maupun LPDP Center, konsisten dengan fakta bahwa keduanya sudah satu subscription yang sama
+- **Enforcement kuota di AAS Center**: sebelumnya AAS Center tidak punya batas biaya AI sama sekali (hanya gated tier Starter). Sekarang `checkAiQuota` dipanggil di `app/api/aas/essay-review` dan `app/api/aas/doc-check`, hard block begitu kuota bulan berjalan habis — sama seperti LPDP Center
+- **Booster Kuota AI** (top-up berbayar): 3 paket dijual manual via lynk.id (WhatsApp konfirmasi bayar, sama seperti membership) — Extra Kuota Kecil Rp20K, Sedang Rp50K, Besar Rp100K, margin ~72%. Berlaku untuk bulan kalender saat diaktivasi, tidak roll-over. Tabel `token_topups` (migration 017), diaktivasi admin via `/admin/users` (`app/api/admin/topups`)
+- **DB Migration 017** (`supabase/migrations/017_shared_ai_quota_and_topup.sql`): rename `lpdp_token_usage` → `ai_token_usage` + kolom `product`, tabel baru `token_topups`
+- Section "⚡ Booster Kuota AI" di `/dashboard#booster` — tampilkan 3 paket dengan link lynk.id langsung
+- Kolom "Booster Kuota AI" di `/admin/users` — admin pilih paket & aktivasi manual per user
+
+### Fixed
+- **504/hang pada Review Esai untuk esai panjang** (~3800+ karakter): request bisa kena batas `maxDuration=60` Vercel di tengah generate AI sebelum sempat insert ke DB, browser menunggu stream yang tidak akan pernah selesai tanpa pesan error apa pun. Diperbaiki dengan menurunkan `max_tokens` (3072→2000) di `app/api/aas/essay-review` & `app/api/lpdp/essay-review`, plus timeout client-side 55 detik (AbortController) di kedua halaman esai yang menampilkan pesan error jelas kalau stream tetap macet
+
+### Changed
+- Pesan upsell kuota habis di halaman Review Esai & Cek Dokumen (AAS+LPDP) kini menyebut opsi beli Booster Kuota AI, tidak cuma upgrade tier
+
+---
+
 ## [2.1.0] — 2026-06-17
 
 ### Added

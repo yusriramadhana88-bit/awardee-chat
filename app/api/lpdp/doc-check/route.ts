@@ -8,7 +8,7 @@ import { LPDP_DOCS } from '@/lib/lpdp-requirements'
 import { detectFileType, uploadEncrypted, extractDocxText, MAX_FILE_BYTES, WARN_FILE_BYTES } from '@/lib/lpdp-files'
 import { buildDocCheckSystemPrompt, extractJson } from '@/lib/lpdp-ai'
 import { checkLpdpDocsClearAchievement, checkLpdpReadyAchievement } from '@/lib/lpdp-achievements'
-import { checkLpdpQuota, logLpdpUsage } from '@/lib/lpdp-quota'
+import { checkAiQuota, logAiUsage } from '@/lib/ai-quota'
 
 export const maxDuration = 60
 
@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
     const { data: profileRow } = await supabase.from('profiles').select('subscription_tier').eq('id', user.id).single()
     const tier = profileRow?.subscription_tier || 'free'
 
-    const quota = await checkLpdpQuota(supabase, user.id, tier)
+    const quota = await checkAiQuota(supabase, user.id, tier)
     if (!quota.allowed) {
       return NextResponse.json({ error: 'TIER_REQUIRED', usedIdr: quota.usedIdr, budgetIdr: quota.budgetIdr }, { status: 403 })
     }
@@ -133,7 +133,7 @@ export async function POST(req: NextRequest) {
     })
 
     const admin = getAdminSupabase()
-    await logLpdpUsage(admin, user.id, 'doc_check', SONNET_MODEL, response.usage.input_tokens, response.usage.output_tokens)
+    await logAiUsage(admin, user.id, 'lpdp', 'doc_check', SONNET_MODEL, response.usage.input_tokens, response.usage.output_tokens)
 
     const rawText = response.content[0].type === 'text' ? response.content[0].text : ''
     const parsed = extractJson<Partial<DocCheckResult>>(rawText)
@@ -169,7 +169,7 @@ export async function POST(req: NextRequest) {
       await checkLpdpReadyAchievement(supabase, admin, user.id, lpdpProfile)
     }
 
-    const quotaAfter = await checkLpdpQuota(supabase, user.id, tier)
+    const quotaAfter = await checkAiQuota(supabase, user.id, tier)
 
     return NextResponse.json({ ...result, usedIdr: quotaAfter.usedIdr, budgetIdr: quotaAfter.budgetIdr })
   } catch (error) {
@@ -201,7 +201,7 @@ export async function GET(req: NextRequest) {
       if (!latestByDocKey[row.doc_key]) latestByDocKey[row.doc_key] = row
     }
 
-    const quota = await checkLpdpQuota(supabase, user.id, tier)
+    const quota = await checkAiQuota(supabase, user.id, tier)
 
     return NextResponse.json({
       usedIdr: quota.usedIdr,

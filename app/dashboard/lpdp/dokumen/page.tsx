@@ -133,7 +133,7 @@ export default function DokumenPage() {
           Upload satu per satu, AI verifikasi terhadap Buku Panduan resmi LPDP Batch 2 2026.
           {budgetIdr !== null && (
             <span className="block mt-1 font-medium text-ink">
-              Kuota LPDP Center bulan ini: Rp{usedIdr.toLocaleString('id-ID')}/Rp{budgetIdr.toLocaleString('id-ID')} terpakai.
+              Kuota AI bulan ini (gabungan AAS+LPDP): Rp{usedIdr.toLocaleString('id-ID')}/Rp{budgetIdr.toLocaleString('id-ID')} terpakai.
             </span>
           )}
         </p>
@@ -141,7 +141,7 @@ export default function DokumenPage() {
 
       {upsell && (
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-5 text-sm text-amber-800">
-          Kuota LPDP Center kamu bulan ini sudah habis. <Link href="/dashboard#upgrade" className="font-semibold underline">Upgrade tier</Link> untuk kuota lebih besar, atau tunggu reset bulan depan.
+          Kuota AI kamu bulan ini sudah habis. <Link href="/dashboard#upgrade" className="font-semibold underline">Upgrade tier</Link> untuk kuota lebih besar, beli <Link href="/dashboard#booster" className="font-semibold underline">Booster Kuota AI</Link>, atau tunggu reset bulan depan.
         </div>
       )}
       {error && <div className="bg-red-50 text-red-600 text-sm px-4 py-3 rounded-xl mb-5">{error}</div>}

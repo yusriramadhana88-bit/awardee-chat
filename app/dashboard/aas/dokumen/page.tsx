@@ -33,6 +33,8 @@ export default function DokumenPage() {
   const { user, loading } = useUser()
   const [profile, setProfile] = useState<AasProfileLite>(EMPTY_PROFILE)
   const [latest, setLatest] = useState<Record<string, DocCheckRow>>({})
+  const [usedIdr, setUsedIdr] = useState(0)
+  const [budgetIdr, setBudgetIdr] = useState<number | null>(null)
   const [uploadingKey, setUploadingKey] = useState<string | null>(null)
   const [expandedKey, setExpandedKey] = useState<string | null>(null)
   const [error, setError] = useState('')
@@ -56,6 +58,8 @@ export default function DokumenPage() {
     if (docRes.ok) {
       const data = await docRes.json()
       setLatest(data.latest ?? {})
+      setUsedIdr(data.usedIdr ?? 0)
+      setBudgetIdr(data.budgetIdr ?? null)
     }
     setPageLoading(false)
   }
@@ -102,6 +106,8 @@ export default function DokumenPage() {
         ...prev,
         [doc.key]: { doc_key: doc.key, verdict: data.verdict, skor: data.skor, komentar: data.komentar, temuan: data.temuan, file_name: file.name, created_at: new Date().toISOString() } as DocCheckRow,
       }))
+      setUsedIdr(data.usedIdr as number)
+      setBudgetIdr(data.budgetIdr as number)
       setExpandedKey(doc.key)
     } catch {
       setError('Gagal menghubungi server. Cek koneksi kamu dan coba lagi.')
@@ -127,12 +133,19 @@ export default function DokumenPage() {
         <h1 className="text-xl font-bold text-ink mt-1">🔍 Cek Dokumen</h1>
         <p className="text-sm text-muted mt-0.5">
           Upload satu per satu, AI verifikasi terhadap Policy Handbook resmi AAS. Hanya PDF/JPG/PNG, maks 2MB per file.
+          {budgetIdr !== null && (
+            <span className="block mt-1 font-medium text-ink">
+              Kuota AI bulan ini (gabungan AAS+LPDP): Rp{usedIdr.toLocaleString('id-ID')}/Rp{budgetIdr.toLocaleString('id-ID')} terpakai.
+            </span>
+          )}
         </p>
       </div>
 
       {upsell && (
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-5 text-sm text-amber-800">
-          Cek Dokumen AAS butuh tier Starter ke atas. <Link href="/dashboard#upgrade" className="font-semibold underline">Upgrade tier</Link> untuk mengakses fitur ini.
+          {budgetIdr !== null && usedIdr >= budgetIdr
+            ? <>Kuota AI kamu bulan ini sudah habis. <Link href="/dashboard#upgrade" className="font-semibold underline">Upgrade tier</Link> untuk kuota lebih besar, beli <Link href="/dashboard#booster" className="font-semibold underline">Booster Kuota AI</Link>, atau tunggu reset bulan depan.</>
+            : <>Cek Dokumen AAS butuh tier Starter ke atas. <Link href="/dashboard#upgrade" className="font-semibold underline">Upgrade tier</Link> untuk mengakses fitur ini.</>}
         </div>
       )}
       {error && <div className="bg-red-50 text-red-600 text-sm px-4 py-3 rounded-xl mb-5">{error}</div>}
