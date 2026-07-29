@@ -5,6 +5,15 @@ Versi: [Semantic Versioning](https://semver.org/) — Major.Minor.Patch
 
 ---
 
+## [2.8.1] — 2026-07-29
+
+### Fixed
+- **Tombol collapse sidebar sekarang selalu terlihat saat scroll** — sebelumnya posisinya `absolute` relatif ke wrapper yang ikut scroll normal (beda dari sidebar-nya sendiri yang `sticky`), jadi tombolnya hilang begitu discroll sedikit. Sekarang `fixed` ke viewport, selalu nempel di tempat yang sama
+### Added
+- **Tombol "kembali ke atas"** (`ScrollToTop.tsx`) — muncul otomatis setelah scroll ke bawah >400px, klik untuk scroll smooth ke atas halaman
+
+---
+
 ## [2.8.0] — 2026-07-29
 
 ### Added

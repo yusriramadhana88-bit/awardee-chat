@@ -8,6 +8,7 @@ import { useUser, canAccess, TIER_LABEL, TIER_COLOR } from '@/lib/use-user'
 import { APP_VERSION } from '@/lib/version'
 import FloatingChat from './_components/FloatingChat'
 import QuotaHeader from './_components/QuotaHeader'
+import ScrollToTop from './_components/ScrollToTop'
 
 const NAV_ITEMS: { href: string; label: string; icon: string; tier: 'starter' | 'vip' | 'vvip' | null }[] = [
   { href: '/dashboard', label: 'Overview', icon: '🏠', tier: null },
@@ -156,7 +157,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <button
           onClick={toggleCollapsed}
           title={collapsed ? 'Tampilkan menu' : 'Sembunyikan menu'}
-          className="absolute top-6 -right-3 z-40 w-6 h-6 rounded-full bg-white border border-hairline shadow-sm flex items-center justify-center text-muted hover:text-ink transition-colors"
+          style={{ left: collapsed ? -12 : 244 }}
+          className="fixed top-6 z-40 w-6 h-6 rounded-full bg-white border border-hairline shadow-sm flex items-center justify-center text-muted hover:text-ink transition-[left] duration-200"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className={`w-3.5 h-3.5 transition-transform ${collapsed ? 'rotate-180' : ''}`}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -177,6 +179,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </div>
 
       <FloatingChat />
+      <ScrollToTop />
     </div>
   )
 }
