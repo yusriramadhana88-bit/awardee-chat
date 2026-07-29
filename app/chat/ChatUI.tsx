@@ -9,6 +9,8 @@ import { BOTS, type BotId } from '@/lib/bots'
 
 type Message = { role: 'user' | 'assistant'; content: string }
 
+const CONSULT_WA_LINK = `https://wa.me/6281287212755?text=${encodeURIComponent('Halo Kak Dhana, saya mau booking Konsultasi Private 30 menit (Rp200.000). Boleh info jadwalnya?')}`
+
 export default function ChatUI({ bot }: { bot: BotId }) {
   const config = BOTS[bot]
   const WELCOME: Message = { role: 'assistant', content: config.welcome }
@@ -207,7 +209,7 @@ export default function ChatUI({ bot }: { bot: BotId }) {
     <div className="flex flex-col h-screen max-w-2xl mx-auto">
       {/* Header */}
       <header className="bg-white border-b border-hairline px-4 py-3 flex items-center gap-3 shadow-sm">
-        <Link href="/" className="w-9 h-9 rounded-lg bg-navy flex items-center justify-center text-white font-bold text-sm shrink-0">{config.navIcon}</Link>
+        <Link href={user ? '/dashboard' : '/'} className="w-9 h-9 rounded-lg bg-navy flex items-center justify-center text-white font-bold text-sm shrink-0">{config.navIcon}</Link>
         <div className="flex-1 min-w-0">
           <p className="font-semibold text-ink text-sm">{config.title}</p>
           <p className="text-xs text-green-500">Online • {config.subtitle}</p>
@@ -220,6 +222,12 @@ export default function ChatUI({ bot }: { bot: BotId }) {
                 {TIER_LABEL[user.tier] ?? user.tier} · {Math.max(0, user.limit - user.used)}/{user.limit} sisa
               </div>
             </div>
+            <Link href="/dashboard" className="flex items-center gap-1 text-xs text-navy font-semibold hover:text-navy-2 transition-colors whitespace-nowrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3.5 h-3.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+              </svg>
+              Dashboard
+            </Link>
             <button onClick={handleLogout} className="text-xs text-muted hover:text-ink transition-colors">Keluar</button>
           </div>
         )}
@@ -229,6 +237,21 @@ export default function ChatUI({ bot }: { bot: BotId }) {
           </Link>
         )}
       </header>
+
+      {/* Booking konsultasi private 1-on-1 */}
+      <div className="bg-off border-b border-gold px-4 py-2 flex items-center justify-between gap-2">
+        <p className="text-xs text-navy">
+          📅 Mau lebih personal & cepat? <strong>Konsultasi Private 30 menit — Rp200.000</strong> langsung sama Kak Dhana.
+        </p>
+        <a
+          href={CONSULT_WA_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs bg-navy text-white px-3 py-1 rounded-full font-semibold hover:bg-navy-2 transition-colors whitespace-nowrap shrink-0"
+        >
+          Booking via WA
+        </a>
+      </div>
 
       {/* Upgrade banner jika mendekati/sudah limit */}
       {user && user.tier === 'free' && user.used >= user.limit - 2 && (

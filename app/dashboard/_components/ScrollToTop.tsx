@@ -6,19 +6,21 @@ export default function ScrollToTop() {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
+    // globals.css set html,body { overflow-x: hidden }, yang membuat browser otomatis
+    // menjadikan overflow-y body "auto" — jadi body sendiri yang scroll, bukan window.
     function onScroll() {
-      setVisible(window.scrollY > 400)
+      setVisible(document.body.scrollTop > 400)
     }
-    window.addEventListener('scroll', onScroll, { passive: true })
+    document.body.addEventListener('scroll', onScroll, { passive: true })
     onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => document.body.removeEventListener('scroll', onScroll)
   }, [])
 
   if (!visible) return null
 
   return (
     <button
-      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      onClick={() => document.body.scrollTo({ top: 0, behavior: 'smooth' })}
       aria-label="Kembali ke atas"
       title="Kembali ke atas"
       className="fixed bottom-24 right-4 z-50 w-11 h-11 rounded-full bg-white border border-hairline shadow-lg flex items-center justify-center text-muted hover:text-ink hover:bg-off transition-colors"

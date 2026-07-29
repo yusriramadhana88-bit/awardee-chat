@@ -5,6 +5,17 @@ Versi: [Semantic Versioning](https://semver.org/) — Major.Minor.Patch
 
 ---
 
+## [2.9.0] — 2026-07-29
+
+### Fixed
+- **Tombol "kembali ke atas" tidak pernah muncul** — ternyata scroll di app ini terjadi di `document.body`, bukan `window` (efek samping dari `overflow-x: hidden` di `globals.css` yang otomatis membuat `overflow-y` body jadi `auto`). Listener & aksi scroll-to-top sekarang menarget `document.body`, bukan `window`
+- **Halaman Chat (Tanya Den Dhana Langsung/AAS/LPDP) tidak ada jalan kembali ke dashboard** — sebelumnya cuma ada tombol "Keluar" (logout total) di kanan atas, bikin bingung karena user pikir bisa kembali tapi malah ke-logout. Sekarang ada tombol **"Dashboard"** terpisah di sebelah "Keluar", dan logo/ikon kiri atas juga mengarah ke `/dashboard` (bukan homepage publik) kalau user sudah login
+
+### Added
+- **Banner booking Konsultasi Private 30 menit (Rp200.000)** di semua halaman chat (CS/AAS/LPDP) — link langsung ke WhatsApp Kak Dhana (+62 812-8721-2755) dengan pesan pre-filled. Juga ditambahkan ke katalog produk di system prompt supaya bot bisa menawarkan opsi ini secara proaktif dengan harga yang benar
+
+---
+
 ## [2.8.1] — 2026-07-29
 
 ### Fixed
