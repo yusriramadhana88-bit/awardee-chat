@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase'
 import { useUser, canAccess, TIER_LABEL, TIER_COLOR } from '@/lib/use-user'
 import { APP_VERSION } from '@/lib/version'
 import FloatingChat from './_components/FloatingChat'
+import QuotaHeader from './_components/QuotaHeader'
 
 const NAV_ITEMS: { href: string; label: string; icon: string; tier: 'starter' | 'vip' | 'vvip' | null }[] = [
   { href: '/dashboard', label: 'Overview', icon: '🏠', tier: null },
@@ -130,7 +131,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 min-w-0">{children}</main>
+      <div className="flex-1 min-w-0 flex flex-col">
+        <QuotaHeader />
+        <main className="flex-1 min-w-0">{children}</main>
+      </div>
 
       <FloatingChat />
     </div>

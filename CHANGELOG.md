@@ -5,6 +5,13 @@ Versi: [Semantic Versioning](https://semver.org/) — Major.Minor.Patch
 
 ---
 
+## [2.6.0] — 2026-07-29
+
+### Added
+- **Header kuota AI di kanan atas dashboard** (`app/dashboard/_components/QuotaHeader.tsx`, desktop) — menampilkan badge tier aktif, sisa kuota AI bulan ini (Rp), dan tombol Upgrade (disembunyikan untuk tier VVIP). Data dari endpoint baru `GET /api/quota`, ringan (tidak ikut narik riwayat esai/dokumen) supaya cepat dipanggil di tiap halaman dashboard
+
+---
+
 ## [2.5.1] — 2026-07-29
 
 ### Fixed
