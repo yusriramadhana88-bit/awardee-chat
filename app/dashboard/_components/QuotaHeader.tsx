@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase'
 import { TIER_LABEL, TIER_COLOR, type Tier } from '@/lib/use-user'
 
-export default function QuotaHeader() {
+export default function QuotaHeader({ userName }: { userName?: string }) {
   const [quota, setQuota] = useState<{ tier: Tier; usedIdr: number; budgetIdr: number } | null>(null)
   const supabase = createClient()
 
@@ -26,6 +26,9 @@ export default function QuotaHeader() {
 
   return (
     <div className="hidden lg:flex items-center gap-3 px-4 py-2 border-b border-hairline bg-white justify-end sticky top-0 z-30">
+      {userName && (
+        <span className="text-xs font-medium text-ink truncate max-w-[160px]">{userName}</span>
+      )}
       <span className={`text-[11px] font-bold px-2 py-1 rounded-full ${TIER_COLOR[quota.tier]}`}>
         {TIER_LABEL[quota.tier]}
       </span>

@@ -5,6 +5,13 @@ Versi: [Semantic Versioning](https://semver.org/) — Major.Minor.Patch
 
 ---
 
+## [2.6.1] — 2026-07-29
+
+### Added
+- **Nama user di header kanan atas** (`QuotaHeader.tsx`) — sekarang menampilkan nama user yang sedang login di samping badge tier, sisa kuota AI, dan tombol Upgrade
+
+---
+
 ## [2.6.0] — 2026-07-29
 
 ### Added

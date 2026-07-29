@@ -132,7 +132,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       {/* Main content */}
       <div className="flex-1 min-w-0 flex flex-col">
-        <QuotaHeader />
+        <QuotaHeader userName={user?.name} />
         <main className="flex-1 min-w-0">{children}</main>
       </div>
 
