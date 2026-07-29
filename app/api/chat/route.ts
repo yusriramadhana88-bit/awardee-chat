@@ -43,6 +43,26 @@ function resolveBot(value: unknown): BotId {
   return value === 'aas' || value === 'lpdp' ? value : 'cs'
 }
 
+// Web search server tool — dipakai supaya bot bisa jawab pertanyaan tanggal/syarat
+// beasiswa terkini (LPDP/AAS) dengan data real-time, bukan cuma pengetahuan statis.
+// Pakai versi basic (20250305) karena dynamic filtering (20260209+) cuma didukung
+// model 4.6 ke atas, sedangkan chat ini pakai Haiku 4.5.
+const WEB_SEARCH_TOOL = {
+  type: 'web_search_20250305' as const,
+  name: 'web_search' as const,
+  max_uses: 3,
+  user_location: { type: 'approximate' as const, country: 'ID' },
+}
+
+// Respons dengan web search bisa berisi banyak content block (server_tool_use,
+// web_search_tool_result, beberapa text block) — bukan cuma content[0] seperti sebelumnya.
+function extractText(content: { type: string; text?: string }[]): string {
+  return content
+    .filter((block) => block.type === 'text' && block.text)
+    .map((block) => block.text)
+    .join('\n\n')
+}
+
 export async function POST(req: NextRequest) {
   const cors = corsHeaders(req.headers.get('origin'))
   const json = (body: unknown, init?: { status?: number }) =>
@@ -100,13 +120,14 @@ export async function POST(req: NextRequest) {
         model: HAIKU_MODEL,
         max_tokens: 1024,
         system: buildSystemPrompt(bot, true),
+        tools: [WEB_SEARCH_TOOL],
         messages: messages.slice(-10).map((m: { role: string; content: string }) => ({
           role: m.role as 'user' | 'assistant',
           content: m.content,
         })),
       })
 
-      const text = response.content[0].type === 'text' ? response.content[0].text : ''
+      const text = extractText(response.content)
       return json({ message: text, guestUsed: currentCount + 1, guestLimit: GUEST_DAILY_LIMIT })
     }
 
@@ -157,13 +178,14 @@ export async function POST(req: NextRequest) {
       model: HAIKU_MODEL,
       max_tokens: 1024,
       system: buildSystemPrompt(bot, false),
+      tools: [WEB_SEARCH_TOOL],
       messages: messages.slice(-10).map((m: { role: string; content: string }) => ({
         role: m.role as 'user' | 'assistant',
         content: m.content,
       })),
     })
 
-    const text = response.content[0].type === 'text' ? response.content[0].text : ''
+    const text = extractText(response.content)
     return json({ message: text })
   } catch (error) {
     console.error('Error:', error)

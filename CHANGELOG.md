@@ -5,6 +5,15 @@ Versi: [Semantic Versioning](https://semver.org/) — Major.Minor.Patch
 
 ---
 
+## [2.8.0] — 2026-07-29
+
+### Added
+- **Web search real-time di semua chatbot (CS, AAS, LPDP)** — bot sekarang bisa cari info terkini di internet (tanggal, deadline, syarat, batch) sebelum menjawab, bukan cuma bilang "gak tahu, cek sendiri". Diprioritaskan ke sumber resmi (beasiswalpdp.kemenkeu.go.id, australiaawardsindonesia.org). Dites langsung ke Anthropic API dan terbukti berhasil dapat tanggal resmi LPDP Batch 2 2026 dengan sitasi sumber
+### Changed
+- System prompt (`lib/prompts.ts`) diperbarui: aturan lama "tidak bisa browsing, akui keterbatasan" diganti jadi "wajib cari real-time dulu sebelum menjawab soal tanggal/syarat beasiswa", baru mengaku keterbatasan kalau pencarian benar-benar tidak menemukan apa-apa
+
+---
+
 ## [2.7.0] — 2026-07-29
 
 ### Added
