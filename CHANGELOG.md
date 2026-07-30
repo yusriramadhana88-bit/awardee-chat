@@ -5,6 +5,13 @@ Versi: [Semantic Versioning](https://semver.org/) — Major.Minor.Patch
 
 ---
 
+## [2.12.1] — 2026-07-30
+
+### Changed
+- **Warna status bar kuota AI di header** kini mengikuti pola indikator kuota Claude — hijau (≥50% sisa), kuning (20-49%), merah (<20%), diterapkan ke bar maupun angka persentasenya
+
+---
+
 ## [2.12.0] — 2026-07-30
 
 ### Added
