@@ -11,6 +11,7 @@ const ADMIN_NAV = [
   { href: '/admin/affiliates', label: 'Afiliasi', icon: '🤝' },
   { href: '/admin/alumni', label: 'Awardee Alumni', icon: '🎓' },
   { href: '/admin/leads', label: 'Member Leads', icon: '📇' },
+  { href: '/admin/auto-dm', label: 'Auto-DM Instagram', icon: '🤖' },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

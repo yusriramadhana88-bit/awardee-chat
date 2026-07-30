@@ -5,6 +5,16 @@ Versi: [Semantic Versioning](https://semver.org/) — Major.Minor.Patch
 
 ---
 
+## [2.13.0] — 2026-07-30
+
+### Added
+- **Instagram Auto-Reply + Auto-DM ("ManyChat-style")** — comment kata kunci tertentu (misal "MAU") di post/reel Instagram → bot otomatis balas comment secara publik + kirim DM privat lewat Instagram Private Replies API (`lib/instagram-auto-dm.ts`, `app/api/instagram/webhook/route.ts`). Admin atur rule (kata kunci → balasan → isi DM) di `/admin/auto-dm`, dengan log 10 aktivitas terakhir buat cek reply/DM berhasil atau tidak
+- Migration `019_instagram_auto_dm.sql`: tabel `auto_dm_rules` + `auto_dm_log` (idempotent — komentar yang sama tidak diproses dobel meski webhook retry)
+- Signature verification webhook pakai `X-Hub-Signature-256` (HMAC-SHA256 app secret), verified terhadap dokumentasi resmi Meta sebelum implementasi
+- Panduan setup manual (`INSTAGRAM_AUTO_DM_SETUP.md`) untuk bagian yang butuh akses Meta Business/Facebook Developer milik sendiri — Claude tidak bisa mengerjakan ini karena butuh kredensial
+
+---
+
 ## [2.12.1] — 2026-07-30
 
 ### Changed
