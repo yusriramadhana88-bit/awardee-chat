@@ -3,11 +3,10 @@ import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { loadEnvKey } from '@/lib/env'
 import { getAnthropic, SONNET_MODEL } from '@/lib/anthropic'
 import { awardAchievement } from '@/lib/achievements-server'
-import { canAccess } from '@/lib/tier'
 import { ESSAY_TYPES, MAX_CHARS_PER_QUESTION, type AasEssayType } from '@/lib/aas-requirements'
 import { buildEssayReviewSystemPrompt } from '@/lib/aas-ai'
 import { checkAasReadyAchievement } from '@/lib/aas-achievements'
-import { checkAiQuota, logAiUsage } from '@/lib/ai-quota'
+import { checkAiQuota, logAiUsage, freeTierEssayReviewUsed } from '@/lib/ai-quota'
 
 export const maxDuration = 60
 
@@ -51,8 +50,10 @@ export async function POST(req: NextRequest) {
     const { data: profileRow } = await supabase.from('profiles').select('subscription_tier').eq('id', user.id).single()
     const tier = profileRow?.subscription_tier || 'free'
 
-    if (!canAccess(tier, 'starter')) {
-      return NextResponse.json({ error: 'TIER_REQUIRED' }, { status: 403 })
+    // Free tier boleh coba 1x (gabungan AAS+LPDP) sebagai "cicipan" sebelum upsell — bukan
+    // digated total seperti fitur Starter lainnya (Cek Dokumen, Learning Modules, dll).
+    if (tier === 'free' && await freeTierEssayReviewUsed(supabase, user.id)) {
+      return NextResponse.json({ error: 'FREE_LIMIT_REACHED' }, { status: 403 })
     }
 
     const quota = await checkAiQuota(supabase, user.id, tier)

@@ -161,14 +161,11 @@ export default function TrackerDetailPage() {
 
   if (!app) return null
 
-  if (!canAccess(tier, 'starter')) {
-    return <FeatureLock requiredTier="starter" featureName="Scholarship Tracker" />
-  }
-
   const deadline = getDeadlineInfo(app.deadline)
   const completedStages = stages.filter(s => s.status === 'done').length
 
   return (
+    <FeatureLock locked={!canAccess(tier, 'starter')} requiredTier="starter" featureName="Scholarship Tracker">
     <div className="min-h-screen bg-off">
       <header className="bg-white border-b border-hairline px-4 py-3">
         <div className="max-w-2xl mx-auto flex items-center gap-3">
@@ -282,6 +279,7 @@ export default function TrackerDetailPage() {
         )}
       </main>
     </div>
+    </FeatureLock>
   )
 }
 

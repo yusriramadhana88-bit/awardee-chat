@@ -11,6 +11,8 @@ import { LYNK_MEMBERSHIP_LINKS } from '@/lib/payment-links'
 import { LYNK_TOPUP_LINKS } from '@/lib/topup-links'
 import { TOPUP_PACKAGES } from '@/lib/ai-quota'
 import SocialShowcase from './_components/SocialShowcase'
+import TestimonialCarousel from '../_components/TestimonialCarousel'
+import TierComparisonTable from './_components/TierComparisonTable'
 
 type LearnLesson = { id: string; slug: string; title: string; completed: boolean }
 type LearnQuiz = { id: string; title: string; bestAttempt: { passed: boolean } | null }
@@ -25,7 +27,7 @@ type Feature = { href: string; icon: string; title: string; desc: string; tier: 
 
 const FEATURES: Feature[] = [
   { href: '/dashboard/lpdp', icon: '🛡️', title: 'LPDP Center', desc: 'Cek dokumen & review esai LPDP Batch 2 2026, langsung dapat skor kesiapan', tier: null, group: 'program' },
-  { href: '/dashboard/aas', icon: '🦘', title: 'AAS Center', desc: 'Cek dokumen & review supporting statement AAS, langsung dapat skor kesiapan', tier: 'starter', group: 'program' },
+  { href: '/dashboard/aas', icon: '🦘', title: 'AAS Center', desc: 'Cek dokumen & review supporting statement AAS, langsung dapat skor kesiapan', tier: null, group: 'program' },
   { href: '/chat/aas', icon: '🇦🇺', title: 'Chat AAS · Den Dhana', desc: 'Konsultan khusus persiapan Australia Awards Scholarship', tier: null, group: 'chat' },
   { href: '/chat/lpdp', icon: '🇮🇩', title: 'Chat LPDP · Den Dhana', desc: 'Konsultan khusus persiapan LPDP', tier: null, group: 'chat' },
   { href: '/chat', icon: '💬', title: 'Tanya Produk & Layanan', desc: 'Tanya soal Awardee.id, produk, atau beasiswa secara umum', tier: null, group: 'chat' },
@@ -289,7 +291,7 @@ export default function DashboardPage() {
             <div className="text-xl mb-1">🛡️</div>
             <div className="text-sm font-medium text-ink">Aku incar LPDP</div>
           </Link>
-          <Link href={canAccess(tier, 'starter') ? '/dashboard/aas' : '#upgrade'} className="bg-white border border-hairline rounded-xl p-3 text-center hover:border-gold transition-colors">
+          <Link href="/dashboard/aas" className="bg-white border border-hairline rounded-xl p-3 text-center hover:border-gold transition-colors">
             <div className="text-xl mb-1">🦘</div>
             <div className="text-sm font-medium text-ink">Aku incar AAS</div>
           </Link>
@@ -354,6 +356,10 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      <div className="mb-8">
+        <TestimonialCarousel title="Cerita dari pejuang beasiswa lain" />
+      </div>
+
       <SocialShowcase />
 
       {/* Upgrade section */}
@@ -369,6 +375,11 @@ export default function DashboardPage() {
               ? 'Buka Kalender Beasiswa, IELTS Tracker, CV Analyzer, dan hapus batas harian chat.'
               : 'Akses unlimited + Essay Workshop dengan kritik AI mendalam + konsultasi langsung bulanan.'}
           </p>
+
+          <div className="mb-5">
+            <TierComparisonTable />
+          </div>
+
           <div className="flex flex-wrap gap-3">
             {tier === 'free' && (
               <a href={LYNK_MEMBERSHIP_LINKS.starter} target="_blank" rel="noopener noreferrer" className="bg-white text-gold-2 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-off transition-colors">

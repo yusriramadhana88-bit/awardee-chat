@@ -95,6 +95,18 @@ export async function logAiUsage(
   })
 }
 
+// Free tier boleh coba Review Esai (AAS+LPDP gabungan) 1x total, biar kepincut upgrade — bukan
+// digated total seperti fitur Starter lainnya. Dipanggil SEBELUM insert baris baru, jadi cek
+// count yang SUDAH ADA (bukan termasuk request yang sedang diproses).
+export async function freeTierEssayReviewUsed(supabase: SupabaseClient, userId: string): Promise<boolean> {
+  const [aas, lpdp] = await Promise.all([
+    supabase.from('aas_essay_reviews').select('id', { count: 'exact', head: true }).eq('user_id', userId),
+    supabase.from('lpdp_essay_reviews').select('id', { count: 'exact', head: true }).eq('user_id', userId),
+  ])
+  const total = (aas.count ?? 0) + (lpdp.count ?? 0)
+  return total >= 1
+}
+
 // Panggil dengan admin client — dipakai admin panel saat mengaktivasi Booster Kuota AI setelah
 // konfirmasi bayar manual via WhatsApp (sama seperti aktivasi tier).
 export async function grantTopup(

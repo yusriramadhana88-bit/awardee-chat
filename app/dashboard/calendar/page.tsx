@@ -183,11 +183,8 @@ export default function CalendarPage() {
     return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Memuat...</div></div>
   }
 
-  if (!allowed) {
-    return <FeatureLock requiredTier="vip" featureName="Kalender Beasiswa" />
-  }
-
   return (
+    <FeatureLock locked={!allowed} requiredTier="vip" featureName="Kalender Beasiswa">
     <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-5xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
@@ -369,5 +366,6 @@ export default function CalendarPage() {
         </div>
       </div>
     </div>
+    </FeatureLock>
   )
 }

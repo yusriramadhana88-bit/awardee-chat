@@ -3,10 +3,9 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase'
-import { useUser, canAccess } from '@/lib/use-user'
+import { useUser } from '@/lib/use-user'
 import { getScoreLevel, scoreToPercent } from '@/lib/gamification'
 import { ESSAY_TYPES, MAX_CHARS_PER_QUESTION, type AasEssayType } from '@/lib/aas-requirements'
-import FeatureLock from '../../_components/FeatureLock'
 import LevelProgressBar from '../../_components/LevelProgressBar'
 
 type EssayReviewRow = {
@@ -25,7 +24,7 @@ function emptyAnswers(essayType: AasEssayType): string[] {
 }
 
 export default function EsaiPage() {
-  const { user, loading } = useUser()
+  const { loading } = useUser()
   const [tab, setTab] = useState<AasEssayType>('kepemimpinan_dampak')
   const [answers, setAnswers] = useState<string[]>(emptyAnswers('kepemimpinan_dampak'))
   const [latest, setLatest] = useState<Record<string, EssayReviewRow>>({})
@@ -34,6 +33,7 @@ export default function EsaiPage() {
   const [reviewing, setReviewing] = useState(false)
   const [error, setError] = useState('')
   const [upsell, setUpsell] = useState(false)
+  const [freeLimitReached, setFreeLimitReached] = useState(false)
   const [pageLoading, setPageLoading] = useState(true)
   const [result, setResult] = useState<{ feedback: string; score: number | null } | null>(null)
   const supabase = createClient()
@@ -71,6 +71,7 @@ export default function EsaiPage() {
 
   async function handleReview() {
     setError('')
+    setFreeLimitReached(false)
     const totalChars = answers.reduce((sum, a) => sum + a.trim().length, 0)
     if (totalChars < 50) {
       setError('Tulisan terlalu pendek. Minimal 50 karakter.')
@@ -98,6 +99,10 @@ export default function EsaiPage() {
           data = await res.json()
         } catch {
           setError(`Server tidak merespons dengan benar (status ${res.status}). Coba lagi ya.`)
+          return
+        }
+        if (res.status === 403 && data.error === 'FREE_LIMIT_REACHED') {
+          setFreeLimitReached(true)
           return
         }
         if (res.status === 403 && data.error === 'TIER_REQUIRED') {
@@ -166,10 +171,6 @@ export default function EsaiPage() {
     return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Memuat...</div></div>
   }
 
-  if (!canAccess(user?.tier, 'starter')) {
-    return <FeatureLock requiredTier="starter" featureName="Review Esai AAS" />
-  }
-
   const meta = ESSAY_TYPES[tab]
 
   return (
@@ -186,6 +187,18 @@ export default function EsaiPage() {
           )}
         </p>
       </div>
+
+      {freeLimitReached && (
+        <div className="bg-gradient-to-br from-navy to-navy-2 text-white rounded-xl p-5 mb-5">
+          <h2 className="font-semibold mb-1">🔥 Jatah review gratis kamu udah kepakai!</h2>
+          <p className="text-white/80 text-sm mb-4">
+            Gimana, kebantu kan lihat langsung kekuatan & kelemahan esai kamu? Itu baru satu kali review — bayangin kalau kamu bisa revisi berkali-kali sampai esai kamu benar-benar solid. Upgrade ke Starter, dan review esai kamu jadi sepuasnya.
+          </p>
+          <Link href="/dashboard#upgrade" className="inline-block bg-gold text-navy text-sm font-semibold px-4 py-2 rounded-lg hover:bg-gold-2 transition-colors">
+            Upgrade Sekarang
+          </Link>
+        </div>
+      )}
 
       {upsell && (
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-5 text-sm text-amber-800">

@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { getAnthropic, SONNET_MODEL } from '@/lib/anthropic'
+import { extractDocxText, extractPdfText } from '@/lib/file-extract'
+
+const MAX_FILE_BYTES = 5 * 1024 * 1024 // 5MB — CV jauh lebih kecil dari batas dokumen resmi LPDP/AAS
 
 function getSupabaseWithToken(token: string) {
   return createSupabaseClient(
@@ -78,9 +81,38 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'LIMIT_REACHED', limit }, { status: 429 })
     }
 
-    const { cvContent, targetScholarship } = await req.json()
+    const contentType = req.headers.get('content-type') ?? ''
+    let cvContent: string
+    let targetScholarship: string | undefined
+
+    if (contentType.includes('multipart/form-data')) {
+      const formData = await req.formData()
+      const file = formData.get('file')
+      const targetField = formData.get('targetScholarship')
+      targetScholarship = typeof targetField === 'string' ? targetField : undefined
+
+      if (!(file instanceof File)) {
+        return NextResponse.json({ error: 'File CV wajib diisi' }, { status: 400 })
+      }
+      if (file.size > MAX_FILE_BYTES) {
+        return NextResponse.json({ error: `File terlalu besar (maks ${(MAX_FILE_BYTES / (1024 * 1024)).toFixed(0)}MB).` }, { status: 400 })
+      }
+      const buf = Buffer.from(await file.arrayBuffer())
+      if (file.type === 'application/pdf') {
+        cvContent = await extractPdfText(buf)
+      } else if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        cvContent = await extractDocxText(buf)
+      } else {
+        return NextResponse.json({ error: 'CV hanya menerima file PDF atau Word (.docx)' }, { status: 400 })
+      }
+    } else {
+      const body = await req.json()
+      cvContent = body.cvContent
+      targetScholarship = body.targetScholarship
+    }
+
     if (!cvContent || typeof cvContent !== 'string' || cvContent.trim().length < 50) {
-      return NextResponse.json({ error: 'CV terlalu pendek. Minimal 50 karakter.' }, { status: 400 })
+      return NextResponse.json({ error: 'CV terlalu pendek atau gagal dibaca. Minimal 50 karakter.' }, { status: 400 })
     }
 
     const userPrompt = targetScholarship

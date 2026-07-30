@@ -1,6 +1,6 @@
 {
   "name": "awardeeos",
-  "version": "2.10.0",
+  "version": "2.11.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -20,6 +20,7 @@
     "mammoth": "^1.12.0",
     "next": "14.2.30",
     "openai": "^6.37.0",
+    "pdf-parse": "^2.4.5",
     "react": "^18",
     "react-dom": "^18",
     "resend": "^6.18.1",

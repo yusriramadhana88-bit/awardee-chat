@@ -41,13 +41,10 @@ export default function AchievementsPage() {
     return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Memuat achievement...</div></div>
   }
 
-  if (!canAccess(user?.tier, 'starter')) {
-    return <FeatureLock requiredTier="starter" featureName="Achievements" />
-  }
-
   const pct = achievements.length > 0 ? Math.round((earnedCount / achievements.length) * 100) : 0
 
   return (
+    <FeatureLock locked={!canAccess(user?.tier, 'starter')} requiredTier="starter" featureName="Achievements">
     <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-3xl mx-auto">
       <h1 className="text-xl lg:text-2xl font-bold text-ink mb-1">Achievements</h1>
       <p className="text-sm text-muted mb-6">Badge yang kamu kumpulkan sepanjang perjalanan beasiswamu.</p>
@@ -86,5 +83,6 @@ export default function AchievementsPage() {
         ))}
       </div>
     </div>
+    </FeatureLock>
   )
 }

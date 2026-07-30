@@ -2,12 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-
-const TESTIMONIALS = [
-  { name: 'Rizki M.', year: '2023', text: 'Dari nol sampai dapat AAS dalam 1 tahun. Kak Dhana beneran tahu cara bikin essay yang kena di DFAT.' },
-  { name: 'Sari W.', year: '2022', text: 'Interview AAS gw udah gagal 2x sebelum ketemu Kak Dhana. Tahun ketiga akhirnya lolos!' },
-  { name: 'Budi P.', year: '2024', text: 'Yang paling bantu itu cara Kak Dhana explain apa yang DFAT cari. Beda banget sama sumber lain.' },
-]
+import TestimonialCarousel from './_components/TestimonialCarousel'
 
 const FAQS = [
   { q: 'Apakah AI ini bisa menggantikan konsultasi 1-on-1?', a: 'Bisa untuk konsultasi awal, review strategi, dan tanya-jawab umum soal beasiswa apapun yang kamu tuju (AAS, LPDP, Chevening, GKS, dll). Untuk review essay dan interview prep intensif, tetap ada paket 1-on-1 dengan Kak Dhana.' },
@@ -202,23 +197,7 @@ export default function LandingPage() {
       {/* Testimonials */}
       <section className="py-20 px-4 bg-off">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-semibold text-center text-ink tracking-tight mb-12">Yang sudah membuktikan hasilnya</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {TESTIMONIALS.map((t) => (
-              <div key={t.name} className="bg-white rounded-2xl p-5 border border-hairline">
-                <p className="text-sm text-ink/80 mb-4 leading-relaxed">&ldquo;{t.text}&rdquo;</p>
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center text-gold-2 font-bold text-sm">
-                    {t.name[0]}
-                  </div>
-                  <div>
-                    <div className="text-sm font-medium text-ink">{t.name}</div>
-                    <div className="text-xs text-muted">AAS Awardee {t.year}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <TestimonialCarousel title="Yang sudah membuktikan hasilnya" />
         </div>
       </section>
 

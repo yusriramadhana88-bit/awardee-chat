@@ -120,13 +120,10 @@ export default function DokumenPage() {
     return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Memuat...</div></div>
   }
 
-  if (!canAccess(user?.tier, 'starter')) {
-    return <FeatureLock requiredTier="starter" featureName="Cek Dokumen AAS" />
-  }
-
   const docs = applicableDocs(profile)
 
   return (
+    <FeatureLock locked={!canAccess(user?.tier, 'starter')} requiredTier="starter" featureName="Cek Dokumen AAS">
     <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-3xl mx-auto">
       <div className="mb-6">
         <Link href="/dashboard/aas" className="text-xs text-muted hover:text-ink">← AAS Center</Link>
@@ -211,5 +208,6 @@ export default function DokumenPage() {
         })}
       </div>
     </div>
+    </FeatureLock>
   )
 }

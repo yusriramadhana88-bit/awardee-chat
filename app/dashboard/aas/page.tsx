@@ -3,11 +3,10 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase'
-import { useUser, canAccess } from '@/lib/use-user'
+import { useUser } from '@/lib/use-user'
 import { getScoreLevel } from '@/lib/gamification'
 import { docCompletionScore, essayScore, kesiapanScore, type LatestDocCheck, type LatestEssayReview } from '@/lib/aas-scoring'
 import type { AasProfileLite } from '@/lib/aas-requirements'
-import FeatureLock from '../_components/FeatureLock'
 import LevelProgressBar from '../_components/LevelProgressBar'
 import InfoBanner from './_components/InfoBanner'
 
@@ -93,10 +92,6 @@ export default function AasCenterPage() {
 
   if (loading || pageLoading) {
     return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Memuat AAS Center...</div></div>
-  }
-
-  if (!canAccess(user?.tier, 'starter')) {
-    return <FeatureLock requiredTier="starter" featureName="AAS Center" />
   }
 
   const docScore = docCompletionScore(form, latestDocs)

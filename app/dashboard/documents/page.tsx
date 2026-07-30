@@ -110,15 +110,12 @@ export default function DocumentsPage() {
     return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Memuat...</div></div>
   }
 
-  if (!canAccess(user?.tier, 'starter')) {
-    return <FeatureLock requiredTier="starter" featureName="Checklist Dokumen" />
-  }
-
   const list = CHECKLISTS[scholarship]
   const doneCount = list.items.filter(i => completed[i.key]).length
   const pct = Math.round((doneCount / list.items.length) * 100)
 
   return (
+    <FeatureLock locked={!canAccess(user?.tier, 'starter')} requiredTier="starter" featureName="Checklist Dokumen">
     <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-3xl mx-auto">
       <div className="mb-6">
         <h1 className="text-xl font-bold text-ink">Checklist Dokumen</h1>
@@ -171,5 +168,6 @@ export default function DocumentsPage() {
         Daftar ini adalah panduan umum. Selalu cek persyaratan resmi terbaru di website masing-masing beasiswa.
       </p>
     </div>
+    </FeatureLock>
   )
 }

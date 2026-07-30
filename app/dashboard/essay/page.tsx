@@ -127,13 +127,10 @@ export default function EssayWorkshopPage() {
     return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Memuat...</div></div>
   }
 
-  if (!allowed) {
-    return <FeatureLock requiredTier="vvip" featureName="Essay Workshop" />
-  }
-
   const selected = drafts.find(d => d.id === selectedId)
 
   return (
+    <FeatureLock locked={!allowed} requiredTier="vvip" featureName="Essay Workshop">
     <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-5xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
@@ -264,5 +261,6 @@ export default function EssayWorkshopPage() {
         </div>
       </div>
     </div>
+    </FeatureLock>
   )
 }

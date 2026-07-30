@@ -4,8 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
-import { useUser, canAccess, Tier } from '@/lib/use-user'
-import FeatureLock from '../../_components/FeatureLock'
+import { useUser, canAccess, TIER_LABEL, Tier } from '@/lib/use-user'
 
 type Lesson = { id: string; slug: string; title: string; order_index: number; duration_minutes: number; completed: boolean }
 type Quiz = { id: string; title: string; passing_score: number; bestAttempt: { score: number; total: number; passed: boolean } | null }
@@ -52,10 +51,7 @@ export default function ModuleDetailPage() {
     return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Modul tidak ditemukan.</div></div>
   }
 
-  if (moduleData.tier !== 'free' && !canAccess(user?.tier, moduleData.tier)) {
-    return <FeatureLock requiredTier={moduleData.tier as 'starter' | 'vip' | 'vvip'} featureName={moduleData.title} />
-  }
-
+  const locked = moduleData.tier !== 'free' && !canAccess(user?.tier, moduleData.tier)
   const allLessonsDone = moduleData.completedCount === moduleData.lessonCount && moduleData.lessonCount > 0
 
   return (
@@ -70,6 +66,18 @@ export default function ModuleDetailPage() {
         </div>
       </div>
 
+      {locked && (
+        <div className="bg-gradient-to-br from-navy to-navy-2 text-white rounded-xl p-5 mb-4">
+          <h2 className="font-semibold mb-1">🔒 Modul {TIER_LABEL[moduleData.tier]}</h2>
+          <p className="text-white/80 text-sm mb-4">
+            Ini silabusnya — daftar lesson yang bakal kamu pelajari. Upgrade ke {TIER_LABEL[moduleData.tier]} untuk buka isi lengkap tiap lesson & kuisnya.
+          </p>
+          <Link href="/dashboard#upgrade" className="inline-block bg-gold text-navy text-sm font-semibold px-4 py-2 rounded-lg hover:bg-gold-2 transition-colors">
+            Lihat Paket Upgrade
+          </Link>
+        </div>
+      )}
+
       <div className="space-y-2">
         {moduleData.lessons.map((l, idx) => (
           <Link
@@ -78,7 +86,7 @@ export default function ModuleDetailPage() {
             className="flex items-center gap-3 bg-white rounded-xl border border-hairline p-4 hover:border-gold transition-colors"
           >
             <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 ${l.completed ? 'bg-gold text-navy' : 'bg-off text-muted'}`}>
-              {l.completed ? '✓' : idx + 1}
+              {locked ? '🔒' : l.completed ? '✓' : idx + 1}
             </div>
             <div className="flex-1 min-w-0">
               <div className="text-sm font-medium text-ink">{l.title}</div>

@@ -5,6 +5,19 @@ Versi: [Semantic Versioning](https://semver.org/) — Major.Minor.Patch
 
 ---
 
+## [2.11.0] — 2026-07-30
+
+### Added
+- **Testimoni carousel bergaya screenshot chat WA** (`TestimonialCarousel.tsx`) — swipeable, direkonstruksi dari testimoni WhatsApp asli (nama, program, kutipan), dipasang di homepage awardee.id dan dashboard member area
+- **Free tier boleh coba Review Esai (AAS+LPDP) 1x** — sebelumnya digated total di tier Starter. Setelah 1x pakai, muncul banner sales-copy upgrade alih-alih diblokir diam-diam
+- **Fitur berbayar sekarang tampil blur (bukan disembunyikan total)** untuk tier yang belum upgrade — CV Analyzer, IELTS Tracker, Kalender Beasiswa, Essay Workshop, Checklist Dokumen, Achievements, Cek Dokumen AAS/LPDP, Scholarship Tracker — supaya user lihat gambaran fiturnya sebelum upgrade (`FeatureLock.tsx` sekarang jadi wrapper blur, bukan full block)
+- **Learning Modules: silabus (daftar judul lesson) tetap terlihat** untuk modul yang di-lock — isi lesson & kuis tetap digated penuh (tidak diblur, karena kontennya berharga & tidak boleh bocor ke DOM)
+- **Tabel perbandingan lengkap semua benefit per tier** (`TierComparisonTable.tsx`) di section upgrade dashboard, tepat di atas tombol checkout lynk.id yang sudah ada
+- **AAS Center dibuka untuk semua tier** (sebelumnya Starter+) — konsisten dengan Review Esai yang sekarang bisa dicoba gratis; Cek Dokumen AAS tetap Starter+ (tampil blur untuk free tier)
+- **CV Analyzer sekarang terima upload PDF & Word (.docx)**, bukan cuma tempel teks manual (`lib/file-extract.ts`, pakai `pdf-parse` v2 untuk PDF)
+
+---
+
 ## [2.10.0] — 2026-07-29
 
 ### Fixed

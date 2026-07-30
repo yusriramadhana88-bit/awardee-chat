@@ -7,7 +7,7 @@ import { ESSAY_TYPES, type LpdpEssayType } from '@/lib/lpdp-requirements'
 import { detectFileType, uploadEncrypted, extractDocxText, MAX_FILE_BYTES } from '@/lib/lpdp-files'
 import { buildEssayReviewSystemPrompt } from '@/lib/lpdp-ai'
 import { checkLpdpReadyAchievement } from '@/lib/lpdp-achievements'
-import { checkAiQuota, logAiUsage } from '@/lib/ai-quota'
+import { checkAiQuota, logAiUsage, freeTierEssayReviewUsed } from '@/lib/ai-quota'
 
 export const maxDuration = 60
 
@@ -53,6 +53,11 @@ export async function POST(req: NextRequest) {
 
     const { data: profileRow } = await supabase.from('profiles').select('subscription_tier').eq('id', user.id).single()
     const tier = profileRow?.subscription_tier || 'free'
+
+    // Free tier boleh coba 1x (gabungan AAS+LPDP) sebagai "cicipan" sebelum upsell.
+    if (tier === 'free' && await freeTierEssayReviewUsed(supabase, user.id)) {
+      return NextResponse.json({ error: 'FREE_LIMIT_REACHED' }, { status: 403 })
+    }
 
     const quota = await checkAiQuota(supabase, user.id, tier)
     if (!quota.allowed) {

@@ -59,11 +59,8 @@ export default function TrackerPage() {
     )
   }
 
-  if (!canAccess(tier, 'starter')) {
-    return <FeatureLock requiredTier="starter" featureName="Scholarship Tracker" />
-  }
-
   return (
+    <FeatureLock locked={!canAccess(tier, 'starter')} requiredTier="starter" featureName="Scholarship Tracker">
     <div className="min-h-screen bg-off">
       <header className="bg-white border-b border-hairline px-4 py-3">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
@@ -138,6 +135,7 @@ export default function TrackerPage() {
         )}
       </main>
     </div>
+    </FeatureLock>
   )
 }
 

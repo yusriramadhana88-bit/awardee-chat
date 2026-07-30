@@ -9,9 +9,13 @@ import { getScoreLevel, scoreToPercent } from '@/lib/gamification'
 
 type CvHistory = { id: string; target_scholarship: string | null; analysis: string; score: number | null; created_at: string }
 
+const MAX_FILE_BYTES = 5 * 1024 * 1024
+
 export default function CvAnalyzerPage() {
   const { user, loading } = useUser()
+  const [mode, setMode] = useState<'paste' | 'upload'>('paste')
   const [cvContent, setCvContent] = useState('')
+  const [file, setFile] = useState<File | null>(null)
   const [target, setTarget] = useState('')
   const [analysis, setAnalysis] = useState('')
   const [currentScore, setCurrentScore] = useState<number | null>(null)
@@ -43,8 +47,16 @@ export default function CvAnalyzerPage() {
   }
 
   async function handleAnalyze() {
-    if (cvContent.trim().length < 50) {
+    if (mode === 'paste' && cvContent.trim().length < 50) {
       setError('CV terlalu pendek. Minimal 50 karakter.')
+      return
+    }
+    if (mode === 'upload' && !file) {
+      setError('Pilih file PDF atau .docx dulu.')
+      return
+    }
+    if (mode === 'upload' && file && file.size > MAX_FILE_BYTES) {
+      setError(`File terlalu besar (maks ${(MAX_FILE_BYTES / (1024 * 1024)).toFixed(0)}MB).`)
       return
     }
     setAnalyzing(true)
@@ -54,14 +66,26 @@ export default function CvAnalyzerPage() {
     const { data: { session } } = await supabase.auth.getSession()
     if (!session) return
 
-    const res = await fetch('/api/cv-analyze', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${session.access_token}`,
-      },
-      body: JSON.stringify({ cvContent, targetScholarship: target.trim() || undefined }),
-    })
+    let res: Response
+    if (mode === 'upload' && file) {
+      const fd = new FormData()
+      fd.append('file', file)
+      if (target.trim()) fd.append('targetScholarship', target.trim())
+      res = await fetch('/api/cv-analyze', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${session.access_token}` },
+        body: fd,
+      })
+    } else {
+      res = await fetch('/api/cv-analyze', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({ cvContent, targetScholarship: target.trim() || undefined }),
+      })
+    }
 
     const data = await res.json()
     if (res.ok) {
@@ -81,13 +105,10 @@ export default function CvAnalyzerPage() {
     return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Memuat...</div></div>
   }
 
-  if (!allowed) {
-    return <FeatureLock requiredTier="vip" featureName="CV Analyzer" />
-  }
-
   const atLimit = usage ? usage.used >= usage.limit : false
 
   return (
+    <FeatureLock locked={!allowed} requiredTier="vip" featureName="CV Analyzer">
     <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-4xl mx-auto">
       <div className="mb-6">
         <h1 className="text-xl font-bold text-ink">CV Analyzer</h1>
@@ -114,16 +135,35 @@ export default function CvAnalyzerPage() {
         />
 
         <label className="block text-sm font-medium text-ink mb-1.5">Isi CV</label>
-        <textarea
-          value={cvContent}
-          onChange={e => setCvContent(e.target.value)}
-          placeholder="Tempel seluruh isi CV kamu di sini (pengalaman kerja, pendidikan, organisasi, prestasi, dll)..."
-          rows={12}
-          className="w-full border border-hairline rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold resize-none font-mono"
-        />
-        <div className="flex items-center justify-between mt-1 mb-4">
-          <span className="text-xs text-muted">{cvContent.length} karakter</span>
+        <div className="flex gap-2 mb-3">
+          <button type="button" onClick={() => setMode('paste')} className={`text-xs px-3 py-1.5 rounded-lg font-medium ${mode === 'paste' ? 'bg-off text-navy border border-gold' : 'text-muted border border-transparent'}`}>Tempel Teks</button>
+          <button type="button" onClick={() => setMode('upload')} className={`text-xs px-3 py-1.5 rounded-lg font-medium ${mode === 'upload' ? 'bg-off text-navy border border-gold' : 'text-muted border border-transparent'}`}>Upload PDF/.docx</button>
         </div>
+
+        {mode === 'paste' ? (
+          <>
+            <textarea
+              value={cvContent}
+              onChange={e => setCvContent(e.target.value)}
+              placeholder="Tempel seluruh isi CV kamu di sini (pengalaman kerja, pendidikan, organisasi, prestasi, dll)..."
+              rows={12}
+              className="w-full border border-hairline rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold resize-none font-mono"
+            />
+            <div className="flex items-center justify-between mt-1 mb-4">
+              <span className="text-xs text-muted">{cvContent.length} karakter</span>
+            </div>
+          </>
+        ) : (
+          <div className="mb-4">
+            <input
+              type="file"
+              accept=".pdf,.docx"
+              onChange={e => setFile(e.target.files?.[0] ?? null)}
+              className="text-sm"
+            />
+            <p className="text-xs text-muted mt-1">PDF atau Word (.docx), maks {(MAX_FILE_BYTES / (1024 * 1024)).toFixed(0)}MB.</p>
+          </div>
+        )}
 
         {error && (
           <div className="bg-red-50 text-red-600 text-sm px-4 py-3 rounded-xl mb-4">{error}</div>
@@ -131,7 +171,7 @@ export default function CvAnalyzerPage() {
 
         <button
           onClick={handleAnalyze}
-          disabled={analyzing || atLimit || cvContent.trim().length < 50}
+          disabled={analyzing || atLimit || (mode === 'paste' ? cvContent.trim().length < 50 : !file)}
           className="w-full bg-navy hover:bg-navy-2 disabled:bg-hairline text-white rounded-xl py-3 text-sm font-semibold transition-colors"
         >
           {analyzing ? 'Menganalisis...' : atLimit ? 'Batas bulanan tercapai' : 'Analisis CV'}
@@ -190,5 +230,6 @@ export default function CvAnalyzerPage() {
         </div>
       )}
     </div>
+    </FeatureLock>
   )
 }

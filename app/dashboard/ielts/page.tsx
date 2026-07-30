@@ -98,10 +98,6 @@ export default function IeltsTrackerPage() {
     return <div className="min-h-screen flex items-center justify-center"><div className="text-muted text-sm">Memuat...</div></div>
   }
 
-  if (!allowed) {
-    return <FeatureLock requiredTier="vip" featureName="IELTS Tracker" />
-  }
-
   const target = scores.find(s => s.is_target)
   const attempts = scores.filter(s => !s.is_target)
   const latest = attempts[attempts.length - 1]
@@ -115,6 +111,7 @@ export default function IeltsTrackerPage() {
   ]
 
   return (
+    <FeatureLock locked={!allowed} requiredTier="vip" featureName="IELTS Tracker">
     <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-4xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
@@ -309,5 +306,6 @@ export default function IeltsTrackerPage() {
         )}
       </div>
     </div>
+    </FeatureLock>
   )
 }

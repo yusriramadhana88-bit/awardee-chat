@@ -88,7 +88,11 @@ export default function LessonPage() {
   }
 
   if (lockedTier) {
-    return <FeatureLock requiredTier={lockedTier as 'starter' | 'vip' | 'vvip'} featureName="Lesson ini" />
+    return (
+      <FeatureLock locked requiredTier={lockedTier as 'starter' | 'vip' | 'vvip'} featureName="Lesson ini">
+        <div className="min-h-[60vh]" />
+      </FeatureLock>
+    )
   }
 
   if (!detail) {
