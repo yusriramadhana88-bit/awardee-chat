@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase'
 import { useUser } from '@/lib/use-user'
 import { getScoreLevel, scoreToPercent } from '@/lib/gamification'
 import { ESSAY_TYPES, MAX_CHARS_PER_QUESTION, type AasEssayType } from '@/lib/aas-requirements'
+import { quotaUsedPercent } from '@/lib/quota-format'
 import LevelProgressBar from '../../_components/LevelProgressBar'
 
 type EssayReviewRow = {
@@ -182,7 +183,7 @@ export default function EsaiPage() {
           Supporting statement — form OASIS membatasi tiap pertanyaan maks {MAX_CHARS_PER_QUESTION.toLocaleString('id-ID')} karakter (tidak bisa dinegosiasi sistem).
           {budgetIdr !== null && (
             <span className="block mt-1 font-medium text-ink">
-              Kuota AI bulan ini (gabungan AAS+LPDP): Rp{usedIdr.toLocaleString('id-ID')}/Rp{budgetIdr.toLocaleString('id-ID')} terpakai.
+              Kuota AI bulan ini (gabungan AAS+LPDP): {quotaUsedPercent(usedIdr, budgetIdr)}% terpakai.
             </span>
           )}
         </p>

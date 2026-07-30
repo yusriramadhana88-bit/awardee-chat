@@ -175,6 +175,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Main content */}
       <div className="flex-1 min-w-0 flex flex-col">
         <QuotaHeader userName={user?.name} />
+        {pathname !== '/dashboard' && (
+          <div className="px-4 lg:px-8 pt-4">
+            <button
+              onClick={() => router.back()}
+              className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-ink transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+              </svg>
+              Kembali
+            </button>
+          </div>
+        )}
         <main className="flex-1 min-w-0">{children}</main>
       </div>
 

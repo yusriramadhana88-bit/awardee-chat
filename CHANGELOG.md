@@ -5,6 +5,17 @@ Versi: [Semantic Versioning](https://semver.org/) — Major.Minor.Patch
 
 ---
 
+## [2.12.0] — 2026-07-30
+
+### Added
+- **Tombol "Kembali" global** di setiap halaman dashboard (kecuali Overview) — pakai browser history (`router.back()`), jadi tidak perlu klik Home/sidebar tiap mau balik ke menu sebelumnya
+- **"Bingung mulai dari mana?" sekarang jadi To Do List berurutan** (`GettingStartedGuide.tsx`) — pilih LPDP/AAS/belum yakin, langsung muncul checklist bernomor step-by-step (LPDP Center → Checklist Dokumen → Cek Dokumen & Review Esai → Chat → Tracker, dst — sama persis dengan panduan yang sudah dipakai chatbot CS)
+
+### Changed
+- **Tampilan kuota AI disederhanakan jadi persentase** — sebelumnya "Rp69.514/Rp72.000", sekarang cukup "96%" (`lib/quota-format.ts`, dipakai di QuotaHeader + semua halaman Review Esai/Cek Dokumen AAS+LPDP + section upgrade dashboard). Angka Rupiah asli tetap dipakai penuh di backend untuk perhitungan quota — ini murni penyederhanaan tampilan
+
+---
+
 ## [2.11.0] — 2026-07-30
 
 ### Added

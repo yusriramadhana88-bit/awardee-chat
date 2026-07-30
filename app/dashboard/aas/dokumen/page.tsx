@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase'
 import { useUser, canAccess } from '@/lib/use-user'
 import { AAS_DOCS, applicableDocs, MAX_FILE_BYTES, type AasDoc, type AasProfileLite } from '@/lib/aas-requirements'
+import { quotaUsedPercent } from '@/lib/quota-format'
 import FeatureLock from '../../_components/FeatureLock'
 import DocStatusChip from '../_components/DocStatusChip'
 
@@ -132,7 +133,7 @@ export default function DokumenPage() {
           Upload satu per satu, AI verifikasi terhadap Policy Handbook resmi AAS. Hanya PDF/JPG/PNG, maks 2MB per file.
           {budgetIdr !== null && (
             <span className="block mt-1 font-medium text-ink">
-              Kuota AI bulan ini (gabungan AAS+LPDP): Rp{usedIdr.toLocaleString('id-ID')}/Rp{budgetIdr.toLocaleString('id-ID')} terpakai.
+              Kuota AI bulan ini (gabungan AAS+LPDP): {quotaUsedPercent(usedIdr, budgetIdr)}% terpakai.
             </span>
           )}
         </p>

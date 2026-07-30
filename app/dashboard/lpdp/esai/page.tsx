@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase'
 import { useUser } from '@/lib/use-user'
 import { getScoreLevel, scoreToPercent } from '@/lib/gamification'
 import { ESSAY_TYPES, MAX_FILE_BYTES, type LpdpEssayType } from '@/lib/lpdp-requirements'
+import { quotaUsedPercent } from '@/lib/quota-format'
 import LevelProgressBar from '../../_components/LevelProgressBar'
 
 type EssayReviewRow = {
@@ -205,7 +206,7 @@ export default function EsaiPage() {
         <p className="text-sm text-muted mt-0.5">
           {budgetIdr !== null && (
             <span className="font-medium text-ink">
-              Kuota AI bulan ini (gabungan AAS+LPDP): Rp{usedIdr.toLocaleString('id-ID')}/Rp{budgetIdr.toLocaleString('id-ID')} terpakai.
+              Kuota AI bulan ini (gabungan AAS+LPDP): {quotaUsedPercent(usedIdr, budgetIdr)}% terpakai.
             </span>
           )}
         </p>

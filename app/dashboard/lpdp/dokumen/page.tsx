@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase'
 import { useUser } from '@/lib/use-user'
 import { LPDP_DOCS, applicableDocs, MAX_FILE_BYTES, type LpdpDoc, type LpdpProfileLite } from '@/lib/lpdp-requirements'
+import { quotaUsedPercent } from '@/lib/quota-format'
 import DocStatusChip from '../_components/DocStatusChip'
 
 type DocCheckRow = {
@@ -133,7 +134,7 @@ export default function DokumenPage() {
           Upload satu per satu, AI verifikasi terhadap Buku Panduan resmi LPDP Batch 2 2026.
           {budgetIdr !== null && (
             <span className="block mt-1 font-medium text-ink">
-              Kuota AI bulan ini (gabungan AAS+LPDP): Rp{usedIdr.toLocaleString('id-ID')}/Rp{budgetIdr.toLocaleString('id-ID')} terpakai.
+              Kuota AI bulan ini (gabungan AAS+LPDP): {quotaUsedPercent(usedIdr, budgetIdr)}% terpakai.
             </span>
           )}
         </p>

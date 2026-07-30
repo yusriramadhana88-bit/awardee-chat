@@ -10,9 +10,11 @@ import { calculateXp, getPejuangLevel } from '@/lib/gamification'
 import { LYNK_MEMBERSHIP_LINKS } from '@/lib/payment-links'
 import { LYNK_TOPUP_LINKS } from '@/lib/topup-links'
 import { TOPUP_PACKAGES } from '@/lib/ai-quota'
+import { quotaUsedPercent } from '@/lib/quota-format'
 import SocialShowcase from './_components/SocialShowcase'
 import TestimonialCarousel from '../_components/TestimonialCarousel'
 import TierComparisonTable from './_components/TierComparisonTable'
+import GettingStartedGuide from './_components/GettingStartedGuide'
 
 type LearnLesson = { id: string; slug: string; title: string; completed: boolean }
 type LearnQuiz = { id: string; title: string; bestAttempt: { passed: boolean } | null }
@@ -283,27 +285,7 @@ export default function DashboardPage() {
       )}
 
       {/* Quick-start: bantu user baru yang bingung mau klik apa */}
-      <div className="bg-gradient-to-br from-off to-white border border-gold rounded-xl p-5 mb-8">
-        <h2 className="font-semibold text-ink mb-1">🧭 Bingung mulai dari mana?</h2>
-        <p className="text-sm text-muted mb-4">Pilih salah satu, langsung diarahkan ke langkah pertama yang tepat.</p>
-        <div className="grid sm:grid-cols-3 gap-3">
-          <Link href="/dashboard/lpdp" className="bg-white border border-hairline rounded-xl p-3 text-center hover:border-gold transition-colors">
-            <div className="text-xl mb-1">🛡️</div>
-            <div className="text-sm font-medium text-ink">Aku incar LPDP</div>
-          </Link>
-          <Link href="/dashboard/aas" className="bg-white border border-hairline rounded-xl p-3 text-center hover:border-gold transition-colors">
-            <div className="text-xl mb-1">🦘</div>
-            <div className="text-sm font-medium text-ink">Aku incar AAS</div>
-          </Link>
-          <Link href="/chat" className="bg-white border border-hairline rounded-xl p-3 text-center hover:border-gold transition-colors">
-            <div className="text-xl mb-1">💬</div>
-            <div className="text-sm font-medium text-ink">Belum yakin, mau tanya dulu</div>
-          </Link>
-        </div>
-        <p className="text-xs text-muted mt-3">
-          Masih bingung soal menu lain? Klik ikon chat 💬 di pojok kanan bawah kapan saja — bisa tanya langsung ke AI.
-        </p>
-      </div>
+      <GettingStartedGuide />
 
       {/* Feature grid — dikelompokkan per kebutuhan supaya tidak menumpuk jadi satu daftar panjang */}
       {FEATURE_GROUPS.map((group) => (
@@ -400,7 +382,7 @@ export default function DashboardPage() {
           </p>
           {aiQuota && aiQuota.budgetIdr > 0 && (
             <p className="text-white/50 text-xs mt-2">
-              Kuota AI bulan ini (gabungan AAS+LPDP): Rp{aiQuota.usedIdr.toLocaleString('id-ID')}/Rp{aiQuota.budgetIdr.toLocaleString('id-ID')} terpakai. Upgrade tier untuk kuota lebih besar.
+              Kuota AI bulan ini (gabungan AAS+LPDP): {quotaUsedPercent(aiQuota.usedIdr, aiQuota.budgetIdr)}% terpakai. Upgrade tier untuk kuota lebih besar.
             </p>
           )}
         </div>
