@@ -5,6 +5,18 @@ Versi: [Semantic Versioning](https://semver.org/) — Major.Minor.Patch
 
 ---
 
+## [2.14.0] — 2026-08-01
+
+### Added
+- **Konfirmasi pembayaran lynk.id otomatis** — webhook `payment.received` dari lynk.id (`app/api/webhook/lynk/route.ts`, `lib/lynk-webhook.ts`) langsung upgrade tier user begitu pembayaran masuk, tanpa cek manual. Cocokkan pembeli lewat nomor HP dulu, lalu email sebagai cadangan kalau HP tidak ketemu
+- Durasi upgrade **stacking dari sisa waktu aktif** (bukan reset ke 30 hari) — user yang masih punya sisa hari aktif tidak rugi waktu saat perpanjang
+- Email konfirmasi otomatis ke user setelah ter-upgrade (via Resend), dan email alert ke admin kalau ada pembayaran masuk tapi tidak bisa dicocokkan ke akun manapun (butuh upgrade manual seperti biasa)
+- Migration `020_lynk_webhook.sql`: tabel `lynk_webhook_log` (idempotent by `message_id` — retry dari lynk.id tidak memproses ulang/dobel durasi)
+- Signature verification pakai `X-Lynk-Signature` (SHA256 dari grandTotal+refId+messageId+merchant key), sesuai dokumentasi resmi lynk.id
+- Panduan setup manual (`LYNK_WEBHOOK_SETUP.md`) untuk daftarkan webhook URL + ambil Merchant Key di dashboard lynk.id sendiri
+
+---
+
 ## [2.13.0] — 2026-07-30
 
 ### Added
