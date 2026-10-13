@@ -7,7 +7,7 @@ const admin = () => createSupabaseClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, 
 export const normPhone = (p: string) => String(p || '').replace(/\D/g, '').replace(/^(62|0)/, '').slice(-10)
 
 /** Dari bearer token Supabase -> user + hak akses database berbayar (admin selalu boleh). */
-export async function getStudyPlannerAccess(token: string): Promise<{ ok: boolean; reason?: 'unauth' | 'no_access'; email?: string }> {
+export async function getStudyPlannerAccess(token: string): Promise<{ ok: boolean; reason?: 'unauth' | 'no_access'; email?: string; admin?: boolean; lite?: boolean }> {
   if (!token) return { ok: false, reason: 'unauth' }
   const anon = createSupabaseClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
   const { data: { user } } = await anon.auth.getUser(token)
@@ -15,8 +15,8 @@ export async function getStudyPlannerAccess(token: string): Promise<{ ok: boolea
 
   const db = admin()
   const email = (user.email ?? '').toLowerCase()
-  const { data: profile } = await db.from('profiles').select('is_admin, phone').eq('id', user.id).maybeSingle()
-  if (profile?.is_admin) return { ok: true, email }
+  const { data: profile } = await db.from('profiles').select('is_admin, phone, subscription_tier, subscription_expires_at').eq('id', user.id).maybeSingle()
+  if (profile?.is_admin) return { ok: true, email, admin: true, lite: false }
 
   const nowIso = new Date().toISOString()
   const phone = profile?.phone ? normPhone(profile.phone) : ''
@@ -24,7 +24,11 @@ export async function getStudyPlannerAccess(token: string): Promise<{ ok: boolea
   if (!ors.length) return { ok: false, reason: 'no_access', email }
   const { data } = await db.from('study_planner_access').select('id, expires_at').or(ors.join(',')).limit(5)
   const valid = (data ?? []).some((r) => !r.expires_at || r.expires_at > nowIso)
-  return valid ? { ok: true, email } : { ok: false, reason: 'no_access', email }
+  if (!valid) return { ok: false, reason: 'no_access', email }
+  // "lite" = pembeli database saja (tanpa langganan bulanan aktif): hanya boleh memakai halaman Study Planner.
+  const tier = profile?.subscription_tier ?? 'free'
+  const subActive = tier !== 'free' && !!profile?.subscription_expires_at && profile.subscription_expires_at > nowIso
+  return { ok: true, email, admin: false, lite: !subActive }
 }
 
 export const STUDY_PLANNER_PRODUCT = /study\s*planner/i

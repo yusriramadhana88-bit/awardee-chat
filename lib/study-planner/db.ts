@@ -27,7 +27,7 @@ export function meta() {
   return {
     levels: D.levels.map((l) => ({ key: l, label: LEVEL_LABEL[l], count: perLevel[l] ?? 0 })),
     topics: D.topics.map((t) => ({ key: t, label: TOPIC_LABEL[t] ?? t })),
-    cities: Array.from(cities.entries()).sort((a, b) => b[1] - a[1]).slice(0, 30).map(([c]) => c),
+    cities: Array.from(cities.entries()).sort((a, b) => a[0].localeCompare(b[0])).map(([c]) => c),
     unis: D.unis.map((u, i) => ({ i, n: u.n, k: u.k, aas: !!u.aas })).sort((a, b) => a.n.localeCompare(b.n)),
     stats: { programs: D.rows.length, institutions: D.unis.length, universities: D.unis.filter((u) => u.k === 2).length, scholarships: SCH.filter((s) => s.l.includes('pg')).length, snapshot: D.snapshot, built: D.built },
   }
@@ -109,4 +109,18 @@ export function searchScholarships(p: SchParams) {
       perYear: s.np, closing: s.cl, eligibility: s.e, citizenship: Array.isArray(s.c) ? (s.c.length ? s.c.join(', ') : null) : (s.c || null), researchOnly: !!s.r, url: s.u,
     })),
   }
+}
+
+let _rowIdx: Map<any[], number> | null = null
+const rowIndex = () => { if (!_rowIdx) { _rowIdx = new Map(); D.rows.forEach((r, i) => _rowIdx!.set(r, i)) } return _rowIdx }
+
+/** Hasil kuis: kandidat terurut dari mesin kecocokan -> kartu program lengkap (maks 150). */
+export function quizPrograms(cands: { row: any[]; score: number; g: number; f: number }[], total: number) {
+  const idx = rowIndex()
+  const rows = cands.slice(0, 150).map((c) => {
+    const d = decode(c.row, idx.get(c.row) ?? -1)
+    const fit = D.topics.filter((_, k) => ((c.g | c.f) >> k) & 1).map((t) => TOPIC_LABEL[t] ?? t)
+    return { ...d, fit }
+  })
+  return { total, shown: rows.length, rows }
 }

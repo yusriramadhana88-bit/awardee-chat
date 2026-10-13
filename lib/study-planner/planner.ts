@@ -68,3 +68,9 @@ export function resultItems(items: Item[]): Item[] {
   }
   return out
 }
+
+/** Semua kandidat terurut dari yang paling cocok (untuk mode kuis di halaman database berbayar). */
+export function computeAll(a: Answers): { total: number; generic: boolean; all: { row: any[]; score: number; g: number; f: number }[] } {
+  const res = eng().compute(a)
+  return { total: res.total as number, generic: !!res.generic, all: res.all as any[] }
+}

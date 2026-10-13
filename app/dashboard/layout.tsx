@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
@@ -55,7 +55,28 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     router.push('/')
   }
 
-  if (loading) {
+  // Pembeli "Akses Database STUDY PLANNER" saja (tanpa langganan bulanan) tidak boleh masuk member area penuh:
+  // arahkan ke corong khusus /planner. Pengecekan hanya untuk akun tier gratis.
+  const [liteChecked, setLiteChecked] = useState(false)
+  useEffect(() => {
+    if (loading || !user) return
+    if ((user.tier || 'free') !== 'free') { setLiteChecked(true); return }
+    let cancelled = false
+    ;(async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        if (!session) { setLiteChecked(true); return }
+        const r = await fetch('/api/study-planner/db?mode=access', { headers: { Authorization: `Bearer ${session.access_token}` } })
+        const j = r.ok ? await r.json() : null
+        if (!cancelled && j?.lite) { router.replace('/planner'); return }
+      } catch {}
+      if (!cancelled) setLiteChecked(true)
+    })()
+    return () => { cancelled = true }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, user])
+
+  if (loading || !liteChecked) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-off">
         <div className="text-muted text-sm">Memuat AWARDEE APP...</div>

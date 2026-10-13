@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Mini Study Planner Australia — Awardee.id</title>
+<meta name="description" content="Jawab 7 pertanyaan singkat, dapatkan 2 pilihan program studi & kampus Australia yang paling cocok, langsung ke WhatsApp.">
+<meta name="theme-color" content="#F4CC46">
+<style>
+:root{--ink:#1d1d1f;--gold:#F4CC46;--gold2:#D9A916;--off:#FFFBEF;--gray:#636366;--light:#d2d2d7;--ok:#1a7f4b;--err:#b3261e;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--off);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
+button,input,textarea,select{font-family:inherit;font-size:inherit;color:inherit}
+.wrap{max-width:480px;margin:0 auto;padding:18px 16px 56px}
+.logo{font-weight:800;font-size:19px;letter-spacing:-.02em;margin:4px 0 16px}
+.logo span{background:var(--gold);padding:0 5px;border-radius:5px;margin-left:1px}
+.progress{height:4px;background:#ece6d3;border-radius:99px;overflow:hidden;margin-bottom:8px}
+.progress i{display:block;height:100%;background:var(--gold);width:0;transition:width .35s ease}
+.step-meta{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--gray);margin-bottom:14px;min-height:22px}
+.link{background:none;border:0;color:var(--gray);cursor:pointer;text-decoration:underline;font-size:13px;padding:2px 0}
+.link:hover{color:var(--ink)}
+.card{background:#fff;border:1px solid var(--light);border-radius:18px;padding:24px 20px;box-shadow:0 4px 24px rgba(0,0,0,.06);animation:in .28s ease}
+.card.center{text-align:center}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+h1{font-size:28px;line-height:1.15;letter-spacing:-.02em;font-weight:700;margin:12px 0 0}
+h2{font-size:21px;line-height:1.25;letter-spacing:-.015em;font-weight:700}
+.sub{color:var(--gray);font-size:15px;margin:8px 0 18px}
+.badge{display:inline-block;font-size:12px;font-weight:600;background:#FFF4C4;color:#7a5b00;border-radius:99px;padding:4px 11px}
+.checks{list-style:none;margin:0 0 20px}
+.checks li{padding:7px 0 7px 28px;position:relative;font-size:15px}
+.checks li::before{content:"✓";position:absolute;left:0;top:7px;width:19px;height:19px;border-radius:50%;background:var(--gold);font-size:12px;font-weight:800;display:grid;place-items:center}
+.byline{font-size:12.5px;color:var(--gray);margin-top:14px;text-align:center}
+.btn{display:block;width:100%;background:var(--gold);color:var(--ink);border:0;border-radius:980px;padding:15px 20px;font-weight:700;font-size:16px;cursor:pointer;transition:background .15s,transform .05s}
+.btn:hover{background:var(--gold2)}
+.btn:active{transform:scale(.99)}
+.opts{display:grid;gap:10px}
+.opt{display:flex;gap:12px;align-items:center;text-align:left;background:#fff;border:1.5px solid var(--light);border-radius:14px;padding:14px;cursor:pointer;transition:.15s}
+.opt:hover{border-color:var(--ink)}
+.opt.sel{border-color:var(--ink);background:#FFF4C4}
+.opt .ico{font-size:24px;width:34px;text-align:center;flex:none}
+.opt b{display:block;font-size:15.5px}
+.opt small{display:block;color:var(--gray);font-size:13px;margin-top:1px}
+.lbl{display:block;font-size:13px;font-weight:700;margin:16px 0 8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--light);background:#fff;border-radius:12px;padding:10px 13px;font-size:14.5px;cursor:pointer;transition:.15s}
+.chip:hover{border-color:var(--ink)}
+.chip.sel{border-color:var(--ink);background:#FFF4C4;font-weight:600}
+.chip.small{font-size:13px;padding:7px 11px;border-style:dashed}
+textarea,input[type=text],input[type=tel],input[type=number],select{width:100%;border:1.5px solid var(--light);border-radius:12px;padding:12px 14px;background:#fff;outline:none}
+textarea{resize:vertical;min-height:96px}
+textarea:focus,input:focus,select:focus{border-color:var(--ink)}
+.count{text-align:right;font-size:12px;color:var(--gray);margin:4px 0 12px}
+.err{color:var(--err);font-size:13.5px;min-height:20px;margin:10px 0 8px}
+.pre{display:flex;gap:8px;align-items:stretch}
+.pre>span{display:grid;place-items:center;border:1.5px solid var(--light);border-radius:12px;padding:0 13px;background:#faf7ec;font-weight:600}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--gray);margin-top:16px;cursor:pointer}
+.chk input{margin-top:3px;width:18px;height:18px;accent-color:#1d1d1f;flex:none}
+.fine{font-size:12.5px;color:var(--gray);text-align:center;margin-top:12px}
+.fine a{color:var(--gray)}
+.spin{width:42px;height:42px;border:4px solid #ece6d3;border-top-color:var(--ink);border-radius:50%;margin:6px auto 18px;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.load{list-style:none;text-align:left;max-width:320px;margin:18px auto 4px}
+.load li{padding:6px 0 6px 28px;position:relative;font-size:14.5px;color:#a0a0a5;transition:.3s}
+.load li::before{content:"";position:absolute;left:3px;top:11px;width:12px;height:12px;border-radius:50%;border:2px solid var(--light)}
+.load li.on{color:var(--ink)}
+.load li.on::before{background:var(--gold);border-color:var(--gold)}
+.okc{width:56px;height:56px;border-radius:50%;background:var(--gold);display:grid;place-items:center;font-size:28px;font-weight:800;margin:0 auto 12px}
+.teaser{background:#FFF4C4;border-radius:12px;padding:12px 14px;font-size:14.5px;margin-top:6px}
+.sim{font-size:12.5px;color:var(--gray);text-align:center;margin:22px 0 10px}
+.sim b{color:var(--ink)}
+.phone{margin:0 auto;max-width:360px;border:8px solid #1d1d1f;border-radius:32px;overflow:hidden;background:#e5ddd5;box-shadow:0 12px 40px rgba(0,0,0,.18)}
+.wa-head{background:#075e54;color:#fff;padding:10px 14px;display:flex;gap:10px;align-items:center}
+.av{width:36px;height:36px;border-radius:50%;background:var(--gold);color:var(--ink);display:grid;place-items:center;font-weight:800}
+.wa-head small{display:block;font-size:11px;opacity:.8}
+.wa-body{height:520px;overflow:auto;padding:12px 10px;display:flex;flex-direction:column;gap:6px}
+.msg{max-width:88%;padding:7px 9px 4px;border-radius:8px;border-top-left-radius:0;font-size:13.5px;line-height:1.42;background:#fff;box-shadow:0 1px .5px rgba(0,0,0,.13);align-self:flex-start;word-wrap:break-word;animation:in .2s ease}
+.msg.out{align-self:flex-end;background:#d9fdd3;border-top-left-radius:8px;border-top-right-radius:0}
+.msg a{color:#027eb5;word-break:break-all}
+.tm{display:block;text-align:right;font-size:10px;color:#667781;margin-top:2px}
+.typing{display:flex;gap:4px;padding:11px 12px}
+.typing i{width:6px;height:6px;border-radius:50%;background:#999;animation:bn 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes bn{0%,60%,100%{opacity:.3;transform:none}30%{opacity:1;transform:translateY(-3px)}}
+.divider{align-self:center;background:#e1f2fb;color:#54656f;font-size:11.5px;padding:3px 10px;border-radius:8px;margin:6px 0}
+.qr{align-self:flex-start;width:88%;max-width:88%;background:#fff;border:0;border-radius:8px;color:#027eb5;font-weight:600;font-size:13.5px;padding:9px;cursor:pointer;box-shadow:0 1px .5px rgba(0,0,0,.13)}
+.qr:hover{background:#f5fbff}
+.wa-foot{background:#f0f2f5;padding:10px 14px;color:#8696a0;font-size:13px}
+.row{display:flex;justify-content:center;gap:18px;margin-top:12px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.nolink{cursor:default}
+details.priv{margin-top:12px;font-size:12.5px;color:var(--gray);text-align:left}
+details.priv summary{cursor:pointer;text-align:center;text-decoration:underline}
+details.priv p{margin-top:8px}
+.btn2{display:block;width:100%;text-align:center;text-decoration:none;background:#fff;color:var(--ink);border:1.5px solid var(--ink);border-radius:980px;padding:13px 20px;font-weight:700;font-size:15px;margin-top:10px}
+.steps{list-style:none;margin:14px 0 4px;text-align:left}
+.steps li{padding:8px 0 8px 34px;position:relative;font-size:15px}
+.steps li b.n{position:absolute;left:0;top:8px;width:23px;height:23px;border-radius:50%;background:var(--gold);display:grid;place-items:center;font-size:13px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.logo{display:none}body{background:transparent}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <div class="logo nolink">awardee<span>.id</span></div>
+  <div id="pbox" hidden>
+    <div class="progress"><i id="bar"></i></div>
+    <div class="step-meta"><span id="stepLabel"></span><span id="backWrap"></span></div>
+  </div>
+  <div id="screen"></div>
+</div>
+<noscript><div class="wrap"><section class="card">Halaman ini membutuhkan JavaScript. Aktifkan JavaScript lalu muat ulang.</section></div></noscript>
+
+<script>
+(function(){
+'use strict';
+var CFG = {api:'https://member.awardee.id/api/study-planner/submit', pixelId:''};
+var $ = function(s){ return document.querySelector(s); };
+var esc = function(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
+var timers = [];
+function later(fn, ms){ var t = setTimeout(fn, ms); timers.push(t); return t; }
+function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
+
+
+/* ---------- Data ---------- */
+var FIELDS = [
+  ['kebijakan','Sosial / Politik / Hukum / Adm. Publik'],
+  ['bisnis','Ekonomi / Bisnis / Akuntansi'],
+  ['kesehatan','Kesehatan / Kedokteran / Gizi'],
+  ['teknik','Teknik / IT / Sains / Pertanian'],
+  ['pendidikan','Pendidikan / Bahasa'],
+  ['lainnya','Bidang lainnya']
+];
+var IPKS = [['<2.75','Di bawah 2,75'],['2.75','2,75 – 2,99'],['3.00','3,00 – 3,24'],['3.25','3,25 – 3,49'],['3.50','3,50 ke atas']];
+var IELTS_VALUES = ['4.0','4.5','5.0','5.5','6.0','6.5','7.0','7.5','8.0','8.5','9.0'];
+
+var STEPS = [
+  {id:'tujuan', type:'single', title:'Kamu mau kuliah di Australia lewat jalur apa?', sub:'Biar rekomendasinya nyambung dengan aturan jalurmu.', options:[
+    ['aas','Australia Awards (AAS)','Beasiswa penuh dari pemerintah Australia','🏆'],
+    ['lpdp','LPDP — kuliah di Australia','Beasiswa LPDP dengan tujuan kampus Australia','🏛️'],
+    ['mandiri','Biaya sendiri / jalur lain','Beasiswa kampus, kantor, atau pribadi','💼'],
+    ['bingung','Belum tahu, mau lihat dulu','Tidak apa-apa, kita mulai dari profilmu','🤔']]},
+  {id:'jenjang', type:'jenjang'},
+  {id:'akademik', type:'akademik'},
+  {id:'karier', type:'text'},
+  {id:'bahasa', type:'bahasa'},
+  {id:'kota', type:'kota'},
+  {id:'status', type:'single', title:'Saat ini kamu…', sub:'Untuk menyesuaikan tips dan syarat yang relevan.', options:[
+    ['asn','ASN / PNS','','🏢'],
+    ['bumn','Pegawai BUMN / swasta','','💼'],
+    ['dosen','Dosen / peneliti','','📚'],
+    ['wira','Wirausaha / freelance','','🚀'],
+    ['fresh','Fresh graduate / belum bekerja','','🎒']]}
+];
+
+
+/* ---------- State ---------- */
+function fresh(){ return {screen:'q', i:0, a:{tujuan:'',jenjang:'',field:'',ipk:'',karier:'',has:[],ielts:'',toefl:'',ttype:'ibt',kotas:[],status:''}, nama:'', wa:'', consent:false, res:null}; }
+var S = fresh();
+
+
+function fieldLabel(v){ var all = FIELDS.concat(FIELDS_VOC); for(var k=0;k<all.length;k++){ if(all[k][0]===v) return all[k][1]; } return ''; }
+function isGrad(a){ return a.jenjang==='s2' || a.jenjang==='s3'; }
+function ipkLabel(v){ for(var k=0;k<IPKS.length;k++){ if(IPKS[k][0]===v) return IPKS[k][1]; } return ''; }
+function short(s, n){
+  s = String(s).replace(/\s+/g,' ').trim();
+  if(s.length<=n) return s;
+  var cut = s.slice(0,n), sp = cut.lastIndexOf(' ');
+  return (sp>n*0.6 ? cut.slice(0,sp) : cut).replace(/[,.;:\s]+$/,'')+'…';
+}
+function fmt1(n){ return n.toFixed(1).replace('.',','); }
+function cap(s){ s = s.trim(); return s ? s.charAt(0).toUpperCase()+s.slice(1) : s; }
+function time(){ var d = new Date(); return String(d.getHours()).padStart(2,'0')+'.'+String(d.getMinutes()).padStart(2,'0'); }
+function waFmt(s){
+  var urls = [];
+  var t = esc(s).replace(/https?:\/\/[^\s<]+/g, function(u){ urls.push(u); return '\u0001'+(urls.length-1)+'\u0001'; });   /* keep URLs out of the bold/italic rules */
+  t = t.replace(/\*(.+?)\*/g,'<strong>$1</strong>').replace(/_(.+?)_/g,'<em>$1</em>').replace(/~(.+?)~/g,'<s>$1</s>').replace(/\n/g,'<br>');
+  return t.replace(/\u0001(\d+)\u0001/g, function(_, i){ return '<a href="'+urls[i]+'" target="_blank" rel="noopener noreferrer">'+urls[i]+'</a>'; });
+}
+function normWa(raw){ var d = String(raw).replace(/\D/g,''); if(d.indexOf('62')===0) d = d.slice(2); else if(d.indexOf('0')===0) d = d.slice(1); return d; }
+function validWa(d){ return /^8\d{8,11}$/.test(d); }
+function mask(d){ return '+62 '+d.slice(0,3)+'•• ••• '+d.slice(-3); }
+
+
+function render(){
+  clearTimers();
+  var pb = $('#pbox');
+  if(S.screen==='q' || S.screen==='contact'){
+    pb.hidden = false;
+    var idx = S.screen==='contact' ? STEPS.length : S.i;
+    $('#bar').style.width = ((idx+1)/(STEPS.length+1)*100)+'%';
+    $('#stepLabel').textContent = S.screen==='contact' ? 'Langkah terakhir' : 'Pertanyaan '+(S.i+1)+' dari '+STEPS.length;
+    $('#backWrap').innerHTML = '<button class="link" id="back" type="button">← Kembali</button>';
+    $('#back').onclick = goBack;
+  } else { pb.hidden = true; }
+  var el = $('#screen');
+  if(S.screen==='intro') rIntro(el);
+  else if(S.screen==='q') rStep(el);
+  else if(S.screen==='contact') rContact(el);
+  else if(S.screen==='loading') rLoading(el);
+  else rDone(el);
+  window.scrollTo(0,0);
+}
+function goBack(){
+  if(S.screen==='contact'){ S.screen='q'; S.i=STEPS.length-1; }
+  else if(S.i>0){ S.i--; }
+  else { return; }
+  render();
+}
+function next(){
+  if(S.i < STEPS.length-1){ S.i++; } else { finishEmbed(); return; }
+  render();
+}
+
+function rIntro(el){
+  el.innerHTML = '<section class="card">'+
+    '<span class="badge">Gratis · tanpa daftar akun</span>'+
+    '<h1>Jurusan &amp; kampus Australia mana yang paling cocok buat kamu?</h1>'+
+    '<p class="sub"><b>Cuma 2 menit.</b> Jawab 7 pertanyaan singkatnya. Kamu akan dikirimkan <b>2 pilihan teratas</b> dari kampus yang cocok untukmu dan hasilnya langsung ke WhatsApp kamu.</p>'+
+    '<p class="sub" style="font-weight:700;margin:4px 0 10px">Dicocokkan dengan <b>15.000+ program studi D1–S3</b> di <b>900+ institusi</b> Australia · data per Okt 2026, kamu akan dapat hasil berupa:</p>'+
+    '<ul class="checks"><li>2 pilihan program studi + kampusnya, lengkap dengan <b>kode CRICOS</b> &amp; link resmi program studi nya</li><li>Syarat bahasa — tahu apa yang perlu dikejar</li><li>Biaya kuliahnya</li><li>Usulan kota yang sesuai dengan kebutuhanmu</li></ul>'+
+    '<button class="btn" id="go" type="button">Mulai — gratis</button>'+
+    '<p class="byline">Dibuat oleh <b>Den Dhana</b> — Founder Awardee.id, awardee AAS (Flinders University, 2018), mentor beasiswa luar negeri sejak 2019</p>'+
+  '</section>';
+  $('#go').onclick = function(){ track('ViewContent', {content_name:'Mini Study Planner'}); S.screen='q'; S.i=0; render(); };
+}
+
+function rStep(el){
+  var st = STEPS[S.i];
+  if(st.type==='single') return rSingle(el, st);
+  if(st.type==='jenjang') return rJenjang(el);
+  if(st.type==='kota') return rKota(el);
+  if(st.type==='akademik') return rAkademik(el);
+  if(st.type==='text') return rKarier(el);
+  return rBahasa(el);
+}
+function rSingle(el, st){
+  el.innerHTML = '<section class="card"><h2>'+st.title+'</h2><p class="sub">'+st.sub+'</p><div class="opts">'+
+    st.options.map(function(o){
+      return '<button type="button" class="opt'+(S.a[st.id]===o[0]?' sel':'')+'" data-v="'+o[0]+'"><span class="ico">'+o[3]+'</span><span><b>'+o[1]+'</b>'+(o[2]?'<small>'+o[2]+'</small>':'')+'</span></button>';
+    }).join('')+'</div></section>';
+  el.querySelectorAll('.opt').forEach(function(b){
+    b.onclick = function(){ S.a[st.id] = b.dataset.v; el.querySelectorAll('.opt').forEach(function(x){ x.classList.remove('sel'); }); b.classList.add('sel'); later(next, 220); };
+  });
+}
+function rKota(el){
+  var opts = [['wisata','Banyak spot wisata','Kota yang seru untuk dijelajahi','🗺️'],['keluarga','Ramah keluarga','Nyaman kalau bawa pasangan atau anak','👨‍👩‍👧'],['murah','Biaya hidup murah','Lebih hemat untuk hidup sehari-hari','💸'],['program','Menyesuaikan program studi','Ikut kampus terbaik untuk programmu','🎓']];
+  S.a.kotas = (S.a.kotas || []).slice(0,2);
+  el.innerHTML = '<section class="card"><h2>Kota seperti apa yang kamu impikan?</h2><p class="sub">Boleh pilih maksimal 2.</p><div class="opts">'+
+    opts.map(function(o){ return '<button type="button" class="opt'+(S.a.kotas.indexOf(o[0])>-1?' sel':'')+'" data-v="'+o[0]+'"><span class="ico">'+o[3]+'</span><span><b>'+o[1]+'</b><small>'+o[2]+'</small></span></button>'; }).join('')+
+    '</div><p class="err" id="err" role="alert"></p><button class="btn" id="nx" type="button">Lanjut</button></section>';
+  function paint(){ el.querySelectorAll('.opt').forEach(function(b){ b.classList.toggle('sel', S.a.kotas.indexOf(b.dataset.v)>-1); }); }
+  el.querySelectorAll('.opt').forEach(function(b){
+    b.onclick = function(){
+      var v = b.dataset.v, k = S.a.kotas.slice(), i = k.indexOf(v); $('#err').textContent = '';
+      if(i>-1) k.splice(i,1);                                  /* any 2 of the 4 options can be combined */
+      else if(k.length<2) k.push(v);
+      else $('#err').textContent = 'Maksimal 2 pilihan ya. Lepas salah satu dulu.';
+      S.a.kotas = k;
+      paint();
+    };
+  });
+  $('#nx').onclick = function(){ if(!S.a.kotas.length){ $('#err').textContent = 'Pilih minimal 1 ya.'; return; } next(); };
+}
+function rJenjang(el){
+  var grad = (S.a.tujuan==='aas' || S.a.tujuan==='lpdp');
+  var all = [['s2','S2 / Master','Program magister (coursework)','🎓'],['s3','S3 / Doktor','PhD / program doktoral','🔬'],['s1','S1 / Bachelor','Program sarjana','📘'],['d3','D3 / Diploma','Diploma &amp; Advanced Diploma','📗'],['d1','D1 / Sertifikat','Certificate I–IV (vokasi singkat)','🛠️']];
+  var opts = grad ? all.slice(0,2) : all;
+  if(S.a.jenjang && !opts.some(function(o){ return o[0]===S.a.jenjang; })) S.a.jenjang = '';
+  el.innerHTML = '<section class="card"><h2>Jenjang apa yang kamu tuju?</h2><p class="sub">'+(grad ? 'Jalur AAS dan LPDP membiayai S2 dan S3.' : 'Pilih jenjang studi di Australia.')+'</p><div class="opts">'+
+    opts.map(function(o){ return '<button type="button" class="opt'+(S.a.jenjang===o[0]?' sel':'')+'" data-v="'+o[0]+'"><span class="ico">'+o[3]+'</span><span><b>'+o[1]+'</b><small>'+o[2]+'</small></span></button>'; }).join('')+'</div></section>';
+  el.querySelectorAll('.opt').forEach(function(b){
+    b.onclick = function(){ S.a.jenjang = b.dataset.v; el.querySelectorAll('.opt').forEach(function(x){ x.classList.remove('sel'); }); b.classList.add('sel'); later(next, 220); };
+  });
+}
+function rAkademik(el){
+  var g = isGrad(S.a), j = S.a.jenjang, fl = g ? FIELDS : FIELDS_VOC;
+  var t1 = g ? 'Latar belakang akademikmu?' : 'Bidang apa yang kamu minati?';
+  var t2 = g ? (j==='s3' ? 'Pilih bidang studi terakhir (S2) dan kisaran IPK.' : 'Pilih bidang S1 dan kisaran IPK.') : 'Pilih bidang yang paling dekat dengan minatmu.';
+  var l1 = g ? (j==='s3' ? 'Bidang studi terakhir' : 'Bidang S1') : 'Bidang minat';
+  el.innerHTML = '<section class="card"><h2>'+t1+'</h2><p class="sub">'+t2+'</p>'+
+    '<span class="lbl">'+l1+'</span><div class="chips" id="gf">'+fl.map(function(f){ return '<button type="button" class="chip'+(S.a.field===f[0]?' sel':'')+'" data-v="'+f[0]+'">'+f[1]+'</button>'; }).join('')+'</div>'+
+    (g ? '<span class="lbl">'+(j==='s3' ? 'IPK terakhir' : 'IPK S1')+'</span><div class="chips" id="gp">'+IPKS.map(function(f){ return '<button type="button" class="chip'+(S.a.ipk===f[0]?' sel':'')+'" data-v="'+f[0]+'">'+f[1]+'</button>'; }).join('')+'</div>' : '')+
+    '<p class="err" id="err" role="alert"></p><button class="btn" id="nx" type="button">Lanjut</button></section>';
+  if(S.a.field && !fl.some(function(f){ return f[0]===S.a.field; })) S.a.field = '';
+  function bind(id, key){
+    el.querySelectorAll('#'+id+' .chip').forEach(function(c){
+      c.onclick = function(){ S.a[key] = c.dataset.v; el.querySelectorAll('#'+id+' .chip').forEach(function(x){ x.classList.remove('sel'); }); c.classList.add('sel'); $('#err').textContent=''; };
+    });
+  }
+  bind('gf','field'); if(g) bind('gp','ipk');
+  $('#nx').onclick = function(){
+    if(!g) S.a.ipk = 'na';
+    if(!S.a.field || (g && (!S.a.ipk || S.a.ipk==='na'))){ $('#err').textContent = g ? 'Pilih bidang dan kisaran IPK dulu ya.' : 'Pilih bidang minatmu dulu ya.'; return; }
+    next();
+  };
+}
+function rKarier(el){
+  var g = isGrad(S.a);
+  el.innerHTML = '<section class="card"><h2>'+(g ? 'Kamu kerja di mana, dan mau jadi apa setelah lulus?' : 'Kamu ingin jadi apa setelah lulus?')+'</h2><p class="sub">Tulis bebas, 1–2 kalimat. Ini yang bikin rekomendasinya nyambung.</p>'+
+    '<textarea id="k" maxlength="240" placeholder="'+(g ? 'Contoh: Saya analis kebijakan di Bappeda, ingin fokus ke transportasi perkotaan.' : 'Contoh: Saya ingin bekerja sebagai chef di hotel, atau membuka usaha kafe sendiri.')+'">'+esc(S.a.karier)+'</textarea>'+
+    '<div class="count"><span id="cnt">0</span>/240</div>'+
+    '<div class="chips" id="ex">'+(g ? '<button type="button" class="chip small" data-t="Saya ingin naik jabatan di instansi saya, dengan fokus ke ">Naik jabatan di instansi</button><button type="button" class="chip small" data-t="Saya ingin menjadi dosen atau peneliti di bidang ">Jadi dosen / peneliti</button><button type="button" class="chip small" data-t="Saya ingin pindah karier ke bidang ">Pindah ke bidang baru</button>' : '<button type="button" class="chip small" data-t="Saya ingin bekerja sebagai ">Bekerja sebagai…</button><button type="button" class="chip small" data-t="Saya ingin membuka usaha di bidang ">Buka usaha sendiri</button><button type="button" class="chip small" data-t="Saya ingin melanjutkan kuliah lebih tinggi di bidang ">Lanjut kuliah lagi</button>')+'</div>'+
+    '<p class="err" id="err" role="alert"></p><button class="btn" id="nx" type="button">Lanjut</button></section>';
+  var ta = $('#k');
+  function upd(){ $('#cnt').textContent = ta.value.length; }
+  ta.oninput = upd; upd();
+  el.querySelectorAll('#ex .chip').forEach(function(c){ c.onclick = function(){ ta.value = c.dataset.t; upd(); ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }; });
+  $('#nx').onclick = function(){
+    var v = ta.value.trim();
+    if(v.length < 12){ $('#err').textContent = 'Ceritakan sedikit lagi ya (minimal 1 kalimat singkat).'; return; }
+    S.a.karier = v; next();
+  };
+}
+function rBahasa(el){
+  var a = S.a;
+  function has(k){ return a.has.indexOf(k)>-1; }
+  var none = a.has.indexOf('none')>-1;
+  el.innerHTML = '<section class="card"><h2>Sudah punya sertifikat bahasa Inggris?</h2><p class="sub">Boleh pilih dua-duanya kalau punya.</p>'+
+    '<div class="chips" id="hb">'+
+      [['ielts','IELTS'],['toefl','TOEFL'],['none','Belum punya']].map(function(o){ return '<button type="button" class="chip'+(has(o[0])?' sel':'')+'" data-v="'+o[0]+'">'+o[1]+'</button>'; }).join('')+
+    '</div><div id="bf"></div><p class="err" id="err" role="alert"></p><button class="btn" id="nx" type="button">Lanjut</button></section>';
+  function fields(){
+    var h = '';
+    if(has('ielts')){
+      h += '<span class="lbl">Skor IELTS (overall)</span><select id="ie"><option value="">Pilih skor</option>'+IELTS_VALUES.map(function(v){ return '<option value="'+v+'"'+(a.ielts===v?' selected':'')+'>'+v+'</option>'; }).join('')+'</select>';
+    }
+    if(has('toefl')){
+      h += '<span class="lbl">Jenis TOEFL</span><div class="chips" id="tt"><button type="button" class="chip'+(a.ttype==='ibt'?' sel':'')+'" data-v="ibt">iBT</button><button type="button" class="chip'+(a.ttype==='itp'?' sel':'')+'" data-v="itp">ITP</button></div>'+
+           '<span class="lbl">Skor TOEFL</span><input type="number" id="to" inputmode="numeric" placeholder="'+(a.ttype==='ibt'?'0 – 120':'310 – 677')+'" value="'+esc(a.toefl)+'">';
+    }
+    $('#bf').innerHTML = h;
+    var ie = $('#ie'); if(ie) ie.onchange = function(){ a.ielts = ie.value; };
+    var to = $('#to'); if(to) to.oninput = function(){ a.toefl = to.value; };
+    el.querySelectorAll('#tt .chip').forEach(function(c){ c.onclick = function(){ a.ttype = c.dataset.v; fields(); }; });
+  }
+  fields();
+  el.querySelectorAll('#hb .chip').forEach(function(c){
+    c.onclick = function(){
+      var v = c.dataset.v;
+      if(v==='none'){ a.has = has('none') ? [] : ['none']; }
+      else { a.has = a.has.filter(function(x){ return x!=='none'; }); var i = a.has.indexOf(v); if(i>-1) a.has.splice(i,1); else a.has.push(v); }
+      $('#err').textContent = '';
+      el.querySelectorAll('#hb .chip').forEach(function(x){ x.classList.toggle('sel', a.has.indexOf(x.dataset.v)>-1); });
+      fields();
+    };
+  });
+  $('#nx').onclick = function(){
+    var err = '';
+    if(!a.has.length) err = 'Pilih salah satu dulu ya.';
+    else if(has('ielts') && !a.ielts) err = 'Pilih skor IELTS kamu.';
+    else if(has('toefl')){
+      var s = parseInt(a.toefl,10), lo = a.ttype==='ibt'?0:310, hi = a.ttype==='ibt'?120:677;
+      if(isNaN(s) || s<lo || s>hi) err = 'Skor TOEFL '+(a.ttype==='ibt'?'iBT':'ITP')+' harus '+lo+'–'+hi+'.';
+    }
+    if(err){ $('#err').textContent = err; return; }
+    if(none){ a.ielts=''; a.toefl=''; }
+    next();
+  };
+}
+
+function rContact(el){
+  el.innerHTML = '<section class="card"><h2>Hasilmu sudah siap 🎉</h2><p class="sub">Kami kirim <b>2 pilihan teratas</b> langsung ke chat WhatsApp kamu.</p>'+
+    '<label class="lbl" for="nm">Nama panggilan</label><input type="text" id="nm" autocomplete="given-name" maxlength="40" placeholder="Contoh: Rani" value="'+esc(S.nama)+'">'+
+    '<label class="lbl" for="wa">Nomor WhatsApp</label><div class="pre"><span>+62</span><input type="tel" id="wa" inputmode="tel" autocomplete="tel" placeholder="812 3456 7890" value="'+esc(S.wa)+'"></div>'+
+    '<label class="chk"><input type="checkbox" id="cs"'+(S.consent?' checked':'')+'><span>Saya setuju menerima hasil ini dan info beasiswa dari Awardee.id lewat WhatsApp. Bisa berhenti kapan saja dengan membalas <b>STOP</b>.</span></label>'+
+    '<p class="err" id="err" role="alert"></p><button class="btn" id="send" type="button">Kirim hasilku ke WhatsApp</button>'+
+    '<details class="priv"><summary>Kebijakan privasi singkat</summary><p>Nama, nomor WhatsApp, dan jawaban kuismu dipakai untuk menyusun &amp; mengirim hasil serta info beasiswa dari Awardee.id lewat WhatsApp. Data tidak dijual ke pihak lain. Halaman ini memakai Meta Pixel untuk mengukur efektivitas iklan. Berhenti menerima pesan kapan saja dengan membalas <b>STOP</b>; untuk menghapus datamu, kirim pesan ke WhatsApp Awardee.id.</p></details></section>';
+  function submit(){
+    var nm = $('#nm').value.trim(), d = normWa($('#wa').value), cs = $('#cs').checked;
+    S.nama = nm; S.wa = $('#wa').value; S.consent = cs;
+    if(!nm){ $('#err').textContent = 'Isi nama panggilanmu dulu ya.'; return; }
+    if(!validWa(d)){ $('#err').textContent = 'Nomor WhatsApp belum valid. Contoh: 812 3456 7890'; return; }
+    if(!cs){ $('#err').textContent = 'Centang persetujuan dulu supaya kami bisa mengirim hasilnya.'; return; }
+    S.wa = d; startSubmit();
+  }
+  $('#send').onclick = submit;
+  ['nm','wa'].forEach(function(id){ $('#'+id).onkeydown = function(e){ if(e.key==='Enter') submit(); }; });
+}
+
+
+
+/* ---------- Tracking (Meta Pixel; aktif hanya bila CFG.pixelId terisi) ---------- */
+function track(ev, params, eid){ try { if(window.fbq) window.fbq('track', ev, params || {}, eid ? {eventID: eid} : undefined); } catch(e){} }
+function cookie(n){ var m = document.cookie.match(new RegExp('(?:^|; )'+n+'=([^;]*)')); return m ? decodeURIComponent(m[1]) : ''; }
+function utmParams(){
+  var out = {}, q = new URLSearchParams(location.search);
+  ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid'].forEach(function(k){ if(q.get(k)) out[k] = q.get(k); });
+  return out;
+}
+function fbc(){ var c = cookie('_fbc'); if(c) return c; var f = new URLSearchParams(location.search).get('fbclid'); return f ? 'fb.1.'+Date.now()+'.'+f : ''; }
+function uid(){ return 'sp-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10); }
+
+/* ---------- Kirim ke server ---------- */
+function startSubmit(){
+  S.screen = 'loading'; S.res = null; S.err = '';
+  var eid = uid();
+  var body = {name:S.nama, phone:S.wa, consent:true, answers:S.a, utm:utmParams(), fbp:cookie('_fbp'), fbc:fbc(), event_id:eid, hp:''};
+  var minWait = new Promise(function(r){ setTimeout(r, 2600); });
+  var req = fetch(CFG.api, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)})
+    .then(function(r){ return r.json().catch(function(){ return {ok:false, error:'Server tidak merespons.'}; }); })
+    .catch(function(){ return {ok:false, error:'Koneksi bermasalah. Periksa internetmu lalu coba lagi.'}; });
+  render();
+  Promise.all([req, minWait]).then(function(v){
+    var res = v[0];
+    if(!res || !res.ok){
+      S.screen = 'contact'; render();
+      var e = $('#err'); if(e) e.textContent = (res && res.error) || 'Gagal mengirim. Coba lagi.';
+      return;
+    }
+    track('Lead', {content_name:'Mini Study Planner'}, eid);
+    S.res = res; CFG.cta = res.cta || ''; S.screen = 'done'; render();
+  });
+}
+
+function rLoading(el){
+  el.innerHTML = '<section class="card center"><div class="spin"></div><h2>Menyusun pilihan terbaikmu…</h2><ul class="load" id="ld"><li>Mencocokkan profilmu dengan database program</li><li>Mengecek peringkat kampus dan peluang beasiswa</li><li>Memilih kampus berbeda yang paling pas</li></ul></section>';
+  var lis = el.querySelectorAll('#ld li');
+  lis.forEach(function(li, k){ later(function(){ li.classList.add('on'); }, 150 + k*900); });
+}
+
+function rDone(el){
+  var r = S.res || {}, cnt = r.total ? '<div class="teaser">Ditemukan <b>'+r.total+' program dari '+r.unis+' kampus</b> yang cocok dengan profilmu. 2 teratas dikirim gratis.</div>' : '';
+  if(r.mode === 'whatsapp'){
+    el.innerHTML = '<section class="card center"><div class="okc">✓</div><h2>Satu langkah lagi — cek WhatsApp kamu</h2>'+
+      '<p class="sub">Kami baru saja mengirim pesan dari <b>Awardee.id</b> ke <b>'+esc(mask(S.wa))+'</b>.</p>'+
+      '<ol class="steps"><li><b class="n">1</b>Buka WhatsApp, cari pesan dari <b>Awardee.id</b></li><li><b class="n">2</b>Ketuk tombol <b>Lihat hasilku</b></li><li><b class="n">3</b>2 pilihan teratasmu langsung muncul di chat</li></ol>'+cnt+
+      (r.wa_link ? '<a class="btn2" href="'+esc(r.wa_link)+'" target="_blank" rel="noopener noreferrer">Pesan belum masuk? Chat kami di WhatsApp</a>' : '')+
+      '</section>';
+    return;
+  }
+  el.innerHTML = '<section class="card center"><div class="okc">✓</div><h2>Hasilmu sudah siap 🎉</h2><p class="sub">Ini 2 pilihan teratas untuk <b>'+esc(cap(S.nama))+'</b>.</p>'+cnt+'</section>'+
+    '<div class="phone" style="margin-top:18px"><div class="wa-head"><span class="av">A</span><div><b>Awardee.id</b><small>Mini Study Planner</small></div></div><div class="wa-body" id="chat"></div><div class="wa-foot">Hasil Mini Study Planner</div></div>'+
+    '<div class="row"><button class="link" id="skip" type="button">Tampilkan semua</button><button class="link" id="replay" type="button">↺ Putar ulang</button></div>';
+  playChat(r.items || []);
+}
+function playChat(items){
+  var chat = $('#chat'), idx = 0;
+  function bottom(){ chat.scrollTop = chat.scrollHeight; }
+  function bubble(html, side){ var d = document.createElement('div'); d.className = 'msg '+side; d.innerHTML = html+'<span class="tm">'+time()+'</span>'; chat.appendChild(d); bottom(); return d; }
+  function qr(label){ var b = document.createElement('button'); b.type='button'; b.className='qr'; b.textContent = 'Akses Database STUDY PLANNER'; b.onclick = function(){ if(CFG.cta){ track('InitiateCheckout', {content_name:'Akses Database STUDY PLANNER'}); window.open(CFG.cta, '_blank', 'noopener'); } }; chat.appendChild(b); bottom(); }
+  function reply(label){
+    bubble(esc(label),'out');
+    var t = typing();
+    later(function(){ t.remove();  }, 900);
+  }
+  function typing(){ var t = document.createElement('div'); t.className='msg typing'; t.innerHTML='<i></i><i></i><i></i>'; chat.appendChild(t); bottom(); return t; }
+  function show(it){
+    if(it.t==='divider'){ var d = document.createElement('div'); d.className='divider'; d.textContent = it.text; chat.appendChild(d); bottom(); return; }
+    bubble(waFmt(it.text),'in'); if(it.btn) qr(it.btn);
+  }
+  function step(){
+    if(idx>=items.length) return;
+    var it = items[idx++];
+    if(it.t==='divider'){ show(it); step(); return; }
+    var t = typing();
+    later(function(){ t.remove(); show(it); later(step, 350); }, it.wait||800);
+  }
+  $('#skip').onclick = function(){ clearTimers(); chat.innerHTML=''; items.forEach(show); };
+  $('#replay').onclick = function(){ clearTimers(); chat.innerHTML=''; idx=0; step(); };
+  step();
+}
+
+
+
+
+function finishEmbed(){ try { parent.postMessage({type:'sp-quiz', answers:S.a}, location.origin); } catch(e){} S.screen = 'done'; render(); }
+function rDone(el){ el.innerHTML = '<section class="card center"><div class="spin"></div><h2>Mencari program yang cocok…</h2><p class="sub">Hasilnya muncul di halaman database.</p></section>'; }
+window.addEventListener('message', function(e){ if(e.origin === location.origin && e.data && e.data.type === 'sp-reset'){ S = fresh(); S.screen = 'q'; render(); } });
+/* ---------- Mulai ---------- */
+track('PageView');
+render();
+})();
+</script>
+</body>
+</html>
