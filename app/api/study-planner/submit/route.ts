@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import crypto from 'crypto'
 import { loadEnvKey } from '@/lib/env'
+import { studyPlannerBuyUrl } from '@/lib/study-planner/buy'
 import { sanitizeAnswers, runPlanner, resultItems } from '@/lib/study-planner/planner'
 import { waConfigured, toWaNumber, sendTemplate } from '@/lib/whatsapp'
 
@@ -78,7 +79,7 @@ export async function POST(req: NextRequest) {
     }).select('id').single()
     if (error || !row) return fail('Gagal menyimpan. Coba lagi sebentar lagi.', 500)
 
-    const buyUrl = loadEnvKey('STUDY_PLANNER_LYNK_URL') || ''
+    const buyUrl = studyPlannerBuyUrl()
     const waNumber = loadEnvKey('STUDY_PLANNER_WA_NUMBER') || '6281287212755'
 
     if (useWa) {

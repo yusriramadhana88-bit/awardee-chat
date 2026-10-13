@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { loadEnvKey } from '@/lib/env'
+import { studyPlannerBuyUrl } from '@/lib/study-planner/buy'
 import { getStudyPlannerAccess } from '@/lib/study-planner/access'
 import { meta, searchPrograms, searchScholarships } from '@/lib/study-planner/db'
 
@@ -12,7 +13,7 @@ export async function GET(req: NextRequest) {
   if (acc.reason === 'unauth') return NextResponse.json({ error: 'Belum login' }, { status: 401 })
   if (!acc.ok) {
     return NextResponse.json({
-      error: 'Belum punya akses', buyUrl: loadEnvKey('STUDY_PLANNER_LYNK_URL') || '', email: acc.email ?? '',
+      error: 'Belum punya akses', buyUrl: studyPlannerBuyUrl(), email: acc.email ?? '',
       waNumber: loadEnvKey('STUDY_PLANNER_WA_NUMBER') || '6281287212755',
     }, { status: 403 })
   }

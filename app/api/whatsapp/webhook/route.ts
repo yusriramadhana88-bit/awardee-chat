@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { loadEnvKey } from '@/lib/env'
+import { studyPlannerBuyUrl } from '@/lib/study-planner/buy'
 import { verifyMetaSignature, sendText, sendCtaUrl, splitText, sleep } from '@/lib/whatsapp'
 import { runPlanner, resultItems, type Answers } from '@/lib/study-planner/planner'
 
@@ -46,7 +47,7 @@ export async function POST(req: NextRequest) {
 async function handle(phone: string, text: string) {
   const db = admin()
   const up = text.toUpperCase()
-  const buyUrl = loadEnvKey('STUDY_PLANNER_LYNK_URL')
+  const buyUrl = studyPlannerBuyUrl()
   const now = new Date().toISOString()
 
   if (STOP_WORDS.some((w) => up === w || up.startsWith(w + ' '))) {
