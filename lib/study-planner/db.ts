@@ -6,6 +6,12 @@ type Sch = { id: string; n: string; p: string[]; l: string[]; a: number | null; 
 
 const D = require('./data.json') as Data
 const SCH = require('./scholarships.json') as Sch[]
+const CITY_STATE = require('./city_state.json') as Record<string, string>   // kota (suburb CRICOS) -> negara bagian
+const STATES: { key: string; label: string }[] = [
+  { key: 'NSW', label: 'New South Wales (NSW)' }, { key: 'VIC', label: 'Victoria (VIC)' }, { key: 'QLD', label: 'Queensland (QLD)' },
+  { key: 'WA', label: 'Western Australia (WA)' }, { key: 'SA', label: 'South Australia (SA)' }, { key: 'TAS', label: 'Tasmania (TAS)' },
+  { key: 'ACT', label: 'Australian Capital Territory (ACT)' }, { key: 'NT', label: 'Northern Territory (NT)' },
+]
 
 const TOPIC_LABEL: Record<string, string> = { hosp: 'Perhotelan & pariwisata', trade: 'Teknik vokasi', care: 'Perawatan & kesejahteraan', creative: 'Seni & desain', beauty: 'Kecantikan', sport: 'Olahraga & kebugaran', policy: 'Kebijakan publik', dev: 'Pembangunan internasional', biz: 'Bisnis & manajemen', fin: 'Keuangan & ekonomi', it: 'Teknologi informasi & data', eng: 'Teknik & rekayasa', energy: 'Energi', health: 'Kesehatan', pubhealth: 'Kesehatan masyarakat', edu: 'Pendidikan', env: 'Lingkungan & keberlanjutan', agri: 'Pertanian & pangan', marine: 'Kelautan', law: 'Hukum', social: 'Ilmu sosial & komunikasi', mat: 'Material & manufaktur', mining: 'Pertambangan & sumber daya', sci: 'Sains', plan: 'Perencanaan & arsitektur', transport: 'Transportasi & logistik' }
 const LEVEL_LABEL: Record<string, string> = { d1: 'D1 / Certificate', d3: 'D3 / Diploma', s1: 'S1 / Bachelor', s2: 'S2 / Master', s3: 'S3 / Doktor' }
@@ -27,6 +33,8 @@ export function meta() {
   return {
     levels: D.levels.map((l) => ({ key: l, label: LEVEL_LABEL[l], count: perLevel[l] ?? 0 })),
     topics: D.topics.map((t) => ({ key: t, label: TOPIC_LABEL[t] ?? t })),
+    states: STATES,
+    cityState: CITY_STATE,
     cities: Array.from(cities.entries()).sort((a, b) => a[0].localeCompare(b[0])).map(([c]) => c),
     unis: D.unis.map((u, i) => ({ i, n: u.n, k: u.k, aas: !!u.aas })).sort((a, b) => a.n.localeCompare(b.n)),
     stats: { programs: D.rows.length, institutions: D.unis.length, universities: D.unis.filter((u) => u.k === 2).length, scholarships: SCH.filter((s) => s.l.includes('pg')).length, snapshot: D.snapshot, built: D.built },
@@ -57,10 +65,10 @@ function decode(row: any[], i: number) {
   }
 }
 
-export type SearchParams = { level?: string; q?: string; topic?: string; city?: string; uni?: number; aas?: boolean; maxIelts?: number; maxTuition?: number; sort?: string; page?: number }
+export type SearchParams = { level?: string; q?: string; topic?: string; city?: string; state?: string; uni?: number; aas?: boolean; maxIelts?: number; maxTuition?: number; sort?: string; page?: number }
 
 export function searchPrograms(p: SearchParams) {
-  const li = p.level ? D.levels.indexOf(p.level) : 3
+  const li = p.level === 'all' ? -1 : p.level ? D.levels.indexOf(p.level) : 3   // 'all' = semua jenjang
   const tIdx = p.topic ? D.topics.indexOf(p.topic) : -1
   const toks = lc(p.q ?? '').split(/\s+/).filter((x) => x.length > 1).slice(0, 6)
   const out: number[] = []
@@ -68,6 +76,7 @@ export function searchPrograms(p: SearchParams) {
     if (li >= 0 && r[13] !== li) return
     if (tIdx >= 0 && !((r[6] >> tIdx) & 1)) return
     if (p.city && !(r[5] || []).includes(p.city)) return
+    if (p.state && !(r[5] || []).some((c: string) => CITY_STATE[c] === p.state)) return
     if (p.uni != null && r[0] !== p.uni) return
     const u = D.unis[r[0]]
     if (p.aas && !u.aas) return
@@ -92,11 +101,11 @@ export function searchPrograms(p: SearchParams) {
 export type SchParams = { level?: string; q?: string; uni?: number; page?: number }
 
 export function searchScholarships(p: SchParams) {
-  const lv = p.level === 'ug' ? 'ug' : 'pg'
+  const lv = p.level === 'ug' ? 'ug' : p.level === 'all' ? null : 'pg'
   const toks = lc(p.q ?? '').split(/\s+/).filter((x) => x.length > 1).slice(0, 6)
   const pv = p.uni != null && D.unis[p.uni] ? D.unis[p.uni].pv : null
   const list = SCH.filter((s) => {
-    if (!s.l.includes(lv)) return false
+    if (lv && !s.l.includes(lv)) return false
     if (pv && !s.p.includes(pv)) return false
     if (toks.length) { const hay = lc(s.n + ' ' + s.e + ' ' + s.p.map((c) => D.unis[uniByPv.get(c) ?? -1]?.n ?? '').join(' ')); if (!toks.every((t) => hay.includes(t))) return false }
     return true
@@ -123,4 +132,26 @@ export function quizPrograms(cands: { row: any[]; score: number; g: number; f: n
     return { ...d, fit }
   })
   return { total, shown: rows.length, rows }
+}
+
+// Saran nama program saat mengetik (awalan kata lebih dulu, lalu yang paling banyak tersedia).
+let _names: { name: string; low: string; n: number }[] | null = null
+function names() {
+  if (!_names) {
+    const m = new Map<string, { name: string; low: string; n: number }>()
+    D.rows.forEach((r) => { const low = String(r[2]).toLowerCase(); const e = m.get(low); if (e) e.n++; else m.set(low, { name: r[2], low, n: 1 }) })
+    _names = Array.from(m.values())
+  }
+  return _names
+}
+export function suggestPrograms(q: string, level?: string) {
+  const s = q.trim().toLowerCase()
+  if (s.length < 2) return []
+  const li = level && level !== 'all' ? D.levels.indexOf(level) : -1
+  const ok = li < 0 ? null : new Set(D.rows.filter((r) => r[13] === li).map((r) => String(r[2]).toLowerCase()))
+  const score = (low: string) => (low.startsWith(s) ? 0 : low.split(/[\s\-/(]+/).some((w) => w.startsWith(s)) ? 1 : 2)
+  return names()
+    .filter((e) => e.low.includes(s) && (!ok || ok.has(e.low)))
+    .sort((a, b) => score(a.low) - score(b.low) || b.n - a.n || a.name.localeCompare(b.name))
+    .slice(0, 10).map((e) => e.name)
 }

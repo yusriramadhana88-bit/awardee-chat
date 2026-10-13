@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { loadEnvKey } from '@/lib/env'
 import { studyPlannerBuyUrl } from '@/lib/study-planner/buy'
 import { getStudyPlannerAccess } from '@/lib/study-planner/access'
-import { meta, searchPrograms, searchScholarships, quizPrograms } from '@/lib/study-planner/db'
+import { meta, searchPrograms, searchScholarships, quizPrograms, suggestPrograms } from '@/lib/study-planner/db'
 import { sanitizeAnswers, computeAll } from '@/lib/study-planner/planner'
 
 // Database lengkap Study Planner — hanya untuk pembeli (atau admin). Tanpa akses -> 403 + info pembelian.
@@ -24,11 +24,12 @@ export async function GET(req: NextRequest) {
   const mode = q.get('mode')
   if (mode === 'access') return NextResponse.json({ access: true, admin: !!acc.admin, lite: !!acc.lite })
   if (mode === 'meta') return NextResponse.json(meta())
+  if (mode === 'suggest') return NextResponse.json({ names: suggestPrograms((q.get('q') ?? '').slice(0, 60), q.get('level') ?? undefined) })
   if (mode === 'scholarships') {
     return NextResponse.json(searchScholarships({ level: q.get('level') ?? 'pg', q: q.get('q') ?? '', uni: num('uni'), page: num('page') }))
   }
   return NextResponse.json(searchPrograms({
-    level: q.get('level') ?? 's2', q: (q.get('q') ?? '').slice(0, 100), topic: q.get('topic') ?? undefined, city: q.get('city') ?? undefined,
+    level: q.get('level') ?? 's2', q: (q.get('q') ?? '').slice(0, 100), topic: q.get('topic') ?? undefined, city: q.get('city') ?? undefined, state: q.get('state') ?? undefined,
     uni: num('uni'), aas: q.get('aas') === '1', maxIelts: num('maxIelts'), maxTuition: num('maxTuition'), sort: q.get('sort') ?? 'rank', page: num('page'),
   }))
 }

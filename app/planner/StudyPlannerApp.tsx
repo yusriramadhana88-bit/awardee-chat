@@ -8,6 +8,8 @@ type Meta = {
   levels: { key: string; label: string; count: number }[]
   topics: { key: string; label: string }[]
   cities: string[]
+  states: { key: string; label: string }[]
+  cityState: Record<string, string>
   unis: { i: number; n: string; k: number; aas: boolean }[]
   stats: { programs: number; institutions: number; universities: number; scholarships: number; snapshot: string }
 }
@@ -72,13 +74,51 @@ function Suggest({ label, items, value, placeholder, onPick }: {
   )
 }
 
+
+// Kolom cari program dengan saran nama program (muncul setelah 2 huruf; awalan kata lebih dulu).
+function NameSearch({ value, label, placeholder, suggest, onChange }: {
+  value: string; label: string; placeholder: string; suggest: ((q: string) => Promise<string[]>) | null; onChange: (q: string) => void
+}) {
+  const [items, setItems] = useState<string[]>([])
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const h = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false) }
+    document.addEventListener('mousedown', h)
+    return () => document.removeEventListener('mousedown', h)
+  }, [])
+  useEffect(() => {
+    if (!suggest || value.trim().length < 2) { setItems([]); return }
+    let cancelled = false
+    const t = setTimeout(() => { suggest(value).then((r) => { if (!cancelled) setItems(r) }) }, 200)
+    return () => { cancelled = true; clearTimeout(t) }
+  }, [value, suggest])
+  return (
+    <div ref={ref} className="relative">
+      <label className="block text-xs font-medium text-muted mb-1">{label}</label>
+      <input className={inp} value={value} placeholder={placeholder} autoComplete="off" onFocus={() => setOpen(true)}
+        onChange={(e) => { onChange(e.target.value); setOpen(true) }} />
+      {open && items.length > 0 && (
+        <ul className="absolute z-20 mt-1 w-full max-h-72 overflow-auto bg-white border border-hairline rounded-lg shadow-lg text-sm">
+          {items.map((n) => (
+            <li key={n}>
+              <button type="button" className="w-full text-left px-3 py-2 hover:bg-off" onMouseDown={(e) => e.preventDefault()}
+                onClick={() => { onChange(n); setOpen(false) }}>{n}</button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
 export default function StudyPlannerApp({ standalone = false }: { standalone?: boolean }) {
   const supabase = createClient()
   const pathname = usePathname()
   const [gate, setGate] = useState<Gate>({ state: 'loading' })
   const [meta, setMeta] = useState<Meta | null>(null)
   const [tab, setTab] = useState<'program' | 'beasiswa'>('program')
-  const [f, setF] = useState({ level: 's2', q: '', topic: '', city: '', uni: '', uniLabel: '', aas: false, maxIelts: '', maxTuition: '', sort: 'rank' })
+  const [f, setF] = useState({ level: 'all', q: '', topic: '', city: '', state: '', uni: '', uniLabel: '', aas: false, maxIelts: '', maxTuition: '', sort: 'rank' })
   const [page, setPage] = useState(1)
   const [res, setRes] = useState<{ total: number; page: number; perPage: number; rows: any[] } | null>(null)
   const [busy, setBusy] = useState(false)
@@ -105,6 +145,11 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
     return r.json()
   }, [token, pathname])
 
+  const suggestNames = useCallback(async (q: string) => {
+    const r = await api(`mode=suggest&q=${encodeURIComponent(q)}&level=${f.level}`)
+    return (r?.names ?? []) as string[]
+  }, [api, f.level])
+
   useEffect(() => { api('mode=meta').then((m) => { if (m) { setMeta(m); setGate({ state: 'ok' }) } }) }, [api])
 
   useEffect(() => {
@@ -112,10 +157,10 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
     const p = new URLSearchParams()
     if (tab === 'program') {
       p.set('level', f.level); p.set('sort', f.sort); p.set('page', String(page))
-      if (f.q) p.set('q', f.q); if (f.topic) p.set('topic', f.topic); if (f.city) p.set('city', f.city)
+      if (f.q) p.set('q', f.q); if (f.topic) p.set('topic', f.topic); if (f.city) p.set('city', f.city); if (f.state) p.set('state', f.state)
       if (f.uni) p.set('uni', f.uni); if (f.aas) p.set('aas', '1'); if (f.maxIelts) p.set('maxIelts', f.maxIelts); if (f.maxTuition) p.set('maxTuition', f.maxTuition)
     } else {
-      p.set('mode', 'scholarships'); p.set('level', f.level === 's2' || f.level === 's3' ? 'pg' : 'ug'); p.set('page', String(page))
+      p.set('mode', 'scholarships'); p.set('level', f.level === 'all' ? 'all' : f.level === 's2' || f.level === 's3' ? 'pg' : 'ug'); p.set('page', String(page))
       if (f.q) p.set('q', f.q); if (f.uni) p.set('uni', f.uni)
     }
     setBusy(true)
@@ -163,7 +208,7 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
   const quizPer = 10
   const quizPages = quiz ? Math.max(1, Math.ceil(quiz.rows.length / quizPer)) : 1
   const uniItems = (meta?.unis ?? []).map((u) => ({ key: String(u.i), label: u.n, sub: u.k === 2 ? '★' : '' }))
-  const cityItems = (meta?.cities ?? []).map((c) => ({ key: c, label: c }))
+  const cityItems = (meta?.cities ?? []).filter((c) => !f.state || meta?.cityState[c] === f.state).map((c) => ({ key: c, label: c, sub: meta?.cityState[c] ? `· ${meta.cityState[c]}` : '' }))
 
   const ProgCard = (p: Prog) => (
     <div key={p.id} className="bg-white rounded-xl border border-hairline p-4">
@@ -262,12 +307,13 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
             <div>
               <label className="block text-xs font-medium text-muted mb-1">Jenjang</label>
               <select className={inp} value={f.level} onChange={(e) => set({ level: e.target.value })}>
+                <option value="all">Semua jenjang ({meta?.stats.programs.toLocaleString('id-ID')})</option>
                 {meta?.levels.map((l) => <option key={l.key} value={l.key}>{l.label} ({l.count.toLocaleString('id-ID')})</option>)}
               </select>
             </div>
             <div className="lg:col-span-2">
-              <label className="block text-xs font-medium text-muted mb-1">Cari {tab === 'program' ? 'nama program / kampus' : 'beasiswa'}</label>
-              <input className={inp} value={f.q} placeholder={tab === 'program' ? 'mis. public policy, data science, nursing' : 'mis. women, merit, engineering'} onChange={(e) => set({ q: e.target.value })} />
+              <NameSearch label={`Cari ${tab === 'program' ? 'nama program / kampus' : 'beasiswa'}`} value={f.q} suggest={tab === 'program' ? suggestNames : null}
+                placeholder={tab === 'program' ? 'ketik 2 huruf, mis. pub → Public Policy, Public Health' : 'mis. women, merit, engineering'} onChange={(q) => set({ q })} />
             </div>
             <Suggest label="Kampus (ketik namanya)" items={uniItems} value={f.uniLabel} placeholder="mis. Monash, Flinders, Curtin" onPick={(key, label) => set({ uni: key, uniLabel: label })} />
             {tab === 'program' && (
@@ -277,6 +323,13 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
                   <select className={inp} value={f.topic} onChange={(e) => set({ topic: e.target.value })}>
                     <option value="">Semua bidang</option>
                     {meta?.topics.map((t) => <option key={t.key} value={t.key}>{t.label}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-muted mb-1">Negara bagian</label>
+                  <select className={inp} value={f.state} onChange={(e) => set({ state: e.target.value })}>
+                    <option value="">Semua negara bagian</option>
+                    {meta?.states.map((st) => <option key={st.key} value={st.key}>{st.label}</option>)}
                   </select>
                 </div>
                 <Suggest label="Kota (ketik namanya)" items={cityItems} value={f.city} placeholder="mis. Canberra, Perth, Hobart" onPick={(key) => set({ city: key })} />
