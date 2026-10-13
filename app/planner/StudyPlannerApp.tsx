@@ -44,7 +44,8 @@ function Suggest({ label, items, value, placeholder, onPick }: {
     return () => document.removeEventListener('mousedown', h)
   }, [])
   const q = text.trim().toLowerCase()
-  const matches = q ? items.filter((it) => it.label.toLowerCase().includes(q)).slice(0, 12) : []
+  const score = (it: { label: string; sub?: string }) => (it.sub ? 0 : 2) + (it.label.toLowerCase().startsWith(q) ? 0 : 1)   // universitas terkurasi (★) dan awalan kata lebih dulu
+  const matches = q ? items.filter((it) => it.label.toLowerCase().includes(q)).sort((a, b) => score(a) - score(b)).slice(0, 12) : []
   return (
     <div ref={ref} className="relative">
       <label className="block text-xs font-medium text-muted mb-1">{label}</label>
