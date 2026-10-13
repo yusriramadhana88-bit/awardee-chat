@@ -12,6 +12,7 @@ import ScrollToTop from './_components/ScrollToTop'
 
 const NAV_ITEMS: { href: string; label: string; icon: string; tier: 'starter' | 'vip' | 'vvip' | null }[] = [
   { href: '/dashboard', label: 'Overview', icon: '🏠', tier: null },
+  { href: '/dashboard/study-planner', label: 'Database Study Planner', icon: '🧭', tier: null },
   { href: '/dashboard/lpdp', label: 'LPDP Center', icon: '🛡️', tier: null },
   { href: '/dashboard/aas', label: 'AAS Center', icon: '🦘', tier: null },
   { href: '/chat/aas', label: 'Chat AAS · Den Dhana', icon: '🇦🇺', tier: null },

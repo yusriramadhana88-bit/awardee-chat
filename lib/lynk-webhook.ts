@@ -2,6 +2,7 @@ import crypto from 'crypto'
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { loadEnvKey } from './env'
 import { sendTierUpgradeEmail } from './email'
+import { STUDY_PLANNER_PRODUCT, grantStudyPlannerAccess } from './study-planner/access'
 
 // Durasi upgrade tier — samakan dengan konvensi app/api/admin/users/route.ts (30 hari flat,
 // bukan kalender bulan) supaya perilakunya konsisten dengan upgrade manual oleh admin.
@@ -115,6 +116,18 @@ export async function processLynkPayment(payload: any) {
     item_title: itemTitle,
     grand_total: grandTotal,
     raw_payload: payload,
+  }
+
+  // Produk "Akses Database STUDY PLANNER": bukan tier membership — buka akses database (lib/study-planner/access.ts).
+  if (STUDY_PLANNER_PRODUCT.test(itemTitle)) {
+    try {
+      const { count } = await grantStudyPlannerAccess({ refId, email: customer.email, phone: customer.phone, name: customer.name, amount: grandTotal })
+      await supabase.from('lynk_webhook_log').insert({ ...logBase, status: 'upgraded', matched_via: 'study_planner', error: `Akses Study Planner dibuka (pembeli ke-${count})` })
+    } catch (e: any) {
+      await supabase.from('lynk_webhook_log').insert({ ...logBase, status: 'update_failed', error: String(e?.message ?? e).slice(0, 300) })
+      await notifyAdminUnmatched(`Gagal membuka akses Study Planner untuk ${customer.email ?? customer.phone ?? '-'}`, logBase)
+    }
+    return
   }
 
   const tier = detectTier(itemTitle)
