@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 type Uni = { n: string; pv: string; k: number; ug: number[] | null; pg: number[] | null; hdr: number[] | null; qs?: any; the?: any; aas?: number; sch?: any }
 type Data = { occ: any[]; topics: string[]; levels: string[]; unis: Uni[]; rows: any[][]; built: string; snapshot: string }
-type Sch = { id: string; n: string; p: string[]; l: string[]; a: number | null; m: number | null; ac: string | null; np: number | null; cl: string | null; e: string; c: string | null; f: string[] | null; r: boolean | null; u: string | null }
+type Sch = { id: string; n: string; p: string[]; l: string[]; a: number | null; m: number | null; ac: string | string[] | null; np: number | null; cl: string | null; e: string; c: string | string[] | null; f: string[] | null; r: boolean | null; u: string | null }
 
 const D = require('./data.json') as Data
 const SCH = require('./scholarships.json') as Sch[]
@@ -106,7 +106,7 @@ export function searchScholarships(p: SchParams) {
     total: list.length, page, perPage: per,
     rows: list.slice((page - 1) * per, page * per).map((s) => ({
       id: s.id, name: s.n, unis: s.p.map((c) => D.unis[uniByPv.get(c) ?? -1]?.n).filter(Boolean), amountAnnual: s.a, amountMax: s.m, amountNote: s.ac,
-      perYear: s.np, closing: s.cl, eligibility: s.e, citizenship: s.c, researchOnly: !!s.r, url: s.u,
+      perYear: s.np, closing: s.cl, eligibility: s.e, citizenship: Array.isArray(s.c) ? (s.c.length ? s.c.join(', ') : null) : (s.c || null), researchOnly: !!s.r, url: s.u,
     })),
   }
 }
