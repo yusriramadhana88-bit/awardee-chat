@@ -14,6 +14,9 @@ const STATES: { key: string; label: string }[] = [
 ]
 
 const TOPIC_LABEL: Record<string, string> = { hosp: 'Perhotelan & pariwisata', trade: 'Teknik vokasi', care: 'Perawatan & kesejahteraan', creative: 'Seni & desain', beauty: 'Kecantikan', sport: 'Olahraga & kebugaran', policy: 'Kebijakan publik', dev: 'Pembangunan internasional', biz: 'Bisnis & manajemen', fin: 'Keuangan & ekonomi', it: 'Teknologi informasi & data', eng: 'Teknik & rekayasa', energy: 'Energi', health: 'Kesehatan', pubhealth: 'Kesehatan masyarakat', edu: 'Pendidikan', env: 'Lingkungan & keberlanjutan', agri: 'Pertanian & pangan', marine: 'Kelautan', law: 'Hukum', social: 'Ilmu sosial & komunikasi', mat: 'Material & manufaktur', mining: 'Pertambangan & sumber daya', sci: 'Sains', plan: 'Perencanaan & arsitektur', transport: 'Transportasi & logistik' }
+const TOPIC_LABEL_EN: Record<string, string> = { hosp: 'Hospitality & tourism', trade: 'Vocational trades', care: 'Care & welfare', creative: 'Arts & design', beauty: 'Beauty', sport: 'Sport & fitness', policy: 'Public policy', dev: 'International development', biz: 'Business & management', fin: 'Finance & economics', it: 'IT & data', eng: 'Engineering', energy: 'Energy', health: 'Health', pubhealth: 'Public health', edu: 'Education', env: 'Environment & sustainability', agri: 'Agriculture & food', marine: 'Marine', law: 'Law', social: 'Social sciences & communication', mat: 'Materials & manufacturing', mining: 'Mining & resources', sci: 'Science', plan: 'Planning & architecture', transport: 'Transport & logistics' }
+const BULAN_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+type Lang = 'id' | 'en'
 const LEVEL_LABEL: Record<string, string> = { d1: 'D1 / Certificate', d3: 'D3 / Diploma', s1: 'S1 / Bachelor', s2: 'S2 / Master', s3: 'S3 / Doktor' }
 const BULAN = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des']
 
@@ -25,14 +28,14 @@ SCH.forEach((s) => { if (s.l.includes('pg')) s.p.forEach((pv) => pvSch.set(pv, (
 const rank = (r: any) => (r && r.rank_n != null ? Number(r.rank_n) : null)
 const lc = (s: string) => s.toLowerCase()
 
-export function meta() {
+export function meta(lang: Lang = 'id') {
   const cities = new Map<string, number>()
   D.rows.forEach((r) => (r[5] || []).forEach((c: string) => cities.set(c, (cities.get(c) ?? 0) + 1)))
   const perLevel: Record<string, number> = {}
   D.rows.forEach((r) => { const l = D.levels[r[13]]; perLevel[l] = (perLevel[l] ?? 0) + 1 })
   return {
     levels: D.levels.map((l) => ({ key: l, label: LEVEL_LABEL[l], count: perLevel[l] ?? 0 })),
-    topics: D.topics.map((t) => ({ key: t, label: TOPIC_LABEL[t] ?? t })),
+    topics: D.topics.map((t) => ({ key: t, label: (lang === 'en' ? TOPIC_LABEL_EN[t] : TOPIC_LABEL[t]) ?? t })),
     states: STATES,
     cityState: CITY_STATE,
     cities: Array.from(cities.entries()).sort((a, b) => a[0].localeCompare(b[0])).map(([c]) => c),
@@ -48,24 +51,24 @@ function reqIelts(row: any[]): { overall: number; band: number | null; src: 'pro
   return r ? { overall: r[0], band: r[1] ?? null, src: 'kampus' } : null
 }
 
-function decode(row: any[], i: number) {
-  const u = D.unis[row[0]], months: string[] = []
-  for (let m = 1; m <= 12; m++) if ((row[10] >> (m - 1)) & 1) months.push(BULAN[m - 1])
+function decode(row: any[], i: number, lang: Lang = 'id') {
+  const u = D.unis[row[0]], months: string[] = [], en = lang === 'en'
+  for (let m = 1; m <= 12; m++) if ((row[10] >> (m - 1)) & 1) months.push((en ? BULAN_EN : BULAN)[m - 1])
   const w: number | null = row[3] || null, t: number | null = row[4] >= 500 ? row[4] : null   // nilai < 500 = data tidak valid
-  const topics = D.topics.filter((_, k) => (row[6] >> k) & 1).map((t) => TOPIC_LABEL[t] ?? t)
+  const topics = D.topics.filter((_, k) => (row[6] >> k) & 1).map((t) => (en ? TOPIC_LABEL_EN[t] : TOPIC_LABEL[t]) ?? t)
   return {
-    id: i, name: row[2], level: D.levels[row[13]], codes: row[1] as string[], providerCode: row[11], url: row[9], urlType: row[14] === 0 ? 'universitas' : 'register CRICOS',
+    id: i, name: row[2], level: D.levels[row[13]], codes: row[1] as string[], providerCode: row[11], url: row[9], urlType: row[14] === 0 ? (en ? 'university' : 'universitas') : (en ? 'CRICOS register' : 'register CRICOS'),
     uni: { i: row[0], name: u.n, curated: u.k === 2, aas: !!u.aas, qs: u.qs ? { rank: u.qs.rank } : null, the: u.the ? { rank: u.the.rank } : null, intlPct: u.the?.intl_pct ?? null },
     cities: (row[5] || []) as string[], weeks: w, years: w ? Math.round((w / 52) * 2) / 2 : null,
     tuitionTotal: t, tuitionPerYear: t && w && w >= 45 ? Math.round(t / (w / 52) / 100) * 100 : null,
     ielts: reqIelts(row), intakes: months, intakeFromData: !!row[15], topics,
     priority: !!row[7],
-    careers: ((row[16] || []) as number[]).slice(0, 3).map((k) => { const o = D.occ[k]; return { title: o[2] || o[1], medianWeekly: o[3] || null } }),
+    careers: ((row[16] || []) as number[]).slice(0, 3).map((k) => { const o = D.occ[k]; return { title: (en ? o[1] : o[2] || o[1]), medianWeekly: o[3] || null } }),
     schCount: pvSch.get(row[11]) ?? 0,
   }
 }
 
-export type SearchParams = { level?: string; q?: string; topic?: string; city?: string; state?: string; uni?: number; aas?: boolean; maxIelts?: number; maxTuition?: number; sort?: string; page?: number }
+export type SearchParams = { level?: string; q?: string; topic?: string; city?: string; state?: string; uni?: number; aas?: boolean; maxIelts?: number; maxTuition?: number; sort?: string; page?: number; lang?: Lang }
 
 export function searchPrograms(p: SearchParams) {
   const li = p.level === 'all' ? -1 : p.level ? D.levels.indexOf(p.level) : 3   // 'all' = semua jenjang
@@ -95,7 +98,7 @@ export function searchPrograms(p: SearchParams) {
     return ra - rb || D.rows[a][2].localeCompare(D.rows[b][2])
   })
   const per = 20, page = Math.max(1, Math.min(p.page || 1, Math.ceil(out.length / per) || 1))
-  return { total: out.length, page, perPage: per, rows: out.slice((page - 1) * per, page * per).map((i) => decode(D.rows[i], i)) }
+  return { total: out.length, page, perPage: per, rows: out.slice((page - 1) * per, page * per).map((i) => decode(D.rows[i], i, p.lang)) }
 }
 
 export type SchParams = { level?: string; q?: string; uni?: number; page?: number }
@@ -124,11 +127,11 @@ let _rowIdx: Map<any[], number> | null = null
 const rowIndex = () => { if (!_rowIdx) { _rowIdx = new Map(); D.rows.forEach((r, i) => _rowIdx!.set(r, i)) } return _rowIdx }
 
 /** Hasil kuis: kandidat terurut dari mesin kecocokan -> kartu program lengkap (maks 150). */
-export function quizPrograms(cands: { row: any[]; score: number; g: number; f: number }[], total: number) {
+export function quizPrograms(cands: { row: any[]; score: number; g: number; f: number }[], total: number, lang: Lang = 'id') {
   const idx = rowIndex()
   const rows = cands.slice(0, 150).map((c) => {
-    const d = decode(c.row, idx.get(c.row) ?? -1)
-    const fit = D.topics.filter((_, k) => ((c.g | c.f) >> k) & 1).map((t) => TOPIC_LABEL[t] ?? t)
+    const d = decode(c.row, idx.get(c.row) ?? -1, lang)
+    const fit = D.topics.filter((_, k) => ((c.g | c.f) >> k) & 1).map((t) => (lang === 'en' ? TOPIC_LABEL_EN[t] : TOPIC_LABEL[t]) ?? t)
     return { ...d, fit }
   })
   return { total, shown: rows.length, rows }

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { loadEnvKey } from '@/lib/env'
-import { studyPlannerBuyUrl } from '@/lib/study-planner/buy'
+import { studyPlannerBuyUrl, studyPlannerBuyUrlEn } from '@/lib/study-planner/buy'
 import { getStudyPlannerAccess } from '@/lib/study-planner/access'
 import { meta, searchPrograms, searchScholarships, quizPrograms, suggestPrograms } from '@/lib/study-planner/db'
 import { sanitizeAnswers, computeAll } from '@/lib/study-planner/planner'
@@ -14,23 +14,24 @@ export async function GET(req: NextRequest) {
   if (acc.reason === 'unauth') return NextResponse.json({ error: 'Belum login' }, { status: 401 })
   if (!acc.ok) {
     return NextResponse.json({
-      error: 'Belum punya akses', buyUrl: studyPlannerBuyUrl(), email: acc.email ?? '',
+      error: 'Belum punya akses', buyUrl: studyPlannerBuyUrl(), buyUrlEn: studyPlannerBuyUrlEn(), email: acc.email ?? '',
       waNumber: loadEnvKey('STUDY_PLANNER_WA_NUMBER') || '6281287212755',
     }, { status: 403 })
   }
 
   const q = req.nextUrl.searchParams
+  const lang = q.get('lang') === 'en' ? 'en' : 'id'
   const num = (k: string) => { const v = q.get(k); const n = v ? Number(v) : NaN; return Number.isFinite(n) ? n : undefined }
   const mode = q.get('mode')
   if (mode === 'access') return NextResponse.json({ access: true, admin: !!acc.admin, lite: !!acc.lite })
-  if (mode === 'meta') return NextResponse.json(meta())
+  if (mode === 'meta') return NextResponse.json(meta(lang))
   if (mode === 'suggest') return NextResponse.json({ names: suggestPrograms((q.get('q') ?? '').slice(0, 60), q.get('level') ?? undefined) })
   if (mode === 'scholarships') {
     return NextResponse.json(searchScholarships({ level: q.get('level') ?? 'pg', q: q.get('q') ?? '', uni: num('uni'), page: num('page') }))
   }
   return NextResponse.json(searchPrograms({
     level: q.get('level') ?? 's2', q: (q.get('q') ?? '').slice(0, 100), topic: q.get('topic') ?? undefined, city: q.get('city') ?? undefined, state: q.get('state') ?? undefined,
-    uni: num('uni'), aas: q.get('aas') === '1', maxIelts: num('maxIelts'), maxTuition: num('maxTuition'), sort: q.get('sort') ?? 'rank', page: num('page'),
+    uni: num('uni'), aas: q.get('aas') === '1', maxIelts: num('maxIelts'), maxTuition: num('maxTuition'), sort: q.get('sort') ?? 'rank', page: num('page'), lang,
   }))
 }
 
@@ -44,5 +45,5 @@ export async function POST(req: NextRequest) {
   const answers = sanitizeAnswers(body?.answers)
   if (!answers) return NextResponse.json({ error: 'Jawaban kuis tidak lengkap' }, { status: 400 })
   const { total, all, generic } = computeAll(answers)
-  return NextResponse.json({ ...quizPrograms(all, total), generic })
+  return NextResponse.json({ ...quizPrograms(all, total, body?.lang === 'en' ? 'en' : 'id'), generic })
 }

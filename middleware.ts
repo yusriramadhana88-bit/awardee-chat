@@ -1,6 +1,34 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 
+
+// ---- Pembeli "Akses Database STUDY PLANNER" saja (tanpa langganan bulanan) ----
+// Mereka hanya boleh memakai /planner. Dicek di server (edge) untuk halaman member lain, bukan hanya di klien.
+const LITE_BLOCKED = ['/dashboard', '/tracker', '/chat/', '/assessment', '/alumni']
+const normPhone = (p: string) => String(p || '').replace(/\D/g, '').replace(/^(62|0)/, '').slice(-10)
+
+async function isLiteBuyer(userId: string, email: string): Promise<boolean> {
+  const base = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!base || !key) return false
+  const h = { apikey: key, Authorization: `Bearer ${key}` }
+  try {
+    const pr = await fetch(`${base}/rest/v1/profiles?id=eq.${userId}&select=is_admin,phone,subscription_tier,subscription_expires_at`, { headers: h })
+    const prof = (await pr.json())?.[0]
+    if (!prof || prof.is_admin) return false
+    const now = new Date().toISOString()
+    if ((prof.subscription_tier ?? 'free') !== 'free' && prof.subscription_expires_at && prof.subscription_expires_at > now) return false   // pelanggan bulanan aktif
+    const phone = prof.phone ? normPhone(prof.phone) : ''
+    const ors = [email && `email.eq."${email.toLowerCase().replace(/["\\]/g, '')}"`, phone.length === 10 && `phone.eq.${phone}`].filter(Boolean) as string[]
+    if (!ors.length) return false
+    const ar = await fetch(`${base}/rest/v1/study_planner_access?or=(${encodeURIComponent(ors.join(','))})&select=id,expires_at&limit=5`, { headers: h })
+    const rows = await ar.json()
+    return Array.isArray(rows) && rows.some((r: any) => !r.expires_at || r.expires_at > now)
+  } catch {
+    return false
+  }
+}
+
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
@@ -55,9 +83,22 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Redirect ke chat kalau sudah login dan buka halaman auth
+  // Corong khusus pembeli database: /planner wajib login; pembeli "lite" tidak boleh ke halaman member lain.
+  if (!user && effectivePath.startsWith('/planner')) {
+    return NextResponse.redirect(new URL('/login?next=/planner', request.url))
+  }
+  let lite: boolean | null = null
+  if (user && LITE_BLOCKED.some((b) => effectivePath === b.replace(/\/$/, '') || effectivePath.startsWith(b.endsWith('/') ? b : b + '/'))) {
+    lite = await isLiteBuyer(user.id, user.email ?? '')
+    if (lite) return NextResponse.redirect(new URL('/planner', request.url))
+  }
+
+  // Redirect kalau sudah login dan buka halaman auth (hormati ?next=, pembeli lite selalu ke /planner)
   if (user && (effectivePath === '/login' || effectivePath === '/register')) {
-    return NextResponse.redirect(new URL('/chat', request.url))
+    if (lite === null) lite = await isLiteBuyer(user.id, user.email ?? '')
+    const nx = request.nextUrl.searchParams.get('next')
+    const safeNext = nx && nx.startsWith('/') && !nx.startsWith('//') ? nx : null
+    return NextResponse.redirect(new URL(lite ? '/planner' : (safeNext ?? '/chat'), request.url))
   }
 
   if (rewriteTarget) {
@@ -68,5 +109,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/chat/:path*', '/dashboard/:path*', '/admin/:path*', '/login', '/register'],
+  matcher: ['/', '/chat/:path*', '/dashboard/:path*', '/admin/:path*', '/tracker/:path*', '/assessment/:path*', '/alumni/:path*', '/planner/:path*', '/login', '/register'],
 }

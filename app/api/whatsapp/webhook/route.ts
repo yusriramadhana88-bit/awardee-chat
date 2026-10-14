@@ -61,7 +61,7 @@ async function handle(phone: string, text: string) {
     .eq('phone', phone).gte('created_at', weekAgo).is('opted_out_at', null).order('created_at', { ascending: false }).limit(1).maybeSingle()
 
   if (!lead) {
-    await sendText(phone, 'Halo! Ini Awardee.id 👋 Untuk mendapat 2 pilihan kampus & program Australia yang cocok untukmu, isi kuis singkatnya dulu di https://awardee.id/study-planner/ (2 menit, gratis).')
+    await sendText(phone, 'Halo! Ini Awardee.id 👋 Untuk mendapat 2 pilihan kampus & program Australia yang cocok untukmu, isi kuis singkatnya dulu di https://awardee.id/study-planner/ (kurang dari 2 menit, gratis).')
     return
   }
 
