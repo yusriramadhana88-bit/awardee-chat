@@ -5,4 +5,4 @@ import { loadEnvKey } from '@/lib/env'
 export const studyPlannerBuyUrl = () => loadEnvKey('STUDY_PLANNER_LYNK_URL') || 'https://lynk.id/dendhana/x4ggjep9mg0l'
 
 // Tautan pembelian versi internasional (USD). Diisi setelah produk lynk.id internasional dibuat; bisa ditimpa env STUDY_PLANNER_LYNK_URL_EN.
-export const studyPlannerBuyUrlEn = () => loadEnvKey('STUDY_PLANNER_LYNK_URL_EN') || ''
+export const studyPlannerBuyUrlEn = () => loadEnvKey('STUDY_PLANNER_LYNK_URL_EN') || 'https://lynk.id/dendhana/mk992kg57v62'
