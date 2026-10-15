@@ -68,7 +68,7 @@ function decode(row: any[], i: number, lang: Lang = 'id') {
   }
 }
 
-export type SearchParams = { level?: string; q?: string; topic?: string; city?: string; state?: string; uni?: number; aas?: boolean; maxIelts?: number; maxTuition?: number; sort?: string; page?: number; lang?: Lang }
+export type SearchParams = { level?: string; q?: string; topic?: string; city?: string; state?: string; uni?: number; aas?: boolean; maxIelts?: number; maxTuition?: number; sort?: string; dir?: string; page?: number; lang?: Lang }
 
 export function searchPrograms(p: SearchParams) {
   const li = p.level === 'all' ? -1 : p.level ? D.levels.indexOf(p.level) : 3   // 'all' = semua jenjang
@@ -88,20 +88,37 @@ export function searchPrograms(p: SearchParams) {
     if (toks.length) { const name = lc(r[2] + ' ' + u.n); if (!toks.every((t) => name.includes(t))) return }
     out.push(i)
   })
-  const sort = p.sort || 'rank'
+  const sort = p.sort || 'rank', dir = p.dir === 'desc' ? -1 : 1
   const qsr = (i: number) => rank(D.unis[D.rows[i][0]].qs) ?? 9999
   const the = (i: number) => rank(D.unis[D.rows[i][0]].the) ?? 9999
+  const key = (i: number): number | string | null => {
+    const r = D.rows[i]
+    if (sort === 'tuition') return r[4] >= 500 ? r[4] : null
+    if (sort === 'duration') return r[3] || null
+    if (sort === 'ielts') return reqIelts(r)?.overall ?? null
+    if (sort === 'name') return String(r[2]).toLowerCase()
+    const v = Math.min(qsr(i), the(i)); return v >= 9999 ? null : v   // peringkat: kecil = lebih baik
+  }
   out.sort((a, b) => {
-    if (sort === 'tuition') return (D.rows[a][4] >= 500 ? D.rows[a][4] : 1e9) - (D.rows[b][4] >= 500 ? D.rows[b][4] : 1e9) || qsr(a) - qsr(b)
-    if (sort === 'name') return D.rows[a][2].localeCompare(D.rows[b][2])
-    const ra = Math.min(qsr(a), the(a)), rb = Math.min(qsr(b), the(b))
-    return ra - rb || D.rows[a][2].localeCompare(D.rows[b][2])
+    const ka = key(a), kb = key(b)
+    if (ka === null || kb === null) { if (ka !== kb) return ka === null ? 1 : -1 }   // data kosong selalu di akhir
+    else { const c = typeof ka === 'string' ? ka.localeCompare(kb as string) : ka - (kb as number); if (c) return c * dir }
+    return Math.min(qsr(a), the(a)) - Math.min(qsr(b), the(b)) || String(D.rows[a][2]).localeCompare(String(D.rows[b][2]))
   })
   const per = 20, page = Math.max(1, Math.min(p.page || 1, Math.ceil(out.length / per) || 1))
   return { total: out.length, page, perPage: per, rows: out.slice((page - 1) * per, page * per).map((i) => decode(D.rows[i], i, p.lang)) }
 }
 
-export type SchParams = { level?: string; q?: string; uni?: number; page?: number }
+export type SchParams = { level?: string; q?: string; uni?: number; page?: number; sort?: string; dir?: string }
+
+// Tanggal tenggat yang memuat tahun (mis. "6 Dec 2026"). Yang akan datang diurutkan lebih dulu, yang sudah lewat di belakangnya; tanpa tahun/tak terbaca = kosong.
+function deadlineKey(cl: string | null, dir: number): number | null {
+  const text = String(cl ?? '')
+  if (!/20[0-9][0-9]/.test(text)) return null
+  const t = Date.parse(text)
+  if (Number.isNaN(t)) return null
+  return dir === 1 && t < Date.now() ? t + 1e15 : t   // naik: yang akan datang dulu; turun: tanggal terjauh dulu
+}
 
 export function searchScholarships(p: SchParams) {
   const lv = p.level === 'ug' ? 'ug' : p.level === 'all' ? null : 'pg'
@@ -112,7 +129,19 @@ export function searchScholarships(p: SchParams) {
     if (pv && !s.p.includes(pv)) return false
     if (toks.length) { const hay = lc(s.n + ' ' + s.e + ' ' + s.p.map((c) => D.unis[uniByPv.get(c) ?? -1]?.n ?? '').join(' ')); if (!toks.every((t) => hay.includes(t))) return false }
     return true
-  }).sort((a, b) => (b.a ?? b.m ?? 0) - (a.a ?? a.m ?? 0))
+  })
+  const sort = p.sort || 'amount', dir = p.dir ? (p.dir === 'desc' ? -1 : 1) : (sort === 'amount' ? -1 : 1)   // nominal: terbesar dulu bila tidak dipilih
+  const skey = (x: Sch): number | string | null => {
+    if (sort === 'name') return x.n.toLowerCase()
+    if (sort === 'deadline') return deadlineKey(x.cl, dir)
+    const v = x.a ?? x.m; return v ? v : null
+  }
+  list.sort((a, b) => {
+    const ka = skey(a), kb = skey(b)
+    if (ka === null || kb === null) { if (ka !== kb) return ka === null ? 1 : -1 }
+    else { const c = typeof ka === 'string' ? ka.localeCompare(kb as string) : ka - (kb as number); if (c) return c * dir }
+    return a.n.localeCompare(b.n)
+  })
   const per = 20, page = Math.max(1, Math.min(p.page || 1, Math.ceil(list.length / per) || 1))
   return {
     total: list.length, page, perPage: per,

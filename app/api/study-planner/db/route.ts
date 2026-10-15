@@ -27,11 +27,11 @@ export async function GET(req: NextRequest) {
   if (mode === 'meta') return NextResponse.json(meta(lang))
   if (mode === 'suggest') return NextResponse.json({ names: suggestPrograms((q.get('q') ?? '').slice(0, 60), q.get('level') ?? undefined) })
   if (mode === 'scholarships') {
-    return NextResponse.json(searchScholarships({ level: q.get('level') ?? 'pg', q: q.get('q') ?? '', uni: num('uni'), page: num('page') }))
+    return NextResponse.json(searchScholarships({ level: q.get('level') ?? 'pg', q: q.get('q') ?? '', uni: num('uni'), page: num('page'), sort: q.get('sort') ?? undefined, dir: q.get('dir') ?? undefined }))
   }
   return NextResponse.json(searchPrograms({
     level: q.get('level') ?? 's2', q: (q.get('q') ?? '').slice(0, 100), topic: q.get('topic') ?? undefined, city: q.get('city') ?? undefined, state: q.get('state') ?? undefined,
-    uni: num('uni'), aas: q.get('aas') === '1', maxIelts: num('maxIelts'), maxTuition: num('maxTuition'), sort: q.get('sort') ?? 'rank', page: num('page'), lang,
+    uni: num('uni'), aas: q.get('aas') === '1', maxIelts: num('maxIelts'), maxTuition: num('maxTuition'), sort: q.get('sort') ?? 'rank', dir: q.get('dir') ?? undefined, page: num('page'), lang,
   }))
 }
 

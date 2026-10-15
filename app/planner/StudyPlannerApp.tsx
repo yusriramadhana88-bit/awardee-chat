@@ -32,6 +32,26 @@ type Quiz = { total: number; shown: number; generic: boolean; rows: Prog[] }
 const aud = (n: number) => 'AUD ' + Math.round(n).toLocaleString('id-ID')
 const fmt1 = (n: number) => String(n).replace('.', ',')
 const rk = (r: string) => (/^\d+$/.test(r) ? '#' + r : r)
+// Urutkan hasil kuis di sisi klien. Data kosong selalu di akhir, apa pun arahnya.
+const rankNum = (r?: { rank: string } | null) => (r ? parseInt(r.rank, 10) || null : null)
+function sortQuiz(rows: Prog[], by: string, dir: string): Prog[] {
+  const m = dir === 'desc' ? -1 : 1
+  if (by === 'rel') return dir === 'desc' ? [...rows].reverse() : rows
+  const key = (r: Prog): number | string | null => {
+    if (by === 'tuition') return r.tuitionTotal
+    if (by === 'duration') return r.years
+    if (by === 'ielts') return r.ielts ? r.ielts.overall : null
+    if (by === 'name') return r.name.toLowerCase()
+    const a = rankNum(r.uni.qs), b = rankNum(r.uni.the)
+    return a != null && b != null ? Math.min(a, b) : (a ?? b)
+  }
+  return [...rows].sort((x, y) => {
+    const kx = key(x), ky = key(y)
+    if (kx === null || ky === null) return kx === ky ? 0 : kx === null ? 1 : -1
+    const c = typeof kx === 'string' ? kx.localeCompare(ky as string) : kx - (ky as number)
+    return c * m
+  })
+}
 const NL = String.fromCharCode(10)
 // Ringkasan 3 teratas untuk dikirim ke WhatsApp (tautan wa.me terbuka di WhatsApp milik pengguna sendiri).
 const waLines = (rows: Prog[]) => rows.slice(0, 3).map((r, i) => `${i + 1}. ${r.name} — ${r.uni.name}${NL}CRICOS: ${r.codes.join(' / ')}${NL}${r.url}`).join(NL + NL)
@@ -125,7 +145,7 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
   const [gate, setGate] = useState<Gate>({ state: 'loading' })
   const [meta, setMeta] = useState<Meta | null>(null)
   const [tab, setTab] = useState<'program' | 'beasiswa'>('program')
-  const [f, setF] = useState({ level: 'all', q: '', topic: '', city: '', state: '', uni: '', uniLabel: '', aas: false, maxIelts: '', maxTuition: '', sort: 'rank' })
+  const [f, setF] = useState({ level: 'all', q: '', topic: '', city: '', state: '', uni: '', uniLabel: '', aas: false, maxIelts: '', maxTuition: '', sort: 'rank', dir: 'asc' })
   const [page, setPage] = useState(1)
   const [res, setRes] = useState<{ total: number; page: number; perPage: number; rows: any[] } | null>(null)
   const [busy, setBusy] = useState(false)
@@ -135,6 +155,8 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
   const [quizOpen, setQuizOpen] = useState(false)
   const [quizBusy, setQuizBusy] = useState(false)
   const [quizPage, setQuizPage] = useState(1)
+  const [quizSort, setQuizSort] = useState('rel')
+  const [quizDir, setQuizDir] = useState('asc')
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
   const token = useCallback(async () => {
@@ -163,12 +185,13 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
     if (gate.state !== 'ok' || quiz) return
     const p = new URLSearchParams()
     if (tab === 'program') {
-      p.set('level', f.level); p.set('sort', f.sort); p.set('page', String(page))
+      p.set('level', f.level); p.set('sort', f.sort); p.set('dir', f.dir); p.set('page', String(page))
       if (f.q) p.set('q', f.q); if (f.topic) p.set('topic', f.topic); if (f.city) p.set('city', f.city); if (f.state) p.set('state', f.state)
       if (f.uni) p.set('uni', f.uni); if (f.aas) p.set('aas', '1'); if (f.maxIelts) p.set('maxIelts', f.maxIelts); if (f.maxTuition) p.set('maxTuition', f.maxTuition)
     } else {
       p.set('mode', 'scholarships'); p.set('level', f.level === 'all' ? 'all' : f.level === 's2' || f.level === 's3' ? 'pg' : 'ug'); p.set('page', String(page))
       if (f.q) p.set('q', f.q); if (f.uni) p.set('uni', f.uni)
+      p.set('sort', f.sort); p.set('dir', f.dir)
     }
     setBusy(true)
     const t = setTimeout(() => { api(p.toString()).then((r) => { if (r) { setRes(r); setOpen(null) } setBusy(false) }) }, 250)
@@ -296,7 +319,22 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
               <button onClick={() => { setQuiz(null); setOpen(null) }} className="px-4 py-2 text-xs font-semibold rounded-pill bg-navy text-white">{t.quizBack}</button>
             </div>
           </div>
-          <div className="space-y-3">{quiz.rows.slice((quizPage - 1) * quizPer, quizPage * quizPer).map(ProgCard)}</div>
+          <div className="flex flex-wrap items-end gap-3 mb-3">
+            <div className="min-w-[200px]">
+              <label className="block text-xs font-medium text-muted mb-1">{t.sort}</label>
+              <select className={inp} value={quizSort} onChange={(e) => { setQuizSort(e.target.value); setQuizPage(1); setOpen(null) }}>
+                <option value="rel">{t.sortRel}</option><option value="rank">{t.sortRank}</option><option value="tuition">{t.sortTuition}</option>
+                <option value="duration">{t.sortDur}</option><option value="ielts">{t.sortIelts}</option><option value="name">{t.sortName}</option>
+              </select>
+            </div>
+            <div className="min-w-[200px]">
+              <label className="block text-xs font-medium text-muted mb-1">{t.dirLabel}</label>
+              <select className={inp} value={quizDir} onChange={(e) => { setQuizDir(e.target.value); setQuizPage(1); setOpen(null) }}>
+                <option value="asc">{t.dirAsc}</option><option value="desc">{t.dirDesc}</option>
+              </select>
+            </div>
+          </div>
+          <div className="space-y-3">{sortQuiz(quiz.rows, quizSort, quizDir).slice((quizPage - 1) * quizPer, quizPage * quizPer).map(ProgCard)}</div>
           {quizPages > 1 && (
             <div className="flex items-center justify-center gap-3 mt-6">
               <button disabled={quizPage <= 1} onClick={() => { setQuizPage(quizPage - 1); setOpen(null) }} className="px-4 py-2 text-sm rounded-pill border border-hairline bg-white disabled:opacity-40">{t.prev}</button>
@@ -309,7 +347,7 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
         <>
           <div className="flex gap-2 mb-4">
             {(['program', 'beasiswa'] as const).map((k) => (
-              <button key={k} onClick={() => { setTab(k); setPage(1); setRes(null) }} className={`px-4 py-2 rounded-pill text-sm font-semibold border ${tab === k ? 'bg-navy text-white border-navy' : 'bg-white text-ink border-hairline'}`}>
+              <button key={k} onClick={() => { setTab(k); setPage(1); setRes(null); setF({ ...f, sort: k === 'program' ? 'rank' : 'amount', dir: k === 'program' ? 'asc' : 'desc' }) }} className={`px-4 py-2 rounded-pill text-sm font-semibold border ${tab === k ? 'bg-navy text-white border-navy' : 'bg-white text-ink border-hairline'}`}>
                 {k === 'program' ? T[lang].tabProgram : T[lang].tabSch}
               </button>
             ))}
@@ -364,12 +402,40 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
                   <select className={inp} value={f.sort} onChange={(e) => set({ sort: e.target.value })}>
                     <option value="rank">{t.sortRank}</option>
                     <option value="tuition">{t.sortTuition}</option>
+                    <option value="duration">{t.sortDur}</option>
+                    <option value="ielts">{t.sortIelts}</option>
                     <option value="name">{t.sortName}</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-muted mb-1">{t.dirLabel}</label>
+                  <select className={inp} value={f.dir} onChange={(e) => set({ dir: e.target.value })}>
+                    <option value="asc">{t.dirAsc}</option>
+                    <option value="desc">{t.dirDesc}</option>
                   </select>
                 </div>
                 <label className="flex items-center gap-2 text-sm text-ink pt-5">
                   <input type="checkbox" checked={f.aas} onChange={(e) => set({ aas: e.target.checked })} /> {t.aasOnly}
                 </label>
+              </>
+            )}
+            {tab === 'beasiswa' && (
+              <>
+                <div>
+                  <label className="block text-xs font-medium text-muted mb-1">{t.sort}</label>
+                  <select className={inp} value={f.sort} onChange={(e) => set({ sort: e.target.value })}>
+                    <option value="amount">{t.sortAmount}</option>
+                    <option value="deadline">{t.sortDeadline}</option>
+                    <option value="name">{t.sortName}</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-muted mb-1">{t.dirLabel}</label>
+                  <select className={inp} value={f.dir} onChange={(e) => set({ dir: e.target.value })}>
+                    <option value="asc">{t.dirAsc}</option>
+                    <option value="desc">{t.dirDesc}</option>
+                  </select>
+                </div>
               </>
             )}
           </div>
