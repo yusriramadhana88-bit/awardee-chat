@@ -53,8 +53,6 @@ function sortQuiz(rows: Prog[], by: string, dir: string): Prog[] {
   })
 }
 const NL = String.fromCharCode(10)
-// Ringkasan 3 teratas untuk dikirim ke WhatsApp (tautan wa.me terbuka di WhatsApp milik pengguna sendiri).
-const waLines = (rows: Prog[]) => rows.slice(0, 3).map((r, i) => `${i + 1}. ${r.name} — ${r.uni.name}${NL}CRICOS: ${r.codes.join(' / ')}${NL}${r.url}`).join(NL + NL)
 const inp = 'w-full border border-hairline rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gold'
 
 // Kolom isian dengan saran: ketik beberapa huruf, daftar yang cocok muncul (semua item tersedia, bukan hanya sebagian).
@@ -313,8 +311,6 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
               {quiz.generic && <span className="text-muted">{t.quizGeneric}</span>}
             </div>
             <div className="flex flex-wrap gap-2">
-              <a target="_blank" rel="noopener noreferrer" className="px-4 py-2 text-xs font-semibold rounded-pill bg-gold text-ink"
-                href={`https://wa.me/?text=${encodeURIComponent(t.waShare(waLines(quiz.rows)))}`}>{t.sendWa}</a>
               <button onClick={() => { setQuizOpen(true); iframeRef.current?.contentWindow?.postMessage({ type: 'sp-reset' }, window.location.origin) }} className="px-4 py-2 text-xs font-semibold rounded-pill border border-hairline bg-white">{t.quizAgain}</button>
               <button onClick={() => { setQuiz(null); setOpen(null) }} className="px-4 py-2 text-xs font-semibold rounded-pill bg-navy text-white">{t.quizBack}</button>
             </div>
