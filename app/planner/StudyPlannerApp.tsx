@@ -140,6 +140,9 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
   const pathname = usePathname()
   const { lang } = useLang()
   const t = T[lang]
+  const loc = lang === 'en' ? 'en-US' : 'id-ID'   // pemisah ribuan dan desimal mengikuti bahasa
+  const audL = (n: number) => 'AUD ' + Math.round(n).toLocaleString(loc)
+  const f1L = (n: number) => (lang === 'en' ? String(n) : String(n).replace('.', ','))
   const [gate, setGate] = useState<Gate>({ state: 'loading' })
   const [meta, setMeta] = useState<Meta | null>(null)
   const [tab, setTab] = useState<'program' | 'beasiswa'>('program')
@@ -255,9 +258,9 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
         </div>
         {p.fit && p.fit.length > 0 && <div className="mt-1 text-xs text-emerald-800">✅ {t.fitIn}{p.fit.slice(0, 3).join(', ')}</div>}
         <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink">
-          <span>⏳ {p.years ? t.duration(fmt1(p.years)) : t.durationNone}</span>
-          <span>💰 {p.tuitionTotal ? t.cost(aud(p.tuitionTotal), p.tuitionPerYear ? aud(p.tuitionPerYear) : null) : t.costNone}</span>
-          <span>🗣️ {p.ielts ? t.langReq(fmt1(p.ielts.overall), p.ielts.band ? fmt1(p.ielts.band) : null, p.ielts.src) : t.langNone}</span>
+          <span>⏳ {p.years ? t.duration(f1L(p.years)) : t.durationNone}</span>
+          <span>💰 {p.tuitionTotal ? t.cost(audL(p.tuitionTotal), p.tuitionPerYear ? audL(p.tuitionPerYear) : null) : t.costNone}</span>
+          <span>🗣️ {p.ielts ? t.langReq(f1L(p.ielts.overall), p.ielts.band ? f1L(p.ielts.band) : null, p.ielts.src) : t.langNone}</span>
           <span>🗓️ {p.intakes.length ? p.intakes.join(', ') : '—'}{p.intakes.length && !p.intakeFromData ? t.intakeGeneral : ''}</span>
         </div>
       </button>
@@ -272,11 +275,11 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
             <button onClick={() => copy(p.providerCode)} className="font-mono text-xs px-2 py-1 rounded bg-off border border-hairline hover:border-ink">{copied === p.providerCode ? t.copied : p.providerCode}</button>
           </div>
           {p.topics.length > 0 && <div><span className="text-muted">{t.topics}</span> {p.topics.join(', ')}</div>}
-          {p.uni.intlPct != null && <div><span className="text-muted">{t.intl}</span> {fmt1(p.uni.intlPct)}% (THE)</div>}
+          {p.uni.intlPct != null && <div><span className="text-muted">{t.intl}</span> {f1L(p.uni.intlPct)}% (THE)</div>}
           {p.careers.length > 0 && (
             <div>
               <span className="text-muted">{t.careers}</span>
-              <ul className="list-disc ml-5">{p.careers.map((c) => <li key={c.title}>{c.title}{c.medianWeekly ? t.median(c.medianWeekly.toLocaleString(lang === 'en' ? 'en-US' : 'id-ID')) : ''}</li>)}</ul>
+              <ul className="list-disc ml-5">{p.careers.map((c) => <li key={c.title}>{c.title}{c.medianWeekly ? t.median(c.medianWeekly.toLocaleString(loc)) : ''}</li>)}</ul>
             </div>
           )}
           {p.schCount > 0 && !quiz && <div><button className="underline" onClick={() => { setTab('beasiswa'); set({ uni: String(p.uni.i), uniLabel: p.uni.name, q: '' }) }}>{t.schLink(p.schCount, p.uni.name)}</button></div>}
@@ -292,7 +295,7 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
         <div>
           <h1 className="text-xl font-bold text-ink">{t.title}</h1>
           <p className="text-sm text-muted mt-0.5">
-            {meta && t.stats(meta.stats.programs.toLocaleString(lang === 'en' ? 'en-US' : 'id-ID'), meta.stats.institutions, meta.stats.universities, meta.stats.scholarships, new Date(meta.stats.built).toLocaleDateString(lang === 'en' ? 'en-GB' : 'id-ID', { month: 'long', year: 'numeric' }))}
+            {meta && t.stats(meta.stats.programs.toLocaleString(loc), meta.stats.institutions, meta.stats.universities, meta.stats.scholarships, new Date(meta.stats.built).toLocaleDateString(lang === 'en' ? 'en-GB' : 'id-ID', { month: 'long', year: 'numeric' }))}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -307,7 +310,7 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
         <>
           <div className="bg-white rounded-xl border border-hairline p-4 mb-4 flex flex-wrap items-center justify-between gap-3">
             <div className="text-sm">
-              <b>{t.quizResultLabel}</b> {t.quizResult(quiz.total.toLocaleString(lang === 'en' ? 'en-US' : 'id-ID'), quiz.shown, quiz.total)}
+              <b>{t.quizResultLabel}</b> {t.quizResult(quiz.total.toLocaleString(loc), quiz.shown, quiz.total)}
               {quiz.generic && <span className="text-muted">{t.quizGeneric}</span>}
             </div>
             <div className="flex flex-wrap gap-2">
@@ -353,8 +356,8 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
             <div>
               <label className="block text-xs font-medium text-muted mb-1">{t.level}</label>
               <select className={inp} value={f.level} onChange={(e) => set({ level: e.target.value })}>
-                <option value="all">{t.allLevels} ({meta?.stats.programs.toLocaleString(lang === 'en' ? 'en-US' : 'id-ID')})</option>
-                {meta?.levels.map((l) => <option key={l.key} value={l.key}>{l.label} ({l.count.toLocaleString(lang === 'en' ? 'en-US' : 'id-ID')})</option>)}
+                <option value="all">{t.allLevels} ({meta?.stats.programs.toLocaleString(loc)})</option>
+                {meta?.levels.map((l) => <option key={l.key} value={l.key}>{l.label} ({l.count.toLocaleString(loc)})</option>)}
               </select>
             </div>
             <div className="lg:col-span-2">
@@ -383,14 +386,14 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
                   <label className="block text-xs font-medium text-muted mb-1">{t.ielts}</label>
                   <select className={inp} value={f.maxIelts} onChange={(e) => set({ maxIelts: e.target.value })}>
                     <option value="">{t.all}</option>
-                    {[5.5, 6, 6.5, 7, 7.5].map((v) => <option key={v} value={v}>{fmt1(v)}</option>)}
+                    {[5.5, 6, 6.5, 7, 7.5].map((v) => <option key={v} value={v}>{f1L(v)}</option>)}
                   </select>
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-muted mb-1">{t.tuitionMax}</label>
                   <select className={inp} value={f.maxTuition} onChange={(e) => set({ maxTuition: e.target.value })}>
                     <option value="">{t.all}</option>
-                    {[20000, 40000, 60000, 80000, 120000].map((v) => <option key={v} value={v}>≤ {v.toLocaleString('id-ID')}</option>)}
+                    {[20000, 40000, 60000, 80000, 120000].map((v) => <option key={v} value={v}>≤ {v.toLocaleString(loc)}</option>)}
                   </select>
                 </div>
                 <div>
@@ -436,7 +439,7 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
             )}
           </div>
 
-          <div className="text-xs text-muted mb-3">{busy ? t.searching : res ? t.results(res.total.toLocaleString(lang === 'en' ? 'en-US' : 'id-ID'), res.page, pages) : ''}{tab === 'program' && t.curatedNote}</div>
+          <div className="text-xs text-muted mb-3">{busy ? t.searching : res ? t.results(res.total.toLocaleString(loc), res.page, pages) : ''}{tab === 'program' && t.curatedNote}</div>
 
           <div className="space-y-3">
             {tab === 'program' && (res?.rows as Prog[] | undefined)?.map(ProgCard)}
@@ -446,7 +449,7 @@ export default function StudyPlannerApp({ standalone = false }: { standalone?: b
                   <div className="font-semibold text-ink">{s.name}</div>
                   <div className="text-sm text-muted">{s.unis.join(', ') || '—'}</div>
                   <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink">
-                    <span>💰 {s.amountAnnual ? `${aud(s.amountAnnual)}/${t.perYear}` : s.amountMax ? `${t.upTo} ${aud(s.amountMax)}` : s.amountNote || t.amountNone}</span>
+                    <span>💰 {s.amountAnnual ? `${audL(s.amountAnnual)}/${t.perYear}` : s.amountMax ? `${t.upTo} ${audL(s.amountMax)}` : s.amountNote || t.amountNone}</span>
                     {s.closing && <span>⏰ {t.closes} {s.closing}</span>}
                     {s.perYear && <span>🎓 {t.recipients(s.perYear)}</span>}
                     {s.researchOnly && <span>🔬 {t.researchOnly}</span>}

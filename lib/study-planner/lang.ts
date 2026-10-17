@@ -33,7 +33,7 @@ export const T = {
   id: {
     title: 'Database STUDY PLANNER', loading: 'Memuat database…', loadErr: 'Gagal memuat database. Muat ulang halaman.',
     lockedTitle: 'Akses Database STUDY PLANNER',
-    lockedBody: 'Buka semua program D1–S3 di Australia yang cocok dengan profilmu, kode CRICOS siap salin, link resmi, peringkat QS & THE, serta 400+ beasiswa pascasarjana.',
+    lockedBody: 'Buka semua program D1–S3 di Australia yang cocok dengan profilmu, kode CRICOS siap salin, link resmi, peringkat QS & THE, serta 650+ beasiswa.',
     lockedPrice: 'Sekali bayar, akses selamanya · promo untuk 88 pembeli pertama', getAccess: 'Dapatkan Akses',
     lockedHelp: (email: string) => `Sudah bayar tapi belum terbuka? Pastikan kamu masuk dengan email/HP yang sama dengan saat membeli (${email || 'akunmu'}), atau `,
     contactWa: 'hubungi kami di WhatsApp', waMsg: (email: string) => 'Halo, saya sudah bayar Akses Database STUDY PLANNER tapi belum terbuka. Email: ' + email,
@@ -69,7 +69,7 @@ Cek semua program lain di Database Study Planner.`,
   en: {
     title: 'STUDY PLANNER Database', loading: 'Loading database…', loadErr: 'Could not load the database. Please reload the page.',
     lockedTitle: 'STUDY PLANNER Database Access',
-    lockedBody: 'Unlock every D1–PhD program in Australia that fits your profile, copy-ready CRICOS codes, official links, QS & THE rankings, and 400+ postgraduate scholarships.',
+    lockedBody: 'Unlock every D1–PhD program in Australia that fits your profile, copy-ready CRICOS codes, official links, QS & THE rankings, and 650+ scholarships.',
     lockedPrice: 'One-time payment, lifetime access · launch promo', getAccess: 'Get Access',
     lockedHelp: (email: string) => `Paid but still locked? Make sure you sign in with the same email/phone you used at checkout (${email || 'your account'}), or `,
     contactWa: 'contact us on WhatsApp', waMsg: (email: string) => 'Hi, I paid for STUDY PLANNER Database Access but it is still locked. Email: ' + email,
