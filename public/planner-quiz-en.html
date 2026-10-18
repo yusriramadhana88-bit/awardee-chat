@@ -47,7 +47,7 @@ h2{font-size:21px;line-height:1.25;letter-spacing:-.015em;font-weight:700}
 .chip:hover{border-color:var(--ink)}
 .chip.sel{border-color:var(--ink);background:#FFF4C4;font-weight:600}
 .chip.small{font-size:13px;padding:7px 11px;border-style:dashed}
-textarea,input[type=text],input[type=tel],input[type=number],select{width:100%;border:1.5px solid var(--light);border-radius:12px;padding:12px 14px;background:#fff;outline:none}
+textarea,input[type=text],input[type=tel],input[type=email],input[type=number],select{width:100%;border:1.5px solid var(--light);border-radius:12px;padding:12px 14px;background:#fff;outline:none}
 textarea{resize:vertical;min-height:96px}
 textarea:focus,input:focus,select:focus{border-color:var(--ink)}
 .count{text-align:right;font-size:12px;color:var(--gray);margin:4px 0 12px}
@@ -170,7 +170,10 @@ function short(s, n){
   var cut = s.slice(0,n), sp = cut.lastIndexOf(' ');
   return (sp>n*0.6 ? cut.slice(0,sp) : cut).replace(/[,.;:\s]+$/,'')+'…';
 }
-function fmt1(n){ return n.toFixed(1).replace('.',','); }
+var LG = 'id';
+function tr(id, en){ return LG==='en' ? en : id; }
+function sep(){ return LG==='en' ? ',' : '.'; }
+function fmt1(n){ return n.toFixed(1).replace('.', LG==='en' ? '.' : ','); }
 function cap(s){ s = s.trim(); return s ? s.charAt(0).toUpperCase()+s.slice(1) : s; }
 function time(){ var d = new Date(); return String(d.getHours()).padStart(2,'0')+'.'+String(d.getMinutes()).padStart(2,'0'); }
 function waFmt(s){
@@ -266,8 +269,8 @@ function rKota(el){
 }
 function rJenjang(el){
   var grad = (S.a.tujuan==='aas' || S.a.tujuan==='lpdp');
-  var all = [['s2','Master\'s','Master\'s program (coursework)','🎓'],['s3','PhD / Doctorate','Doctoral program','🔬'],['s1','Bachelor\'s','Undergraduate program','📘'],['d3','Diploma','Diploma &amp; Advanced Diploma','📗'],['d1','Certificate','Certificate I–IV (short vocational)','🛠️']];
-  var opts = grad ? all.slice(0,2) : all;
+  var all = [['d1','Certificate','Certificate I–IV (short vocational)','🛠️'],['d3','Diploma','Diploma &amp; Advanced Diploma','📗'],['s1','Bachelor\'s','Undergraduate program','📘'],['s2','Master\'s','Master\'s program (coursework)','🎓'],['s3','PhD / Doctorate','Doctoral program','🔬']];
+  var opts = grad ? all.slice(3) : all;
   if(S.a.jenjang && !opts.some(function(o){ return o[0]===S.a.jenjang; })) S.a.jenjang = '';
   el.innerHTML = '<section class="card"><h2>Which level do you aim for?</h2><p class="sub">'+(grad ? 'AAS funds Master\'s and PhD studies.' : 'Choose your level of study in Australia.')+'</p><div class="opts">'+
     opts.map(function(o){ return '<button type="button" class="opt'+(S.a.jenjang===o[0]?' sel':'')+'" data-v="'+o[0]+'"><span class="ico">'+o[3]+'</span><span><b>'+o[1]+'</b><small>'+o[2]+'</small></span></button>'; }).join('')+'</div></section>';
@@ -363,7 +366,7 @@ function rBahasa(el){
 
 function rContact(el){
   el.innerHTML = '<section class="card"><h2>Hasilmu sudah siap 🎉</h2><p class="sub">Kami kirim <b>2 pilihan teratas</b> langsung ke chat WhatsApp kamu.</p>'+
-    '<label class="lbl" for="nm">Nama panggilan</label><input type="text" id="nm" autocomplete="given-name" maxlength="40" placeholder="Contoh: Rani" value="'+esc(S.nama)+'">'+
+    '<label class="lbl" for="nm">Nama panggilan</label><input type="text" id="nm" autocomplete="off" maxlength="40" placeholder="Contoh: Rani" value="'+esc(S.nama)+'">'+
     '<label class="lbl" for="wa">Nomor WhatsApp</label><div class="pre"><span>+62</span><input type="tel" id="wa" inputmode="tel" autocomplete="tel" placeholder="812 3456 7890" value="'+esc(S.wa)+'"></div>'+
     '<label class="chk"><input type="checkbox" id="cs"'+(S.consent?' checked':'')+'><span>Saya setuju menerima hasil ini dan info beasiswa dari Awardee.id lewat WhatsApp. Bisa berhenti kapan saja dengan membalas <b>STOP</b>.</span></label>'+
     '<p class="err" id="err" role="alert"></p><button class="btn" id="send" type="button">Kirim hasilku ke WhatsApp</button>'+
@@ -408,6 +411,9 @@ function startSubmit(){
     if(!res || !res.ok){
       S.screen = 'contact'; render();
       var e = $('#err'); if(e) e.textContent = (res && res.error) || 'Gagal mengirim. Coba lagi.';
+      if(e && res && res.duplicate && /^https:\/\/awardee\.id\//.test(res.cta || '')){
+        var a = document.createElement('a'); a.href = res.cta; a.textContent = ' Lihat Akses Database STUDY PLANNER →'; a.style.fontWeight = '700'; a.style.color = 'inherit'; e.appendChild(a);
+      }
       return;
     }
     track('Lead', {content_name:'Mini Study Planner'}, eid);
