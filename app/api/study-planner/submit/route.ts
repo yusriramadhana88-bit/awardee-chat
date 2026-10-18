@@ -22,6 +22,15 @@ function cors(origin: string | null) {
   }
 }
 
+/** Email -> kunci unik: huruf kecil, tag +alias dibuang, titik Gmail dibuang (a.b@gmail.com == ab@gmail.com). */
+function emailKey(e: string) {
+  const [local, domainRaw] = e.toLowerCase().split('@')
+  const domain = domainRaw === 'googlemail.com' ? 'gmail.com' : domainRaw
+  let l = local.split('+')[0]
+  if (domain === 'gmail.com') l = l.replace(/\./g, '')
+  return `${l}@${domain}`
+}
+
 const admin = () => createSupabaseClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, loadEnvKey('SUPABASE_SERVICE_ROLE_KEY'))
 
 export async function OPTIONS(req: NextRequest) {
@@ -56,34 +65,42 @@ export async function POST(req: NextRequest) {
     const ipHash = crypto.createHash('sha256').update(ip + '|sp-salt').digest('hex').slice(0, 32)
 
     // Batas laju: cegah penyalahgunaan (kirim WA ke nomor orang lain / membakar kuota template).
-    const dayAgo = new Date(Date.now() - 24 * 3600 * 1000).toISOString()
     const hourAgo = new Date(Date.now() - 3600 * 1000).toISOString()
-    const byContact = en
-      ? db.from('study_planner_leads').select('id', { count: 'exact', head: true }).eq('email', email).gte('created_at', dayAgo)
-      : db.from('study_planner_leads').select('id', { count: 'exact', head: true }).eq('phone', phone).gte('created_at', dayAgo)
-    const [byIp, byPhone] = await Promise.all([
-      db.from('study_planner_leads').select('id', { count: 'exact', head: true }).eq('ip_hash', ipHash).gte('created_at', hourAgo),
-      byContact,
-    ])
+    const byIp = await db.from('study_planner_leads').select('id', { count: 'exact', head: true }).eq('ip_hash', ipHash).gte('created_at', hourAgo)
     if ((byIp.count ?? 0) >= 8) return fail(en ? 'Too many attempts from this network. Please try again later.' : 'Terlalu banyak percobaan dari jaringan ini. Coba lagi nanti.', 429)
-    if ((byPhone.count ?? 0) >= 3) return fail(en ? 'This email has already been used several times today. Please try again tomorrow.' : 'Nomor ini sudah beberapa kali dipakai hari ini. Coba lagi besok.', 429)
+
+    // Satu kontak hanya boleh memakai hasil gratis SEKALI (cegah akal-akalan untuk gratisan), dan pembeli database tidak perlu lagi kuis gratis.
+    const contactKey = en ? 'em:' + emailKey(email) : 'wa:' + phone
+    const dup = () => NextResponse.json({
+      ok: false, duplicate: true, cta: en ? salesPageUrlEn() : salesPageUrl(),
+      error: en
+        ? 'This email has already received a free Mini Study Planner result. The free result is one per person. To see all matching programs, get the full STUDY PLANNER database from the button on the sales page.'
+        : 'Nomor ini sudah pernah menerima hasil Mini Study Planner gratis. Hasil gratis hanya berlaku sekali per nomor. Untuk melihat semua program yang cocok, buka Akses Database STUDY PLANNER lengkap lewat halaman penjualan.',
+    }, { status: 409, headers })
+    const buyerOr = en ? `email.eq."${email.replace(/["\\]/g, '')}"` : `phone.eq.${phone!.slice(-10)}`
+    const [existing, buyer] = await Promise.all([
+      db.from('study_planner_leads').select('id').eq('contact_key', contactKey).limit(1),
+      db.from('study_planner_access').select('id').or(buyerOr).limit(1),
+    ])
+    if (existing.data?.length || buyer.data?.length) return dup()
 
     // Nomor yang pernah STOP tidak boleh dikirimi WA lagi — hasil ditampilkan di halaman saja.
     const { data: optedOut } = en ? { data: null } : await db.from('study_planner_leads').select('id').eq('phone', phone).not('opted_out_at', 'is', null).limit(1)
     const blocked = !!optedOut?.length
 
-    const { items, picks, total, unis } = runPlanner(answers, name)
+    const { items, picks, total, unis } = runPlanner(answers, name, en ? 'en' : 'id')
     const useWa = !en && waConfigured() && !blocked
     const utm = typeof body.utm === 'object' && body.utm ? Object.fromEntries(Object.entries(body.utm).slice(0, 8).map(([k, v]) => [String(k).slice(0, 30), String(v).slice(0, 120)])) : null
     const now = new Date().toISOString()
 
     const { data: row, error } = await db.from('study_planner_leads').insert({
-      name, phone, email: en ? email : null, lang: en ? 'en' : 'id', consent: true, consent_at: now, answers, picks: { picks, total, unis },
+      name, phone, email: en ? email : null, lang: en ? 'en' : 'id', contact_key: contactKey, consent: true, consent_at: now, answers, picks: { picks, total, unis },
       mode: useWa ? 'whatsapp' : 'web', wa_status: 'none', utm,
       fbp: String(body.fbp ?? '').slice(0, 120) || null, fbc: String(body.fbc ?? '').slice(0, 200) || null,
       event_id: String(body.event_id ?? '').slice(0, 80) || null, ip_hash: ipHash,
       user_agent: (req.headers.get('user-agent') || '').slice(0, 300),
     }).select('id').single()
+    if (error?.code === '23505') return dup()   // balapan: dua permintaan bersamaan dengan kontak yang sama
     if (error || !row) return fail('Gagal menyimpan. Coba lagi sebentar lagi.', 500)
 
     const buyUrl = en ? salesPageUrlEn() : salesPageUrl()
@@ -100,7 +117,7 @@ export async function POST(req: NextRequest) {
       await db.from('study_planner_leads').update({ wa_status: 'failed', wa_last_error: r.error ?? null, mode: 'web' }).eq('id', row.id)
     }
 
-    return NextResponse.json({ ok: true, mode: 'web', total, unis, items: resultItems(items), cta: buyUrl, ...(en ? {} : { wa_link: `https://wa.me/${waNumber}` }) }, { headers })
+    return NextResponse.json({ ok: true, mode: 'web', total, unis, items: resultItems(items, en ? 'en' : 'id'), cta: buyUrl, ...(en ? {} : { wa_link: `https://wa.me/${waNumber}` }) }, { headers })
   } catch {
     return fail('Server error', 500)
   }

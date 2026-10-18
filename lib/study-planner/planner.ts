@@ -49,22 +49,25 @@ export function sanitizeAnswers(raw: any): Answers | null {
   return a
 }
 
-export function runPlanner(a: Answers, name: string) {
+export function runPlanner(a: Answers, name: string, lang: 'id' | 'en' = 'id') {
   const e = eng()
   const res = e.compute(a)
-  const items: Item[] = e.buildScript(res, a, name)
+  const items: Item[] = e.buildScript(res, a, name, lang)
   const picks = (res.picks as any[]).slice(0, 2).map((c) => ({ program: c.row[2], codes: c.row[1], score: Math.round(c.score * 10) / 10 }))
   return { res, items, picks, total: res.total as number, unis: res.unis as number }
 }
 
 /** Item chat yang dikirim langsung setelah user membuka jendela percakapan (tanpa pesan "Besok").
  *  Ajakan "balas AKSES" diganti ajakan mengetuk tombol (tombol dibuat oleh pemanggil: CTA lynk.id). */
-export function resultItems(items: Item[]): Item[] {
+export function resultItems(items: Item[], lang: 'id' | 'en' = 'id'): Item[] {
+  const en = lang === 'en'
   const i = items.findIndex((x) => x.t === 'divider')
   const out = (i < 0 ? items : items.slice(0, i)).filter((x) => x.t === 'in').map((x) =>
-    x.btn ? { ...x, text: x.text.replace(/\s*—\s*balas \*AKSES\*\.?$/, '. Ketuk tombol di bawah 👇') } : x)
+    x.btn ? { ...x, text: x.text.replace(en ? /\s*—\s*reply \*ACCESS\*\.?$/ : /\s*—\s*balas \*AKSES\*\.?$/, en ? '. Tap the button below 👇' : '. Ketuk tombol di bawah 👇') } : x)
   if (!out.some((x) => x.btn)) {
-    out.push({ t: 'in', btn: 'AKSES', wait: 900, text: 'Mau lihat lebih banyak program, beasiswa, dan kode CRICOS untuk formulirmu? Ada di *Akses Database STUDY PLANNER by Awardee.id* (Rp97.000, selamanya). Ketuk tombol di bawah 👇' })
+    out.push(en
+      ? { t: 'in', btn: 'ACCESS', wait: 900, text: 'Want to see more programs, scholarships and the CRICOS codes for your application form? It is all in the *STUDY PLANNER database by Awardee.id* ($14.70, lifetime access). Tap the button below 👇' }
+      : { t: 'in', btn: 'AKSES', wait: 900, text: 'Mau lihat lebih banyak program, beasiswa, dan kode CRICOS untuk formulirmu? Ada di *Akses Database STUDY PLANNER by Awardee.id* (Rp97.000, selamanya). Ketuk tombol di bawah 👇' })
   }
   return out
 }
