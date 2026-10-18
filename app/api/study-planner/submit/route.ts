@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import crypto from 'crypto'
 import { loadEnvKey } from '@/lib/env'
-import { salesPageUrl } from '@/lib/study-planner/buy'
+import { salesPageUrl, salesPageUrlEn } from '@/lib/study-planner/buy'
 import { sanitizeAnswers, runPlanner, resultItems } from '@/lib/study-planner/planner'
 import { waConfigured, toWaNumber, sendTemplate } from '@/lib/whatsapp'
 
@@ -40,12 +40,16 @@ export async function POST(req: NextRequest) {
     if (body.hp) return NextResponse.json({ ok: true, mode: 'web', items: [] }, { headers }) // honeypot: bot diam-diam dibuang
 
     const name = String(body.name ?? '').replace(/\s+/g, ' ').trim().slice(0, 40)
-    const phone = toWaNumber(String(body.phone ?? ''))
-    if (!name) return fail('Isi nama panggilanmu dulu ya.')
-    if (!phone) return fail('Nomor WhatsApp belum valid. Contoh: 812 3456 7890')
-    if (body.consent !== true) return fail('Centang persetujuan dulu supaya kami bisa mengirim hasilnya.')
+    // Versi English (pengunjung internasional) hanya merekam email; versi Indonesia merekam nomor WhatsApp.
+    const en = body.lang === 'en'
+    const email = en ? String(body.email ?? '').trim().toLowerCase().slice(0, 120) : ''
+    const phone = en ? null : toWaNumber(String(body.phone ?? ''))
+    if (!name) return fail(en ? 'Please enter your nickname first.' : 'Isi nama panggilanmu dulu ya.')
+    if (en && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return fail('That email address does not look valid.')
+    if (!en && !phone) return fail('Nomor WhatsApp belum valid. Contoh: 812 3456 7890')
+    if (body.consent !== true) return fail(en ? 'Please tick the consent box so we can send you your results.' : 'Centang persetujuan dulu supaya kami bisa mengirim hasilnya.')
     const answers = sanitizeAnswers(body.answers)
-    if (!answers) return fail('Jawaban kuis tidak lengkap. Muat ulang halaman lalu coba lagi.')
+    if (!answers) return fail(en ? 'Your quiz answers are incomplete. Reload the page and try again.' : 'Jawaban kuis tidak lengkap. Muat ulang halaman lalu coba lagi.')
 
     const db = admin()
     const ip = (req.headers.get('x-forwarded-for') || '').split(',')[0].trim() || 'unknown'
@@ -54,24 +58,27 @@ export async function POST(req: NextRequest) {
     // Batas laju: cegah penyalahgunaan (kirim WA ke nomor orang lain / membakar kuota template).
     const dayAgo = new Date(Date.now() - 24 * 3600 * 1000).toISOString()
     const hourAgo = new Date(Date.now() - 3600 * 1000).toISOString()
+    const byContact = en
+      ? db.from('study_planner_leads').select('id', { count: 'exact', head: true }).eq('email', email).gte('created_at', dayAgo)
+      : db.from('study_planner_leads').select('id', { count: 'exact', head: true }).eq('phone', phone).gte('created_at', dayAgo)
     const [byIp, byPhone] = await Promise.all([
       db.from('study_planner_leads').select('id', { count: 'exact', head: true }).eq('ip_hash', ipHash).gte('created_at', hourAgo),
-      db.from('study_planner_leads').select('id', { count: 'exact', head: true }).eq('phone', phone).gte('created_at', dayAgo),
+      byContact,
     ])
-    if ((byIp.count ?? 0) >= 8) return fail('Terlalu banyak percobaan dari jaringan ini. Coba lagi nanti.', 429)
-    if ((byPhone.count ?? 0) >= 3) return fail('Nomor ini sudah beberapa kali dipakai hari ini. Coba lagi besok.', 429)
+    if ((byIp.count ?? 0) >= 8) return fail(en ? 'Too many attempts from this network. Please try again later.' : 'Terlalu banyak percobaan dari jaringan ini. Coba lagi nanti.', 429)
+    if ((byPhone.count ?? 0) >= 3) return fail(en ? 'This email has already been used several times today. Please try again tomorrow.' : 'Nomor ini sudah beberapa kali dipakai hari ini. Coba lagi besok.', 429)
 
     // Nomor yang pernah STOP tidak boleh dikirimi WA lagi — hasil ditampilkan di halaman saja.
-    const { data: optedOut } = await db.from('study_planner_leads').select('id').eq('phone', phone).not('opted_out_at', 'is', null).limit(1)
+    const { data: optedOut } = en ? { data: null } : await db.from('study_planner_leads').select('id').eq('phone', phone).not('opted_out_at', 'is', null).limit(1)
     const blocked = !!optedOut?.length
 
     const { items, picks, total, unis } = runPlanner(answers, name)
-    const useWa = waConfigured() && !blocked
+    const useWa = !en && waConfigured() && !blocked
     const utm = typeof body.utm === 'object' && body.utm ? Object.fromEntries(Object.entries(body.utm).slice(0, 8).map(([k, v]) => [String(k).slice(0, 30), String(v).slice(0, 120)])) : null
     const now = new Date().toISOString()
 
     const { data: row, error } = await db.from('study_planner_leads').insert({
-      name, phone, consent: true, consent_at: now, answers, picks: { picks, total, unis },
+      name, phone, email: en ? email : null, lang: en ? 'en' : 'id', consent: true, consent_at: now, answers, picks: { picks, total, unis },
       mode: useWa ? 'whatsapp' : 'web', wa_status: 'none', utm,
       fbp: String(body.fbp ?? '').slice(0, 120) || null, fbc: String(body.fbc ?? '').slice(0, 200) || null,
       event_id: String(body.event_id ?? '').slice(0, 80) || null, ip_hash: ipHash,
@@ -79,13 +86,13 @@ export async function POST(req: NextRequest) {
     }).select('id').single()
     if (error || !row) return fail('Gagal menyimpan. Coba lagi sebentar lagi.', 500)
 
-    const buyUrl = salesPageUrl()
+    const buyUrl = en ? salesPageUrlEn() : salesPageUrl()
     const waNumber = loadEnvKey('STUDY_PLANNER_WA_NUMBER') || '6281287212755'
 
     if (useWa) {
       // Pesan pembuka = template (disetujui Meta) dengan tombol balasan cepat. Ketukan user membuka jendela 24 jam,
       // lalu webhook mengirim hasil lengkap. Jika template gagal terkirim, jatuh ke tampilan di halaman.
-      const r = await sendTemplate(phone, loadEnvKey('WHATSAPP_TEMPLATE_RESULT') || 'study_planner_hasil', [name])
+      const r = await sendTemplate(phone!, loadEnvKey('WHATSAPP_TEMPLATE_RESULT') || 'study_planner_hasil', [name])
       if (r.ok) {
         await db.from('study_planner_leads').update({ wa_status: 'template_sent' }).eq('id', row.id)
         return NextResponse.json({ ok: true, mode: 'whatsapp', total, unis, wa_link: `https://wa.me/${waNumber}?text=${encodeURIComponent('Halo, saya mau terima hasil Mini Study Planner')}` }, { headers })
@@ -93,7 +100,7 @@ export async function POST(req: NextRequest) {
       await db.from('study_planner_leads').update({ wa_status: 'failed', wa_last_error: r.error ?? null, mode: 'web' }).eq('id', row.id)
     }
 
-    return NextResponse.json({ ok: true, mode: 'web', total, unis, items: resultItems(items), cta: buyUrl, wa_link: `https://wa.me/${waNumber}` }, { headers })
+    return NextResponse.json({ ok: true, mode: 'web', total, unis, items: resultItems(items), cta: buyUrl, ...(en ? {} : { wa_link: `https://wa.me/${waNumber}` }) }, { headers })
   } catch {
     return fail('Server error', 500)
   }

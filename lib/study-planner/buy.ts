@@ -9,3 +9,4 @@ export const studyPlannerBuyUrlEn = () => loadEnvKey('STUDY_PLANNER_LYNK_URL_EN'
 
 // Halaman penjualan (tahap funnel setelah hasil kuis gratis). Tombol "Akses Database" di hasil kuis mengarah ke sini, bukan langsung ke lynk.id.
 export const salesPageUrl = () => loadEnvKey('STUDY_PLANNER_SALES_URL') || 'https://awardee.id/study-planner/'
+export const salesPageUrlEn = () => loadEnvKey('STUDY_PLANNER_SALES_URL_EN') || 'https://awardee.id/study-planner/en/'
