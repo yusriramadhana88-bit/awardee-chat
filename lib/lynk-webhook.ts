@@ -146,6 +146,36 @@ export async function processLynkPayment(payload: any) {
     if (matchedUser) matchedVia = 'email'
   }
 
+  // Pembayar belum punya akun: buatkan otomatis (email terverifikasi, password acak yang tidak disimpan),
+  // lalu kirim tautan buat-password lewat email konfirmasi (tanpa batas kirim email bawaan Supabase).
+  let setPasswordUrl: string | undefined
+  if (!matchedUser && customer.email) {
+    try {
+      const email = String(customer.email).trim().toLowerCase()
+      const { data: created, error: createErr } = await supabase.auth.admin.createUser({
+        email,
+        email_confirm: true,
+        password: crypto.randomBytes(24).toString('base64url'),
+        user_metadata: customer.name ? { name: customer.name } : undefined,
+      })
+      if (createErr || !created?.user) throw new Error(createErr?.message ?? 'createUser gagal')
+      const uid = created.user.id
+      let profile: ProfileRow | null = null
+      for (let i = 0; i < 5 && !profile; i++) {
+        const { data: prof } = await supabase.from('profiles').select('id, phone, subscription_tier, subscription_expires_at').eq('id', uid).maybeSingle()
+        profile = (prof as unknown as ProfileRow) ?? null
+        if (!profile) await new Promise((r) => setTimeout(r, 400))
+      }
+      if (!profile) throw new Error('profil tidak terbentuk setelah createUser')
+      matchedUser = profile
+      matchedVia = 'auto_created'
+      const { data: link } = await supabase.auth.admin.generateLink({ type: 'recovery', email, options: { redirectTo: 'https://member.awardee.id/reset-password' } })
+      setPasswordUrl = link?.properties?.action_link
+    } catch (e: any) {
+      console.error('[lynk-webhook] auto-create akun gagal:', e)
+    }
+  }
+
   if (!matchedUser) {
     const reason = `Tidak ada akun AWARDEE APP yang cocok dengan HP "${customer.phone ?? '-'}" atau email "${customer.email ?? '-'}"`
     const { error } = await supabase.from('lynk_webhook_log').insert({ ...logBase, status: 'unmatched_user', matched_tier: tier, error: reason })
@@ -186,6 +216,6 @@ export async function processLynkPayment(payload: any) {
   })
 
   if (customer.email) {
-    await sendTierUpgradeEmail({ to: customer.email, kind: 'user_upgraded', tier, expiresAt: newExpiry, name: customer.name })
+    await sendTierUpgradeEmail({ to: customer.email, kind: 'user_upgraded', tier, expiresAt: newExpiry, name: customer.name, setPasswordUrl })
   }
 }

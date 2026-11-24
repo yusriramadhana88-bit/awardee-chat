@@ -60,7 +60,7 @@ export async function sendLeadMagnetEmail(to: string, name: string, leadMagnet: 
 // konfirmasi ke user yang tier-nya berhasil ter-upgrade otomatis, atau alert ke admin kalau
 // pembayaran masuk tapi tidak bisa dicocokkan ke akun manapun (butuh upgrade manual).
 type TierUpgradeEmailParams =
-  | { kind: 'user_upgraded'; to: string; tier: 'starter' | 'vip' | 'vvip'; expiresAt: string; name?: string }
+  | { kind: 'user_upgraded'; to: string; tier: 'starter' | 'vip' | 'vvip'; expiresAt: string; name?: string; setPasswordUrl?: string }
   | { kind: 'admin_unmatched'; to: string; reason: string; log: Record<string, unknown> }
 
 export async function sendTierUpgradeEmail(params: TierUpgradeEmailParams): Promise<void> {
@@ -83,6 +83,8 @@ export async function sendTierUpgradeEmail(params: TierUpgradeEmailParams): Prom
             <p style="color:#475569;line-height:1.6;">
               Pembayaranmu sudah kami terima dan akun AWARDEE APP kamu otomatis ter-upgrade ke <strong>${TIER_LABEL[params.tier]}</strong>, aktif sampai <strong>${expiryLabel}</strong>.
             </p>
+            ${params.setPasswordUrl ? `<p style="color:#475569;line-height:1.6;">Kami sudah membuatkan akunmu dengan email ini. Klik tombol di bawah untuk membuat password, lalu kamu bisa langsung masuk.</p>
+            <div style="margin:24px 0;"><a href="${params.setPasswordUrl}" style="display:inline-block;background:#F4CC46;color:#0f172a;padding:12px 24px;border-radius:10px;text-decoration:none;font-weight:700;">Buat password &amp; masuk</a></div>` : ''}
             <div style="margin:24px 0;">
               <a href="https://member.awardee.id/dashboard" style="display:inline-block;background:#0f172a;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-weight:600;">Buka AWARDEE APP</a>
             </div>
