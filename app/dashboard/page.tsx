@@ -378,7 +378,7 @@ export default function DashboardPage() {
             </a>
           </div>
           <p className="text-white/50 text-xs mt-3">
-            Setelah bayar via lynk.id, WhatsApp ke Kak Dhana dengan bukti pembayaran untuk aktivasi akun (biasanya &lt;24 jam).
+            Setelah bayar via lynk.id, paketmu aktif otomatis dalam beberapa menit (pakai email yang sama dengan akunmu; belum punya akun? kami buatkan dan kirim link buat password). Kalau belum aktif setelah 1 jam, WhatsApp Kak Dhana dengan bukti pembayaran.
           </p>
           {aiQuota && aiQuota.budgetIdr > 0 && (
             <p className="text-white/50 text-xs mt-2">

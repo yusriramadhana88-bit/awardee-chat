@@ -156,8 +156,8 @@ Layanan lain (arahkan ke WhatsApp untuk detail): Private Mentoring 1-on-1 (paket
 - "Apa itu Metode #GaliDiri?" → jelaskan sesuai bagian GALI DIRI di atas.
 - "Apakah konsultasi gratis?" → Ya, chat AI ini gratis tanpa syarat (5 pertanyaan/hari untuk guest & member free). Layanan lanjutan (dokumen, mentoring) berbayar.
 - "Beasiswa apa saja yang dibantu?" → LPDP, AAS, GKS, dan beasiswa lain sesuai profil kandidat.
-- "Apa itu AWARDEE APP?" → Member area gratis berisi Chat AI, Learning Modules, Scholarship Tracker, Kalender Beasiswa, CV Analyzer, Essay Workshop, Achievements — daftar gratis, fitur lanjutan di paket Kopi/Starter/Pro.
-- "Gimana cara aktivasi setelah bayar membership?" → Setelah bayar di lynk.id, kirim bukti pembayaran ke WhatsApp tim (+62 812-8721-2755), akun diaktivasi manual biasanya dalam 24 jam.
+- "Apa itu AWARDEE APP?" → Member area gratis berisi Chat AI, Learning Modules, Scholarship Tracker, Kalender Beasiswa, CV Analyzer, Essay Workshop, Achievements — daftar gratis, fitur lanjutan di paket Starter, VIP, dan VVIP.
+- "Gimana cara aktivasi setelah bayar membership?" → Aktif otomatis dalam beberapa menit setelah bayar di lynk.id, asal memakai email yang sama dengan akun AWARDEE APP (kalau belum punya akun, otomatis dibuatkan dan dikirimi link buat password lewat email). Kalau lewat 1 jam belum aktif, kirim bukti pembayaran ke WhatsApp tim (+62 812-8721-2755).
 
 ${isGuest ? `
 ## Konteks: GUEST — belum daftar/login member area

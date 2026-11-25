@@ -21,8 +21,8 @@ const FEATURES: { icon: string; title: string; desc: string; tier: 'starter' | '
 
 const FAQS = [
   { q: 'Apa bedanya 3 chatbot AI di Awardee.id?', a: 'Chat CS/Umum bisa diakses siapa saja tanpa daftar — jawab pertanyaan soal Awardee.id, produk, dan strategi beasiswa secara umum. Chat AAS dan Chat LPDP khusus member — fokus penuh pada persiapan mendalam masing-masing beasiswa (essay, interview, dokumen, dll), butuh akun member gratis dulu.' },
-  { q: 'Gimana cara bayar membership?', a: 'Klik tombol paket yang kamu mau — kamu akan diarahkan ke halaman pembayaran lynk.id (transfer, e-wallet, QRIS, dll). Setelah bayar, ikuti instruksi di halaman lynk.id untuk kirim bukti pembayaran via WhatsApp.' },
-  { q: 'Berapa lama proses aktivasi setelah bayar?', a: 'Aktivasi dilakukan manual oleh tim kami setelah menerima bukti pembayaran via WhatsApp, biasanya selesai dalam waktu kurang dari 24 jam.' },
+  { q: 'Gimana cara bayar membership?', a: 'Klik tombol paket yang kamu mau — kamu akan diarahkan ke halaman pembayaran lynk.id (transfer, e-wallet, QRIS, dll). Setelah bayar, paketmu aktif otomatis dalam beberapa menit. Pakai email yang sama dengan akun AWARDEE APP-mu; kalau belum punya akun, kami buatkan dan kirim link untuk membuat password.' },
+  { q: 'Berapa lama proses aktivasi setelah bayar?', a: 'Otomatis, biasanya dalam beberapa menit setelah pembayaran berhasil. Kalau lewat 1 jam belum aktif, kirim bukti pembayaran ke WhatsApp kami.' },
   { q: 'Apakah saya harus daftar dulu sebelum bayar?', a: 'Tidak wajib — kamu bisa langsung bayar paket yang diinginkan. Tapi supaya tim bisa langsung aktivasi ke akunmu, lebih cepat kalau kamu daftar akun gratis dulu di Awardee.id, lalu sertakan email akun itu saat konfirmasi pembayaran.' },
   { q: 'Bisa upgrade atau downgrade paket kapan saja?', a: 'Bisa. Hubungi tim kami via WhatsApp untuk bantuan upgrade/downgrade paket sesuai kebutuhanmu.' },
 ]
@@ -167,11 +167,11 @@ export default function DemoPage() {
             ))}
           </div>
           <p className="text-center text-xs text-muted mt-8 max-w-md mx-auto">
-            Setelah bayar via lynk.id, kirim bukti pembayaran + email akunmu ke WhatsApp{' '}
+            Setelah bayar via lynk.id, paketmu aktif otomatis dalam beberapa menit. Kalau lewat 1 jam belum aktif, kirim bukti pembayaran + email akunmu ke WhatsApp{' '}
             <a href="https://wa.me/6281287212755" target="_blank" rel="noopener noreferrer" className="text-gold-2 underline">
               +62 812-8721-2755
             </a>{' '}
-            — akun diaktivasi manual, biasanya kurang dari 24 jam.
+           .
           </p>
         </div>
       </section>
