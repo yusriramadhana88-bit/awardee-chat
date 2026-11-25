@@ -124,3 +124,17 @@ export async function sendPasswordResetEmail(to: string, url: string): Promise<v
     console.error('[email] Gagal mengirim email reset ke', to, err)
   }
 }
+
+/** Email umum untuk pemantau otomatis (ke client atau ke admin). */
+export async function sendMonitorEmail(to: string, subject: string, bodyHtml: string, cta?: { label: string; url: string }): Promise<boolean> {
+  const resend = getResend()
+  if (!resend) { console.warn('[email] RESEND_API_KEY kosong — email monitor tidak dikirim ke', to); return false }
+  try {
+    const btn = cta ? `<div style="margin:24px 0;"><a href="${cta.url}" style="display:inline-block;background:#F4CC46;color:#0f172a;padding:12px 24px;border-radius:10px;text-decoration:none;font-weight:700;">${cta.label}</a></div>` : ''
+    await resend.emails.send({ from: EMAIL_FROM, to, subject, html: `<div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:24px;color:#475569;line-height:1.6;">${bodyHtml}${btn}</div>` })
+    return true
+  } catch (err) {
+    console.error('[email] Gagal kirim email monitor ke', to, err)
+    return false
+  }
+}

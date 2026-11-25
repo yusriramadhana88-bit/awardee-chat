@@ -1,5 +1,6 @@
 {
   "crons": [
-    { "path": "/api/study-planner/cron", "schedule": "0 2 * * *" }
+    { "path": "/api/study-planner/cron", "schedule": "0 2 * * *" },
+    { "path": "/api/cron/monitor", "schedule": "0 1 * * *" }
   ]
 }
