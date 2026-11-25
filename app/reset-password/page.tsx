@@ -21,6 +21,14 @@ export default function ResetPasswordPage() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
       if (event === 'PASSWORD_RECOVERY') setReady(true)
     })
+    // Link dari email kami: ?token_hash=...&type=recovery → tukar jadi sesi di sini (tidak bergantung redirect Supabase)
+    const q = new URLSearchParams(window.location.search)
+    const th = q.get('token_hash')
+    if (th && q.get('type') === 'recovery') {
+      supabase.auth.verifyOtp({ token_hash: th, type: 'recovery' }).then(({ error }) => {
+        if (!error) { setReady(true); window.history.replaceState({}, '', '/reset-password') }
+      })
+    }
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) setReady(true)
     })

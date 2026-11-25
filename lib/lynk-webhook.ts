@@ -2,6 +2,7 @@ import crypto from 'crypto'
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { loadEnvKey } from './env'
 import { sendTierUpgradeEmail } from './email'
+import { createPasswordLink } from './auth-links'
 import { STUDY_PLANNER_PRODUCT, grantStudyPlannerAccess } from './study-planner/access'
 
 // Durasi upgrade tier — samakan dengan konvensi app/api/admin/users/route.ts (30 hari flat,
@@ -169,8 +170,7 @@ export async function processLynkPayment(payload: any) {
       if (!profile) throw new Error('profil tidak terbentuk setelah createUser')
       matchedUser = profile
       matchedVia = 'auto_created'
-      const { data: link } = await supabase.auth.admin.generateLink({ type: 'recovery', email, options: { redirectTo: 'https://member.awardee.id/reset-password' } })
-      setPasswordUrl = link?.properties?.action_link
+      setPasswordUrl = (await createPasswordLink(supabase, email)) ?? undefined
     } catch (e: any) {
       console.error('[lynk-webhook] auto-create akun gagal:', e)
     }

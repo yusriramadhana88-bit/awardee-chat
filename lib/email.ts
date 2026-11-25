@@ -109,3 +109,18 @@ export async function sendTierUpgradeEmail(params: TierUpgradeEmailParams): Prom
     console.error('[email] Gagal mengirim notifikasi tier-upgrade ke', params.to, err)
   }
 }
+
+export async function sendPasswordResetEmail(to: string, url: string): Promise<void> {
+  const resend = getResend()
+  if (!resend) { console.warn('[email] RESEND_API_KEY kosong — email reset tidak dikirim ke', to); return }
+  try {
+    await resend.emails.send({
+      from: EMAIL_FROM,
+      to,
+      subject: 'Atur password AWARDEE APP kamu',
+      html: `<div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:24px;"><h2 style="color:#0f172a;">Atur password</h2><p style="color:#475569;line-height:1.6;">Klik tombol di bawah untuk membuat password baru. Kalau kamu tidak memintanya, abaikan saja email ini.</p><div style="margin:24px 0;"><a href="${url}" style="display:inline-block;background:#F4CC46;color:#0f172a;padding:12px 24px;border-radius:10px;text-decoration:none;font-weight:700;">Buat password</a></div></div>`,
+    })
+  } catch (err) {
+    console.error('[email] Gagal mengirim email reset ke', to, err)
+  }
+}
