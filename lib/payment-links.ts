@@ -56,7 +56,7 @@ export const PRICING_GROUPS: PricingGroup[] = [
     features: [
       'Semua fitur Free',
       '20 pertanyaan chat/hari (AAS, LPDP, & CS)',
-      'Learning Modules — materi #GaliDiri, essay, interview + kuis',
+      'Learning Modules — materi #GaliDiri, pilih beasiswa, dan essay + kuis',
       'Scholarship Tracker — pantau progres tiap tahapan',
       'Checklist Dokumen lengkap per jenis beasiswa',
       'Achievements & badge progres',

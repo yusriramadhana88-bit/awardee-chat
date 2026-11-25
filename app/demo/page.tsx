@@ -9,7 +9,7 @@ export const metadata = {
 }
 
 const FEATURES: { icon: string; title: string; desc: string; tier: 'starter' | 'vip' | 'vvip' | null }[] = [
-  { icon: '📚', title: 'Learning Modules', desc: 'Materi #GaliDiri, essay, sampai interview + kuis', tier: 'starter' },
+  { icon: '📚', title: 'Learning Modules', desc: 'Materi #GaliDiri, pilih beasiswa, dan essay + kuis', tier: 'starter' },
   { icon: '📋', title: 'Scholarship Tracker', desc: 'Pantau progres tiap tahapan aplikasi beasiswamu', tier: 'starter' },
   { icon: '✅', title: 'Checklist Dokumen', desc: 'Daftar dokumen wajib per jenis beasiswa', tier: 'starter' },
   { icon: '🏆', title: 'Achievements', desc: 'Kumpulkan badge sepanjang progres persiapanmu', tier: 'starter' },
