@@ -12,6 +12,9 @@ export default function ResetPasswordPage() {
   const [ready, setReady] = useState(false)
   const [error, setError] = useState('')
   const [done, setDone] = useState(false)
+  const [linkInvalid, setLinkInvalid] = useState(false)
+  const [reqEmail, setReqEmail] = useState('')
+  const [reqSent, setReqSent] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
@@ -27,13 +30,20 @@ export default function ResetPasswordPage() {
     if (th && q.get('type') === 'recovery') {
       supabase.auth.verifyOtp({ token_hash: th, type: 'recovery' }).then(({ error }) => {
         if (!error) { setReady(true); window.history.replaceState({}, '', '/reset-password') }
-      })
+        else setLinkInvalid(true)
+      }).catch(() => setLinkInvalid(true))
     }
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) setReady(true)
     })
     return () => subscription.unsubscribe()
   }, [])
+
+  async function requestNewLink(e: React.FormEvent) {
+    e.preventDefault()
+    await fetch('/api/auth/send-reset', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: reqEmail }) }).catch(() => {})
+    setReqSent(true)
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -75,6 +85,16 @@ export default function ResetPasswordPage() {
               <div className="text-3xl mb-3">✅</div>
               <p className="text-sm text-ink font-medium">Password berhasil diubah! Mengarahkan ke login...</p>
             </div>
+          ) : !ready && linkInvalid ? (
+            reqSent ? (
+              <p className="text-sm text-ink text-center py-4">Jika email terdaftar, link baru sudah dikirim. Buka email terbaru (cek folder spam) lalu klik link-nya dalam 1 jam.</p>
+            ) : (
+              <form onSubmit={requestNewLink} className="space-y-3">
+                <p className="text-sm text-ink">Link ini sudah kedaluwarsa atau sudah tergantikan link yang lebih baru. Masukkan email kamu untuk mendapat link baru.</p>
+                <input type="email" required value={reqEmail} onChange={(e) => setReqEmail(e.target.value)} placeholder="email@kamu.com" className="w-full border border-hairline rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gold" />
+                <button type="submit" className="w-full bg-navy text-white rounded-xl py-3 text-sm font-semibold">Kirim link baru</button>
+              </form>
+            )
           ) : !ready ? (
             <p className="text-sm text-muted text-center py-4">Memverifikasi link reset...</p>
           ) : (
